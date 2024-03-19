@@ -1,43 +1,32 @@
-import { doGetUserByAccessToken } from '@/services/user';
-import { config } from '@/utils/constants';
-import { deleteCookie, getCookie } from 'cookies-next';
-import { NextPage } from 'next';
-import { useRouter } from 'next/navigation'; // corrected import
-import { useEffect, useState } from 'react';
+import { config } from '@/utils/constants'
+import { getCookie } from 'cookies-next'
+import { NextPage } from 'next'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 
 const WithoutAuth = <P extends object>(WrappedComponent: NextPage<P>) => {
-    const AuthComponent: NextPage<P> = (props) => {
-        const router = useRouter();
+    const NonAuthComponent = (props: P) => {
+        const router = useRouter()
         const [authenticated, setAuthenticated] = useState(false)
+        const [accessToken, setAccessToken] = useState("")
         useEffect(() => {
-            const fetchUser = async () => {
-                const accessToken = getCookie(config.AUTH.COOKIE_NAME) as string;
-                if (accessToken && accessToken.length) {
-                    try {
-                        const response = await doGetUserByAccessToken(accessToken);
-                        if (response.status && response.data) {
-                            setAuthenticated(true)
-                        } else {
-                            deleteCookie(config.AUTH.COOKIE_NAME)
-                            setAuthenticated(false)
-                        }
-                    } catch (error) {
-                        throw error;
-                    }
-                }
-            };
+            const accessToken = getCookie(config.AUTH.COOKIE_NAME)
+            if (accessToken) {
+                setAuthenticated(true)
+                setAccessToken(accessToken)
+            } else {
+                setAuthenticated(false)
+            }
+        }, [])
 
-            fetchUser();
-        }, []);
-
-        if (!authenticated) {
+        if(authenticated && accessToken.length){
+            return router.push("/")
+        }else if(!authenticated){
             return <WrappedComponent {...props as P} />
-        } else {
-            router.push("/")
         }
-    };
-    return AuthComponent;
-};
+    }
+    return NonAuthComponent
+}
 
-export default WithoutAuth;
+export default WithoutAuth

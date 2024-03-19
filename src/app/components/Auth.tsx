@@ -1,10 +1,12 @@
-import { doGetUserByAccessToken } from '@/services/user';
-import { User } from '@/types/auth/user';
-import { config } from '@/utils/constants';
-import { getCookie } from 'cookies-next';
-import { NextPage } from 'next';
+"use clint";
+
+import { doGetUserByAccessToken } from '@/services/user'
+import { User } from '@/types/auth/user'
+import { config } from '@/utils/constants'
+import { deleteCookie, getCookie } from 'cookies-next'
+import { NextPage } from 'next'
 import { useRouter } from 'next/navigation'; // corrected import
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
 interface WithAuthPropType {
     user?: User;
@@ -26,12 +28,17 @@ const WithAuth = <P extends object>(WrappedComponent: NextPage<P & WithAuthPropT
                             setAuthenticated(true);
                             setUser(response.data)
                         } else {
+                            deleteCookie(config.AUTH.COOKIE_NAME)
                             router.push('/login');
                         }
                     } catch (error) {
+                        console.log(error, "error")
+                        deleteCookie(config.AUTH.COOKIE_NAME)
+                        router.push('/login');
                         throw error;
                     }
                 } else {
+                    deleteCookie(config.AUTH.COOKIE_NAME)
                     router.push('/login');
                 }
             };

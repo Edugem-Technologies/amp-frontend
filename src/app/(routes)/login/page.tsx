@@ -1,69 +1,66 @@
-'use client';
-import { doGetUserByAccessToken } from '@/services/user';
-import { ErrorType } from '@/types/common/error';
-import { config } from '@/utils/constants';
-import { LoginSchema, LoginValidationSchema } from '@/validations/auth/user';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { fetchAuthSession, signIn, signOut } from 'aws-amplify/auth';
-import { setCookie } from 'cookies-next';
-import { NextPage } from 'next';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useState } from 'react';
-import { Spinner } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-import EyeClose from '../../../public/images/Eye-close.svg';
-import EyeOpen from '../../../public/images/Eye-open.svg';
-import WithoutAuth from '../components/WithoutAuth';
+'use client'
+import { doGetUserByAccessToken } from '@/services/user'
+import { config } from '@/utils/constants'
+import { handleError } from '@/utils/handle-error'
+import { LoginSchema, LoginValidationSchema } from '@/validations/auth/user'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { fetchAuthSession, signIn, signInWithRedirect, signOut } from 'aws-amplify/auth'
+import { setCookie } from 'cookies-next'
+import { NextPage } from 'next'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
+import React, { useState } from 'react'
+import { Spinner } from 'react-bootstrap'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
+import EyeClose from '../../../../public/images/Eye-close.svg'
+import EyeOpen from '../../../../public/images/Eye-open.svg'
+import GoogleLogo from "../../../../public/images/Google-logo.svg"
+import CustomLayout from '../../components/CustomLayout'
+import WithoutAuth from '../../components/WithoutAuth'
 // import OTPModal from '../components/OTPModal';
 
 const Login: NextPage = () => {
     const router = useRouter()
     const searchParams = useSearchParams()
-    const [showOtpModal, setShowOtpModal] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
+    const [googleLoginStart, setGoogleLoginStart] = useState(false)
+    const [showOtpModal, setShowOtpModal] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
     const redirectUrl = searchParams.get('next') || '/about'
     const { register, handleSubmit, formState: { errors, isSubmitting }, getValues } = useForm<LoginSchema>({ resolver: zodResolver(LoginValidationSchema) })
     const togglePasswordField = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        setShowPassword(prev => !prev);
+        e.preventDefault()
+        setShowPassword(prev => !prev)
     }
 
     const submitHandler = async (data: LoginSchema) => {
         try {
             // signin with AWS cognito
             await signOut({ global: true })
-            const cognitoUser = await signIn({ username: data.email, password: data.password });
-            if (cognitoUser && cognitoUser.nextStep.signInStep === config.COGNITO_CHALLENGE_NAME.NEW_PASSWORD_REQUIRED) {
-                router.push('/set-new-password');
+            const cognitoUser = await signIn({ username: data.email, password: data.password })
+            if (cognitoUser && cognitoUser.nextStep.signInStep === "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED") {
+                router.push('/set-new-password')
             }
             else {
                 const session = await fetchAuthSession()
                 const accessToken = session?.tokens?.accessToken?.toString()
                 // if jwt received then check whether user exist in db or not
                 if (accessToken) {
-                    const response = await doGetUserByAccessToken(accessToken);
+                    const response = await doGetUserByAccessToken(accessToken)
                     // if user exists then set the cookie and redirect
                     if (response && response.data && response.status) {
-                        toast(config.MESSAGES.USER_LOGIN_SUCCESS, config.TOASTER_OPTIONS.SUCCESS);
+                        toast(config.MESSAGES.USER_LOGIN_SUCCESS, config.TOASTER_OPTIONS.SUCCESS)
                         setCookie(config.AUTH.COOKIE_NAME, accessToken)
-                        router.push(redirectUrl);
+                        router.push(redirectUrl)
                     }
                     // else show error
                     else {
-                        if (response && typeof response === "object" && Object.hasOwn(response, "message")) {
-                            toast(response.message.toString(), config.TOASTER_OPTIONS.ERROR)
-                        } else if (response && typeof response === "string") {
-                            toast(response, config.TOASTER_OPTIONS.ERROR)
-                        } else {
-                            toast(config.MESSAGES.GENERIC_ERROR, config.TOASTER_OPTIONS.ERROR)
-                        }
+                        handleError(response)
                     }
                 }
                 else {
-                    toast(config.MESSAGES.GENERIC_ERROR, config.TOASTER_OPTIONS.ERROR);
+                    toast(config.MESSAGES.GENERIC_ERROR, config.TOASTER_OPTIONS.ERROR)
                 }
             }
 
@@ -77,23 +74,34 @@ const Login: NextPage = () => {
             // } else {
             //     toast(config.MESSAGES.INVALID_LOGIN_CREDENTIALS, config.TOASTER_OPTIONS.ERROR)
             // }
-            if (error && typeof error === "object" && Object.hasOwn(error, "message")) {
-                toast((error as ErrorType).message.toString(), config.TOASTER_OPTIONS.ERROR)
-            } else if (error && typeof error === "string") {
-                toast(error, config.TOASTER_OPTIONS.ERROR)
-            } else {
-                toast(config.MESSAGES.GENERIC_ERROR, config.TOASTER_OPTIONS.ERROR)
-            }
+            handleError(error)
+        }
+    }
+    const login = async () => {
+        try {
+            setGoogleLoginStart(true)
+            await signInWithRedirect({ provider: "Google" })
+        } catch (error) {
+            console.log(error)
+            handleError(error)
+            setGoogleLoginStart(false)
         }
     }
     return (
-        <>
+        <CustomLayout>
             <section className='v-login-section v-section-padding'>
                 <div className="container-fluid">
                     <div className="v-form-container">
                         <div className='v-login w-50'>
                             <div className="v-tagline">
                                 <h1>Login</h1>
+                            </div>
+                            <div className="v-google-login-btn">
+                                <button className="v-plane-btn-hover" onClick={login}>
+                                    <Image src={GoogleLogo} alt="google-logo" />
+                                    <span>Login with Google</span>
+                                    {googleLoginStart ? <Spinner variant="dark" /> : ""}
+                                </button>
                             </div>
                             <div className='v-hr-row'>
                                 <hr />
@@ -139,7 +147,7 @@ const Login: NextPage = () => {
                 </div>
                 {/* <OTPModal show={showOtpModal} setShow={setShowOtpModal} email={getValues('email')} password={getValues('password')} /> */}
             </section>
-        </>
+        </CustomLayout>
     )
 }
 

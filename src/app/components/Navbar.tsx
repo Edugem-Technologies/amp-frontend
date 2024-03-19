@@ -1,34 +1,11 @@
-import { doGetUserByAccessToken } from '@/services/user';
-import { config } from '@/utils/constants';
-import { logout } from '@/utils/logout';
-import { getCookie } from 'cookies-next';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { User } from '@/types/auth/user'
+import { logout } from '@/utils/logout'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
-const Navbar = () => {
-  const [user, setUser] = useState(null)
+const Navbar = ({ user }: { user?: User }) => {
   const router = useRouter()
-  useEffect(() => {
-    const fetchUser = async () => {
-      const accessToken = getCookie(config.AUTH.COOKIE_NAME) as string;
-      if (accessToken && accessToken.length) {
-        try {
-          const response = await doGetUserByAccessToken(accessToken);
-          if (response.status && response.data) {
-            setUser(response.data)
-          } else {
-            setUser(null)
-          }
-        } catch (error) {
-          throw error;
-        }
-      } else {
-        setUser(null)
-      }
-    };
-    fetchUser();
-  }, []);
+
 
   const logoutUser = async () => {
     await logout(router)

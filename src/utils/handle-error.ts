@@ -6,8 +6,7 @@ import { config } from "./constants"
  *
  * @param {*} error
  */
-export const handleError = (error: any) => {
-	
+export const handleError = (error: any) => {	
 	if (typeof error === "string") {
 		toast(error, config.TOASTER_OPTIONS.ERROR)
 	} else {

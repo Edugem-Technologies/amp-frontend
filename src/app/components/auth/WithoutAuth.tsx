@@ -20,11 +20,11 @@ const WithoutAuth = <P extends object>(WrappedComponent: NextPage<P>) => {
             }
         }, [])
 
-        if(authenticated && accessToken.length){
+        if (authenticated && accessToken.length) {
             return router.push("/")
-        }else if(!authenticated){
+        } else if (!authenticated) {
             return <WrappedComponent {...props as P} />
-        }
+        } return null
     }
     return NonAuthComponent
 }

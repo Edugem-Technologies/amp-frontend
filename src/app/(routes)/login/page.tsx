@@ -1,4 +1,5 @@
 'use client'
+import OTPModal from '@/app/components/auth/OTPModal'
 import { doGetUserByAccessToken } from '@/services/user'
 import { config } from '@/utils/constants'
 import { handleError } from '@/utils/handle-error'
@@ -17,9 +18,8 @@ import { toast } from 'react-hot-toast'
 import EyeClose from '../../../../public/images/Eye-close.svg'
 import EyeOpen from '../../../../public/images/Eye-open.svg'
 import GoogleLogo from "../../../../public/images/Google-logo.svg"
-import CustomLayout from '../../components/CustomLayout'
-import WithoutAuth from '../../components/WithoutAuth'
-// import OTPModal from '../components/OTPModal';
+import WithoutAuth from '../../components/auth/WithoutAuth'
+import CustomLayout from '../../components/common/CustomLayout'
 
 const Login: NextPage = () => {
     const router = useRouter()
@@ -27,20 +27,21 @@ const Login: NextPage = () => {
     const [googleLoginStart, setGoogleLoginStart] = useState(false)
     const [showOtpModal, setShowOtpModal] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
-    const redirectUrl = searchParams.get('next') || '/about'
+    const redirectUrl = searchParams.get(config.PARAMS.REDIRECT_URL_PARAM) || '/profile'
     const { register, handleSubmit, formState: { errors, isSubmitting }, getValues } = useForm<LoginSchema>({ resolver: zodResolver(LoginValidationSchema) })
     const togglePasswordField = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         setShowPassword(prev => !prev)
     }
-
     const submitHandler = async (data: LoginSchema) => {
         try {
             // signin with AWS cognito
             await signOut({ global: true })
             const cognitoUser = await signIn({ username: data.email, password: data.password })
-            if (cognitoUser && cognitoUser.nextStep.signInStep === "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED") {
+            if (cognitoUser && cognitoUser.nextStep.signInStep === config.COGNITO_CHALLENGE_NAME.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED) {
                 router.push('/set-new-password')
+            } else if (cognitoUser && cognitoUser.nextStep.signInStep === config.COGNITO_CHALLENGE_NAME.CONFIRM_SIGN_UP) {
+                setShowOtpModal(true)
             }
             else {
                 const session = await fetchAuthSession()
@@ -69,8 +70,8 @@ const Login: NextPage = () => {
             // const cognitoException = JSON.parse(JSON.stringify(error))
             // if (cognitoException.code === 'UserNotConfirmedException') {
             //     //? Addition Functionality
-            //     // here we can send OTP to user regarding account confirmation
-            //     // then we require OTP confirmation Popup
+            // here we can send OTP to user regarding account confirmation
+            // then we require OTP confi    rmation Popup
             // } else {
             //     toast(config.MESSAGES.INVALID_LOGIN_CREDENTIALS, config.TOASTER_OPTIONS.ERROR)
             // }
@@ -80,10 +81,11 @@ const Login: NextPage = () => {
     const login = async () => {
         try {
             setGoogleLoginStart(true)
-            await signInWithRedirect({ provider: "Google" })
+            await signInWithRedirect({ provider: config.COGNITO_AUTH_PROVIDERS.GOOGLE })
         } catch (error) {
             console.log(error)
             handleError(error)
+        }finally{
             setGoogleLoginStart(false)
         }
     }
@@ -145,7 +147,7 @@ const Login: NextPage = () => {
                         </div>
                     </div>
                 </div>
-                {/* <OTPModal show={showOtpModal} setShow={setShowOtpModal} email={getValues('email')} password={getValues('password')} /> */}
+                <OTPModal show={showOtpModal} setShow={setShowOtpModal} email={getValues('email')} password={getValues('password')} />
             </section>
         </CustomLayout>
     )

@@ -1,57 +1,72 @@
+import { doGetUserByAccessToken, doSendOtpEmail, doVerifyUserEmail } from '@/services/user'
+import { OtpModalPropType } from '@/types/components/otp-modal'
+import { config } from '@/utils/constants'
+import { handleError } from '@/utils/handle-error'
+import { OtpSchema, OtpValidationSchema } from '@/validations/auth/otp'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { fetchAuthSession, signIn } from 'aws-amplify/auth'
+import { setCookie } from 'cookies-next'
+import { useRouter, useSearchParams } from 'next/navigation'
 import React from 'react'
 import { Modal } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useRouter } from 'next/router'
-import { OtpModalPropType } from '@/types/components/otp-modal'
-import { doSendOtpEmail, doVerifyUserEmail } from '@/services/user'
 import toast from 'react-hot-toast'
-import { config } from '@/utils/constants'
-import { ErrorType } from '@/types/common/error'
-import { signIn } from 'aws-amplify/auth'
-import { setCookie } from 'cookies-next'
-import { OtpSchema, OtpValidationSchema } from '@/validations/auth/otp'
-import CustomButton from './Button'
+import CustomButton from '../common/Button'
 
 const OTPModal: React.FC<OtpModalPropType> = ({ show, setShow, email, password }) => {
-    const router = useRouter();
+    const router = useRouter()
+    const searchParams = useSearchParams()
+    const redirectUrl = searchParams.get(config.PARAMS.REDIRECT_URL_PARAM) || "/profile"
     const { register, handleSubmit, formState: { errors, isSubmitting }, } = useForm<OtpSchema>({ resolver: zodResolver(OtpValidationSchema) })
 
-    const handleClose = () => setShow(false);
+    const handleClose = () => setShow(false)
     const submitHandler = async (data: OtpSchema) => {
         const requestData = {
             email,
             verification_code: data.otp
         }
         try {
-            const response = await doVerifyUserEmail(requestData);
+            const response = await doVerifyUserEmail(requestData)
             if (response && response.status && response.data) {
-                toast(config.MESSAGES.USER_EMAIL_VERIFIED, config.TOASTER_OPTIONS.SUCCESS);
-                const cognitoUser = await signIn(email, password);
-                if (cognitoUser && cognitoUser.signInUserSession && cognitoUser.signInUserSession.accessToken.jwtToken) {
-                    setCookie(config.AUTH.COOKIE_NAME, cognitoUser.signInUserSession.accessToken.jwtToken)
-                    handleClose();
-                    router.replace({ pathname: '/plans' });
+                toast(config.MESSAGES.USER_EMAIL_VERIFIED, config.TOASTER_OPTIONS.SUCCESS)
+                const cognitoUser = await signIn({ username: email, password })
+                const session = await fetchAuthSession()
+                const accessToken = session?.tokens?.accessToken?.toString()
+                // if jwt received then check whether user exist in db or not
+                if (accessToken) {
+                    const response = await doGetUserByAccessToken(accessToken)
+                    // if user exists then set the cookie and redirect
+                    if (response && response.data && response.status) {
+                        toast(config.MESSAGES.USER_LOGIN_SUCCESS, config.TOASTER_OPTIONS.SUCCESS)
+                        setCookie(config.AUTH.COOKIE_NAME, accessToken)
+                        handleClose()
+                        router.push(redirectUrl)
+                    }
+                    // else show error
+                    else {
+                        handleError(response)
+                    }
+                }
+                else {
+                    toast(config.MESSAGES.GENERIC_ERROR, config.TOASTER_OPTIONS.ERROR)
                 }
             }
         } catch (error) {
-            const { message } = error as ErrorType
-            toast(message, config.TOASTER_OPTIONS.ERROR);
+            handleError(error)
         }
     }
 
     const resendOtp = async () => {
         try {
-            toast.dismiss();
-            const response = await doSendOtpEmail({ email });
+            toast.dismiss()
+            const response = await doSendOtpEmail({ email })
             if (response && response.status) {
-                toast(config.MESSAGES.OTP_RESENT_SUCCESS, config.TOASTER_OPTIONS.SUCCESS);
+                toast(config.MESSAGES.OTP_RESENT_SUCCESS, config.TOASTER_OPTIONS.SUCCESS)
             } else {
-                toast(config.MESSAGES.OTP_RESENT_FAIL, config.TOASTER_OPTIONS.ERROR);
+                toast(config.MESSAGES.OTP_RESENT_FAIL, config.TOASTER_OPTIONS.ERROR)
             }
         } catch (error) {
-            const { message } = error as ErrorType
-            toast(message, config.TOASTER_OPTIONS.ERROR);
+            handleError(error)
         }
 
     }

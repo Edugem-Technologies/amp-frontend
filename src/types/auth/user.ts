@@ -7,3 +7,7 @@ export interface User {
 	email: string;
 	uuid: string;
 }
+
+export interface WithAuthPropType {
+    user?: User
+}

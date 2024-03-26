@@ -14,15 +14,15 @@ const Navbar = ({ user }: { user?: User }) => {
   return (
     <nav className='d-flex justify-content-center align-items-center'>
       <div className='nav-link'>
-        <Link href={'/'}>Home</Link>
+        <Link href={'/'} className='text-decoration-none'>Home</Link>
       </div>
       <div className='nav-link'>
-        <Link href={'/about'}>About</Link>
+        <Link href={'/profile'} className='text-decoration-none'>Profile</Link>
       </div>
       <div className='nav-link'>
         {user ?
-          <button className='btn btn-dark' onClick={logoutUser}>Logout</button> :
-          <Link href={'/login'}>Login</Link>
+          <button className='btn btn-dark btn-md' onClick={logoutUser}>Logout</button> :
+          <Link href={'/login'} className='text-decoration-none'>Login</Link>
         }
       </div>
     </nav>

@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import WithoutAuth from "@/app/components/WithoutAuth"
+"use client"
+import WithoutAuth from "@/app/components/auth/WithoutAuth"
 import { doCreateUser, doSendOtpEmail } from "@/services/user"
 import { config } from "@/utils/constants"
 import { SignupSchema, SignupValidationSchema } from "@/validations/auth/signup"
@@ -10,11 +11,12 @@ import Link from "next/link"
 import React, { useState } from "react"
 import { Spinner } from "react-bootstrap"
 import { useForm } from "react-hook-form"
-import OTPModal from "../../components/OTPModal"
-import EyeClose from "../../public/images/Eye-close.svg"
-import EyeOpen from "../../public/images/Eye-open.svg"
-import GoogleLogo from "../../public/images/Google-logo.svg"
+import EyeClose from "../../../../public/images/Eye-close.svg"
+import EyeOpen from "../../../../public/images/Eye-open.svg"
+import GoogleLogo from "../../../../public/images/Google-logo.svg"
+import OTPModal from "../../components/auth/OTPModal"
 
+import CustomLayout from "@/app/components/common/CustomLayout"
 import { handleError } from "@/utils/handle-error"
 import { fetchAuthSession, signIn, signInWithRedirect } from "aws-amplify/auth"
 import { setCookie } from "cookies-next"
@@ -22,6 +24,7 @@ import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 
 const SignUp: NextPage = () => {
+    const router = useRouter()
     const togglePasswordField = (
         e: React.MouseEvent<HTMLButtonElement>,
         callback: React.Dispatch<React.SetStateAction<boolean>>,
@@ -32,7 +35,6 @@ const SignUp: NextPage = () => {
     const [googleLoginStart, setGoogleLoginStart] = useState(false)
     const [showOtpModal, setShowOtpModal] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
-    const router = useRouter()
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const {
         register,
@@ -51,8 +53,10 @@ const SignUp: NextPage = () => {
             const response = await doCreateUser(requestData)
             if (response && response.status) {
                 const cognitoUser = await signIn({ username: data.email.toLowerCase(), password: data.password })
-                if (cognitoUser && cognitoUser.nextStep.signInStep === "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED") {
+                if (cognitoUser && cognitoUser.nextStep.signInStep === config.COGNITO_CHALLENGE_NAME.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED) {
                     router.push('/set-new-password')
+                } else if (cognitoUser && cognitoUser.nextStep.signInStep === config.COGNITO_CHALLENGE_NAME.CONFIRM_SIGN_UP) {
+                    setShowOtpModal(true)
                 }
                 else if (cognitoUser.isSignedIn) {
                     const session = await fetchAuthSession()
@@ -61,15 +65,15 @@ const SignUp: NextPage = () => {
                         config.AUTH.COOKIE_NAME,
                         accessToken,
                     )
-                    // router.replace("/plans")
+                    router.push("/profile")
                 }
-                // setShowOtpModal(true)
+
             } else {
                 handleError(response)
             }
         } catch (error) {
             const cognitoException = JSON.parse(JSON.stringify(error))
-            if (cognitoException.code === "UserNotConfirmedException") {
+            if (cognitoException.code === config.COGNITO_AUTH_EXCEPTIONS.USER_NOT_CONFIRMED) {
                 sendOtp()
             } else {
                 handleError(error)
@@ -79,9 +83,8 @@ const SignUp: NextPage = () => {
     const login = async () => {
         try {
             setGoogleLoginStart(true)
-            await signInWithRedirect({ provider: "Google" })
+            await signInWithRedirect({ provider: config.COGNITO_AUTH_PROVIDERS.GOOGLE })
         } catch (error) {
-            console.log(error)
             handleError(error)
             setGoogleLoginStart(false)
         }
@@ -101,7 +104,7 @@ const SignUp: NextPage = () => {
         }
     }
     return (
-        <>
+        <CustomLayout>
             <section className="v-signup-section v-section-padding">
                 <div className="container">
                     <div className="v-form-container">
@@ -162,7 +165,7 @@ const SignUp: NextPage = () => {
                                                 )}
                                             </div>
                                         </div>
-                                        <div className="col-lg-6">
+                                        <div className="col-lg-12">
                                             <div className="v-form-group">
                                                 <label htmlFor="email">
                                                     Email <span className="text-danger">*</span>
@@ -327,7 +330,7 @@ const SignUp: NextPage = () => {
                     password={getValues("password")}
                 />
             </section>
-        </>
+        </CustomLayout>
     )
 }
 

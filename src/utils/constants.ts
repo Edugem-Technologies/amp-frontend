@@ -1,297 +1,95 @@
+
+
 export const config = {
-	SIGNUP_STEPS: ['Basic Details', 'Select Plan', 'Setup Account'],
-	ADD_NEW_CONTACT_STEPS: ['Company Details', 'Address', 'Signees'],
 	AUTH: {
-		COOKIE_NAME: '__AT__'
+		COOKIE_NAME: "__AT__"
 	},
 	LOCAL_STORAGE_VARIABLES: {
-		ACCOUNT_UUID: 'account_uuid',
-		USER__UUID: 'user_uuid',
-		COOKIE_CHOICE: 'cookie_choice'
+		USER__UUID: "user_uuid",
+		COOKIE_CHOICE: "cookie_choice"
 	},
 	MESSAGES: {
-		INVALID_LOGIN_CREDENTIALS: 'Invalid email or password',
-		ACCESS_TOKEN_EXPIRED: 'Access token expired. Please login again',
-		USER_EMAIL_VERIFIED: 'Email verified successfully',
-		USER_LOGIN_SUCCESS: 'Great to see you!',
-		SETUP_ACCOUNT_SUCCESS: 'Account setup successfully',
-		UPDATE_ACCOUNT_SUCCESS: 'Account updated successfully',
-		OTP_RESENT_SUCCESS: 'OTP sent successfully',
-		OTP_RESENT_FAIL: 'Unable to send OTP',
-		INVALID_OTP: 'Invalid OTP',
-		GENERIC_ERROR: 'Something went wrong',
-		FORM_SUBMITTED_SUCCESS: 'Form submitted successfully',
-		PLAN_PURCHASED_FAILED: 'Unable to purchase plan',
-		MISSING_CREDENTIALS: 'Missing user or plan credentials',
-		USER_PROFILE_UPDATE_FAILED: 'Unable to update user profile',
-		USER_PROFILE_UPDATE_SUCCESS: 'User profile updated successfully',
-		PAYMENT_FAILED: 'Unable to process payment request',
-		PAYMENT_SUCCESS: 'Subscription successful',
-		PASSWORD_RESET_SUCCESS: 'Password reset successfully. Please login',
-		PASSWORD_CHANGE_SUCCESS: 'Password changed successfully',
-		CLIENT_CREATE_SUCCESS: 'Client created successfully',
-		CLIENT_CREATE_FAIL: 'Unable to create client. Please try again',
-		SIGNEE_CREATE_FAIL: 'Unable to create signee. Please try again',
-		CLIENT_FILE_UPLOAD_SUCCESS: 'Client file uploaded successfully',
-		CLIENT_FILE_UPLOAD_FAIL: 'Unable to upload client file',
-		USER_NOT_FOUND: 'User not found',
-		SUBSCRIPTION_CANCELLED: 'Subscription is not activated',
-		SUBSCRIPTION_VERIFYING: 'We are verifying your subscription',
-		USER_INVITE_FAIL: 'Unable to invite user',
-		USER_INVITE_TOKEN_FAIL: 'Unable to verify user invite token',
-		USER_INVITE_TOKEN_SUCCESS: 'User invite token verified successfully',
-		USER_INVITE_RESEND_SUCCESS: 'User invited successfully',
-		USER_INVITE_RESEND_FAIL: 'Unable to invite user',
-		PASSWORS_SET_SUCCESS: 'Password has been set successfully. Please login',
-		TOKEN_NOT_FOUND: 'Invitation token not found',
-		UNABLE_TO_LOAD_DATA: 'Unable to load data',
-		COMPANY_DETAILS_CREATED: 'Company details added successfully',
-		ADDRESS_DETAILS_CREATED: 'Company details added successfully',
-		BRANDING_DETAILS_UPDATED: 'Branding details updated successfully',
-		BRANDING_DETAILS_UPDATE_FAIL: 'Unable to update Branding details',
-		COVER_PAGE_CANNOT_BE_EMPTY: 'Cover page cannot be empty',
-		USER_EMAIL_UPDATE_SUCCESS: 'User email updated successfully. Please login again',
-		SIGNEE_UPDATED: 'Signee(s) updated successfully',
-		CONTRACT_CREATED_SUCCESS: 'Contract created successfully',
-		CONTRACT_UPDATE_SUCCESS: 'Contract updated successfully',
-		CONTRACT_CONTENT_EMPTY: 'Empty Contract',
-		CONTRACT_CREATED_FAIL: 'Unable to create contract',
-		ADD_SIGNATURE: 'Please add a signature',
-		SIGNEE_STATUS_UPDATE_FAIL: 'Unable to update signee status',
-		SIGNEE_STATUS_UPDATE_SUCCESS: 'Contract signed successfully',
-		SIGNEE_STATUS_UPDATE_INPROGRESS: 'Signing contract ...',
-		CONTRACT_SENT_TO_SIGNEE_FAIL: 'Unable to send contract to signees',
-		CONTRACT_CANCELLED_SUCCESS: 'Contract cancelled successfully',
-		CONTRACT_CANCELLED_FAIL: 'Unable to cancel contract',
-		EDITOR_IMAGE_UPLOAD_FAIL: 'Unable to add image',
-		CANCELLED_CONTRACT_EDIT_FAIL: 'Cancelled/Pending contracts are not editable',
-		CKEDITOR_LOAD_FAILED: 'Unable to load editor. Please try refreshing the page',
-		FOLDER_CREATED_SUCCESS: 'Folder created successfully',
-		FOLDER_UPDATED_SUCCESS: 'Folder name updated successfully',
-		FOLDER_DELETED_SUCCESS: 'Folder deleted successfully',
-		CONTRACT_COPY_SUCCESS: 'Contract copied successfully. Please update contract content accordingly',
-		EMPTY_EMAIL_BODY: 'Email body should not be empty',
-		EMAIL_TEMPLATE_UPDATED_SUCCESS: 'Email template updated successfully',
-		ACCOUNT_DELETION_REQUEST_START: 'Account deletion request initiated',
-		CONTRACT_EMAIL_SENT_SUCCESS: 'Contract sent successfully',
-		CONTRACT_EMAIL_SENT_PENDING: 'Sending contract...',
-		VALIDATION_MESSAGES: {
-			ONLY_LETTERS_DIGITS_SCORES: 'Only a combination of letters, digits, underscores, and spaces is allowed',
-			ONLY_LETTERS_DIGITS_SCORES_QUOTE:
-				'Only a combination of letters, digits, underscores, apostrophe and spaces is allowed',
-			LETTERS_AND_HYPHENS:
-				'Only a combination of letters, digits, spaces, commas, single quotes, dot and hyphens is allowed'
-		}
+		INVALID_LOGIN_CREDENTIALS: "Invalid email or password",
+		ACCESS_TOKEN_EXPIRED: "Access token expired. Please login again",
+		USER_EMAIL_VERIFIED: "Email verified successfully",
+		USER_LOGIN_SUCCESS: "Great to see you!",
+		OTP_RESENT_SUCCESS: "OTP sent successfully",
+		OTP_RESENT_FAIL: "Unable to send OTP",
+		INVALID_OTP: "Invalid OTP",
+		GENERIC_ERROR: "Something went wrong",
+		FORM_SUBMITTED_SUCCESS: "Form submitted successfully",
+		PASSWORD_RESET_SUCCESS: "Password reset successfully. Please login",
+		PASSWORD_CHANGE_SUCCESS: "Password changed successfully",
+		PASSWORS_SET_SUCCESS: "Password has been set successfully. Please login",
+		UNABLE_TO_LOAD_DATA: "Unable to load data",
+		USER_EMAIL_UPDATE_SUCCESS: "User email updated successfully. Please login again"
 	},
 	DEFAULT_MESSAGES: {
-		TOKEN_EXPIRED: 'Token expired. Please login again'
+		TOKEN_EXPIRED: "Token expired. Please login again"
 	},
 	TOASTER_OPTIONS: {
 		SUCCESS: {
 			duration: 6000,
 			style: {
 				maxWidth: 450,
-				borderRadius: '10px',
-				background: '#14e4ea',
-				color: '#fff'
+				borderRadius: "10px",
+				background: "#14e4ea",
+				color: "#fff"
 			}
 		},
 		ERROR: {
 			duration: 6000,
 			style: {
 				maxWidth: 450,
-				borderRadius: '10px',
-				background: '#CD0000',
-				color: '#fff'
+				borderRadius: "10px",
+				background: "#CD0000",
+				color: "#fff"
 			}
 		},
 		HOLD: {
 			duration: 6000,
 			style: {
 				maxWidth: 450,
-				borderRadius: '10px',
-				background: '#FFFF00',
-				color: '#000'
+				borderRadius: "10px",
+				background: "#FFFF00",
+				color: "#000"
 			}
 		}
 	},
 	COGNITO_CHALLENGE_NAME: {
-		NEW_PASSWORD_REQUIRED: 'CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED',
-		PASSWORD_VERIFIER: 'PASSWORD_VERIFIER'
+		CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE: "CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE",
+		CONTINUE_SIGN_IN_WITH_MFA_SELECTION: "CONTINUE_SIGN_IN_WITH_MFA_SELECTION",
+		CONFIRM_SIGN_IN_WITH_SMS_CODE: "CONFIRM_SIGN_IN_WITH_SMS_CODE",
+		CONFIRM_SIGN_IN_WITH_TOTP_CODE: "CONFIRM_SIGN_IN_WITH_TOTP_CODE",
+		CONTINUE_SIGN_IN_WITH_TOTP_SETUP: "CONTINUE_SIGN_IN_WITH_TOTP_SETUP",
+		CONFIRM_SIGN_UP: "CONFIRM_SIGN_UP",
+		RESET_PASSWORD: "RESET_PASSWORD",
+		DONE: "DONE",
+		CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED: "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED"
 	},
-	URLS: {
-		WIHTOUT_AUTH: ['/login', '/signup'],
-		SIDEBAR_ALLOWED_URLS: [
-			'/profile',
-			'/clients',
-			'/email',
-			'/contracts',
-			'/templates',
-			'/team',
-			'/billing',
-			'/branding',
-			'/contact-us',
-			'/admin',
-			'/change-password',
-			'/account',
-			'/dashboard',
-			'/admin/dashboard'
-		],
-		URL_MAPPING: {
-			PROFILE: 'Personal Information',
-			EDIT_PROFILE: 'Edit Personal Information',
-			TEAM: 'Team',
-			BRANDING: 'Branding',
-			BILLING: 'Billing',
-			CLIENTS: 'Clients',
-			DASHBOARD: 'Dashboard',
-			ACCOUNT: 'Account',
-			EMAIL: 'Email',
-			FOLDERS: 'Folders',
-			CONTRACTS: 'Contracts',
-			CREATE_CONTRACTS: 'Create Contract',
-			CONTACT_US: 'Contacts',
-			TEMPLATES: 'Templates',
-			ADMIN_ACCOUNTS: 'Accounts',
-			CHANGE_PASSWORD: 'Change Password'
-		}
+	COGNITO_AUTH_PROVIDERS: {
+		// this type assertion is required for login provider to work with typescript
+		GOOGLE: "Google" as "Google"
+	},
+	COGNITO_AUTH_EXCEPTIONS: {
+		// this type assertion is required for login provider to work with typescript
+		USER_NOT_CONFIRMED: "UserNotConfirmedException"
+	},
+	PARAMS: {
+		REDIRECT_URL_PARAM : "next"
 	},
 	CLIENT_UPLOAD_VIA_FILE: {
 		TYPES: [
-			'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-			'application/vnd.ms-excel',
-			'application/msexcel',
-			'application/x-msexcel',
-			'application/x-ms-excel',
-			'application/x-excel',
-			'application/x-dos_ms_excel',
-			'application/xls',
-			'application/x-xls'
+			"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+			"application/vnd.ms-excel",
+			"application/msexcel",
+			"application/x-msexcel",
+			"application/x-ms-excel",
+			"application/x-excel",
+			"application/x-dos_ms_excel",
+			"application/xls",
+			"application/x-xls"
 		]
 	},
-	CKEDITOR_CONFIG: {
-		CONTRACT_MODE: [
-			'undo',
-			'redo',
-			'|',
-			'heading',
-			'|',
-			'exportPdf',
-			'|',
-			'paragraph',
-			'|',
-			'fontSize',
-			'fontColor',
-			'fontBackgroundColor',
-			'|',
-			'specialCharacters',
-			'alignment',
-			'|',
-			'findAndReplace',
-			'|',
-			'bold',
-			'italic',
-			'strikethrough',
-			'subscript',
-			'superscript',
-			'code',
-			'|',
-			'link',
-			'uploadImage',
-			'imageStyle:block',
-			'imageStyle:side',
-			'toggleImageCaption',
-			'|',
-			'blockQuote',
-			'codeBlock',
-			'insertTable',
-			'|',
-			'bulletedList',
-			'numberedList',
-			'todoList',
-			'outdent',
-			'indent',
-			'|',
-			'pageBreak'
-		],
-		COVER_PAGE_MODE: [
-			'undo',
-			'redo',
-			'|',
-			'heading',
-			'|',
-			'paragraph',
-			'|',
-			'fontSize',
-			'fontColor',
-			'fontBackgroundColor',
-			'|',
-			'specialCharacters',
-			'alignment',
-			'|',
-			'findAndReplace',
-			'|',
-			'bold',
-			'italic',
-			'strikethrough',
-			'subscript',
-			'superscript',
-			'code',
-			'|',
-			'link',
-			'uploadImage',
-			'imageStyle:block',
-			'imageStyle:side',
-			'toggleImageCaption',
-			'|',
-			'blockQuote',
-			'codeBlock',
-			'insertTable',
-			'|',
-			'bulletedList',
-			'numberedList',
-			'todoList',
-			'outdent',
-			'indent',
-			'pageBreak'
-		],
-		EMAIL: [
-			'undo',
-			'redo',
-			'|',
-			'heading',
-			'|',
-			'paragraph',
-			'|',
-			'fontSize',
-			'fontColor',
-			'fontBackgroundColor',
-			'|',
-			'specialCharacters',
-			'|',
-			'findAndReplace',
-			'|',
-			'bold',
-			'italic',
-			'strikethrough',
-			'subscript',
-			'superscript',
-			'|',
-			'link',
-			'uploadImage',
-			'imageStyle:block',
-			'imageStyle:side',
-			'toggleImageCaption',
-			'|',
-			'blockQuote',
-			'|',
-			'bulletedList',
-			'numberedList',
-			'outdent',
-			'indent',
-			'|',
-			'restrictedEditing'
-		]
-	},
-	API_VERSION: 'api/v1'
-};
+	API_VERSION: "api/v1"
+}

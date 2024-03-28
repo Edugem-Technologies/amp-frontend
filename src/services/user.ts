@@ -22,3 +22,10 @@ export const doCreateUser = async (data: Omit<SignupSchema, "confirm_password">)
     const url = new URL(process.env.NEXT_PUBLIC_API_URL + `/${config.API_VERSION}/user/create`)
     return await fetchPost(url, data, "")
 }
+
+export const doVerifyGoogleLoginUser = async (data: { access_token: string }) => {
+    const url = new URL(
+        process.env.NEXT_PUBLIC_API_URL + `/${config.API_VERSION}/user/idp-callback`,
+    )
+    return await fetchPost(url, data, "")
+}

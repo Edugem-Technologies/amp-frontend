@@ -1,5 +1,3 @@
-
-
 export const config = {
 	AUTH: {
 		COOKIE_NAME: "__AT__"
@@ -76,7 +74,7 @@ export const config = {
 		USER_NOT_CONFIRMED: "UserNotConfirmedException"
 	},
 	PARAMS: {
-		REDIRECT_URL_PARAM : "next"
+		REDIRECT_URL_PARAM: "next"
 	},
 	CLIENT_UPLOAD_VIA_FILE: {
 		TYPES: [
@@ -90,6 +88,9 @@ export const config = {
 			"application/xls",
 			"application/x-xls"
 		]
+	},
+	URL: {
+		LOCALHOST: "http://localhost:3000"
 	},
 	API_VERSION: "api/v1"
 }

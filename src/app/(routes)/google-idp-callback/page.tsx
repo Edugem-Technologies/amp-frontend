@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 
 const GoogleIdpCallback = () => {
     const router = useRouter()
-    const searchParams = new URLSearchParams(window?.location.href.split("#")[1])
+    const searchParams = typeof window !== "undefined" ? new URLSearchParams(window.location.href.split("#")[1]) : new URLSearchParams()
     const accessToken = searchParams.get("access_token") || ""
 
     const doVerifyUser = async () => {

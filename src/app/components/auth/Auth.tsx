@@ -33,18 +33,18 @@ const WithAuth = <P extends object>(WrappedComponent: NextPage<P & WithAuthPropT
                             // exists or not
                         } else {
                             deleteCookie(config.AUTH.COOKIE_NAME)
-                            router.push(`/login?next=${path}`)
+                            router.push(`/login?${config.PARAMS.REDIRECT_URL_PARAM}=${path}`)
                         }
                     } catch (error) {
                         // if any other error occurs 
                         // logout the user and redirect to login page
                         deleteCookie(config.AUTH.COOKIE_NAME)
-                        router.push(`/login?next=${path}`)
+                        router.push(`/login?${config.PARAMS.REDIRECT_URL_PARAM}=${path}`)
                     }
                 } else {
                     // if no access token found, user is not authenticated
                     // redirect to login page
-                    router.replace(`/login?next=${path}`)
+                    router.replace(`/login?${config.PARAMS.REDIRECT_URL_PARAM}=${path}`)
                 }
             }
 

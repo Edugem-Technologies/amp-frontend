@@ -67,7 +67,7 @@ export const config = {
     },
     COGNITO_AUTH_PROVIDERS: {
         // this type assertion is required for login provider to work with typescript
-        GOOGLE: "Google" as "Google",
+        GOOGLE: "Google" as const,
     },
     COGNITO_AUTH_EXCEPTIONS: {
         // this type assertion is required for login provider to work with typescript

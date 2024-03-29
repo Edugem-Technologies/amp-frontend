@@ -92,5 +92,8 @@ export const config = {
 	URL: {
 		LOCALHOST: "http://localhost:3000"
 	},
+	STATUS: {
+		UNAUTHORIZED: 401
+	},
 	API_VERSION: "api/v1"
 }

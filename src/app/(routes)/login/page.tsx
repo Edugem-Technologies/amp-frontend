@@ -94,7 +94,6 @@ const Login: NextPage = () => {
         } catch (error) {
             console.log(error)
             handleError(error)
-        } finally {
             setGoogleLoginStart(false)
         }
     }

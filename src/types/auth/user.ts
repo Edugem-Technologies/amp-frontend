@@ -4,9 +4,9 @@ export interface UserEmailVerifyPropType {
 }
 
 export interface User {
-    first_name: string
     email: string
     uuid: string
+    first_name: string
 }
 
 export interface WithAuthPropType {

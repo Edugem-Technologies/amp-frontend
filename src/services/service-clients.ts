@@ -1,3 +1,5 @@
+import { config } from "@/utils/constants"
+
 const tryJson = async (res: Response) => {
     try {
         return await res.json()
@@ -19,6 +21,12 @@ export const fetchPost = async (url: URL, data: object, token: string) => {
         body: JSON.stringify(data),
         headers: setHeaders(token),
     }).then(async (resp) => {
+        if (resp.status === config.STATUS.UNAUTHORIZED) {
+            throw {
+                status: config.STATUS.UNAUTHORIZED,
+                message: config.MESSAGES.ACCESS_TOKEN_EXPIRED,
+            }
+        }
         if (!resp.ok) {
             const body = await tryJson(resp)
             if (body) {
@@ -38,6 +46,12 @@ export const fetchPostFormData = async (url: URL, data: FormData, token: string)
         headers: setHeaders(token),
         body: data,
     }).then(async (resp) => {
+        if (resp.status === config.STATUS.UNAUTHORIZED) {
+            throw {
+                status: config.STATUS.UNAUTHORIZED,
+                message: config.MESSAGES.ACCESS_TOKEN_EXPIRED,
+            }
+        }
         if (!resp.ok) {
             const body = await tryJson(resp)
             if (body) {
@@ -56,6 +70,12 @@ export const fetchGet = async (url: URL, accessToken?: string) => {
         method: "GET",
         headers: accessToken ? setHeaders(accessToken) : undefined,
     }).then(async (resp) => {
+        if (resp.status === config.STATUS.UNAUTHORIZED) {
+            throw {
+                status: config.STATUS.UNAUTHORIZED,
+                message: config.MESSAGES.ACCESS_TOKEN_EXPIRED,
+            }
+        }
         return await resp.json()
     })
 }

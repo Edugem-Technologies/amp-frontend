@@ -3,7 +3,8 @@
 import { doGetUserByAccessToken } from "@/services/user"
 import { WithAuthPropType } from "@/types/auth/user"
 import { config } from "@/utils/constants"
-import { deleteCookie, getCookie } from "cookies-next"
+import { logout } from "@/utils/logout"
+import { getCookie } from "cookies-next"
 import { NextPage } from "next"
 import { usePathname, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -32,18 +33,15 @@ const WithAuth = <P extends object>(WrappedComponent: NextPage<P & WithAuthPropT
                             // we are not validating access token, we just check if the access token
                             // exists or not
                         } else {
-                            deleteCookie(config.AUTH.COOKIE_NAME)
-                            router.push(`/login?${config.PARAMS.REDIRECT_URL_PARAM}=${path}`)
+                            logout(router, path)
                         }
                     } catch (error) {
                         // if any other error occurs
-                        // logout the user and redirect to login page
-                        deleteCookie(config.AUTH.COOKIE_NAME)
-                        router.push(`/login?${config.PARAMS.REDIRECT_URL_PARAM}=${path}`)
+                        // logout the user
+                        logout(router, path)
                     }
                 } else {
                     // if no access token found, user is not authenticated
-                    // redirect to login page
                     router.replace(`/login?${config.PARAMS.REDIRECT_URL_PARAM}=${path}`)
                 }
             }

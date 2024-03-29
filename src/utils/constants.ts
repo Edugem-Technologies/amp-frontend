@@ -67,7 +67,7 @@ export const config = {
     },
     COGNITO_AUTH_PROVIDERS: {
         // this type assertion is required for login provider to work with typescript
-        GOOGLE: "Google" as const,
+        GOOGLE: "Google" as "Google",
     },
     COGNITO_AUTH_EXCEPTIONS: {
         // this type assertion is required for login provider to work with typescript
@@ -91,6 +91,9 @@ export const config = {
     },
     URL: {
         LOCALHOST: "http://localhost:3000",
+    },
+    STATUS: {
+        UNAUTHORIZED: 401,
     },
     API_VERSION: "api/v1",
 }

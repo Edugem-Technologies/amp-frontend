@@ -1,12 +1,11 @@
-"use client";
-import { NextPage } from 'next';
-import WithAuth from '../components/Auth';
+"use client"
+import { NextPage } from "next"
+import WithAuth from "../components/Auth"
 
-const AboutPage: NextPage = ({ user }: { user: any }) => {
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
+const AboutPage: NextPage<{ user: any }> = ({ user }) => {
     console.log(user)
-    return (
-        <h1>AboutPage</h1>
-    )
+    return <h1>AboutPage</h1>
 }
 
 export default WithAuth(AboutPage)

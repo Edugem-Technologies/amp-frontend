@@ -1,53 +1,53 @@
-import { doGetUserByAccessToken } from '@/services/user';
-import { User } from '@/types/auth/user';
-import { config } from '@/utils/constants';
-import { getCookie } from 'cookies-next';
-import { NextPage } from 'next';
-import { useRouter } from 'next/navigation'; // corrected import
-import { useEffect, useState } from 'react';
+import { doGetUserByAccessToken } from "@/services/user"
+import { User } from "@/types/auth/user"
+import { config } from "@/utils/constants"
+import { getCookie } from "cookies-next"
+import { NextPage } from "next"
+import { useRouter } from "next/navigation" // corrected import
+import { useEffect, useState } from "react"
 
 interface WithAuthPropType {
-    user?: User;
+    user?: User
 }
 
 const WithAuth = <P extends object>(WrappedComponent: NextPage<P & WithAuthPropType>) => {
     const AuthComponent: NextPage<P & WithAuthPropType> = (props) => {
-        const [authenticated, setAuthenticated] = useState(false);
+        const [authenticated, setAuthenticated] = useState(false)
         const [user, setUser] = useState()
-        const router = useRouter();
+        const router = useRouter()
 
         useEffect(() => {
             const fetchUser = async () => {
-                const accessToken = getCookie(config.AUTH.COOKIE_NAME) as string;
+                const accessToken = getCookie(config.AUTH.COOKIE_NAME) as string
                 if (accessToken && accessToken.length) {
                     try {
-                        const response = await doGetUserByAccessToken(accessToken);
+                        const response = await doGetUserByAccessToken(accessToken)
                         if (response.status && response.data) {
-                            setAuthenticated(true);
+                            setAuthenticated(true)
                             setUser(response.data)
                         } else {
-                            router.push('/login');
+                            router.push("/login")
                         }
                     } catch (error) {
-                        throw error;
+                        throw error
                     }
                 } else {
-                    router.push('/login');
+                    router.push("/login")
                 }
-            };
+            }
 
-            fetchUser();
-        }, []);
+            fetchUser()
+        }, [])
 
         if (!authenticated) {
             // Render nothing while authentication is in progress
-            return null;
+            return null
         }
 
-        return <WrappedComponent {...props} user={user} />;
-    };
+        return <WrappedComponent {...props} user={user} />
+    }
 
-    return AuthComponent;
-};
+    return AuthComponent
+}
 
-export default WithAuth;
+export default WithAuth

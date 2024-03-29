@@ -19,6 +19,7 @@
         "aws-amplify": "^6.0.6",
         "cookies-next": "^4.1.0",
         "next": "14.0.4",
+        "next-sitemap": "^4.2.3",
         "react": "^18",
         "react-bootstrap": "^2.9.1",
         "react-dom": "^18",

@@ -1,7 +1,6 @@
-"use clint"
+"use client"
 
 import { doGetUserByAccessToken } from "@/services/user"
-import { WithAuthPropType } from "@/types/auth/user"
 import { config } from "@/utils/constants"
 import { logout } from "@/utils/logout"
 import { getCookie } from "cookies-next"
@@ -9,8 +8,8 @@ import { NextPage } from "next"
 import { usePathname, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
-const WithAuth = <P extends object>(WrappedComponent: NextPage<P & WithAuthPropType>) => {
-    const AuthComponent: NextPage<P & WithAuthPropType> = (props) => {
+const WithAuth = <P extends object>(WrappedComponent: NextPage<P>) => {
+    const AuthComponent: NextPage = (props) => {
         const [authenticated, setAuthenticated] = useState(false)
         const [user, setUser] = useState()
         const router = useRouter()
@@ -55,7 +54,7 @@ const WithAuth = <P extends object>(WrappedComponent: NextPage<P & WithAuthPropT
             return null
         }
 
-        return <WrappedComponent {...props} user={user} />
+        return <WrappedComponent {...(props as P)} user={user} />
     }
 
     return AuthComponent

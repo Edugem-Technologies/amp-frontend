@@ -12,7 +12,7 @@ with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/
 
 -   NPM 6.14.15
 
--   Node v18.x
+-   Node >=v18.17
 
 ## Technical Details:
 

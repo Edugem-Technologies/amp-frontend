@@ -1,6 +1,6 @@
 import React from "react"
 import { NextPage } from "next"
-import ErrorImage from "../../././public/images/404.svg"
+import ErrorImage from "../../public/images/404.svg"
 import Link from "next/link"
 
 const NotFoundPage: NextPage = () => {
@@ -14,7 +14,7 @@ const NotFoundPage: NextPage = () => {
                     <h1>Page not Found</h1>
                     <p>Sorry, but the page you were looking for could not be found</p>
                     <div className="v-link">
-                        <Link href={"/"}>
+                        <Link legacyBehavior href={"/"}>
                             <a className="v-fill-btn-hover">Go to Homepage</a>
                         </Link>
                     </div>

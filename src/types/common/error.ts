@@ -1,8 +1,8 @@
 export type ErrorType = {
-	message: string
+    message: string
 }
 
 export type UnAuthorizedAccessError = {
-	status: number
-	message: string
+    status: number
+    message: string
 }

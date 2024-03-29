@@ -1,9 +1,8 @@
-import { config } from '@/utils/constants'
-import { getCookie } from 'cookies-next'
-import { NextPage } from 'next'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-
+import { config } from "@/utils/constants"
+import { getCookie } from "cookies-next"
+import { NextPage } from "next"
+import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 
 const WithoutAuth = <P extends object>(WrappedComponent: NextPage<P>) => {
     const NonAuthComponent = (props: P) => {
@@ -23,8 +22,9 @@ const WithoutAuth = <P extends object>(WrappedComponent: NextPage<P>) => {
         if (authenticated && accessToken.length) {
             return router.push("/")
         } else if (!authenticated) {
-            return <WrappedComponent {...props as P} />
-        } return null
+            return <WrappedComponent {...(props as P)} />
+        }
+        return null
     }
     return NonAuthComponent
 }

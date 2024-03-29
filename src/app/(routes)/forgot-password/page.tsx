@@ -4,7 +4,10 @@ import WithoutAuth from "@/app/components/auth/WithoutAuth"
 import CustomLayout from "@/app/components/common/CustomLayout"
 import { config } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
-import { ForgotPasswordSchema, ForgotPasswordValidationSchema } from "@/validations/auth/forgot-password"
+import {
+    ForgotPasswordSchema,
+    ForgotPasswordValidationSchema,
+} from "@/validations/auth/forgot-password"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { resetPassword } from "aws-amplify/auth"
 import { NextPage } from "next"
@@ -79,7 +82,10 @@ const ForgotPassword: NextPage = () => {
                                             )}
                                         </div>
                                         <div className="v-form-submit-btn">
-                                            <button className="v-custom-btn v-submit-btn v-fill-btn-hover" type="submit">
+                                            <button
+                                                className="v-custom-btn v-submit-btn v-fill-btn-hover"
+                                                type="submit"
+                                            >
                                                 {loader ? <Spinner /> : "Send OTP"}
                                             </button>
                                         </div>

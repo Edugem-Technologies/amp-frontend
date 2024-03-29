@@ -52,22 +52,28 @@ const SignUp: NextPage = () => {
             }
             const response = await doCreateUser(requestData)
             if (response && response.status) {
-                const cognitoUser = await signIn({ username: data.email.toLowerCase(), password: data.password })
-                if (cognitoUser && cognitoUser.nextStep.signInStep === config.COGNITO_CHALLENGE_NAME.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED) {
-                    router.push('/set-new-password')
-                } else if (cognitoUser && cognitoUser.nextStep.signInStep === config.COGNITO_CHALLENGE_NAME.CONFIRM_SIGN_UP) {
+                const cognitoUser = await signIn({
+                    username: data.email.toLowerCase(),
+                    password: data.password,
+                })
+                if (
+                    cognitoUser &&
+                    cognitoUser.nextStep.signInStep ===
+                        config.COGNITO_CHALLENGE_NAME.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED
+                ) {
+                    router.push("/set-new-password")
+                } else if (
+                    cognitoUser &&
+                    cognitoUser.nextStep.signInStep ===
+                        config.COGNITO_CHALLENGE_NAME.CONFIRM_SIGN_UP
+                ) {
                     setShowOtpModal(true)
-                }
-                else if (cognitoUser.isSignedIn) {
+                } else if (cognitoUser.isSignedIn) {
                     const session = await fetchAuthSession()
                     const accessToken = session?.tokens?.accessToken?.toString()
-                    setCookie(
-                        config.AUTH.COOKIE_NAME,
-                        accessToken,
-                    )
+                    setCookie(config.AUTH.COOKIE_NAME, accessToken)
                     router.push("/profile")
                 }
-
             } else {
                 handleError(response)
             }
@@ -292,7 +298,7 @@ const SignUp: NextPage = () => {
                                                     </div>
                                                 </div>
                                                 {errors.confirm_password &&
-                                                    errors.confirm_password.message ? (
+                                                errors.confirm_password.message ? (
                                                     <span className="text-danger">
                                                         {errors.confirm_password.message}
                                                     </span>
@@ -305,8 +311,9 @@ const SignUp: NextPage = () => {
                                     <div className="v-form-group v-submit-btn">
                                         <button
                                             type="submit"
-                                            className={`v-submit-btn ${isSubmitting ? "" : " v-fill-btn-hover"
-                                                }`}
+                                            className={`v-submit-btn ${
+                                                isSubmitting ? "" : " v-fill-btn-hover"
+                                            }`}
                                             disabled={isSubmitting}
                                         >
                                             {isSubmitting ? <Spinner variant="light" /> : "Submit"}

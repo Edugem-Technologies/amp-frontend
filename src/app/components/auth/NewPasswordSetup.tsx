@@ -39,7 +39,11 @@ const NewPasswordSetup: React.FC<NewPasswordSetupPropType> = ({ usernameOrEmail 
     const submitHandler = async (data: UpdateNewPasswordSchema) => {
         setLoading(true)
         try {
-            await confirmResetPassword({ username: usernameOrEmail.toLowerCase(), confirmationCode: data.otp, newPassword: data.password })
+            await confirmResetPassword({
+                username: usernameOrEmail.toLowerCase(),
+                confirmationCode: data.otp,
+                newPassword: data.password,
+            })
             toast(config.MESSAGES.PASSWORD_RESET_SUCCESS, config.TOASTER_OPTIONS.SUCCESS)
             router.replace("/login")
         } catch (error) {
@@ -172,7 +176,7 @@ const NewPasswordSetup: React.FC<NewPasswordSetupPropType> = ({ usernameOrEmail 
                                                     </div>
                                                 </div>
                                                 {errors.confirmPassword &&
-                                                    errors.confirmPassword.message ? (
+                                                errors.confirmPassword.message ? (
                                                     <span className="text-danger">
                                                         {errors.confirmPassword.message}
                                                     </span>
@@ -183,7 +187,12 @@ const NewPasswordSetup: React.FC<NewPasswordSetupPropType> = ({ usernameOrEmail 
                                         </div>
                                     </div>
                                     <div className="v-form-btn-group">
-                                        <button className="v-submit-btn v-custom-btn v-fill-btn-hover btn btn-lg" type="submit">{loading ? <Spinner /> : "Submit"}</button>
+                                        <button
+                                            className="v-submit-btn v-custom-btn v-fill-btn-hover btn btn-lg"
+                                            type="submit"
+                                        >
+                                            {loading ? <Spinner /> : "Submit"}
+                                        </button>
                                     </div>
                                 </form>
                             </div>

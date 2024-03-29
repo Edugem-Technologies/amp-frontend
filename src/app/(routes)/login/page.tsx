@@ -1,10 +1,11 @@
 "use client"
+import OTPModal from "@/app/components/auth/OTPModal"
 import { doGetUserByAccessToken } from "@/services/user"
-import { ErrorType } from "@/types/common/error"
 import { config } from "@/utils/constants"
+import { handleError } from "@/utils/handle-error"
 import { LoginSchema, LoginValidationSchema } from "@/validations/auth/user"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { fetchAuthSession, signIn, signOut } from "aws-amplify/auth"
+import { fetchAuthSession, signIn, signInWithRedirect, signOut } from "aws-amplify/auth"
 import { setCookie } from "cookies-next"
 import { NextPage } from "next"
 import Image from "next/image"
@@ -14,17 +15,19 @@ import React, { useState } from "react"
 import { Spinner } from "react-bootstrap"
 import { useForm } from "react-hook-form"
 import { toast } from "react-hot-toast"
-import EyeClose from "../../../public/images/Eye-close.svg"
-import EyeOpen from "../../../public/images/Eye-open.svg"
-import WithoutAuth from "../components/WithoutAuth"
-// import OTPModal from '../components/OTPModal';
+import EyeClose from "../../../../public/images/Eye-close.svg"
+import EyeOpen from "../../../../public/images/Eye-open.svg"
+import GoogleLogo from "../../../../public/images/Google-logo.svg"
+import WithoutAuth from "../../components/auth/WithoutAuth"
+import CustomLayout from "../../components/common/CustomLayout"
 
 const Login: NextPage = () => {
     const router = useRouter()
     const searchParams = useSearchParams()
+    const [googleLoginStart, setGoogleLoginStart] = useState(false)
     const [showOtpModal, setShowOtpModal] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
-    const redirectUrl = searchParams.get("next") || "/about"
+    const redirectUrl = searchParams.get(config.PARAMS.REDIRECT_URL_PARAM) || "/profile"
     const {
         register,
         handleSubmit,
@@ -35,7 +38,6 @@ const Login: NextPage = () => {
         e.preventDefault()
         setShowPassword((prev) => !prev)
     }
-
     const submitHandler = async (data: LoginSchema) => {
         try {
             // signin with AWS cognito
@@ -44,9 +46,14 @@ const Login: NextPage = () => {
             if (
                 cognitoUser &&
                 cognitoUser.nextStep.signInStep ===
-                    config.COGNITO_CHALLENGE_NAME.NEW_PASSWORD_REQUIRED
+                    config.COGNITO_CHALLENGE_NAME.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED
             ) {
                 router.push("/set-new-password")
+            } else if (
+                cognitoUser &&
+                cognitoUser.nextStep.signInStep === config.COGNITO_CHALLENGE_NAME.CONFIRM_SIGN_UP
+            ) {
+                setShowOtpModal(true)
             } else {
                 const session = await fetchAuthSession()
                 const accessToken = session?.tokens?.accessToken?.toString()
@@ -61,17 +68,7 @@ const Login: NextPage = () => {
                     }
                     // else show error
                     else {
-                        if (
-                            response &&
-                            typeof response === "object" &&
-                            Object.hasOwn(response, "message")
-                        ) {
-                            toast(response.message.toString(), config.TOASTER_OPTIONS.ERROR)
-                        } else if (response && typeof response === "string") {
-                            toast(response, config.TOASTER_OPTIONS.ERROR)
-                        } else {
-                            toast(config.MESSAGES.GENERIC_ERROR, config.TOASTER_OPTIONS.ERROR)
-                        }
+                        handleError(response)
                     }
                 } else {
                     toast(config.MESSAGES.GENERIC_ERROR, config.TOASTER_OPTIONS.ERROR)
@@ -82,28 +79,40 @@ const Login: NextPage = () => {
             // const cognitoException = JSON.parse(JSON.stringify(error))
             // if (cognitoException.code === 'UserNotConfirmedException') {
             //     //? Addition Functionality
-            //     // here we can send OTP to user regarding account confirmation
-            //     // then we require OTP confirmation Popup
+            // here we can send OTP to user regarding account confirmation
+            // then we require OTP confi    rmation Popup
             // } else {
             //     toast(config.MESSAGES.INVALID_LOGIN_CREDENTIALS, config.TOASTER_OPTIONS.ERROR)
             // }
-            if (error && typeof error === "object" && Object.hasOwn(error, "message")) {
-                toast((error as ErrorType).message.toString(), config.TOASTER_OPTIONS.ERROR)
-            } else if (error && typeof error === "string") {
-                toast(error, config.TOASTER_OPTIONS.ERROR)
-            } else {
-                toast(config.MESSAGES.GENERIC_ERROR, config.TOASTER_OPTIONS.ERROR)
-            }
+            handleError(error)
+        }
+    }
+    const login = async () => {
+        try {
+            setGoogleLoginStart(true)
+            await signInWithRedirect({ provider: config.COGNITO_AUTH_PROVIDERS.GOOGLE })
+        } catch (error) {
+            console.log(error)
+            handleError(error)
+        } finally {
+            setGoogleLoginStart(false)
         }
     }
     return (
-        <>
+        <CustomLayout>
             <section className="v-login-section v-section-padding">
                 <div className="container-fluid">
                     <div className="v-form-container">
                         <div className="v-login w-50">
                             <div className="v-tagline">
                                 <h1>Login</h1>
+                            </div>
+                            <div className="v-google-login-btn">
+                                <button className="v-plane-btn-hover" onClick={login}>
+                                    <Image src={GoogleLogo} alt="google-logo" />
+                                    <span>Login with Google</span>
+                                    {googleLoginStart ? <Spinner variant="dark" /> : ""}
+                                </button>
                             </div>
                             <div className="v-hr-row">
                                 <hr />
@@ -192,9 +201,14 @@ const Login: NextPage = () => {
                         </div>
                     </div>
                 </div>
-                {/* <OTPModal show={showOtpModal} setShow={setShowOtpModal} email={getValues('email')} password={getValues('password')} /> */}
+                <OTPModal
+                    show={showOtpModal}
+                    setShow={setShowOtpModal}
+                    email={getValues("email")}
+                    password={getValues("password")}
+                />
             </section>
-        </>
+        </CustomLayout>
     )
 }
 

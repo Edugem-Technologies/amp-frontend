@@ -1,11 +1,21 @@
 @import "../bootstrap/bootstrap";
 @import "./variables.scss";
 
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+// html {
+// 	/* 10px (size we want) /16px(default browser size) = .625 or 62.5% */
+// 	font-size: 62.5%;
+// }
+
 body {
-    font-family: $poppins;
-    font-weight: $regular;
-    background: $theme-cyan-background;
-    height: 100%;
+    box-sizing: border-box;
 }
 .v-row {
     max-width: 100%;

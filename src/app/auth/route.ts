@@ -1,6 +1,4 @@
-import { NextRequest } from "next/server";
-
-export async function GET(request: NextRequest) {
-	// console.log(request.cookies);
-	return Response.json({ name: 'hello' });
+export async function GET() {
+    // console.log(request.cookies);
+    return Response.json({ name: "hello" })
 }

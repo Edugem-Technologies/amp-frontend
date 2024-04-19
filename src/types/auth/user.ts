@@ -1,9 +1,14 @@
 export interface UserEmailVerifyPropType {
-	verification_code: string;
-	email: string;
+    verification_code: string
+    email: string
 }
 
 export interface User {
-	email: string;
-	uuid: string;
+    email: string
+    uuid: string
+    first_name: string
+}
+
+export interface WithAuthPropType {
+    user?: User
 }

@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const path = require("path")
+const NODE_ENV = process.env.NODE_ENV || "development"
 const nextConfig = {
     typescript: {
         ignoreBuildErrors: false,

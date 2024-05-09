@@ -4,7 +4,6 @@ const NODE_ENV = process.env.NODE_ENV
 const withImages = require("next-images")
 
 module.exports = withImages({
-    webpack5: false,
     reactStrictMode: true,
     generateEtags: false,
     sassOptions: {

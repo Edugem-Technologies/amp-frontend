@@ -1,25 +1,15 @@
 /** @type {import('next').NextConfig} */
-const path = require("path")
-const NODE_ENV = process.env.NODE_ENV
-const withImages = require("next-images")
-
-module.exports = withImages({
+const nextConfig = {
+    typescript: {
+        ignoreBuildErrors: false,
+    },
+    eslint: {
+        ignoreDuringBuilds: false,
+    },
     reactStrictMode: true,
     generateEtags: false,
     sassOptions: {
         includePaths: [path.join(__dirname, "styles")],
-    },
-    eslint: {
-        // Warning: This allows production builds to successfully complete even if
-        // your project has ESLint errors.
-        ignoreDuringBuilds: true,
-    },
-    typescript: {
-        // !! WARN !!
-        // Dangerously allow production builds to successfully complete even if
-        // your project has type errors.
-        // !! WARN !!
-        ignoreBuildErrors: true,
     },
     swcMinify: true,
     compiler: {
@@ -63,4 +53,6 @@ module.exports = withImages({
             },
         ]
     },
-})
+}
+
+module.exports = nextConfig

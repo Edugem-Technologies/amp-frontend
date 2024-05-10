@@ -5,13 +5,14 @@ import {
 } from "@/types/components/react-select"
 import { config } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
+import { useState } from "react"
 import { MultiValue, SingleValue } from "react-select"
 import { withAsyncPaginate } from "react-select-async-paginate"
 import Creatable from "react-select/creatable"
 
 const AsyncPaginate = withAsyncPaginate(Creatable) as AsyncPaginateCreatableType
 const ReactSelect: React.FC<ReactSelectPropType> = (props) => {
-    let previousSearchTerm = ""
+    const [previousSearchedTerm, setPreviousSeachedTerm] = useState("")
     const {
         onSelected,
         params,
@@ -36,8 +37,8 @@ const ReactSelect: React.FC<ReactSelectPropType> = (props) => {
         { page }: { page: number },
     ) => {
         try {
-            if (previousSearchTerm !== search_term) {
-                previousSearchTerm = search_term
+            if (previousSearchedTerm !== search_term) {
+                setPreviousSeachedTerm(search_term)
             }
 
             const nextPage = page || config.PAGINATION.PAGE
@@ -53,7 +54,7 @@ const ReactSelect: React.FC<ReactSelectPropType> = (props) => {
                     hasMore: Math.ceil(response.count / config.PAGINATION.SIZE) > page,
                     options: parseOptions(response.results),
                     page:
-                        search_term && search_term !== previousSearchTerm
+                        search_term && search_term !== previousSearchedTerm
                             ? config.PAGINATION.PAGE
                             : nextPage + 1,
                 }

@@ -11,6 +11,7 @@ import Creatable from "react-select/creatable"
 
 const AsyncPaginate = withAsyncPaginate(Creatable) as AsyncPaginateCreatableType
 const ReactSelect: React.FC<ReactSelectPropType> = (props) => {
+    let previousSearchTerm = ""
     const {
         onSelected,
         params,
@@ -35,6 +36,11 @@ const ReactSelect: React.FC<ReactSelectPropType> = (props) => {
         { page }: { page: number },
     ) => {
         try {
+            if (previousSearchTerm !== search_term) {
+                previousSearchTerm = search_term
+            }
+
+            const nextPage = page || config.PAGINATION.PAGE
             // change params name as per the usage
             const response = await loadOptionsFetch({
                 search_term,
@@ -46,9 +52,10 @@ const ReactSelect: React.FC<ReactSelectPropType> = (props) => {
                 const payload = {
                     hasMore: Math.ceil(response.count / config.PAGINATION.SIZE) > page,
                     options: parseOptions(response.results),
-                    additional: {
-                        page: search_term ? config.PAGINATION.PAGE : page + 1,
-                    },
+                    page:
+                        search_term && search_term !== previousSearchTerm
+                            ? config.PAGINATION.PAGE
+                            : nextPage + 1,
                 }
                 return payload
             }

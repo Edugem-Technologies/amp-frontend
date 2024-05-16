@@ -96,4 +96,10 @@ export const config = {
         UNAUTHORIZED: 401,
     },
     API_VERSION: "api/v1",
+    DEBOUNCE_TIMEOUT: 500,
+    PAGINATION: {
+        TYPE: "pagination",
+        SIZE: 10,
+        PAGE: 1,
+    },
 }

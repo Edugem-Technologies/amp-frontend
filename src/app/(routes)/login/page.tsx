@@ -20,6 +20,7 @@ import EyeOpen from "../../../../public/images/Eye-open.svg"
 import GoogleLogo from "../../../../public/images/Google-logo.svg"
 import WithoutAuth from "../../components/auth/WithoutAuth"
 import CustomLayout from "../../components/common/CustomLayout"
+import TextInputField from "@/app/components/common/TextInput"
 
 const Login: NextPage = () => {
     const router = useRouter()
@@ -121,21 +122,13 @@ const Login: NextPage = () => {
                             <div className="v-form-content">
                                 <form onSubmit={handleSubmit(submitHandler)}>
                                     <div className="v-form-group mt-0">
-                                        <label htmlFor="email">
-                                            Email <span className="text-danger">*</span>{" "}
-                                        </label>
-                                        <input
-                                            type="text"
+                                        <TextInputField
+                                            label="Email"
+                                            errorMsg={errors?.email?.message}
                                             placeholder="E.g. youremail@email.com"
+                                            isRequired={true}
                                             {...register("email")}
                                         />
-                                        {errors.email && errors.email.message ? (
-                                            <span className="text-danger">
-                                                {errors.email.message}
-                                            </span>
-                                        ) : (
-                                            <></>
-                                        )}
                                     </div>
                                     <div className="v-form-group">
                                         <label htmlFor="password">

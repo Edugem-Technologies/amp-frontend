@@ -102,4 +102,9 @@ export const config = {
         SIZE: 10,
         PAGE: 1,
     },
+    PAGE_SIZE_OPTIONS: [10, 25, 50, 100],
+    SKELETON_CONFIGURATION: {
+        SKELETON_ROWS_COUNT: 5,
+        SKELETON_HEIGHT: 60,
+    },
 }

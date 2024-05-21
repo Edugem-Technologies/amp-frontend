@@ -22,6 +22,7 @@ import { fetchAuthSession, signIn, signInWithRedirect } from "aws-amplify/auth"
 import { setCookie } from "cookies-next"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
+import TextInputField from "@/app/components/common/TextInput"
 
 const SignUp: NextPage = () => {
     const router = useRouter()
@@ -134,60 +135,37 @@ const SignUp: NextPage = () => {
                                     <div className="row">
                                         <div className="col-lg-6">
                                             <div className="v-form-group mt-0">
-                                                <label htmlFor="first_name">
-                                                    First Name{" "}
-                                                    <span className="text-danger">*</span>{" "}
-                                                </label>
-                                                <input
+                                                <TextInputField
+                                                    label="First Name"
+                                                    errorMsg={errors?.first_name?.message}
+                                                    isRequired={true}
                                                     type="text"
                                                     placeholder="E.g. John"
                                                     {...register("first_name")}
                                                 />
-                                                {errors.first_name && errors.first_name.message ? (
-                                                    <span className="text-danger">
-                                                        {errors.first_name.message}
-                                                    </span>
-                                                ) : (
-                                                    <></>
-                                                )}
                                             </div>
                                         </div>
                                         <div className="col-lg-6">
                                             <div className="v-form-group mt-lg-0">
-                                                <label htmlFor="last_name">
-                                                    Last Name <span className="text-danger">*</span>
-                                                </label>
-                                                <input
+                                                <TextInputField
+                                                    label="Last Name"
+                                                    errorMsg={errors?.last_name?.message}
+                                                    isRequired={true}
                                                     type="text"
                                                     placeholder="E.g. Doe"
                                                     {...register("last_name")}
                                                 />
-                                                {errors.last_name && errors.last_name.message ? (
-                                                    <span className="text-danger">
-                                                        {errors.last_name.message}
-                                                    </span>
-                                                ) : (
-                                                    <></>
-                                                )}
                                             </div>
                                         </div>
                                         <div className="col-lg-12">
                                             <div className="v-form-group">
-                                                <label htmlFor="email">
-                                                    Email <span className="text-danger">*</span>
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    placeholder="E.g. johndoe@example.com"
+                                                <TextInputField
+                                                    label="Email"
+                                                    errorMsg={errors?.email?.message}
+                                                    placeholder="E.g. youremail@email.com"
+                                                    isRequired={true}
                                                     {...register("email")}
                                                 />
-                                                {errors.email && errors.email.message ? (
-                                                    <span className="text-danger">
-                                                        {errors.email.message}
-                                                    </span>
-                                                ) : (
-                                                    <></>
-                                                )}
                                             </div>
                                         </div>
                                         <div className="col-lg-6">

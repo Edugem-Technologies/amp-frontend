@@ -12,6 +12,7 @@ import { Modal } from "react-bootstrap"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import CustomButton from "../common/Button"
+import TextInputField from "../common/TextInput"
 
 const OTPModal: React.FC<OtpModalPropType> = ({ show, setShow, email, password }) => {
     const router = useRouter()
@@ -95,21 +96,13 @@ const OTPModal: React.FC<OtpModalPropType> = ({ show, setShow, email, password }
                                 <div className="v-form-content">
                                     <form onSubmit={handleSubmit(submitHandler)}>
                                         <div className="v-form-group mt-0">
-                                            <label htmlFor="otp">
-                                                Enter OTP <span className="text-danger">*</span>
-                                            </label>
-                                            <input
-                                                type="text"
+                                            <TextInputField
+                                                label="Enter OTP"
+                                                errorMsg={errors?.otp?.message}
                                                 placeholder="E.g. 345862"
+                                                isRequired={true}
                                                 {...register("otp")}
                                             />
-                                            {errors.otp && errors.otp.message ? (
-                                                <span className="text-danger">
-                                                    {errors.otp.message}
-                                                </span>
-                                            ) : (
-                                                <></>
-                                            )}
                                         </div>
                                         <div className="v-form-submit-btn">
                                             <CustomButton

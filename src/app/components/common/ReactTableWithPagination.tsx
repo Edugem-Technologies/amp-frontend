@@ -1,3 +1,4 @@
+import useDataDeleteEffect from "@/app/hooks/useDataDeleteEffect"
 import { ReactTableWithPaginationPropType } from "@/types/components/react-table"
 import { config } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
@@ -24,7 +25,6 @@ const ReactTableWithPagination: React.FC<ReactTableWithPaginationPropType> = (pr
     } = props
 
     const [loading, setLoading] = useState(false)
-    const [reloadData, setReloadData] = useState(false)
     // this initial render state prevents the duplicate calling of API for the first time
     const [initialRender, setInitialRender] = useState(false)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -36,6 +36,13 @@ const ReactTableWithPagination: React.FC<ReactTableWithPaginationPropType> = (pr
         page: config.PAGINATION.PAGE,
         page_size: config.PAGINATION.SIZE,
         pagination_type: config.PAGINATION.TYPE,
+    })
+    const reloadData = useDataDeleteEffect({
+        data,
+        filters: filter,
+        initialRender,
+        setFilters: setFilter,
+        assetDeleted,
     })
 
     const getData = async () => {
@@ -96,14 +103,6 @@ const ReactTableWithPagination: React.FC<ReactTableWithPaginationPropType> = (pr
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filter, sorting, reloadData, ...dependencies])
-    useEffect(() => {
-        if (data?.length <= 1 && filter.page > 1) {
-            setFilter((prev) => ({ ...prev, page: prev.page - 1 }))
-        } else if (initialRender) {
-            setReloadData((prev) => !prev)
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [assetDeleted])
     return (
         <>
             <div className="row g-5 g-xl-8">

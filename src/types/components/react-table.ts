@@ -5,6 +5,8 @@ export interface ReactTableProps<T> {
     getRowModel: () => RowModel<T>
     getFooterGroups: () => HeaderGroup<T>[]
     className?: string
+    loading?: boolean
+    rowCount?: number
 }
 
 export interface RowId {

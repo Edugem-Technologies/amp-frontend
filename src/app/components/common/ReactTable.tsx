@@ -1,12 +1,20 @@
 import { ReactTableProps, RowId } from "@/types/components/react-table"
 import { flexRender } from "@tanstack/react-table"
+import CustomSkeleton from "./CustomSkeleton"
+import NoData from "./NoData"
 
 const ReactTable = <T extends RowId>({
     getFooterGroups,
     getHeaderGroups,
     getRowModel,
     className,
+    loading,
+    rowCount,
 }: ReactTableProps<T>) => {
+    const totalColumns = getHeaderGroups().reduce(
+        (acc, headerGroup) => acc + headerGroup.headers.length,
+        0,
+    )
     return (
         <table
             className={`table dataTable align-middle table-row-dashed fs-6 gy-5 ${
@@ -44,17 +52,31 @@ const ReactTable = <T extends RowId>({
                 ))}
             </thead>
             <tbody className="fw-semibold text-dark">
-                {getRowModel().rows.map((row) => (
-                    <>
-                        <tr key={row.id}>
-                            {row.getVisibleCells().map((cell) => (
-                                <td key={cell.id}>
-                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                </td>
-                            ))}
-                        </tr>
-                    </>
-                ))}
+                {loading ? (
+                    <tr>
+                        <td colSpan={totalColumns}>
+                            <CustomSkeleton rowCount={rowCount} />
+                        </td>
+                    </tr>
+                ) : getRowModel().rows.length === 0 ? (
+                    <tr>
+                        <td colSpan={totalColumns}>
+                            <NoData />
+                        </td>
+                    </tr>
+                ) : (
+                    getRowModel().rows.map((row) => (
+                        <>
+                            <tr key={row.id}>
+                                {row.getVisibleCells().map((cell) => (
+                                    <td key={cell.id}>
+                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                    </td>
+                                ))}
+                            </tr>
+                        </>
+                    ))
+                )}
             </tbody>
             <tfoot>
                 {getFooterGroups().map((footerGroup) => (

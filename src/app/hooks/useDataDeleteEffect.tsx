@@ -1,6 +1,18 @@
 import { UseDataDeleteEffectPropsType } from "@/types/hooks/useDataDeleteEffect"
 import { useEffect, useState } from "react"
 
+/**
+ * Custom hook to handle data deletion effects in a paginated table.
+ *
+ * @param {UseDataDeleteEffectPropsType} props - The properties passed to the hook
+ * @param {Array} props.data - The current data set
+ * @param {object} props.filters - The current filter state
+ * @param {Function} props.setFilters - Function to update the filter state
+ * @param {boolean} props.initialRender - Flag indicating if it's the initial render
+ * @param {boolean} props.assetDeleted - Flag indicating if an asset has been deleted
+ *
+ * @returns {boolean} A flag to indicate if data should be reloaded
+ */
 const useDataDeleteEffect: React.FC<UseDataDeleteEffectPropsType> = (props) => {
     const { data, filters, setFilters, initialRender, assetDeleted } = props
     const [reloadData, setReloadData] = useState(false)

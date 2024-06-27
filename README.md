@@ -114,6 +114,28 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
+## Components Usage
+
+All components are created inside components directory.
+
+List of components:
+
+1. Button (can be used inside forms and other various places, it can handle loading / submitting state which can be passed as props. It takes all types of props which an HTML button can have.)
+2. Drag and Drop (can be used for re-ordering of any type of data using drag and drop inside react table.)
+3. Dropzone (can take any type of file(s) as input and returns the file(s). It accepts all props which a react-dropzone can accept.)
+4. React Select (can be used as dropdown that fetches options from an API and pagination is supported. It also accepts all props which a react-select can have.)
+5. React Table (base component for HTML table.)
+6. React Table With Pagination (can be used for all HTML tables that supports server side pagination.)
+7. Table Pagination (base component for Pagination can be used for any type of pagination such as paginating Grid view or Card view.)
+8. Auth (can be used to created protected routes. It passes user objects to the wrapped component/page.)
+9. WithouAuth (can be used to create public routes or which should not accessible by authenticated users such as login or signup page.)
+
+## Troubleshooting
+
+There might be some issues while using third party libraries. The reason behind this issue can be the implementation of CSP (Content Security Policy) Headers.
+To resolve this you can add the required library resource / URL to headers.js file.
+More about CSP: [CSP Headers Mozilla Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

@@ -8,6 +8,11 @@ import { NextPage } from "next"
 import { usePathname, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
+/**
+ * Enhances a Next.js page component with authentication logic.
+ * @param WrappedComponent - The Next.js page component to be wrapped with authentication.
+ * @returns An authenticated version of the provided Next.js page component.
+ */
 const WithAuth = <P extends object>(WrappedComponent: NextPage<P>) => {
     const AuthComponent: NextPage = (props) => {
         const [authenticated, setAuthenticated] = useState(false)
@@ -16,6 +21,9 @@ const WithAuth = <P extends object>(WrappedComponent: NextPage<P>) => {
         const path = usePathname()
 
         useEffect(() => {
+            /**
+             * Fetches user information based on the access token.
+             */
             const fetchUser = async () => {
                 // get access token from cookie
                 const accessToken = getCookie(config.AUTH.COOKIE_NAME) as string

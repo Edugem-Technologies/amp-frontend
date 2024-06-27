@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const path = require("path")
+const headers = require("./src/lib/headers")
 const NODE_ENV = process.env.NODE_ENV || "development"
 const nextConfig = {
     typescript: {
@@ -30,28 +31,7 @@ const nextConfig = {
         return [
             {
                 source: "/(.*)",
-                headers: [
-                    {
-                        key: "X-Frame-Options",
-                        value: "DENY",
-                    },
-                    {
-                        key: "Content-Security-Policy",
-                        value: "default-src 'self' 'https://bombaysoftwares.com'; image-src 'https://unsplash.com'; script-src 'self' https://www.google-analytics.com; font-src 'self' 'https://fonts.googleapis.com'",
-                    },
-                    {
-                        key: "X-Content-Type-Options",
-                        value: "nosniff",
-                    },
-                    // enable if required {
-                    //   key: 'Permissions-Policy',
-                    //   value: "camera=(); battery=(self); geolocation=(); microphone=('https://bombaysoftwares.com')",
-                    // },
-                    {
-                        key: "Referrer-Policy",
-                        value: "origin-when-cross-origin",
-                    },
-                ],
+                headers,
             },
         ]
     },

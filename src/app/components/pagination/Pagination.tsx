@@ -2,6 +2,18 @@ import { PaginationPropType } from "@/types/components/pagination"
 import classnames from "classnames"
 import { DOTS, usePagination } from "./usePagination"
 
+/**
+ * TablePagination Component
+ *
+ * A pagination component for tables that includes page size selection and page navigation.
+ *
+ * @param {TablePaginationPropType} props - The properties passed to the component
+ * @param {object} props.pagination - The current pagination state
+ * @param {Function} props.setPagination - Function to update the pagination state
+ * @param {number} props.totalCount - The total number of items to paginate
+ *
+ * @returns {JSX.Element} The pagination component with page size selection and page navigation
+ */
 const Pagination: React.FC<PaginationPropType> = (props) => {
     const { onChange, totalCount, siblingCount = 1, page, page_size } = props
 

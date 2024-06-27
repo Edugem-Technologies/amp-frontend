@@ -4,6 +4,12 @@ import { NextPage } from "next"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
+/**
+ * Enhances a Next.js page component to prevent access for authenticated users.
+ * @example Preventing authenticated users from accessing login page
+ * @param WrappedComponent - The Next.js page component to be wrapped.
+ * @returns A component that prevents access for authenticated users.
+ */
 const WithoutAuth = <P extends object>(WrappedComponent: NextPage<P>) => {
     const NonAuthComponent = (props: P) => {
         const router = useRouter()

@@ -3,6 +3,25 @@ import { flexRender } from "@tanstack/react-table"
 import CustomSkeleton from "./CustomSkeleton"
 import NoData from "./NoData"
 
+/**
+ * ReactTable Component
+ *
+ * A reusable table component built with TanStack React Table. This component handles
+ * rendering the table with headers, rows, and footers, as well as showing a loading
+ * state or a "No Data" message when appropriate.
+ *
+ * @template T - The type of the row data which extends RowId
+ *
+ * @param {ReactTableProps<T>} props - The properties passed to the component
+ * @param {Function} props.getFooterGroups - Function to get footer groups for the table
+ * @param {Function} props.getHeaderGroups - Function to get header groups for the table
+ * @param {Function} props.getRowModel - Function to get row model for the table
+ * @param {string} [props.className] - Additional class name(s) for the table
+ * @param {boolean} [props.loading] - Flag indicating whether the table is in loading state
+ * @param {number} [props.rowCount] - Number of skeleton rows to show when loading
+ *
+ * @returns {JSX.Element} A table element with the specified rows and columns
+ */
 const ReactTable = <T extends RowId>({
     getFooterGroups,
     getHeaderGroups,

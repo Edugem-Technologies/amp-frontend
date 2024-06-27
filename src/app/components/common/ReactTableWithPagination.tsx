@@ -10,6 +10,27 @@ import NoData from "../common/NoData"
 import ReactTable from "./ReactTable"
 import TablePagination from "./TablePagination"
 
+/**
+ * ReactTableWithPagination Component
+ *
+ * A table component with pagination, search, and sorting functionalities. This component
+ * integrates with TanStack React Table and handles data fetching, displaying a loading
+ * state, and showing a "No Data" message when appropriate.
+ *
+ * @param {ReactTableWithPaginationPropType} props - The properties passed to the component
+ * @param {Array} props.columns - Column definitions for the table
+ * @param {Function} props.fetchData - Function to fetch data for the table
+ * @param {string} [props.tableHeaderTitle] - Title for the table header
+ * @param {Function} [props.onAddButtonClick] - Function to handle the add button click event
+ * @param {string} [props.addButtonLabel] - Label for the add button
+ * @param {Function} [props.getFetchResponse] - Function to pass the fetch response to the parent component
+ * @param {boolean} [props.showSearchBar] - Flag to show or hide the search bar
+ * @param {boolean} [props.assetDeleted] - Flag indicating if an asset was deleted
+ * @param {Array} [props.dependencies] - Additional dependencies for data fetching
+ * @param {object} [props.extraFilters] - Extra filters for data fetching
+ *
+ * @returns {JSX.Element} A table component with pagination, search, and sorting functionalities
+ */
 const ReactTableWithPagination: React.FC<ReactTableWithPaginationPropType> = (props) => {
     const {
         columns,

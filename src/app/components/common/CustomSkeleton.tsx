@@ -2,6 +2,11 @@ import { CustomSkeletonType } from "@/types/common/custom-skeleton"
 import { config } from "@/utils/constants"
 import Skeleton from "react-loading-skeleton"
 
+/**
+ * Custom skeleton loader component.
+ * @param {CustomSkeletonType} props - Props for the custom skeleton loader.
+ * @returns {JSX.Element} - Custom skeleton loader element.
+ */
 const CustomSkeleton: React.FC<CustomSkeletonType> = ({
     rowCount,
     stopHorizontalScrolling,

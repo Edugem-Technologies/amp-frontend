@@ -114,6 +114,26 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
+## Components Usage
+
+All components are created inside components directory.
+
+List of components:
+
+1. Button (can be used inside forms and other various places )
+2. Drag and Drop (can be used for re-ordering of any type of data inside react table)
+3. Dropzone (can take any type of file as input)
+4. React Select (can be used as dropdown that fetches options data from an API and pagination is supported)
+5. React Table (base component for HTML table)
+6. React Table With Pagination (can be used for all HTML tables that supports server side pagination)
+7. Table Pagination (base component for Pagination)
+
+## Troubleshooting
+
+There might be some issues while using third party libraries. The reason behind this issue can be the implementation of CSP (Content Security Policy) Headers.
+To resolve this you can add the required library resource / URL to headers.js file.
+More about CSP: [CSP Headers Mozilla Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

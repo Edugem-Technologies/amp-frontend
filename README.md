@@ -151,7 +151,7 @@ The `FetchHelper` is imported from `services/fetch-helper.ts` and can be used th
     - **Description:** Executes a GET request to retrieve data from a specified URL.
     - **Usage:**
 
-        ```javascript
+        ```typescript
         FetchHelper.get(url: URL, params?: Params): Promise<any>
         ```
 
@@ -164,7 +164,7 @@ The `FetchHelper` is imported from `services/fetch-helper.ts` and can be used th
     - **Description:** Sends data to a specified URL using a POST request.
     - **Usage:**
 
-        ```javascript
+        ```typescript
         FetchHelper.post(url: URL, data: object, params?: Params): Promise<any>
         ```
 
@@ -178,7 +178,7 @@ The `FetchHelper` is imported from `services/fetch-helper.ts` and can be used th
     - **Description:** Updates data on a specified URL using a PUT request.
     - **Usage:**
 
-        ```javascript
+        ```typescript
         FetchHelper.put(url: URL, data: object, params?: Params): Promise<any>
         ```
 
@@ -192,7 +192,7 @@ The `FetchHelper` is imported from `services/fetch-helper.ts` and can be used th
     - **Description:** Partially updates data on a specified URL using a PATCH request.
     - **Usage:**
 
-        ```javascript
+        ```typescript
         FetchHelper.patch(url: URL, data: object, params?: Params): Promise<any>
         ```
 
@@ -206,7 +206,7 @@ The `FetchHelper` is imported from `services/fetch-helper.ts` and can be used th
     - **Description:** Deletes data from a specified URL using a DELETE request.
     - **Usage:**
 
-        ```javascript
+        ```typescript
         FetchHelper.delete(url: URL, params?: Params): Promise<any>
         ```
 
@@ -219,7 +219,7 @@ The `FetchHelper` is imported from `services/fetch-helper.ts` and can be used th
     - **Description:** Uploads file data to a specified URL using a PUT request.
     - **Usage:**
 
-        ```javascript
+        ```typescript
         FetchHelper.putFileData(url: URL, data: any, contentType: string): Promise<any>
         ```
 

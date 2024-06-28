@@ -129,6 +129,9 @@ List of components:
 7. Table Pagination (base component for Pagination can be used for any type of pagination such as paginating Grid view or Card view.)
 8. Auth (can be used to created protected routes. It passes user objects to the wrapped component/page.)
 9. WithouAuth (can be used to create public routes or which should not accessible by authenticated users such as login or signup page.)
+10. TabSection (can be used as a wrapper for other components.)
+11. TabHeader (can be used inside TabSection which is renderded as a tab header contaning tab title.)
+12. TabBody (can be used inside TabSection which will render children passed as props to TabBody also take other props such as loading to render loading skeleton.)
 
 ## Validations (Zod)
 

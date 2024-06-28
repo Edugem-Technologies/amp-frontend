@@ -132,7 +132,7 @@ List of components:
 
 ## Validations (Zod)
 
-We have used react-hook-form with zod resolver for setting up validations. All the common validators are written inside `utils/validations.ts`.  
+We have used react-hook-form with zod resolver for setting up validations. All the common validators are written inside `utils/validation.ts`.  
 You can add your own custom validators using same format.  
 More about validations using zod: [Zod Validations](https://zod.dev/)
 

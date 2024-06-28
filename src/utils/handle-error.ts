@@ -1,6 +1,15 @@
 import toast from "react-hot-toast"
 import { config } from "./constants"
 
+/**
+ * Iterates over an object and constructs a string containing error messages.
+ *
+ * The function recursively processes nested objects and arrays, and formats
+ * the messages by capitalizing the key and appending the corresponding message.
+ *
+ * @param {Record<string, any>} obj - The object to iterate over.
+ * @returns {string} A string containing the concatenated error messages.
+ */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function iterateObject(obj: Record<string, any>): string {
     let errorMessage: string = ""
@@ -28,7 +37,7 @@ export function iterateObject(obj: Record<string, any>): string {
 }
 
 /**
- *	@description shows a toast containing the error message
+ *	Shows a toast containing the error message
  *
  * @param {*} error
  */

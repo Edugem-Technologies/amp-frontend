@@ -107,4 +107,9 @@ export const config = {
         SKELETON_ROWS_COUNT: 5,
         SKELETON_HEIGHT: 60,
     },
+    VALIDATIONS: {
+        CHARS_255: 255,
+        CHARS_3: 3,
+        CHARS_6: 6,
+    },
 }

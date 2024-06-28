@@ -130,10 +130,16 @@ List of components:
 8. Auth (can be used to created protected routes. It passes user objects to the wrapped component/page.)
 9. WithouAuth (can be used to create public routes or which should not accessible by authenticated users such as login or signup page.)
 
+## Validations (Zod)
+
+We have used react-hook-form with zod resolver for setting up validations. All the common validators are written inside `utils/validation.ts`.  
+You can add your own custom validators using same format.  
+More about validations using zod: [Zod Validations](https://zod.dev/)
+
 ## Troubleshooting
 
 There might be some issues while using third party libraries. The reason behind this issue can be the implementation of CSP (Content Security Policy) Headers.
-To resolve this you can add the required library resource / URL to headers.js file.
+To resolve this you can add the required library resource / URL to headers.js file.  
 More about CSP: [CSP Headers Mozilla Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
 
 ## Learn More

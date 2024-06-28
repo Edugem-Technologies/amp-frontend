@@ -4,10 +4,11 @@ import { deleteCookie, getCookies } from "cookies-next"
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime"
 import toast from "react-hot-toast"
 import { config } from "./constants"
+import { removeAccessToken } from "./common"
 
 export const logout = async (router: AppRouterInstance, redirectPath = "/") => {
     try {
-        deleteCookie(config.AUTH.COOKIE_NAME)
+        removeAccessToken()
         const cookies = getCookies()
         await signOut({ global: true })
         Object.entries(cookies).forEach((entry) => deleteCookie(entry[0]))

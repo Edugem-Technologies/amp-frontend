@@ -1,12 +1,12 @@
 "use client"
 import OTPModal from "@/app/components/auth/OTPModal"
-import { doGetUserByAccessToken } from "@/services/user"
+import { FetchHelper } from "@/services/fetch-helper"
+import { setAccessToken } from "@/utils/common"
 import { config } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
 import { LoginSchema, LoginValidationSchema } from "@/validations/auth/user"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { fetchAuthSession, signIn, signInWithRedirect, signOut } from "aws-amplify/auth"
-import { setCookie } from "cookies-next"
 import { NextPage } from "next"
 import Image from "next/image"
 import Link from "next/link"
@@ -60,11 +60,11 @@ const Login: NextPage = () => {
                 const accessToken = session?.tokens?.accessToken?.toString()
                 // if jwt received then check whether user exist in db or not
                 if (accessToken) {
-                    const response = await doGetUserByAccessToken(accessToken)
+                    setAccessToken(accessToken)
+                    const response = await FetchHelper.get(config.API_ENDPOINTS.GET_USER_BY_TOKEN)
                     // if user exists then set the cookie and redirect
                     if (response && response.data && response.status) {
                         toast(config.MESSAGES.USER_LOGIN_SUCCESS, config.TOASTER_OPTIONS.SUCCESS)
-                        setCookie(config.AUTH.COOKIE_NAME, accessToken)
                         router.push(redirectUrl)
                     }
                     // else show error

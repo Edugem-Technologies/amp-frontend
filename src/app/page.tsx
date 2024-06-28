@@ -1,24 +1,24 @@
 "use client"
-import { doGetUserByAccessToken } from "@/services/user"
 import { User } from "@/types/auth/user"
 import { UnAuthorizedAccessError } from "@/types/common/error"
 import { config } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
 import { logout } from "@/utils/logout"
-import { getCookie } from "cookies-next"
 import { usePathname, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import CustomLayout from "./components/common/CustomLayout"
+import { FetchHelper } from "@/services/fetch-helper"
+import { getAccessToken } from "@/utils/common"
 
 export default function Home() {
     const [user, setUser] = useState<User>()
     const router = useRouter()
     const path = usePathname()
-    const accessToken = getCookie(config.AUTH.COOKIE_NAME) as string
+    const accessToken = getAccessToken()
 
     const getUser = async () => {
         try {
-            const response = await doGetUserByAccessToken(accessToken)
+            const response = await FetchHelper.get(config.API_ENDPOINTS.GET_USER_BY_TOKEN)
             if (response.data) {
                 setUser(response.data)
             }

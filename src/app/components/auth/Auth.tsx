@@ -1,9 +1,9 @@
 "use client"
 
-import { doGetUserByAccessToken } from "@/services/user"
+import { FetchHelper } from "@/services/fetch-helper"
+import { getAccessToken } from "@/utils/common"
 import { config } from "@/utils/constants"
 import { logout } from "@/utils/logout"
-import { getCookie } from "cookies-next"
 import { NextPage } from "next"
 import { usePathname, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -26,11 +26,13 @@ const WithAuth = <P extends object>(WrappedComponent: NextPage<P>) => {
              */
             const fetchUser = async () => {
                 // get access token from cookie
-                const accessToken = getCookie(config.AUTH.COOKIE_NAME) as string
+                const accessToken = getAccessToken()
                 if (accessToken && accessToken.length) {
                     try {
                         // check whether a user exists or not for this access token
-                        const response = await doGetUserByAccessToken(accessToken)
+                        const response = await FetchHelper.get(
+                            config.API_ENDPOINTS.GET_USER_BY_TOKEN,
+                        )
                         // if exists, authentication is successful
                         if (response.status && response.data) {
                             setAuthenticated(true)

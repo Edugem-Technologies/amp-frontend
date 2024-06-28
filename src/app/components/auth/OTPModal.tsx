@@ -1,17 +1,17 @@
-import { doGetUserByAccessToken, doSendOtpEmail, doVerifyUserEmail } from "@/services/user"
 import { OtpModalPropType } from "@/types/components/otp-modal"
 import { config } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
 import { OtpSchema, OtpValidationSchema } from "@/validations/auth/otp"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { fetchAuthSession, signIn } from "aws-amplify/auth"
-import { setCookie } from "cookies-next"
 import { useRouter, useSearchParams } from "next/navigation"
 import React from "react"
 import { Modal } from "react-bootstrap"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
 import CustomButton from "../common/Button"
+import { FetchHelper } from "@/services/fetch-helper"
+import { setAccessToken } from "@/utils/common"
 
 const OTPModal: React.FC<OtpModalPropType> = ({ show, setShow, email, password }) => {
     const router = useRouter()
@@ -30,7 +30,10 @@ const OTPModal: React.FC<OtpModalPropType> = ({ show, setShow, email, password }
             verification_code: data.otp,
         }
         try {
-            const response = await doVerifyUserEmail(requestData)
+            const response = await FetchHelper.post(
+                config.API_ENDPOINTS.CONFIRM_VERIFICATION_CODE,
+                requestData,
+            )
             if (response && response.status && response.data) {
                 toast(config.MESSAGES.USER_EMAIL_VERIFIED, config.TOASTER_OPTIONS.SUCCESS)
                 await signIn({ username: email, password })
@@ -38,11 +41,11 @@ const OTPModal: React.FC<OtpModalPropType> = ({ show, setShow, email, password }
                 const accessToken = session?.tokens?.accessToken?.toString()
                 // if jwt received then check whether user exist in db or not
                 if (accessToken) {
-                    const response = await doGetUserByAccessToken(accessToken)
+                    const response = await FetchHelper.get(config.API_ENDPOINTS.GET_USER_BY_TOKEN)
                     // if user exists then set the cookie and redirect
                     if (response && response.data && response.status) {
                         toast(config.MESSAGES.USER_LOGIN_SUCCESS, config.TOASTER_OPTIONS.SUCCESS)
-                        setCookie(config.AUTH.COOKIE_NAME, accessToken)
+                        setAccessToken(accessToken)
                         handleClose()
                         router.push(redirectUrl)
                     }
@@ -62,7 +65,9 @@ const OTPModal: React.FC<OtpModalPropType> = ({ show, setShow, email, password }
     const resendOtp = async () => {
         try {
             toast.dismiss()
-            const response = await doSendOtpEmail({ email })
+            const response = await FetchHelper.post(config.API_ENDPOINTS.RESEND_VERIFICATION_CODE, {
+                email,
+            })
             if (response && response.status) {
                 toast(config.MESSAGES.OTP_RESENT_SUCCESS, config.TOASTER_OPTIONS.SUCCESS)
             } else {

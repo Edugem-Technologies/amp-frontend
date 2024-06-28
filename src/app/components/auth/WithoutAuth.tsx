@@ -1,5 +1,4 @@
-import { config } from "@/utils/constants"
-import { getCookie } from "cookies-next"
+import { getAccessToken } from "@/utils/common"
 import { NextPage } from "next"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -16,7 +15,7 @@ const WithoutAuth = <P extends object>(WrappedComponent: NextPage<P>) => {
         const [authenticated, setAuthenticated] = useState(false)
         const [accessToken, setAccessToken] = useState("")
         useEffect(() => {
-            const accessToken = getCookie(config.AUTH.COOKIE_NAME)
+            const accessToken = getAccessToken()
             if (accessToken) {
                 setAuthenticated(true)
                 setAccessToken(accessToken)

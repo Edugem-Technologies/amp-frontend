@@ -1,3 +1,11 @@
+/**
+ * Component to display the header of a tab with an optional loading state.
+ *
+ * @component
+ * @param {string} props.heading - The heading text to display.
+ * @param {boolean} [props.loading=false] - Flag indicating if the header is in a loading state.
+ * @returns {JSX.Element} The JSX element to render.
+ */
 const TabHeader: React.FC<{ heading: string; loading?: boolean }> = ({ heading, loading }) => {
     return (
         <div className="card-header border-0">

@@ -143,7 +143,7 @@ const SignUp: NextPage = () => {
                                                 <TextInputField
                                                     label="First Name"
                                                     errorMsg={errors?.first_name?.message}
-                                                    isRequired={true}
+                                                    required
                                                     type="text"
                                                     placeholder="E.g. John"
                                                     {...register("first_name")}
@@ -155,7 +155,7 @@ const SignUp: NextPage = () => {
                                                 <TextInputField
                                                     label="Last Name"
                                                     errorMsg={errors?.last_name?.message}
-                                                    isRequired={true}
+                                                    required
                                                     type="text"
                                                     placeholder="E.g. Doe"
                                                     {...register("last_name")}
@@ -168,7 +168,7 @@ const SignUp: NextPage = () => {
                                                     label="Email"
                                                     errorMsg={errors?.email?.message}
                                                     placeholder="E.g. youremail@email.com"
-                                                    isRequired={true}
+                                                    required
                                                     {...register("email")}
                                                 />
                                             </div>

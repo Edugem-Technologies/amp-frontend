@@ -1,5 +1,6 @@
 "use client"
 import OTPModal from "@/app/components/auth/OTPModal"
+import TextInputField from "@/app/components/common/TextInput"
 import { FetchHelper } from "@/services/fetch-helper"
 import { setAccessToken } from "@/utils/common"
 import { config } from "@/utils/constants"
@@ -11,23 +12,19 @@ import { NextPage } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
-import React, { useState } from "react"
+import { useState } from "react"
 import { Spinner } from "react-bootstrap"
 import { useForm } from "react-hook-form"
 import { toast } from "react-hot-toast"
-import EyeClose from "../../../../public/images/Eye-close.svg"
-import EyeOpen from "../../../../public/images/Eye-open.svg"
 import GoogleLogo from "../../../../public/images/Google-logo.svg"
 import WithoutAuth from "../../components/auth/WithoutAuth"
 import CustomLayout from "../../components/common/CustomLayout"
-import TextInputField from "@/app/components/common/TextInput"
 
 const Login: NextPage = () => {
     const router = useRouter()
     const searchParams = useSearchParams()
     const [googleLoginStart, setGoogleLoginStart] = useState(false)
     const [showOtpModal, setShowOtpModal] = useState(false)
-    const [showPassword, setShowPassword] = useState(false)
     const redirectUrl = searchParams.get(config.PARAMS.REDIRECT_URL_PARAM) || "/profile"
     const {
         register,
@@ -35,10 +32,7 @@ const Login: NextPage = () => {
         formState: { errors, isSubmitting },
         getValues,
     } = useForm<LoginSchema>({ resolver: zodResolver(LoginValidationSchema) })
-    const togglePasswordField = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault()
-        setShowPassword((prev) => !prev)
-    }
+
     const submitHandler = async (data: LoginSchema) => {
         try {
             // signin with AWS cognito
@@ -126,47 +120,19 @@ const Login: NextPage = () => {
                                             label="Email"
                                             errorMsg={errors?.email?.message}
                                             placeholder="E.g. youremail@email.com"
-                                            isRequired={true}
+                                            required
                                             {...register("email")}
                                         />
                                     </div>
                                     <div className="v-form-group">
-                                        <label htmlFor="password">
-                                            Password <span className="text-danger">*</span>
-                                        </label>
-                                        <div className="v-input-group">
-                                            <input
-                                                type={showPassword ? "text" : "password"}
-                                                className="v-input v-password-field"
-                                                placeholder="*****"
-                                                {...register("password")}
-                                            />
-                                            <div className="v-input-group-append">
-                                                <button
-                                                    className="v-btn v-input"
-                                                    type="button"
-                                                    onClick={togglePasswordField}
-                                                >
-                                                    <Image
-                                                        src={
-                                                            showPassword
-                                                                ? EyeClose.src
-                                                                : EyeOpen.src
-                                                        }
-                                                        width={20}
-                                                        height={20}
-                                                        alt="Password toggle"
-                                                    />
-                                                </button>
-                                            </div>
-                                        </div>
-                                        {errors.password && errors.password.message ? (
-                                            <span className="text-danger">
-                                                {errors.password.message}
-                                            </span>
-                                        ) : (
-                                            <></>
-                                        )}
+                                        <TextInputField
+                                            label="Password"
+                                            errorMsg={errors?.password?.message}
+                                            placeholder="E.g. youremail@email.com"
+                                            required
+                                            type="password"
+                                            {...register("password")}
+                                        />
                                         <div className="v-forgot-password">
                                             <Link href={"/forgot-password"}>Forgot password?</Link>
                                         </div>

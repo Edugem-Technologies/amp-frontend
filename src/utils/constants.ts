@@ -115,6 +115,13 @@ export const config = {
         CHARS_3: 3,
         CHARS_6: 6,
     },
+
+    LOADER_TYPES: {
+        TABLE_SKELETON: "table-skeleton",
+        CARD_SKELETON: "card-skeleton",
+    },
+    DEFAULT_TABLE_SKELETON_ROW_COUNT: 4,
+    CARD_SKELETON_BASIS: 95,
     STATUS_CODES: {
         NO_CONTENT: 204,
         UNAUTHORIZED: 401,

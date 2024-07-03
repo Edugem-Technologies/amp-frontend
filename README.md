@@ -231,6 +231,27 @@ The `FetchHelper` is imported from `services/fetch-helper.ts` and can be used th
         - `data` (any): The file data to send in the request body.
         - `contentType` (string): The content type of the file data.
 
+## Guidelines
+
+1. **Keep a clean structure:** Maintain a clear and organized project structure. Use folders like pages, components, lib, hooks, styles, etc.
+2. **Component organization:** Place reusable components in a components.
+3. **Types and interfaces:** Maintain a types directory for TypeScript interfaces and types to keep your codebase organized.
+4. **Use TypeScript:** Ensure type safety and reduce runtime errors also avoid any type while working with Typescript.
+5. **Linting and formatting:** ESLint for linting and Prettier for consistent code formatting.
+6. **Dynamic imports:** Use dynamic imports to lazy load components and reduce initial load time.
+7. **Image optimization:** Use the built-in next/image component for automatic image optimization.
+8. **Canonical URLs:** Ensure you set canonical URLs to avoid duplicate content issues.
+9. **Sitemap:** Sitemap will be generated automatically, you just need to set the domain name which will help search engines index your pages efficiently.
+10. **Global styles:** Use a global stylesheet or CSS-in-JS solutions like styled-components or emotion for global styles.
+11. **Responsive design:** Ensure your application is responsive by using media queries and flexible layouts.
+12. **Avoid inline styles:** Refrain from using inline styles to keep the code clean and maintainable.
+13. **Error handling:** Implement proper error handling and validation.
+14. **Unit tests:** Write unit tests for your components and utilities using Jest or similar testing frameworks.
+15. **ARIA attributes:** Use ARIA attributes to enhance the accessibility of your application.
+16. **Semantic HTML:** Use semantic HTML elements to improve the accessibility and SEO of your application.
+17. **README:** Maintain a comprehensive README file to help developers understand your project.
+18. **Comments:** Write clear comments in your code to explain complex logic.
+
 ## Troubleshooting
 
 There might be some issues while using third party libraries. The reason behind this issue can be the implementation of CSP (Content Security Policy) Headers.

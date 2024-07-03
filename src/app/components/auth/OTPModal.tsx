@@ -105,7 +105,7 @@ const OTPModal: React.FC<OtpModalPropType> = ({ show, setShow, email, password }
                                                 label="Enter OTP"
                                                 errorMsg={errors?.otp?.message}
                                                 placeholder="E.g. 345862"
-                                                isRequired={true}
+                                                required
                                                 {...register("otp")}
                                             />
                                         </div>

@@ -139,6 +139,98 @@ We have used react-hook-form with zod resolver for setting up validations. All t
 You can add your own custom validators using same format.  
 More about validations using zod: [Zod Validations](https://zod.dev/)
 
+## Axios HTTP Client
+
+The `axios` HTTP client is configured with interceptors for handling authorization and response data. It provides utility methods for making various HTTP requests.
+
+### Usage
+
+The `FetchHelper` is imported from `services/fetch-helper.ts` and can be used throughout the application for making API calls.
+
+### Methods
+
+1. **GET Request**
+
+    - **Description:** Executes a GET request to retrieve data from a specified URL.
+    - **Usage:**
+
+        ```typescript
+        FetchHelper.get(url: URL, params?: Params): Promise<any>
+        ```
+
+    - **Parameters:**
+        - `url` (URL): The URL to fetch data from.
+        - `params` (Params, optional): Optional parameters to append to the URL query string.
+
+2. **POST Request**
+
+    - **Description:** Sends data to a specified URL using a POST request.
+    - **Usage:**
+
+        ```typescript
+        FetchHelper.post(url: URL, data: object, params?: Params): Promise<any>
+        ```
+
+    - **Parameters:**
+        - `url` (URL): The URL to send data to.
+        - `data` (object): The data to send in the request body.
+        - `params` (Params, optional): Optional parameters to append to the URL query string.
+
+3. **PUT Request**
+
+    - **Description:** Updates data on a specified URL using a PUT request.
+    - **Usage:**
+
+        ```typescript
+        FetchHelper.put(url: URL, data: object, params?: Params): Promise<any>
+        ```
+
+    - **Parameters:**
+        - `url` (URL): The URL to update data on.
+        - `data` (object): The data to send in the request body.
+        - `params` (Params, optional): Optional parameters to append to the URL query string.
+
+4. **PATCH Request**
+
+    - **Description:** Partially updates data on a specified URL using a PATCH request.
+    - **Usage:**
+
+        ```typescript
+        FetchHelper.patch(url: URL, data: object, params?: Params): Promise<any>
+        ```
+
+    - **Parameters:**
+        - `url` (URL): The URL to partially update data on.
+        - `data` (object): The data to send in the request body.
+        - `params` (Params, optional): Optional parameters to append to the URL query string.
+
+5. **DELETE Request**
+
+    - **Description:** Deletes data from a specified URL using a DELETE request.
+    - **Usage:**
+
+        ```typescript
+        FetchHelper.delete(url: URL, params?: Params): Promise<any>
+        ```
+
+    - **Parameters:**
+        - `url` (URL): The URL to delete data from.
+        - `params` (Params, optional): Optional parameters to append to the URL query string.
+
+6. **PUT File Data**
+
+    - **Description:** Uploads file data to a specified URL using a PUT request.
+    - **Usage:**
+
+        ```typescript
+        FetchHelper.putFileData(url: URL, data: any, contentType: string): Promise<any>
+        ```
+
+    - **Parameters:**
+        - `url` (URL): The URL to upload the file data to.
+        - `data` (any): The file data to send in the request body.
+        - `contentType` (string): The content type of the file data.
+
 ## Troubleshooting
 
 There might be some issues while using third party libraries. The reason behind this issue can be the implementation of CSP (Content Security Policy) Headers.

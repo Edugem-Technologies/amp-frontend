@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
 import WithoutAuth from "@/app/components/auth/WithoutAuth"
-import { doCreateUser, doSendOtpEmail } from "@/services/user"
 import { config } from "@/utils/constants"
 import { SignupSchema, SignupValidationSchema } from "@/validations/auth/signup"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -17,9 +16,10 @@ import GoogleLogo from "../../../../public/images/Google-logo.svg"
 import OTPModal from "../../components/auth/OTPModal"
 
 import CustomLayout from "@/app/components/common/CustomLayout"
+import { FetchHelper } from "@/services/fetch-helper"
+import { setAccessToken } from "@/utils/common"
 import { handleError } from "@/utils/handle-error"
 import { fetchAuthSession, signIn, signInWithRedirect } from "aws-amplify/auth"
-import { setCookie } from "cookies-next"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import TextInputField from "@/app/components/common/TextInput"
@@ -51,7 +51,7 @@ const SignUp: NextPage = () => {
                 email: data.email.toLowerCase(),
                 password: data.password,
             }
-            const response = await doCreateUser(requestData)
+            const response = await FetchHelper.post(config.API_ENDPOINTS.CREATE_USER, requestData)
             if (response && response.status) {
                 const cognitoUser = await signIn({
                     username: data.email.toLowerCase(),
@@ -72,8 +72,11 @@ const SignUp: NextPage = () => {
                 } else if (cognitoUser.isSignedIn) {
                     const session = await fetchAuthSession()
                     const accessToken = session?.tokens?.accessToken?.toString()
-                    setCookie(config.AUTH.COOKIE_NAME, accessToken)
-                    router.push("/profile")
+                    if (accessToken) {
+                        setAccessToken(accessToken)
+                        router.push("/profile")
+                    }
+                    router.push("/login")
                 }
             } else {
                 handleError(response)
@@ -99,7 +102,9 @@ const SignUp: NextPage = () => {
     const sendOtp = async () => {
         try {
             toast.dismiss()
-            const response = await doSendOtpEmail({ email: getValues("email") })
+            const response = await FetchHelper.post(config.API_ENDPOINTS.RESEND_VERIFICATION_CODE, {
+                email: getValues("email"),
+            })
             if (response && response.status) {
                 setShowOtpModal(true)
                 toast(config.MESSAGES.OTP_RESENT_SUCCESS, config.TOASTER_OPTIONS.SUCCESS)

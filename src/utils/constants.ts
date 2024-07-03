@@ -1,3 +1,6 @@
+export const API_VERSION = "api/v1"
+
+export const BASE_API_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/${API_VERSION}`
 export const config = {
     AUTH: {
         COOKIE_NAME: "__AT__",
@@ -5,6 +8,7 @@ export const config = {
     LOCAL_STORAGE_VARIABLES: {
         USER__UUID: "user_uuid",
         COOKIE_CHOICE: "cookie_choice",
+        ACCESS_TOKEN: "access_token",
     },
     MESSAGES: {
         INVALID_LOGIN_CREDENTIALS: "Invalid email or password",
@@ -95,7 +99,6 @@ export const config = {
     STATUS: {
         UNAUTHORIZED: 401,
     },
-    API_VERSION: "api/v1",
     DEBOUNCE_TIMEOUT: 500,
     PAGINATION: {
         TYPE: "pagination",
@@ -119,4 +122,17 @@ export const config = {
     },
     DEFAULT_TABLE_SKELETON_ROW_COUNT: 4,
     CARD_SKELETON_BASIS: 95,
+    STATUS_CODES: {
+        NO_CONTENT: 204,
+        UNAUTHORIZED: 401,
+    },
+    API_ENDPOINTS: {
+        GET_USER_BY_TOKEN: new URL(`${BASE_API_ENDPOINT}/user/get-user-by-token`),
+        CONFIRM_VERIFICATION_CODE: new URL(`${BASE_API_ENDPOINT}/user/confirm-verification-code`),
+        RESEND_VERIFICATION_CODE: new URL(`${BASE_API_ENDPOINT}/user/resend-verification-code`),
+        CREATE_USER: new URL(`${BASE_API_ENDPOINT}/user/create`),
+        VERIFY_GOOGLE_USER: new URL(`${BASE_API_ENDPOINT}/user/idp-callback`),
+    },
 }
+// Endpoints that do not require authentication
+export const OPEN_ENDPOINTS: string[] = []

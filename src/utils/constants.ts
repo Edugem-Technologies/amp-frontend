@@ -1,3 +1,5 @@
+import { CSSObjectWithLabel } from "react-select"
+
 export const API_VERSION = "api/v1"
 
 export const BASE_API_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/${API_VERSION}`
@@ -57,6 +59,34 @@ export const config = {
                 color: "#000",
             },
         },
+    },
+    DROPDOWN_STYLE: {
+        menu: (base: CSSObjectWithLabel) => ({ ...base, zIndex: "9" }),
+        valueContainer: (base: CSSObjectWithLabel) => ({
+            ...base,
+            maxHeight: "37px",
+            overflow: "auto",
+        }),
+        singleValue: (base: CSSObjectWithLabel) => ({
+            ...base,
+            color: "#5e6278",
+            fontWeight: 500,
+            fontSize: "14px",
+        }),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        option: (base: CSSObjectWithLabel, state: any) => ({
+            ...base,
+            color:
+                state.isDisabled && state.isSelected
+                    ? "#fff"
+                    : state.isDisabled
+                      ? "#808080"
+                      : state.isSelected
+                        ? "#fff"
+                        : "#242565",
+            ":hover": { backgroundColor: state.isSelected ? "#242565" : "#DEEBFF" },
+            backgroundColor: state.isSelected ? "#242565" : "none",
+        }),
     },
     COGNITO_CHALLENGE_NAME: {
         CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE: "CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE",

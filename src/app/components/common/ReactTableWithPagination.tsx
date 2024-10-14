@@ -104,11 +104,17 @@ const ReactTableWithPagination: React.FC<ReactTableWithPaginationPropType> = (pr
         manualPagination: true,
         manualFiltering: true,
         onSortingChange: setSorting,
+        columnResizeMode: "onChange",
         manualSorting: true,
         state: {
             sorting,
         },
+        defaultColumn: {
+            minSize: 150, //enforced during column resizing
+            maxSize: 500, //enforced during column resizing
+        },
     })
+
     const debouncedSearch = debounce((search_term: string) => {
         setFilter((prev) => ({
             ...prev,

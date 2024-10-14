@@ -4944,3 +4944,31 @@ table {
         }
     }
 }
+
+.dataTable {
+    width: 100%;
+    table-layout: fixed;
+    word-wrap: normal !important;
+    td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.resizer {
+    width: 4px;
+    background: rgba(0, 0, 0, 0.5);
+    user-select: none;
+    touch-action: none;
+    cursor: col-resize;
+    position: absolute;
+    height: 50% !important;
+    top: 25%;
+    right: 0;
+}
+
+.resizer.isResizing {
+    background: hsl(216, 72%, 44%);
+    opacity: 1;
+}

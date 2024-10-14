@@ -51,7 +51,8 @@ const ReactTable = <T extends RowId>({
                             <>
                                 <th
                                     key={header.id}
-                                    className={`min-w-100px ${
+                                    colSpan={header.colSpan}
+                                    className={`min-w-100px position-relative ${
                                         header.column.getCanSort() ? "cursor-pointer sorting" : ""
                                     } ${
                                         header.column.getIsSorted()
@@ -63,6 +64,15 @@ const ReactTable = <T extends RowId>({
                                     {flexRender(
                                         header.column.columnDef.header,
                                         header.getContext(),
+                                    )}
+                                    {header.column.getCanResize() && (
+                                        <div
+                                            onMouseDown={header.getResizeHandler()}
+                                            onTouchStart={header.getResizeHandler()}
+                                            className={`resizer ${
+                                                header.column.getIsResizing() ? "isResizing" : ""
+                                            }`}
+                                        />
                                     )}
                                 </th>
                             </>

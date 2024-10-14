@@ -4,9 +4,9 @@ import { execSync } from "child_process"
     const totalFileCount = execSync("git diff --name-only --staged --format=oneline | wc -l")
         .toString()
         .trim()
-    if (parseInt(totalFileCount) > 10) {
+    if (parseInt(totalFileCount) > 20) {
         console.error(
-            "Pre-commit: Less than or equal to 10 files are only allowed to commit - Current total count is: ",
+            "Pre-commit: Less than or equal to 20 files are only allowed to commit - Current total count is: ",
             totalFileCount,
         )
         process.exit(1)

@@ -4,6 +4,7 @@ import { config } from "@/utils/constants"
 import { Amplify } from "aws-amplify"
 import { Toaster } from "react-hot-toast"
 import Navbar from "../auth/Navbar"
+import Aside from "./Aside"
 
 // aws configuration for amplify
 Amplify.configure(
@@ -42,8 +43,14 @@ const CustomLayout = ({ children, user }: { children: React.ReactNode; user?: Us
     return (
         <div>
             <Toaster />
-            <Navbar user={user} />
-            {children}
+            <div className="d-flex">
+                <Aside />
+
+                <div className="flex-grow-1">
+                    <Navbar user={user} />
+                    {children}
+                </div>
+            </div>
         </div>
     )
 }

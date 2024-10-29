@@ -1,3 +1,6 @@
+import { CheckValidPhoneNumberArgsTyps } from "@/types/common/helper"
+import { isValidNumber, parse } from "libphonenumber-js"
+
 /**
  * Generates an array of numbers from 1 to the specified length.
  *
@@ -14,4 +17,14 @@
  */
 export const getArray = (length: number) => {
     return Array.from({ length }, (_, i) => i + 1)
+}
+
+export const checkValidPhoneNumber = ({ country, data }: CheckValidPhoneNumberArgsTyps) => {
+    let isValid = true
+    if (country && typeof data === "string" && data?.trim().length) {
+        const phoneNumber = data.startsWith("+") ? data : `+${data}`
+        const parsedNumber = parse(phoneNumber)
+        isValid = isValidNumber(parsedNumber)
+    }
+    return isValid
 }

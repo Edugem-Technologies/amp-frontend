@@ -8,14 +8,9 @@ const range = (start: number, end: number) => {
     return Array.from({ length }, (_, idx) => idx + start)
 }
 
-export const usePagination = ({
-    total,
-    page_size,
-    siblingCount = 1,
-    page,
-}: UsePaginationHookType) => {
+export const usePagination = ({ total, size, siblingCount = 1, page }: UsePaginationHookType) => {
     const paginationRange = useMemo(() => {
-        const totalPageCount = Math.ceil(total / page_size)
+        const totalPageCount = Math.ceil(total / size)
 
         // Pages count is determined as siblingCount + firstPage + lastPage + page + 2*DOTS
         const totalPageNumbers = siblingCount + 5
@@ -59,7 +54,7 @@ export const usePagination = ({
             const middleRange = range(leftSiblingIndex, rightSiblingIndex)
             return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex]
         }
-    }, [total, page_size, siblingCount, page])
+    }, [total, size, siblingCount, page])
 
     return paginationRange
 }

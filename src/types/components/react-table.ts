@@ -105,61 +105,44 @@ export interface MediaTableWithPaginationPropType {
      */
     renderGridView?: (asset: any) => React.ReactNode
 }
-
+export interface ExpandedRowWithTablePropType {
+    expandedRowId?: string
+    renderExpandedRow?: (id: string) => React.ReactNode
+}
 /**
  * Props for the ReactTableWithPagination component.
  */
-export interface ReactTableWithPaginationPropType {
-    /**
-     * Column definitions for the table.
-     */
+export interface ReactTableWithPaginationPropType extends ExpandedRowWithTablePropType {
+    /** The column definitions for the table */
     columns: ColumnDef<any, any>[]
-
-    /**
-     * Function to fetch data from the API endpoint.
-     * @param {any} args - The arguments for the fetch function.
-     * @returns {any} The fetched data.
-     */
-    fetchData: (args: any) => any
-
-    /**
-     * Title for the table header.
-     */
-    tableHeaderTitle: string
-
-    /**
-     * Function to handle the add button click event.
-     */
-    onAddButtonClick: () => void
-
-    /**
-     * Label for the add button.
-     */
-    addButtonLabel: string
-
-    /**
-     * Works as dependency array for useEffect.
-     */
+    /** The endpoint URL for data fetching */
+    endpoint: URL
+    /** Optional dependencies for the table */
     dependencies?: any[]
-
-    /**
-     * Function to access the response from the API call.
-     * @param {any} response - The response from the API call.
-     */
+    /** Optional callback to handle fetch response */
     getFetchResponse?: (response: any) => void
-
-    /**
-     * Optional flag to show or hide the search bar.
-     */
+    /** Optional flag to show search bar */
     showSearchBar?: boolean
-
-    /**
-     * Optional flag to indicate if an asset was deleted.
-     */
+    /** Optional flag to indicate if an asset has been deleted */
     assetDeleted?: boolean
-
-    /**
-     * Additional filters to apply to the data.
-     */
+    /** Optional extra filters for the table */
     extraFilters?: object
+    /** Optional class name for the table */
+    tableClassName?: string
+    /** Optional row count for the table */
+    rowCount?: number
+    /** Optional sorting ID for the table */
+    sortingId?: string | null
+
+    /** Flag to show the table header */
+    showTableHeader?: boolean
+    /** Title of the table header */
+    tableHeaderTitle?: string
+    /** Callback for the add button click */
+    onAddButtonClick?: () => void
+    /** Label for the add button */
+    addButtonLabel?: string
+    /** Class name for the add button */
+    addButtonClassName?: string
+    dummyData?: any
 }

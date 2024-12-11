@@ -1,14 +1,14 @@
 "use client"
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { config } from "@/utils/constants"
 import { iterateObject } from "@/utils/handle-error"
 import { axiosInstance } from "./axios-instance"
+import { CONFIG } from "@/utils/constants"
 
 export type Params = Record<string, any>
 
 const parseResponse = async (response: Response) => {
-    if (response.status == config.STATUS_CODES.NO_CONTENT) {
+    if (response.status == CONFIG.STATUS_CODES.NO_CONTENT) {
         return null
     } else if (!response.ok) {
         const json = await response.json()

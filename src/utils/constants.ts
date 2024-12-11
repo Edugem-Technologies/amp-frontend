@@ -3,7 +3,7 @@ import { CSSObjectWithLabel } from "react-select"
 export const API_VERSION = "api/v1"
 
 export const BASE_API_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/${API_VERSION}`
-export const config = {
+export const CONFIG = {
     AUTH: {
         COOKIE_NAME: "__AT__",
     },

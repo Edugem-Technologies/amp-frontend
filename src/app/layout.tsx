@@ -1,6 +1,7 @@
 import "@/styles/scss/custom/styles.scss"
 import { Metadata } from "next"
-import { MyProvider } from "./context"
+import { AppProvider } from "./context"
+import ErrorBoundary from "./components/common/Errorboundary"
 
 export const metadata: Metadata = {
     title: "NEXT 14",
@@ -8,10 +9,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <MyProvider>
-            <html lang="en">
-                <body>{children}</body>
-            </html>
-        </MyProvider>
+        <html lang="en">
+            <body>
+                <ErrorBoundary>
+                    <AppProvider>{children}</AppProvider>
+                </ErrorBoundary>
+            </body>
+        </html>
     )
 }

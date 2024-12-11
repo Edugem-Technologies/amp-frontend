@@ -1,5 +1,5 @@
 import toast from "react-hot-toast"
-import { config } from "./constants"
+import { CONFIG } from "./constants"
 
 /**
  * Iterates over an object and constructs a string containing error messages.
@@ -44,18 +44,18 @@ export function iterateObject(obj: Record<string, any>): string {
 export const handleError = (error: unknown) => {
     // toast.dismiss()
     if (typeof error === "string") {
-        toast(error, config.TOASTER_OPTIONS.ERROR)
+        toast(error, CONFIG.TOASTER_OPTIONS.ERROR)
     } else if (typeof error === "object" && (error as { message: string }).message) {
-        toast((error as { message: string })?.message, config.TOASTER_OPTIONS.ERROR)
+        toast((error as { message: string })?.message, CONFIG.TOASTER_OPTIONS.ERROR)
     } else {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const _error = error as Record<string, any>
         const message = iterateObject(_error)
         if (message) {
-            toast(message, config.TOASTER_OPTIONS.ERROR)
+            toast(message, CONFIG.TOASTER_OPTIONS.ERROR)
             console.error(message)
         } else {
-            toast(config.MESSAGES.GENERIC_ERROR, config.TOASTER_OPTIONS.ERROR)
+            toast(CONFIG.MESSAGES.GENERIC_ERROR, CONFIG.TOASTER_OPTIONS.ERROR)
 
             console.error("Something went wrong")
         }

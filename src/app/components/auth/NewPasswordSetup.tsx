@@ -1,5 +1,5 @@
 import { NewPasswordSetupPropType } from "@/types/components/new-password-setup"
-import { config } from "@/utils/constants"
+import { CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
 import {
     UpdateNewPasswordSchema,
@@ -44,7 +44,7 @@ const NewPasswordSetup: React.FC<NewPasswordSetupPropType> = ({ usernameOrEmail 
                 confirmationCode: data.otp,
                 newPassword: data.password,
             })
-            toast(config.MESSAGES.PASSWORD_RESET_SUCCESS, config.TOASTER_OPTIONS.SUCCESS)
+            toast(CONFIG.MESSAGES.PASSWORD_RESET_SUCCESS, CONFIG.TOASTER_OPTIONS.SUCCESS)
             router.replace("/login")
         } catch (error) {
             handleError(error)

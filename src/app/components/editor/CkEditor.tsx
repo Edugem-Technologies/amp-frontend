@@ -78,13 +78,13 @@ import {
 } from "ckeditor5"
 import "ckeditor5/ckeditor5.css"
 
-function CustomEditor() {
+function CkEditor() {
     return (
         <CKEditor
             editor={ClassicEditor}
             // onChange={handleChange}
             config={{
-                licenseKey: "GPL", // Or 'GPL'.
+                licenseKey: "GPL", // Licence key Or 'GPL'.
                 fontFamily: {
                     supportAllValues: true,
                 },
@@ -378,4 +378,4 @@ function CustomEditor() {
     )
 }
 
-export default CustomEditor
+export default CkEditor

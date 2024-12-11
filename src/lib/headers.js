@@ -19,17 +19,19 @@ ContentSecurityPolicy += "frame-src 'self' https://www.google.com; "
 
 // Allow scripts from the same origin, inline scripts, eval, and specified trusted sources.
 ContentSecurityPolicy +=
-    "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net/ https://www.facebook.com https://connect.facebook.net https://storage.googleapis.com https://www.google.com https://www.gstatic.com https://www.googletagmanager.com https://images.dmca.com https://embed.tawk.to/ https://assets.calendly.com/; "
+    "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.ckeditor.com https://cdn.jsdelivr.net/ https://www.facebook.com https://connect.facebook.net https://storage.googleapis.com https://www.google.com https://www.gstatic.com https://www.googletagmanager.com https://images.dmca.com https://embed.tawk.to/ https://assets.calendly.com/; "
 
 // Explicitly deny the use of object-src (e.g., plugins).
 ContentSecurityPolicy += "object-src 'none'; "
 
 // Allow connections to the same origin, localhost, and specified trusted sources, including data URIs.
 ContentSecurityPolicy +=
-    "connect-src 'self' localhost https://cognito-idp.eu-west-1.amazonaws.com/ https://api.dev.virtu-sign.com/ https://uia4f1xewf.execute-api.ap-south-1.amazonaws.com https://tq9sxuzm14.execute-api.ap-south-1.amazonaws.com/bs-handbook-bot-api-gateway-stage-prod/bsbot https://www.google.com https://graph.facebook.com https://analytics.google.com https://stats.g.doubleclick.net/ https://cdn.jsdelivr.net/ https://storage.googleapis.com/ https://www.google.co.in/ data:; "
+    "connect-src 'self' localhost https://proxy-event.ckeditor.com/ https://cdn.ckeditor.com https://cognito-idp.eu-west-1.amazonaws.com/ https://api.dev.virtu-sign.com/ https://uia4f1xewf.execute-api.ap-south-1.amazonaws.com https://tq9sxuzm14.execute-api.ap-south-1.amazonaws.com/bs-handbook-bot-api-gateway-stage-prod/bsbot https://www.google.com https://graph.facebook.com https://analytics.google.com https://stats.g.doubleclick.net/ https://cdn.jsdelivr.net/ https://storage.googleapis.com/ https://www.google.co.in/ data:; "
 
 // Allow styles from the same origin and inline styles, which are required by Next.js.
-ContentSecurityPolicy += "style-src 'self' 'unsafe-inline' data:; "
+ContentSecurityPolicy += "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com data:; "
+ContentSecurityPolicy +=
+    "style-src-elem 'self' 'unsafe-inline' https://cdn.ckeditor.com https://fonts.googleapis.com data:; "
 
 /**
  * Array of HTTP headers to be set.

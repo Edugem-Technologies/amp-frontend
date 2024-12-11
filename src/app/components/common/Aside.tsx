@@ -1,18 +1,18 @@
+import { SideBarItemsType } from "@/types/components/aside"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
-import React, { useState } from "react"
-import { Menu, MenuItem, Sidebar, SubMenu } from "react-pro-sidebar"
+import { useState } from "react"
+import { Sidebar } from "react-pro-sidebar"
+import RenderMenuItem from "./RenderMenuItem"
 
 const Aside = () => {
-    const pathname = usePathname()
     const [sideBarCollapse, setSideBarCollapse] = useState(false)
-    console.log("sideBarCollapse", sideBarCollapse)
+
     /**
      * @typedef {Object} SidebarItem
      * @property {string} label - The display name of the menu item.
      * @property {string} [href] - The URL path this menu item links to (if not a submenu).
      * @property {string} [className] - Optional CSS classes for styling the link.
-     * @property {SidebarItem[]} [submenu] - An optional array of submenu items for dropdown menus.
+     * @property {SidebarItem[]} [sideBarItems] - An optional array of submenu items for dropdown menus.
      */
 
     /**
@@ -20,43 +20,37 @@ const Aside = () => {
      * Each item can be a simple link or contain a submenu with nested links.
      *
      * @type {SidebarItem[]}
+     * @example
+     * const sideBarItems = [
+     *   { label: "Home", href: "/" },
+     *   { label: "Profile", href: "/profile" },
+     *   {
+     *     label: "Auth",
+     *     sideBarItems: [
+     *       { label: "Login", href: "/login" },
+     *       { label: "Signup", href: "/signup" },
+     *     ],
+     *   },
+     * ];
      */
-    const sidebarItems = [
+    const sideBarItems: SideBarItemsType[] = [
         { label: "Home", href: "/" },
         { label: "Profile", href: "/profile" },
         {
             label: "Auth",
-            submenu: [
+            sideBarItems: [
                 { label: "Login", href: "/login" },
                 { label: "Signup", href: "/signup" },
             ],
         },
     ]
-
-    const isActive = (url: string) => {
-        return pathname === url
-    }
-
-    const renderMenuItems = (name: string, index: number, link: string) => {
-        return (
-            <MenuItem
-                key={index}
-                style={{
-                    color: isActive(link) ? "#e84118" : "#181C32",
-                }}
-                component={<Link href={link} />}
-            >
-                <span className="bullet bullet-dot"></span>
-                <span>{name}</span>
-            </MenuItem>
-        )
-    }
     return (
         <Sidebar
             collapsed={sideBarCollapse}
             breakPoint="lg"
             collapsedWidth="100px"
             transitionDuration={500}
+            className="v-sidebar"
         >
             <div className="app-sidebar-logo px-6 position-relative" id="kt_app_sidebar_logo">
                 <Link prefetch={false} legacyBehavior href="/">
@@ -106,19 +100,7 @@ const Aside = () => {
                     </span>
                 </div>
             </div>
-            <Menu>
-                {sidebarItems.map((item, index) =>
-                    item.submenu ? (
-                        <SubMenu key={index} label={item.label}>
-                            {item.submenu.map((subItem, subIndex) =>
-                                renderMenuItems(subItem.label, subIndex, subItem.href),
-                            )}
-                        </SubMenu>
-                    ) : (
-                        renderMenuItems(item.label, index, item.href)
-                    ),
-                )}
-            </Menu>
+            <RenderMenuItem sideBarItems={sideBarItems} />
         </Sidebar>
     )
 }

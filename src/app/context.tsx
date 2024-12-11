@@ -1,24 +1,32 @@
 "use client"
-import { createContext, useState, ReactNode } from "react"
+import { createContext, useState, ReactNode, useContext } from "react"
 
 // Define the type for your context state
-interface MyContextType {
+interface AppContextType {
     state: string
     setState: (value: string) => void
 }
 
 // Create the context with a default value
-const MyContext = createContext<MyContextType | undefined>(undefined)
+const AppContext = createContext<AppContextType | undefined>(undefined)
 
 // Create a provider component
-interface MyProviderProps {
+interface AppProviderProps {
     children: ReactNode
 }
 
-export const MyProvider = ({ children }: MyProviderProps) => {
+export const AppProvider = ({ children }: AppProviderProps) => {
     const [state, setState] = useState("Hello from context")
 
-    return <MyContext.Provider value={{ state, setState }}>{children}</MyContext.Provider>
+    return <AppContext.Provider value={{ state, setState }}>{children}</AppContext.Provider>
 }
 
-export default MyContext
+export const useAppContext = () => {
+    const context = useContext(AppContext)
+    if (!context) {
+        throw new Error("Context must be wrapped in a context provider")
+    }
+    return context
+}
+
+export default AppContext

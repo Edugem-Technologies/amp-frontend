@@ -3,7 +3,7 @@ import {
     OptionType,
     ReactSelectPropType,
 } from "@/types/components/react-select"
-import { config } from "@/utils/constants"
+import { CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
 import { useState } from "react"
 import { MultiValue, SingleValue } from "react-select"
@@ -76,21 +76,21 @@ const ReactSelect: React.FC<ReactSelectPropType> = (props) => {
                 setPreviousSeachedTerm(search_term)
             }
 
-            const nextPage = page || config.PAGINATION.PAGE
+            const nextPage = page || CONFIG.PAGINATION.PAGE
             // change params name as per the usage
             const response = await loadOptionsFetch({
                 search_term,
-                _limit: config.PAGINATION.SIZE,
-                _page: page || config.PAGINATION.PAGE,
+                _limit: CONFIG.PAGINATION.SIZE,
+                _page: page || CONFIG.PAGINATION.PAGE,
                 ...params,
             })
             if (response.results) {
                 const payload = {
-                    hasMore: Math.ceil(response.count / config.PAGINATION.SIZE) > page,
+                    hasMore: Math.ceil(response.count / CONFIG.PAGINATION.SIZE) > page,
                     options: parseOptions(response.results),
                     page:
                         search_term && search_term !== previousSearchedTerm
-                            ? config.PAGINATION.PAGE
+                            ? CONFIG.PAGINATION.PAGE
                             : nextPage + 1,
                 }
                 return payload
@@ -153,9 +153,9 @@ const ReactSelect: React.FC<ReactSelectPropType> = (props) => {
                 hideSelectedOptions={false}
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 loadOptions={loadOptions as any}
-                debounceTimeout={config.DEBOUNCE_TIMEOUT}
+                debounceTimeout={CONFIG.DEBOUNCE_TIMEOUT}
                 // this is reqiuired, otherwise the options will not load
-                additional={{ page: config.PAGINATION.PAGE }}
+                additional={{ page: CONFIG.PAGINATION.PAGE }}
                 closeMenuOnSelect={!isMulti}
                 onChange={handleChange}
                 onCreateOption={onCreate}

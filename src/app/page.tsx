@@ -1,43 +1,15 @@
 "use client"
-import { User } from "@/types/auth/user"
-import { UnAuthorizedAccessError } from "@/types/common/error"
-import { config } from "@/utils/constants"
-import { handleError } from "@/utils/handle-error"
-import { logout } from "@/utils/logout"
-import { usePathname, useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
-import CustomLayout from "./components/common/CustomLayout"
-import { FetchHelper } from "@/services/fetch-helper"
-import { getAccessToken } from "@/utils/common"
+
+import Link from "next/link"
 
 export default function Home() {
-    const [user, setUser] = useState<User>()
-    const router = useRouter()
-    const path = usePathname()
-    const accessToken = getAccessToken()
-
-    const getUser = async () => {
-        try {
-            const response = await FetchHelper.get(config.API_ENDPOINTS.GET_USER_BY_TOKEN)
-            if (response.data) {
-                setUser(response.data)
-            }
-        } catch (error) {
-            const { status } = error as UnAuthorizedAccessError
-            if (status && status === config.STATUS.UNAUTHORIZED) {
-                logout(router, path)
-            } else {
-                handleError(error)
-            }
-        }
-    }
-    useEffect(() => {
-        if (accessToken) getUser()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
     return (
-        <CustomLayout user={user}>
+        <div className="container">
             <h1 className="text-center mt-4">Boiler plate code for NEXT 14</h1>
-        </CustomLayout>
+            <Link href={"/components"} className="text-center d-block text-decoration-none mt-5">
+                Click here to preview all components present in boilerplate
+            </Link>
+            <p className="text-center mt-2">More components will be added later</p>
+        </div>
     )
 }

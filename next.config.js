@@ -1,7 +1,7 @@
-/** @type {import('next').NextConfig} */
 const path = require("path")
 const headers = require("./src/lib/headers")
 const NODE_ENV = process.env.NODE_ENV || "development"
+/** @type {import('next').NextConfig} */
 const nextConfig = {
     typescript: {
         ignoreBuildErrors: false,

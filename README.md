@@ -135,7 +135,8 @@ List of components:
 
 ## Custom Hooks
 
-1. useLocalStorage hook (can be use to store/retrieve values directly from local storage)
+1. useLocalStorage hook (can be use to store/retrieve values directly from local storage.)
+2. useMediaQuery hook (can be use to add media queries using js.)
 
 ## Validations (Zod)
 

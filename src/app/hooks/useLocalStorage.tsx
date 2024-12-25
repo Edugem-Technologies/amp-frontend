@@ -8,7 +8,10 @@ import { useState } from "react"
  * @param {Any} initialValue - The initial value to use if the key doesn't exist in local storage.
  * @returns {[Any, (value: Any) => void]} A stateful value and a function to update it.
  */
-export function useLocalStorage(key: string, initialValue: Any): [Any, (value: Any) => void] {
+export default function useLocalStorage(
+    key: string,
+    initialValue: Any,
+): [Any, (value: Any) => void] {
     const [storedValue, setStoredValue] = useState(() => {
         try {
             const item = window.localStorage.getItem(key)

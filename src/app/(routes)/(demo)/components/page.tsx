@@ -1,17 +1,30 @@
+import LoadingComponent from "@/app/components/common/LoadingComponents"
 import dynamic from "next/dynamic"
-const QuillEditor = dynamic(() => import("../../../components/editor/QuillEditor"), { ssr: false })
-const CKEditor = dynamic(() => import("../../../components/editor/CkEditor"), { ssr: false })
 
-const page = () => {
+const CKEditor = dynamic(() => import("../../../components/editor/CkEditor"), {
+    ssr: false,
+    loading: ({ error, isLoading }) => <LoadingComponent error={error} isLoading={isLoading} />,
+})
+const LocalStorage = dynamic(() => import("../../../components/demo/LocalStorage"), {
+    ssr: false,
+    loading: ({ error, isLoading }) => <LoadingComponent error={error} isLoading={isLoading} />,
+})
+const QuillEditor = dynamic(() => import("../../../components/editor/QuillEditor"), {
+    ssr: false,
+    loading: ({ error, isLoading }) => <LoadingComponent error={error} isLoading={isLoading} />,
+})
+const ComponentsPage = () => {
     return (
-        <div className="container">
+        <div className="container mb-5">
             <h2>Quill Editor</h2>
             <QuillEditor />
             <br className="my-5" />
             <h2>CK Editor</h2>
             <CKEditor />
+            <br />
+            <LocalStorage />
         </div>
     )
 }
 
-export default page
+export default ComponentsPage

@@ -127,11 +127,15 @@ List of components:
 5. React Table (base component for HTML table.)
 6. React Table With Pagination (can be used for all HTML tables that supports server side pagination.)
 7. Table Pagination (base component for Pagination can be used for any type of pagination such as paginating Grid view or Card view.)
-8. Auth (can be used to created protected routes. It passes user objects to the wrapped component/page.)
-9. WithouAuth (can be used to create public routes or which should not accessible by authenticated users such as login or signup page.)
-10. TabSection (can be used as a wrapper for other components.)
-11. TabHeader (can be used inside TabSection which is renderded as a tab header contaning tab title.)
-12. TabBody (can be used inside TabSection which will render children passed as props to TabBody also take other props such as loading to render loading skeleton.)
+8. AuthGuard (can be used to created protected routes.)
+9. TabSection (can be used as a wrapper for other components.)
+10. TabHeader (can be used inside TabSection which is renderded as a tab header contaning tab title.)
+11. TabBody (can be used inside TabSection which will render children passed as props to TabBody also take other props such as loading to render loading skeleton.)
+12. CKEditor and Quill Editor (wysiwyg editor components.)
+
+## Custom Hooks
+
+1. useLocalStorage hook (can be use to store/retrieve values directly from local storage)
 
 ## Validations (Zod)
 

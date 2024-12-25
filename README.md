@@ -137,6 +137,7 @@ List of components:
 
 1. useLocalStorage hook (can be use to store/retrieve values directly from local storage.)
 2. useMediaQuery hook (can be use to add media queries using js.)
+3. useScroll hook (can be used to get vertical scroll position of window.)
 
 ## Validations (Zod)
 

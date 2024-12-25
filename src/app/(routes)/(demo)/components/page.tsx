@@ -1,6 +1,7 @@
+import dynamic from "next/dynamic"
 import LoadingComponent from "@/app/components/common/LoadingComponents"
 import MediaQuery from "@/app/components/demo/MediaQuery"
-import dynamic from "next/dynamic"
+import Scroll from "@/app/components/demo/Scroll"
 
 const CKEditor = dynamic(() => import("../../../components/editor/CkEditor"), {
     ssr: false,
@@ -26,6 +27,8 @@ const ComponentsPage = () => {
             <LocalStorage />
             <br />
             <MediaQuery />
+            <br />
+            <Scroll />
         </div>
     )
 }

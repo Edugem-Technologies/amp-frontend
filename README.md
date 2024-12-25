@@ -138,6 +138,7 @@ List of components:
 1. useLocalStorage hook (can be use to store/retrieve values directly from local storage.)
 2. useMediaQuery hook (can be use to add media queries using js.)
 3. useScroll hook (can be used to get vertical scroll position of window.)
+4. useIntersectionObserver hook (can be used to track the visibility of an element on screen.)
 
 ## Validations (Zod)
 

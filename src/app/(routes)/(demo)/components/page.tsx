@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic"
+import IntersectionObserver from "@/app/components/demo/IntersectionObserver"
 import LoadingComponent from "@/app/components/common/LoadingComponents"
 import MediaQuery from "@/app/components/demo/MediaQuery"
 import Scroll from "@/app/components/demo/Scroll"
@@ -29,6 +30,8 @@ const ComponentsPage = () => {
             <MediaQuery />
             <br />
             <Scroll />
+            <br />
+            <IntersectionObserver />
         </div>
     )
 }

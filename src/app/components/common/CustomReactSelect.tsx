@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-redeclare */
 import { CustomReactSelectType } from "@/types/components/react-select"
-import { config } from "@/utils/constants"
+import { CONFIG } from "@/utils/constants"
 import ReactSelect from "react-select"
 
 const CustomReactSelect: React.FC<CustomReactSelectType> = (props) => {
@@ -34,7 +34,7 @@ const CustomReactSelect: React.FC<CustomReactSelectType> = (props) => {
                 }
             }}
             styles={{
-                ...config.DROPDOWN_STYLE,
+                ...CONFIG.DROPDOWN_STYLE,
             }}
         />
     )

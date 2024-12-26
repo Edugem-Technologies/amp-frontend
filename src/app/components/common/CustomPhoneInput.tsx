@@ -35,10 +35,17 @@ const CustomPhoneInput: React.FC<CustomPhoneInputType> = ({
                     inputClass={inputClass}
                     value={value}
                     onChange={(data, _country, e, formattedValue) => {
+                        const countryCode = (_country as CountryData)?.dialCode
                         // Extracting the number from the formatted value
-                        const number = formattedValue
-                            .split(`+${(_country as CountryData).dialCode}`)?.[1]
-                            ?.trim()
+                        // Find the first occurrence of the country code
+                        const firstOccurrenceIndex = data.indexOf(countryCode)
+                        let number = data
+
+                        // Ensure the country code is at the start
+                        if (firstOccurrenceIndex === 0) {
+                            // Split only at the first occurrence
+                            number = data.slice(countryCode.length).trim()
+                        }
                         setCountry(_country as CountryData)
                         // Setting the phone number and country code values
                         setPhoneNumberValue(number)

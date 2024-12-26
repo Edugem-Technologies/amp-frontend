@@ -1,7 +1,7 @@
 "use client"
 import { FetchHelper } from "@/services/fetch-helper"
 import { setAccessToken } from "@/utils/common"
-import { config } from "@/utils/constants"
+import { CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
@@ -16,7 +16,7 @@ const GoogleIdpCallback = () => {
 
     const doVerifyUser = async () => {
         try {
-            const response = await FetchHelper.post(config.API_ENDPOINTS.VERIFY_GOOGLE_USER, {
+            const response = await FetchHelper.post(CONFIG.API_ENDPOINTS.VERIFY_GOOGLE_USER, {
                 access_token: accessToken,
             })
             if (response && response.status) {

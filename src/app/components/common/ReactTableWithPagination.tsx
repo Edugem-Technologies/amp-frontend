@@ -4,9 +4,9 @@ import { useEffect, useMemo, useState } from "react"
 import ReactTable from "./ReactTable"
 import TablePagination from "./TablePagination"
 import { ReactTableWithPaginationPropType } from "@/types/components/react-table"
-import { config } from "@/utils/constants"
 import { FetchHelper } from "@/services/fetch-helper"
 import { handleError } from "@/utils/handle-error"
+import { CONFIG } from "@/utils/constants"
 
 const ReactTableWithPagination: React.FC<ReactTableWithPaginationPropType> = (props) => {
     const {
@@ -43,8 +43,8 @@ const ReactTableWithPagination: React.FC<ReactTableWithPaginationPropType> = (pr
     )
     const [filter, setFilter] = useState({
         search_term: "",
-        page: config.PAGINATION.PAGE,
-        size: config.PAGINATION.SIZE,
+        page: CONFIG.PAGINATION.PAGE,
+        size: CONFIG.PAGINATION.SIZE,
         // pagination_type: CONFIG.PAGINATION.TYPE,
         ...extraFilters,
     })
@@ -97,9 +97,9 @@ const ReactTableWithPagination: React.FC<ReactTableWithPaginationPropType> = (pr
         setFilter((prev) => ({
             ...prev,
             search_term,
-            page: config.PAGINATION.PAGE,
+            page: CONFIG.PAGINATION.PAGE,
         }))
-    }, config.DEBOUNCE_TIMEOUT)
+    }, CONFIG.DEBOUNCE_TIMEOUT)
 
     useEffect(() => {
         getData()

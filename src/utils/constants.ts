@@ -3,15 +3,17 @@ import { CSSObjectWithLabel } from "react-select"
 export const API_VERSION = "api/v1"
 
 export const BASE_API_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/${API_VERSION}`
-export const config = {
+export const CONFIG = {
     AUTH: {
         COOKIE_NAME: "__AT__",
     },
+    ALL_OPTIONS: "__ALL__",
     LOCAL_STORAGE_VARIABLES: {
         USER__UUID: "user_uuid",
         COOKIE_CHOICE: "cookie_choice",
         ACCESS_TOKEN: "access_token",
     },
+    DROPDOWN_LABEL_SLICE_LIMIT: 80,
     MESSAGES: {
         INVALID_LOGIN_CREDENTIALS: "Invalid email or password",
         ACCESS_TOKEN_EXPIRED: "Access token expired. Please login again",

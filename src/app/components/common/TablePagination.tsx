@@ -1,14 +1,14 @@
 import { TablePaginationPropType } from "@/types/components/pagination"
-import { config } from "@/utils/constants"
 import React from "react"
 import Pagination from "../pagination/Pagination"
+import { CONFIG } from "@/utils/constants"
 
 const TablePagination: React.FC<Omit<TablePaginationPropType, "colSpan">> = (props) => {
     const { pagination, setPagination, totalCount, paginationContainerClass } = props
     return (
         <div className={`d-flex justify-content-between ${paginationContainerClass}`}>
             <div>
-                {totalCount >= config.PAGE_SIZE_OPTIONS[12] ? (
+                {totalCount >= CONFIG.PAGE_SIZE_OPTIONS[12] ? (
                     <div className="dataTables_length" id="movie-table_length">
                         <label>
                             <select
@@ -19,11 +19,11 @@ const TablePagination: React.FC<Omit<TablePaginationPropType, "colSpan">> = (pro
                                     setPagination((prev: object) => ({
                                         ...prev,
                                         size: Number(e.target.value),
-                                        page: config.PAGINATION.PAGE,
+                                        page: CONFIG.PAGINATION.PAGE,
                                     }))
                                 }
                             >
-                                {Object.values(config.PAGE_SIZE_OPTIONS).map((item) => (
+                                {Object.values(CONFIG.PAGE_SIZE_OPTIONS).map((item) => (
                                     <option
                                         key={item}
                                         value={item}

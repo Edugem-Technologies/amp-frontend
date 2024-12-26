@@ -1,5 +1,5 @@
 import { getAccessToken } from "@/utils/common"
-import { config, OPEN_ENDPOINTS } from "@/utils/constants"
+import { CONFIG, OPEN_ENDPOINTS } from "@/utils/constants"
 import axios from "axios"
 
 /**
@@ -9,6 +9,7 @@ import axios from "axios"
 export const axiosInstance = axios.create({
     headers: {
         "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true",
     },
 })
 
@@ -31,7 +32,7 @@ axiosInstance.interceptors.request.use((_config) => {
  * @returns {Promise<null|any>} Null if response status is NO_CONTENT, otherwise response data.
  */
 axiosInstance.interceptors.response.use((response) => {
-    if (response.status === config.STATUS_CODES.NO_CONTENT) {
+    if (response.status === CONFIG.STATUS_CODES.NO_CONTENT) {
         return null
     } else return response.data
 })

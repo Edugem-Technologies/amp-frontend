@@ -1,6 +1,6 @@
 import { z } from "zod"
-import { config } from "./constants"
 import { generateErrorMessage } from "./message-generator"
+import { CONFIG } from "./constants"
 
 /**
  * Generates a Zod string schema for validating a simple text field.
@@ -29,11 +29,11 @@ export const getNameFieldValidationSchema = (fieldName: string) =>
     z
         .string()
         .trim()
-        .min(config.VALIDATIONS.CHARS_3, {
-            message: generateErrorMessage(fieldName, config.VALIDATIONS.CHARS_3),
+        .min(CONFIG.VALIDATIONS.CHARS_3, {
+            message: generateErrorMessage(fieldName, CONFIG.VALIDATIONS.CHARS_3),
         })
-        .max(config.VALIDATIONS.CHARS_255, {
-            message: generateErrorMessage(fieldName, config.VALIDATIONS.CHARS_255, true),
+        .max(CONFIG.VALIDATIONS.CHARS_255, {
+            message: generateErrorMessage(fieldName, CONFIG.VALIDATIONS.CHARS_255, true),
         })
         .refine((value) => value.match(/^[a-zA-Z]+[a-zA-Z\s']*$/), {
             message: `Invalid ${fieldName}`,
@@ -64,8 +64,8 @@ export const getPasswordFieldValidationSchema = () =>
     z
         .string()
         .trim()
-        .min(config.VALIDATIONS.CHARS_6, {
-            message: generateErrorMessage("Password", config.VALIDATIONS.CHARS_6),
+        .min(CONFIG.VALIDATIONS.CHARS_6, {
+            message: generateErrorMessage("Password", CONFIG.VALIDATIONS.CHARS_6),
         })
         .refine((field) => field.match(/^(?=.*[A-Za-z])(?=.*\d).{6,}$/), {
             message: "Must contain a combination of letters and numbers",

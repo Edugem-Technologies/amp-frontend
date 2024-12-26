@@ -1,5 +1,6 @@
 "use client"
 import { createContext, useState, ReactNode, useContext, Dispatch, SetStateAction } from "react"
+import { useMediaQuery } from "./hooks/useMediaQuery"
 
 // Define the type for your context state
 interface AppContextType {
@@ -19,7 +20,8 @@ interface AppProviderProps {
 
 export const AppProvider = ({ children }: AppProviderProps) => {
     const [state, setState] = useState("Hello from context")
-    const [sidebarCollapse, setSidebarCollapse] = useState(false)
+    const matched = useMediaQuery("(max-width: 768px)")
+    const [sidebarCollapse, setSidebarCollapse] = useState(matched)
 
     return (
         <AppContext.Provider value={{ state, setState, sidebarCollapse, setSidebarCollapse }}>

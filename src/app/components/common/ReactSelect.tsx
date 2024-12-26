@@ -1,8 +1,10 @@
+import { FetchHelper } from "@/services/fetch-helper"
 import {
     AsyncPaginateCreatableType,
-    OptionType,
-    ReactSelectPropType,
+    BaseSelectPropType,
+    Option,
 } from "@/types/components/react-select"
+import { sliceWithEllipsis } from "@/utils/common"
 import { CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
 import { useState } from "react"
@@ -10,61 +12,55 @@ import { MultiValue, SingleValue } from "react-select"
 import { withAsyncPaginate } from "react-select-async-paginate"
 import Creatable from "react-select/creatable"
 
-/**
- * AsyncPaginate component with Creatable support.
- * This is the enhanced version of the Creatable component from react-select,
- * integrated with async pagination for loading options dynamically.
- */
 const AsyncPaginate = withAsyncPaginate(Creatable) as AsyncPaginateCreatableType
 /**
- * ReactSelect component
+ * BaseSelect Component
  *
- * Enhanced Select component using react-select with async pagination and creatable options support.
+ * A reusable select component with support for async loading, creation of new options, and pagination.
  *
- * @param {ReactSelectPropType} props - Props for the ReactSelect component.
- * @param {(option: SingleValue<OptionType> | MultiValue<OptionType>) => void} props.onSelected - Function to handle selection change.
- * @param {object} props.params - Additional parameters for the loadOptionsFetch function.
- * @param {boolean} props.isMulti - Indicates if multiple options can be selected.
- * @param {boolean} props.creatable - Indicates if new options can be created.
- * @param {(result: any) => string} props.getOptionLabel - Function to extract the label from an option result.
- * @param {(result: any) => string} props.getOptionValue - Function to extract the value from an option result.
- * @param {(option: OptionType | OptionType[]) => void} props.onCreate - Function to handle creation of a new option.
- * @param {(params: { search_term: string, _limit: number, _page: number }) => Promise<{ results: any[], count: number }>} props.loadOptionsFetch - Function to fetch options asynchronously.
- * @returns {JSX.Element} Rendered ReactSelect component.
+ * @param {BaseSelectPropType} props - Props passed to the component
  */
-const ReactSelect: React.FC<ReactSelectPropType> = (props) => {
-    const [previousSearchedTerm, setPreviousSeachedTerm] = useState("")
+const BaseSelect: React.FC<BaseSelectPropType> = (props) => {
+    const [previousSearchTerm, setpreviousSearchTerm] = useState("")
     const {
         onSelected,
         params,
         isMulti,
         creatable,
+        endpoint,
         getOptionLabel,
         getOptionValue,
         onCreate,
-        loadOptionsFetch,
+        getOptionData,
+        searchKey = "",
+        selectAll = false,
     } = props
 
     /**
-     * Parse options from API response into format expected by react-select.
+     * Parse options from API response to the format required by the select component
      *
-     * @param {any[]} results - Results from the API containing options.
-     * @returns {OptionType[]} Parsed options array with label and value.
+     * @param {any[]} results - The results array from the API response
+     * @returns {Option[]} - The parsed options array
      */
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const parseOptions = (results: any[]) => {
-        return results.map((result) => ({
-            label: getOptionLabel(result),
-            value: getOptionValue(result),
-        }))
+        return results
+            .map((result) => ({
+                label: sliceWithEllipsis(getOptionLabel(result), CONFIG.DROPDOWN_LABEL_SLICE_LIMIT),
+                value: getOptionValue(result),
+                data: getOptionData(result),
+            }))
+            .filter((item) => item.label && item.value && item.data && item)
     }
+
     /**
-     * Load options asynchronously based on search term and pagination parameters.
+     * Load options asynchronously from the API endpoint
      *
-     * @param {string} search_term - Search term entered by the user.
-     * @param {object} options - Options object containing additional parameters.
-     * @param {number} options.page - Current page number for pagination.
-     * @returns {Promise<{ options: OptionType[], hasMore: boolean, page: number }>} Promise resolving to loaded options and pagination status.
+     * @param {string} search_term - The current search term
+     * @param {object} options - The current options
+     * @param {{ page: number }} additional - Additional pagination data
+     * @returns {Promise<{options: Option[], hasMore: boolean, additional: {page: number}}>} - The loaded options and pagination info
      */
     const loadOptions = async (
         search_term: string,
@@ -72,26 +68,46 @@ const ReactSelect: React.FC<ReactSelectPropType> = (props) => {
         { page }: { page: number },
     ) => {
         try {
-            if (previousSearchedTerm !== search_term) {
-                setPreviousSeachedTerm(search_term)
+            // Check if the search term has changed, and update the state if it has
+            // This ensures that the component properly handles new searches by resetting the pagination
+            // when the search term changes, avoiding issues with stale data from previous searches
+            if (previousSearchTerm !== search_term) {
+                setpreviousSearchTerm(search_term)
             }
 
+            // Determine the next page number, defaulting to the initial page if not provided
             const nextPage = page || CONFIG.PAGINATION.PAGE
-            // change params name as per the usage
-            const response = await loadOptionsFetch({
-                search_term,
-                _limit: CONFIG.PAGINATION.SIZE,
-                _page: page || CONFIG.PAGINATION.PAGE,
+
+            // Make the API call to fetch options based on the search term and pagination parameters
+            const response = await FetchHelper.get(endpoint, {
+                [searchKey]: search_term,
+                size: CONFIG.PAGINATION.SIZE,
+                page: page || CONFIG.PAGINATION.PAGE,
                 ...params,
             })
-            if (response.results) {
+
+            // If the response contains results, parse them and construct the payload
+            if (response.result) {
                 const payload = {
-                    hasMore: Math.ceil(response.count / CONFIG.PAGINATION.SIZE) > page,
-                    options: parseOptions(response.results),
-                    page:
-                        search_term && search_term !== previousSearchedTerm
-                            ? CONFIG.PAGINATION.PAGE
-                            : nextPage + 1,
+                    hasMore: response.pagination_metadata?.has_next_page,
+                    options:
+                        selectAll && page === 1
+                            ? [
+                                  {
+                                      label: "Select All",
+                                      value: CONFIG.ALL_OPTIONS,
+                                      data: { label: "Select All", value: CONFIG.ALL_OPTIONS },
+                                  },
+                                  ...parseOptions(response.result),
+                              ]
+                            : parseOptions(response.result),
+                    // Set the page number for the next request, resetting if the search term has changed
+                    additional: {
+                        page:
+                            search_term && search_term !== previousSearchTerm
+                                ? CONFIG.PAGINATION.PAGE
+                                : nextPage + 1,
+                    },
                 }
                 return payload
             }
@@ -103,48 +119,55 @@ const ReactSelect: React.FC<ReactSelectPropType> = (props) => {
             }
         }
     }
+
     /**
-     * Handle change in selected option(s).
+     * Handle changes in selected options
      *
-     * @param {SingleValue<OptionType> | MultiValue<OptionType>} option - Selected option or options.
+     * @param {SingleValue<Option> | MultiValue<Option>} option - The selected option(s)
      */
-    const handleChange = (option: SingleValue<OptionType> | MultiValue<OptionType>) => {
+    const handleChange = (option: SingleValue<Option> | MultiValue<Option>) => {
+        // Check if the select box is in multi-select mode
         if (isMulti) {
-            const _options = option as OptionType[]
+            // Typecast the option to an array of options
+            const _options = option as Option[]
+            // If there are selected options, map through them and extract the data property
+            // This transforms the array of options into an array of the raw data objects
             if (_options.length) {
-                onSelected(_options)
+                const selectedOptionsData = _options.map((_option) => _option.data)
+                onSelected(selectedOptionsData)
             } else {
+                // If no options are selected, call the onSelected callback with an empty array
                 onSelected([])
             }
         } else {
-            const _option = option as OptionType
-            if (_option.value) {
-                onSelected(_option)
+            // Typecast the option to a single option
+            const _option = option as Option
+
+            // If an option is selected and it contains data, call the onSelected callback with the data object
+            if (_option?.data) {
+                onSelected(_option.data)
             } else {
+                // If no option is selected or the selected option has no data, call the onSelected callback with null
                 onSelected(null)
             }
         }
     }
     // this is required because the {...props} in the end will override the options array
-    const modifiedProps = { ...props } as Partial<ReactSelectPropType>
+    const modifiedProps = { ...props } as Partial<BaseSelectPropType>
     delete modifiedProps.getOptionLabel
     delete modifiedProps.getOptionValue
     return (
         <>
             <AsyncPaginate
-                className="text-primary fs-base lh-1 fw-bold py-0 ps-1 w-auto"
+                className="text-primary fs-base lh-1 py-0 w-auto dropdown-font"
                 styles={{
-                    menu: (base) => ({ ...base, zIndex: "9" }),
-                    valueContainer: (base) => ({
-                        ...base,
-                        maxHeight: "37px",
-                        overflow: "auto",
-                    }),
+                    ...CONFIG.DROPDOWN_STYLE,
                 }}
                 placeholder={"Select an option"}
                 isSearchable={true}
                 classNames={{
                     control: () => "form-input-dropdown",
+                    multiValue: () => "multivalue-dropdown-pills",
                 }}
                 // this input.trim condition prevents the select to show empty create option in dropdown e.g Create ""
                 isValidNewOption={(input) => (creatable && input.trim().length ? true : false)}
@@ -165,4 +188,4 @@ const ReactSelect: React.FC<ReactSelectPropType> = (props) => {
     )
 }
 
-export default ReactSelect
+export default BaseSelect

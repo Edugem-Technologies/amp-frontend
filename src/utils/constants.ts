@@ -7,11 +7,13 @@ export const CONFIG = {
     AUTH: {
         COOKIE_NAME: "__AT__",
     },
+    ALL_OPTIONS: "__ALL__",
     LOCAL_STORAGE_VARIABLES: {
         USER__UUID: "user_uuid",
         COOKIE_CHOICE: "cookie_choice",
         ACCESS_TOKEN: "access_token",
     },
+    DROPDOWN_LABEL_SLICE_LIMIT: 80,
     MESSAGES: {
         INVALID_LOGIN_CREDENTIALS: "Invalid email or password",
         ACCESS_TOKEN_EXPIRED: "Access token expired. Please login again",

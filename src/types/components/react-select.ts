@@ -4,6 +4,7 @@ import { GroupBase } from "react-select"
 import { ComponentProps, UseAsyncPaginateParams } from "react-select-async-paginate"
 import { CreatableProps } from "react-select/creatable"
 import { Control, FieldError, FieldErrorsImpl, FieldValues, Merge, Path } from "react-hook-form"
+import { Any } from "../common/helper"
 
 /**
  * Represents an option in the select component.
@@ -100,6 +101,26 @@ export interface ReactSelectPropType
      * @returns A promise that resolves with the fetched options.
      */
     loadOptionsFetch: (args: any) => any
+}
+export interface Option {
+    label: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    value: any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    data?: any
+}
+export interface BaseSelectPropType extends CreatableProps<Option, boolean, GroupBase<Option>> {
+    endpoint: URL
+    onSelected: (option: Option | Option[] | null) => void
+    params?: Record<string, Any>
+    creatable?: boolean
+    optionName?: string
+    getOptionLabel: (option: Any) => string
+    getOptionValue: (option: Any) => string
+    onCreate?: (label: string) => void
+    getOptionData: (option: Any) => Any
+    searchKey?: string
+    selectAll?: boolean
 }
 
 /**

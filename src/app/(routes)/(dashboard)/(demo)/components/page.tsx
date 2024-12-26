@@ -4,15 +4,15 @@ import LoadingComponent from "@/app/components/common/LoadingComponents"
 import MediaQuery from "@/app/components/demo/MediaQuery"
 import Scroll from "@/app/components/demo/Scroll"
 
-const CKEditor = dynamic(() => import("../../../components/editor/CkEditor"), {
+const CKEditor = dynamic(() => import("../../../../components/editor/CkEditor"), {
     ssr: false,
     loading: ({ error, isLoading }) => <LoadingComponent error={error} isLoading={isLoading} />,
 })
-const LocalStorage = dynamic(() => import("../../../components/demo/LocalStorage"), {
+const LocalStorage = dynamic(() => import("../../../../components/demo/LocalStorage"), {
     ssr: false,
     loading: ({ error, isLoading }) => <LoadingComponent error={error} isLoading={isLoading} />,
 })
-const QuillEditor = dynamic(() => import("../../../components/editor/QuillEditor"), {
+const QuillEditor = dynamic(() => import("../../../../components/editor/QuillEditor"), {
     ssr: false,
     loading: ({ error, isLoading }) => <LoadingComponent error={error} isLoading={isLoading} />,
 })

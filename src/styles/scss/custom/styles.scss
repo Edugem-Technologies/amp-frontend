@@ -2,6 +2,7 @@
 @import "./skeleton.scss";
 @import "./input.scss";
 @import "./variables.scss";
+// @import "./style.bundle.css";
 
 *,
 *::after,
@@ -3794,7 +3795,7 @@ select {
 
 .v-sidebar {
     scrollbar-width: none;
-    height: 100%;
+    height: 100vh;
     width: 300px;
     position: fixed;
     z-index: 1;
@@ -3802,7 +3803,6 @@ select {
     left: 0;
     overflow-x: hidden;
     transition: 0.5s;
-    padding-bottom: 50px;
     @include media-breakpoint-down("sm") {
         z-index: 0;
     }
@@ -4971,4 +4971,109 @@ table {
 .resizer.isResizing {
     background: hsl(216, 72%, 44%);
     opacity: 1;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "sidebar navbar"
+        "sidebar content"
+        "sidebar footer";
+    min-height: 100vh;
+    @media screen and (max-width: 768px) {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        grid-template-areas:
+            "navbar"
+            "content"
+            "footer";
+    }
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    grid-area: navbar;
+    background-color: white;
+    z-index: 9999;
+    transition: box-shadow 0.3s;
+    // sidebar-toggle-button on desktop
+    .sidebar-toggle-button {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translate(-15px, -50%);
+        transition: transform 0.3s;
+        &.rotate-180 {
+            transform: translate(-15px, -50%) rotate(180deg);
+        }
+        @media screen and (max-width: 768px) {
+            display: none;
+        }
+    }
+    // sidebar-toggle-button on mobile devices
+    .sidebar-toggle-button-sm {
+        transition: transform 0.3s;
+        &.rotate-180 {
+            transform: rotate(180deg);
+        }
+        @media screen and (min-width: 768px) {
+            display: none;
+        }
+    }
+}
+aside.sidebar {
+    position: sticky !important;
+    left: 0;
+    top: 0;
+    align-self: start;
+    grid-area: sidebar;
+    height: 100vh;
+    transition: all 0.3s ease; // Added transition for smooth animation
+
+    .sidebar-logo {
+        position: sticky;
+        top: 0;
+        background: white;
+        z-index: 999999;
+    }
+    @media screen and (max-width: 768px) {
+        position: fixed !important;
+        left: -200px;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+
+        &.show {
+            width: 150px;
+            top: 50px;
+            left: 0;
+            background-color: white;
+            z-index: 999;
+        }
+    }
+    .ps-sidebar-container {
+        &:hover {
+            &::-webkit-scrollbar-thumb {
+                background: hsla(220, 2%, 68%, 0.532);
+            }
+        }
+        &::-webkit-scrollbar {
+            width: 5px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: hsla(216, 4%, 77%, 0.532);
+            &:hover {
+                background: hsla(220, 2%, 68%, 0.532);
+            }
+        }
+        &::-webkit-scrollbar-track {
+            margin-top: 50px;
+        }
+    }
+}
+main.main-content {
+    grid-area: content;
 }

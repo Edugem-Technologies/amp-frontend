@@ -4997,6 +4997,32 @@ table {
     top: 0;
     grid-area: navbar;
     background-color: white;
+    z-index: 9999;
+    transition: box-shadow 0.3s;
+    // sidebar-toggle-button on desktop
+    .sidebar-toggle-button {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translate(-15px, -50%);
+        transition: transform 0.3s;
+        &.rotate-180 {
+            transform: translate(-15px, -50%) rotate(180deg);
+        }
+        @media screen and (max-width: 768px) {
+            display: none;
+        }
+    }
+    // sidebar-toggle-button on mobile devices
+    .sidebar-toggle-button-sm {
+        transition: transform 0.3s;
+        &.rotate-180 {
+            transform: rotate(180deg);
+        }
+        @media screen and (min-width: 768px) {
+            display: none;
+        }
+    }
 }
 aside.sidebar {
     position: sticky !important;
@@ -5005,12 +5031,47 @@ aside.sidebar {
     align-self: start;
     grid-area: sidebar;
     height: 100vh;
-    .sidebar-toggle-button {
-        position: absolute;
-        right: 0;
+    transition: all 0.3s ease; // Added transition for smooth animation
+
+    .sidebar-logo {
+        position: sticky;
+        top: 0;
+        background: white;
+        z-index: 999999;
     }
     @media screen and (max-width: 768px) {
-        display: none;
+        position: fixed !important;
+        left: -200px;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+
+        &.show {
+            width: 150px;
+            top: 50px;
+            left: 0;
+            background-color: white;
+            z-index: 999;
+        }
+    }
+    .ps-sidebar-container {
+        &:hover {
+            &::-webkit-scrollbar-thumb {
+                background: hsla(220, 2%, 68%, 0.532);
+            }
+        }
+        &::-webkit-scrollbar {
+            width: 5px;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: hsla(216, 4%, 77%, 0.532);
+            &:hover {
+                background: hsla(220, 2%, 68%, 0.532);
+            }
+        }
+        &::-webkit-scrollbar-track {
+            margin-top: 50px;
+        }
     }
 }
 main.main-content {

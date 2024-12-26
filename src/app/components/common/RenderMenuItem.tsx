@@ -1,4 +1,4 @@
-import { SideBarItemsType } from "@/types/components/aside"
+import { SidebarItemsType } from "@/types/components/aside"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Menu, MenuItem, SubMenu } from "react-pro-sidebar"
@@ -8,22 +8,22 @@ import { Menu, MenuItem, SubMenu } from "react-pro-sidebar"
  *
  * @component
  * @param {Object} props - The properties object.
- * @param {SideBarItemsType[]} props.sideBarItems - An array of sidebar items to render. Each item can either be a menu item or a submenu.
+ * @param {SidebarItemsType[]} props.sidebarItems - An array of sidebar items to render. Each item can either be a menu item or a submenu.
  *
- * @typedef {Object} SideBarItemsType
+ * @typedef {Object} SidebarItemsType
  * @property {string} label - The name or label of the menu item.
  * @property {string} [href] - The URL to navigate to when the menu item is clicked. Optional for submenus.
- * @property {SideBarItemsType[]} [sideBarItems] - Nested sidebar items for submenus. Optional for regular menu items.
+ * @property {SidebarItemsType[]} [sidebarItems] - Nested sidebar items for submenus. Optional for regular menu items.
  *
  * @returns {JSX.Element} A menu component with menu items and nested submenus, rendered recursively.
  *
  */
 const RenderMenuItem = ({
-    sideBarItems,
-    sideBarCollapse,
+    sidebarItems,
+    sidebarCollapse,
 }: {
-    sideBarItems: SideBarItemsType[]
-    sideBarCollapse: boolean
+    sidebarItems: SidebarItemsType[]
+    sidebarCollapse: boolean
 }) => {
     const pathName = usePathname()
 
@@ -53,7 +53,7 @@ const RenderMenuItem = ({
                 style={{
                     color: isActive(link) ? "#e84118" : "#181C32",
                 }}
-                className={!icon ? "px-5" : ""}
+                className={!icon && !sidebarCollapse ? "ps-5" : ""}
                 icon={icon && <img src={icon} alt={name} />}
                 component={link && <Link href={link} />}
             >
@@ -63,10 +63,10 @@ const RenderMenuItem = ({
     }
     return (
         <Menu
-            menuItemStyles={{ SubMenuExpandIcon: { display: sideBarCollapse ? "none" : "block" } }}
+            menuItemStyles={{ SubMenuExpandIcon: { display: sidebarCollapse ? "none" : "block" } }}
         >
-            {sideBarItems?.map((sideBarItem) => {
-                return sideBarItem.sideBarItems && sideBarItem.sideBarItems ? (
+            {sidebarItems?.map((sideBarItem) => {
+                return sideBarItem.sidebarItems && sideBarItem.sidebarItems ? (
                     /**
                      * Renders a submenu recursively if nested items are present.
                      */
@@ -75,8 +75,8 @@ const RenderMenuItem = ({
                         icon={<img src={"/icons/sample.svg"} alt={sideBarItem.label} />}
                     >
                         <RenderMenuItem
-                            sideBarItems={sideBarItem.sideBarItems}
-                            sideBarCollapse={sideBarCollapse}
+                            sidebarItems={sideBarItem.sidebarItems}
+                            sidebarCollapse={sidebarCollapse}
                         />
                     </SubMenu>
                 ) : (

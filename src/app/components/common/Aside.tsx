@@ -1,18 +1,18 @@
-import { SideBarItemsType } from "@/types/components/aside"
+import { SidebarItemsType } from "@/types/components/aside"
 import Link from "next/link"
-import { useState } from "react"
 import { Sidebar } from "react-pro-sidebar"
 import RenderMenuItem from "./RenderMenuItem"
+import { useAppContext } from "@/app/context"
 
 const Aside = () => {
-    const [sideBarCollapse, setSideBarCollapse] = useState(false)
+    const { sidebarCollapse } = useAppContext()
 
     /**
      * @typedef {Object} SidebarItem
      * @property {string} label - The display name of the menu item.
      * @property {string} [href] - The URL path this menu item links to (if not a submenu).
      * @property {string} [className] - Optional CSS classes for styling the link.
-     * @property {SidebarItem[]} [sideBarItems] - An optional array of submenu items for dropdown menus.
+     * @property {SidebarItem[]} [sidebarItems] - An optional array of submenu items for dropdown menus.
      */
 
     /**
@@ -21,25 +21,25 @@ const Aside = () => {
      *
      * @type {SidebarItem[]}
      * @example
-     * const sideBarItems = [
+     * const sidebarItems = [
      *   { label: "Home", href: "/" },
      *   { label: "Profile", href: "/profile" },
      *   {
      *     label: "Auth",
-     *     sideBarItems: [
+     *     sidebarItems: [
      *       { label: "Login", href: "/login" },
      *       { label: "Signup", href: "/signup" },
      *     ],
      *   },
      * ];
      */
-    const sideBarItems: SideBarItemsType[] = [
+    const sidebarItems: SidebarItemsType[] = [
         { label: "Home", href: "/", icon: "/icons/sample.svg" },
         { label: "Profile", href: "/profile", icon: "/icons/sample.svg" },
         {
             label: "Auth",
             icon: "/icons/sample.svg",
-            sideBarItems: [
+            sidebarItems: [
                 { label: "Login", href: "/login" },
                 { label: "Signup", href: "/signup" },
             ],
@@ -47,19 +47,19 @@ const Aside = () => {
     ]
     return (
         <Sidebar
-            collapsed={sideBarCollapse}
+            collapsed={sidebarCollapse}
             breakPoint="lg"
-            collapsedWidth="90px"
+            collapsedWidth="85px"
             transitionDuration={500}
-            className="sidebar"
+            className={`sidebar ${sidebarCollapse ? "" : "show"}`}
         >
             <div
-                className="d-flex align-items-center justify-content-between positon-relative"
+                className="d-flex align-items-center justify-content-between positon-relative sidebar-logo"
                 id="kt_app_sidebar_logo"
             >
                 <Link prefetch={false} legacyBehavior href="/">
                     <a role="button" className="m-2">
-                        {sideBarCollapse ? (
+                        {sidebarCollapse ? (
                             <img
                                 alt="Logo"
                                 src="/images/logos/favicon/favicon.ico"
@@ -74,32 +74,8 @@ const Aside = () => {
                         )}
                     </a>
                 </Link>
-                <button
-                    className="btn btn-sm shadow-none p-0 sidebar-toggle-button"
-                    onClick={() => setSideBarCollapse((prev) => !prev)}
-                >
-                    <span className="svg-icon svg-icon-2 rotate-180">
-                        <svg
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                opacity="0.5"
-                                d="M14.2657 11.4343L18.45 7.25C18.8642 6.83579 18.8642 6.16421 18.45 5.75C18.0358 5.33579 17.3642 5.33579 16.95 5.75L11.4071 11.2929C11.0166 11.6834 11.0166 12.3166 11.4071 12.7071L16.95 18.25C17.3642 18.6642 18.0358 18.6642 18.45 18.25C18.8642 17.8358 18.8642 17.1642 18.45 16.75L14.2657 12.5657C13.9533 12.2533 13.9533 11.7467 14.2657 11.4343Z"
-                                fill="currentColor"
-                            />
-                            <path
-                                d="M8.2657 11.4343L12.45 7.25C12.8642 6.83579 12.8642 6.16421 12.45 5.75C12.0358 5.33579 11.3642 5.33579 10.95 5.75L5.40712 11.2929C5.01659 11.6834 5.01659 12.3166 5.40712 12.7071L10.95 18.25C11.3642 18.6642 12.0358 18.6642 12.45 18.25C12.8642 17.8358 12.8642 17.1642 12.45 16.75L8.2657 12.5657C7.95328 12.2533 7.95328 11.7467 8.2657 11.4343Z"
-                                fill="currentColor"
-                            />
-                        </svg>
-                    </span>
-                </button>
             </div>
-            <RenderMenuItem sideBarItems={sideBarItems} sideBarCollapse={sideBarCollapse} />
+            <RenderMenuItem sidebarItems={sidebarItems} sidebarCollapse={sidebarCollapse} />
         </Sidebar>
     )
 }

@@ -1,6 +1,6 @@
-export interface SideBarItemsType {
+export interface SidebarItemsType {
     label: string
     href?: string
-    sideBarItems?: SideBarItemsType[]
+    sidebarItems?: SidebarItemsType[]
     icon?: string
 }

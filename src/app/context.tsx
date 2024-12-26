@@ -1,10 +1,12 @@
 "use client"
-import { createContext, useState, ReactNode, useContext } from "react"
+import { createContext, useState, ReactNode, useContext, Dispatch, SetStateAction } from "react"
 
 // Define the type for your context state
 interface AppContextType {
     state: string
     setState: (value: string) => void
+    sidebarCollapse: boolean
+    setSidebarCollapse: Dispatch<SetStateAction<boolean>>
 }
 
 // Create the context with a default value
@@ -17,8 +19,13 @@ interface AppProviderProps {
 
 export const AppProvider = ({ children }: AppProviderProps) => {
     const [state, setState] = useState("Hello from context")
+    const [sidebarCollapse, setSidebarCollapse] = useState(false)
 
-    return <AppContext.Provider value={{ state, setState }}>{children}</AppContext.Provider>
+    return (
+        <AppContext.Provider value={{ state, setState, sidebarCollapse, setSidebarCollapse }}>
+            {children}
+        </AppContext.Provider>
+    )
 }
 
 export const useAppContext = () => {

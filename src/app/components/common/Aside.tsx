@@ -34,10 +34,11 @@ const Aside = () => {
      * ];
      */
     const sideBarItems: SideBarItemsType[] = [
-        { label: "Home", href: "/" },
-        { label: "Profile", href: "/profile" },
+        { label: "Home", href: "/", icon: "/icons/sample.svg" },
+        { label: "Profile", href: "/profile", icon: "/icons/sample.svg" },
         {
             label: "Auth",
+            icon: "/icons/sample.svg",
             sideBarItems: [
                 { label: "Login", href: "/login" },
                 { label: "Signup", href: "/signup" },
@@ -48,13 +49,16 @@ const Aside = () => {
         <Sidebar
             collapsed={sideBarCollapse}
             breakPoint="lg"
-            collapsedWidth="100px"
+            collapsedWidth="90px"
             transitionDuration={500}
-            className="v-sidebar"
+            className="sidebar"
         >
-            <div className="app-sidebar-logo px-6 position-relative" id="kt_app_sidebar_logo">
+            <div
+                className="d-flex align-items-center justify-content-between positon-relative"
+                id="kt_app_sidebar_logo"
+            >
                 <Link prefetch={false} legacyBehavior href="/">
-                    <a role="button">
+                    <a role="button" className="m-2">
                         {sideBarCollapse ? (
                             <img
                                 alt="Logo"
@@ -70,13 +74,8 @@ const Aside = () => {
                         )}
                     </a>
                 </Link>
-                <div
-                    id="kt_app_sidebar_toggle"
-                    className="app-sidebar-toggle btn btn-icon btn-shadow btn-sm btn-color-muted btn-active-color-primary body-bg h-30px w-30px position-absolute top-50 start-100 translate-middle rotate side-bar-button"
-                    data-kt-toggle="true"
-                    data-kt-toggle-state="active"
-                    data-kt-toggle-target="body"
-                    data-kt-toggle-name="app-sidebar-minimize"
+                <button
+                    className="btn btn-sm shadow-none p-0 sidebar-toggle-button"
                     onClick={() => setSideBarCollapse((prev) => !prev)}
                 >
                     <span className="svg-icon svg-icon-2 rotate-180">
@@ -98,9 +97,9 @@ const Aside = () => {
                             />
                         </svg>
                     </span>
-                </div>
+                </button>
             </div>
-            <RenderMenuItem sideBarItems={sideBarItems} />
+            <RenderMenuItem sideBarItems={sideBarItems} sideBarCollapse={sideBarCollapse} />
         </Sidebar>
     )
 }

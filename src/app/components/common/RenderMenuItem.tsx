@@ -18,7 +18,13 @@ import { Menu, MenuItem, SubMenu } from "react-pro-sidebar"
  * @returns {JSX.Element} A menu component with menu items and nested submenus, rendered recursively.
  *
  */
-const RenderMenuItem = ({ sideBarItems }: { sideBarItems: SideBarItemsType[] }) => {
+const RenderMenuItem = ({
+    sideBarItems,
+    sideBarCollapse,
+}: {
+    sideBarItems: SideBarItemsType[]
+    sideBarCollapse: boolean
+}) => {
     const pathName = usePathname()
 
     /**
@@ -40,32 +46,41 @@ const RenderMenuItem = ({ sideBarItems }: { sideBarItems: SideBarItemsType[] }) 
      * @param {string | undefined} link - The URL of the menu item.
      * @returns {JSX.Element} A styled menu item component.
      */
-    const getMenuItems = (name: string, link: string | undefined) => {
+    const getMenuItems = (name: string, link: string | undefined, icon?: string) => {
         return (
             <MenuItem
                 key={name}
                 style={{
                     color: isActive(link) ? "#e84118" : "#181C32",
                 }}
+                className={!icon ? "px-5" : ""}
+                icon={icon && <img src={icon} alt={name} />}
                 component={link && <Link href={link} />}
             >
-                <span className="bullet bullet-dot"></span>
                 <span>{name}</span>
             </MenuItem>
         )
     }
     return (
-        <Menu>
+        <Menu
+            menuItemStyles={{ SubMenuExpandIcon: { display: sideBarCollapse ? "none" : "block" } }}
+        >
             {sideBarItems?.map((sideBarItem) => {
                 return sideBarItem.sideBarItems && sideBarItem.sideBarItems ? (
                     /**
                      * Renders a submenu recursively if nested items are present.
                      */
-                    <SubMenu label={sideBarItem.label}>
-                        <RenderMenuItem sideBarItems={sideBarItem.sideBarItems} />
+                    <SubMenu
+                        label={sideBarItem.label}
+                        icon={<img src={"/icons/sample.svg"} alt={sideBarItem.label} />}
+                    >
+                        <RenderMenuItem
+                            sideBarItems={sideBarItem.sideBarItems}
+                            sideBarCollapse={sideBarCollapse}
+                        />
                     </SubMenu>
                 ) : (
-                    getMenuItems(sideBarItem.label, sideBarItem.href)
+                    getMenuItems(sideBarItem.label, sideBarItem.href, sideBarItem.icon)
                 )
             })}
         </Menu>

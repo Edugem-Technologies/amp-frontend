@@ -2,7 +2,7 @@
 @import "./skeleton.scss";
 @import "./input.scss";
 @import "./variables.scss";
-@import "./style.bundle.css";
+// @import "./style.bundle.css";
 
 *,
 *::after,
@@ -4971,4 +4971,48 @@ table {
 .resizer.isResizing {
     background: hsl(216, 72%, 44%);
     opacity: 1;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "sidebar navbar"
+        "sidebar content"
+        "sidebar footer";
+    min-height: 100vh;
+    @media screen and (max-width: 768px) {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        grid-template-areas:
+            "navbar"
+            "content"
+            "footer";
+    }
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    grid-area: navbar;
+    background-color: white;
+}
+aside.sidebar {
+    position: sticky !important;
+    left: 0;
+    top: 0;
+    align-self: start;
+    grid-area: sidebar;
+    height: 100vh;
+    .sidebar-toggle-button {
+        position: absolute;
+        right: 0;
+    }
+    @media screen and (max-width: 768px) {
+        display: none;
+    }
+}
+main.main-content {
+    grid-area: content;
 }

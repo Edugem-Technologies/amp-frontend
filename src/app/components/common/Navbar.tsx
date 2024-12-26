@@ -2,10 +2,15 @@ import Link from "next/link"
 
 const Navbar = () => {
     return (
-        <nav className="d-flex justify-content-center align-items-center">
+        <nav className="navbar d-flex justify-content-center align-items-center">
             <div className="nav-link">
                 <Link href={"/"} className="text-decoration-none">
                     Home
+                </Link>
+            </div>
+            <div className="nav-link">
+                <Link href={"/components"} className="text-decoration-none">
+                    Components
                 </Link>
             </div>
             <div className="nav-link">

@@ -21,3 +21,9 @@ export const removeAccessToken = () => {
         localStorage.removeItem(CONFIG.LOCAL_STORAGE_VARIABLES.ACCESS_TOKEN)
     }
 }
+
+export function sliceWithEllipsis(name: string | undefined | null, sliceLimit: number): string {
+    const slicedName = name?.slice(0, sliceLimit) || ""
+    const ellipsis = name?.length && name.length > sliceLimit ? "  ..." : ""
+    return slicedName ? slicedName + ellipsis : ""
+}

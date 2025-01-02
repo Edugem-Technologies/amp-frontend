@@ -5054,7 +5054,7 @@ aside.sidebar {
     top: 0;
     align-self: start;
     grid-area: sidebar;
-    height: 100vh;
+    height: 100vh !important;
     transition: all 0.3s ease; // Added transition for smooth animation
 
     .sidebar-logo {
@@ -5067,12 +5067,16 @@ aside.sidebar {
         position: fixed !important;
         left: -200px;
         width: 0;
+        top: 66px !important;
         height: 0;
         overflow: hidden;
+        .menu-container {
+            max-height: calc(100vh - 150px);
+            overflow: auto;
+        }
 
         &.show {
             width: 150px;
-            top: 50px;
             left: 0;
             background-color: white;
             z-index: 999;

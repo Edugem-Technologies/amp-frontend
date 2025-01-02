@@ -63,6 +63,7 @@ const RenderMenuItem = ({
     }
     return (
         <Menu
+            className="menu-container"
             menuItemStyles={{ SubMenuExpandIcon: { display: sidebarCollapse ? "none" : "block" } }}
         >
             {sidebarItems?.map((sideBarItem) => {

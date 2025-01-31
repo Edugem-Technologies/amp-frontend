@@ -33,4 +33,5 @@ export interface TabBodyPropType {
      * @memberof TabBodyPropType
      */
     columnCount?: number
+    stopVh?: boolean
 }

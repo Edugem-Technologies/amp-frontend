@@ -31,8 +31,21 @@ axiosInstance.interceptors.request.use((_config) => {
  * @param {import("axios").AxiosResponse} response Axios response object.
  * @returns {Promise<null|any>} Null if response status is NO_CONTENT, otherwise response data.
  */
-axiosInstance.interceptors.response.use((response) => {
-    if (response.status === CONFIG.STATUS_CODES.NO_CONTENT) {
-        return null
-    } else return response.data
-})
+axiosInstance.interceptors.response.use(
+    (response) => {
+        if (response.status === CONFIG.STATUS_CODES.NO_CONTENT) {
+            return null
+        } else return response.data
+    },
+    (error) => {
+        // Add additional conditions as needed to handle errors returned by the API. You can use the parseResponseError function or the iterateObject function to extract meaningful error messages from the error object.
+        if (error.response) {
+            throw { error: error.message, status: error.response.status }
+        } else {
+            throw {
+                error: error.message ?? CONFIG.MESSAGES.GENERIC_ERROR,
+                status: CONFIG.STATUS.SERVER_ERROR,
+            }
+        }
+    },
+)

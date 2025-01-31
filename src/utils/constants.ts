@@ -130,6 +130,9 @@ export const CONFIG = {
     },
     STATUS: {
         UNAUTHORIZED: 401,
+        NO_CONTENT: 204,
+        NOT_FOUND: 404,
+        SERVER_ERROR: 500,
     },
     DEBOUNCE_TIMEOUT: 500,
     PAGINATION: {

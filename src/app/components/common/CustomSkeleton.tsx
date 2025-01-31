@@ -1,6 +1,7 @@
 import { CustomSkeletonType } from "@/types/common/custom-skeleton"
 import { CONFIG } from "@/utils/constants"
 import Skeleton from "react-loading-skeleton"
+import "react-loading-skeleton/dist/skeleton.css"
 
 /**
  * Custom skeleton loader component.

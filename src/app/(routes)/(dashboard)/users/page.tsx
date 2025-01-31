@@ -31,7 +31,7 @@ const Page = () => {
         <div className="container mb-5">
             <h1>fetching users data by tanstack Query</h1>
 
-            <TabBody loading={isFetching}>
+            <TabBody loading={isFetching} stopVh>
                 <ul>
                     {data?.map((item: AnyObject) => (
                         <li key={item.id}>

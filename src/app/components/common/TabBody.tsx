@@ -22,6 +22,7 @@ const TabBody: React.FC<TabBodyPropType> = ({
     loaderType,
     rowCount = CONFIG.DEFAULT_TABLE_SKELETON_ROW_COUNT,
     columnCount = 1,
+    ...props
 }) => {
     const getLoader = () => {
         switch (loaderType) {
@@ -44,9 +45,9 @@ const TabBody: React.FC<TabBodyPropType> = ({
                 )
 
             case CONFIG.LOADER_TYPES.TABLE_SKELETON:
-                return <CustomSkeleton rowCount={rowCount} />
+                return <CustomSkeleton rowCount={rowCount} {...props} />
             default:
-                return <CustomSkeleton rowCount={rowCount} />
+                return <CustomSkeleton rowCount={rowCount} {...props} />
         }
     }
     return <>{loading ? <div className="card my-5 mb-xl-10 p-8">{getLoader()}</div> : children}</>

@@ -26,7 +26,7 @@ ContentSecurityPolicy += "object-src 'none'; "
 
 // Allow connections to the same origin, localhost, and specified trusted sources, including data URIs.
 ContentSecurityPolicy +=
-    "connect-src 'self' localhost https://proxy-event.ckeditor.com/ https://cdn.ckeditor.com https://cognito-idp.eu-west-1.amazonaws.com/ https://api.dev.virtu-sign.com/ https://uia4f1xewf.execute-api.ap-south-1.amazonaws.com https://tq9sxuzm14.execute-api.ap-south-1.amazonaws.com/bs-handbook-bot-api-gateway-stage-prod/bsbot https://www.google.com https://graph.facebook.com https://analytics.google.com https://stats.g.doubleclick.net/ https://cdn.jsdelivr.net/ https://storage.googleapis.com/ https://www.google.co.in/ data:; "
+    "connect-src 'self' localhost https://proxy-event.ckeditor.com/ https://cdn.ckeditor.com https://cognito-idp.eu-west-1.amazonaws.com/ https://api.dev.virtu-sign.com/ https://uia4f1xewf.execute-api.ap-south-1.amazonaws.com https://tq9sxuzm14.execute-api.ap-south-1.amazonaws.com/bs-handbook-bot-api-gateway-stage-prod/bsbot https://www.google.com https://graph.facebook.com https://analytics.google.com https://stats.g.doubleclick.net/ https://cdn.jsdelivr.net/ https://storage.googleapis.com/ https://www.google.co.in/ https://jsonplaceholder.typicode.com/posts https://jsonplaceholder.typicode.com/posts/1 https://random-data-api.com/api/v2/users data:; "
 
 // Allow styles from the same origin and inline styles, which are required by Next.js.
 ContentSecurityPolicy += "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com data:; "

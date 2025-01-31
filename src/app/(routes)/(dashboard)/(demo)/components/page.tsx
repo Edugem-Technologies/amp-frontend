@@ -3,6 +3,7 @@ import IntersectionObserver from "@/app/components/demo/IntersectionObserver"
 import LoadingComponent from "@/app/components/common/LoadingComponents"
 import MediaQuery from "@/app/components/demo/MediaQuery"
 import Scroll from "@/app/components/demo/Scroll"
+import Link from "next/link"
 
 const CKEditor = dynamic(() => import("../../../../components/editor/CkEditor"), {
     ssr: false,
@@ -32,6 +33,11 @@ const ComponentsPage = () => {
             <Scroll />
             <br />
             <IntersectionObserver />
+            <br />
+            <h2>
+                To check tanstack query implementation, please check{" "}
+                <Link href="/users">Users</Link> page
+            </h2>
         </div>
     )
 }

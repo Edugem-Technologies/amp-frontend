@@ -1,8 +1,17 @@
 import { CSSObjectWithLabel } from "react-select"
+import { SweetAlertIcon } from "sweetalert2"
 
 export const API_VERSION = "api/v1"
 
 export const BASE_API_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/${API_VERSION}`
+export const ALERT_ICON_TYPE = {
+    // WARNING: "warning",
+    warning: "warning",
+    error: "error",
+    info: "info",
+    question: "question",
+    success: "success",
+} as Record<SweetAlertIcon, SweetAlertIcon>
 export const CONFIG = {
     AUTH: {
         COOKIE_NAME: "__AT__",
@@ -29,6 +38,9 @@ export const CONFIG = {
         PASSWORS_SET_SUCCESS: "Password has been set successfully. Please login",
         UNABLE_TO_LOAD_DATA: "Unable to load data",
         USER_EMAIL_UPDATE_SUCCESS: "User email updated successfully. Please login again",
+        THIS_CAN_NOT_BE_UNDONE: "This can not be undone.",
+        DATA_ADDED_SUCCESSFULLY: "Data added successfully",
+        DATA_DELETED_SUCCESSFULLY: "Data deleted successfully",
     },
     DEFAULT_MESSAGES: {
         TOKEN_EXPIRED: "Token expired. Please login again",
@@ -167,6 +179,21 @@ export const CONFIG = {
         RESEND_VERIFICATION_CODE: new URL(`${BASE_API_ENDPOINT}/user/resend-verification-code`),
         CREATE_USER: new URL(`${BASE_API_ENDPOINT}/user/create`),
         VERIFY_GOOGLE_USER: new URL(`${BASE_API_ENDPOINT}/user/idp-callback`),
+    },
+    SWEETALERT_DELETE_OPTION: {
+        text: "Are you sure you want to delete",
+        icon: ALERT_ICON_TYPE.warning,
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, Delete",
+        confirmButtonTextSecondary: "Yes",
+        cancelButtonText: "Cancel",
+    },
+    SWEETALERT_SUCCESS_OPTION: {
+        icon: ALERT_ICON_TYPE.success,
+        showConfirmButton: false,
+        timer: 5000,
     },
 }
 // Endpoints that do not require authentication

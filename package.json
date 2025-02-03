@@ -10,7 +10,8 @@
         "prepare": "husky install",
         "postbuild": "next-sitemap",
         "pre-commit": "node scripts/commitFileCountCheck.mjs && node scripts/branchNameConvention.mjs",
-        "format:check": "prettier . --write '**/{src,test}/**/{*.js,*.ts,*.tsx,*.json,*.md,*.mdx}'"
+        "format:check": "prettier . --write '**/{src,test}/**/{*.js,*.ts,*.tsx,*.json,*.md,*.mdx}'",
+        "analyzer": "ANALYZE=true npm run build"
     },
     "dependencies": {
         "@aws-amplify/adapter-nextjs": "^1.0.6",
@@ -49,6 +50,7 @@
     "devDependencies": {
         "@commitlint/cli": "^19.2.1",
         "@commitlint/config-conventional": "^19.1.0",
+        "@next/bundle-analyzer": "^15.1.6",
         "@types/node": "^20",
         "@types/react": "^18",
         "@types/react-dom": "^18",

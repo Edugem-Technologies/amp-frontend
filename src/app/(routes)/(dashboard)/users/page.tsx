@@ -2,9 +2,9 @@
 import TabBody from "@/app/components/common/TabBody"
 import { useFetchData, useMutateData } from "@/app/hooks/useFetchHelper"
 import { AnyObject } from "@/types/common/helper"
+import { CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
-import React from "react"
-import toast from "react-hot-toast"
+import { showSweetAlert } from "@/utils/helpers"
 
 const Page = () => {
     // toast.success("Data added successfully")
@@ -56,7 +56,10 @@ const Page = () => {
                             },
                             {
                                 onSuccess() {
-                                    toast.success("data added successfully")
+                                    showSweetAlert({
+                                        icon: CONFIG.SWEETALERT_SUCCESS_OPTION.icon,
+                                        text: CONFIG.MESSAGES.DATA_ADDED_SUCCESSFULLY,
+                                    })
                                 },
                                 onError(error) {
                                     handleError(error)
@@ -70,17 +73,26 @@ const Page = () => {
                 <button
                     className="btn btn-danger"
                     onClick={async () => {
-                        await deleteUserMutation.mutateAsync(
-                            {},
-                            {
-                                onSuccess() {
-                                    toast.success("data deleted successfully")
+                        const result = await showSweetAlert({
+                            icon: CONFIG.SWEETALERT_DELETE_OPTION.icon,
+                            text: `${CONFIG.SWEETALERT_DELETE_OPTION.text} ?`,
+                        })
+                        if (result.isConfirmed) {
+                            await deleteUserMutation.mutateAsync(
+                                {},
+                                {
+                                    onSuccess() {
+                                        showSweetAlert({
+                                            icon: CONFIG.SWEETALERT_SUCCESS_OPTION.icon,
+                                            text: CONFIG.MESSAGES.DATA_DELETED_SUCCESSFULLY,
+                                        })
+                                    },
+                                    onError(error) {
+                                        handleError(error)
+                                    },
                                 },
-                                onError(error) {
-                                    handleError(error)
-                                },
-                            },
-                        )
+                            )
+                        }
                     }}
                 >
                     Delete Random Data

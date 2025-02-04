@@ -31,6 +31,7 @@
         "libphonenumber-js": "^1.11.12",
         "lodash": "^4.17.21",
         "next": "14.0.4",
+        "next-auth": "^4.24.11",
         "next-sitemap": "^4.2.3",
         "react": "^18",
         "react-bootstrap": "^2.9.1",

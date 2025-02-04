@@ -7,7 +7,7 @@ import { CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
 import { LoginSchema, LoginValidationSchema } from "@/validations/auth/user"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { fetchAuthSession, signIn, signInWithRedirect, signOut } from "aws-amplify/auth"
+import { fetchAuthSession, signInWithRedirect, signOut } from "aws-amplify/auth"
 import { NextPage } from "next"
 import Image from "next/image"
 import Link from "next/link"
@@ -17,6 +17,7 @@ import { Spinner } from "react-bootstrap"
 import { useForm } from "react-hook-form"
 import { toast } from "react-hot-toast"
 import GoogleLogo from "../../../../../public/images/Google-logo.svg"
+import { signIn } from "next-auth/react"
 
 const Login: NextPage = () => {
     const router = useRouter()
@@ -34,39 +35,43 @@ const Login: NextPage = () => {
     const submitHandler = async (data: LoginSchema) => {
         try {
             // signin with AWS cognito
-            await signOut({ global: true })
-            const cognitoUser = await signIn({ username: data.email, password: data.password })
-            if (
-                cognitoUser &&
-                cognitoUser.nextStep.signInStep ===
-                    CONFIG.COGNITO_CHALLENGE_NAME.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED
-            ) {
-                router.push("/set-new-password")
-            } else if (
-                cognitoUser &&
-                cognitoUser.nextStep.signInStep === CONFIG.COGNITO_CHALLENGE_NAME.CONFIRM_SIGN_UP
-            ) {
-                setShowOtpModal(true)
-            } else {
-                const session = await fetchAuthSession()
-                const accessToken = session?.tokens?.accessToken?.toString()
-                // if jwt received then check whether user exist in db or not
-                if (accessToken) {
-                    setAccessToken(accessToken)
-                    const response = await FetchHelper.get(CONFIG.API_ENDPOINTS.GET_USER_BY_TOKEN)
-                    // if user exists then set the cookie and redirect
-                    if (response && response.data && response.status) {
-                        toast(CONFIG.MESSAGES.USER_LOGIN_SUCCESS, CONFIG.TOASTER_OPTIONS.SUCCESS)
-                        router.push(redirectUrl)
-                    }
-                    // else show error
-                    else {
-                        handleError(response)
-                    }
-                } else {
-                    toast(CONFIG.MESSAGES.GENERIC_ERROR, CONFIG.TOASTER_OPTIONS.ERROR)
-                }
-            }
+            // await signOut({ global: true })
+            // const cognitoUser = await signIn({ username: data.email, password: data.password })
+            // if (
+            //     cognitoUser &&
+            //     cognitoUser.nextStep.signInStep ===
+            //         CONFIG.COGNITO_CHALLENGE_NAME.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED
+            // ) {
+            //     router.push("/set-new-password")
+            // } else if (
+            //     cognitoUser &&
+            //     cognitoUser.nextStep.signInStep === CONFIG.COGNITO_CHALLENGE_NAME.CONFIRM_SIGN_UP
+            // ) {
+            //     setShowOtpModal(true)
+            // } else {
+            //     const session = await fetchAuthSession()
+            //     const accessToken = session?.tokens?.accessToken?.toString()
+            //     // if jwt received then check whether user exist in db or not
+            //     if (accessToken) {
+            //         setAccessToken(accessToken)
+            //         const response = await FetchHelper.get(CONFIG.API_ENDPOINTS.GET_USER_BY_TOKEN)
+            //         // if user exists then set the cookie and redirect
+            //         if (response && response.data && response.status) {
+            //             toast(CONFIG.MESSAGES.USER_LOGIN_SUCCESS, CONFIG.TOASTER_OPTIONS.SUCCESS)
+            //             router.push(redirectUrl)
+            //         }
+            //         // else show error
+            //         else {
+            //             handleError(response)
+            //         }
+            //     } else {
+            //         toast(CONFIG.MESSAGES.GENERIC_ERROR, CONFIG.TOASTER_OPTIONS.ERROR)
+            //     }
+            // }
+            const response = await signIn("credentials", {
+                redirect: false,
+            })
+            console.log("🚀 ~ submitHandler ~ response:", response)
         } catch (error) {
             console.log(error)
             // const cognitoException = JSON.parse(JSON.stringify(error))
@@ -99,7 +104,16 @@ const Login: NextPage = () => {
                             <h1>Login</h1>
                         </div>
                         <div className="v-google-login-btn">
-                            <button className="v-plane-btn-hover" onClick={login}>
+                            <button
+                                className="v-plane-btn-hover"
+                                onClick={async () =>
+                                    await signIn("google", {
+                                        redirect: true,
+                                        callbackUrl: "/components",
+                                        email: "gourav@gmail.com",
+                                    })
+                                }
+                            >
                                 <Image src={GoogleLogo} alt="google-logo" />
                                 <span>Login with Google</span>
                                 {googleLoginStart ? <Spinner variant="dark" /> : ""}

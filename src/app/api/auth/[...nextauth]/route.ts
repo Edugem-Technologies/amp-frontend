@@ -1,7 +1,7 @@
 import NextAuth, { AuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import Google from "next-auth/providers/google"
-export const authOptions: AuthOptions = {
+const authOptions: AuthOptions = {
     debug: true,
     pages: {
         signIn: "/login",
@@ -73,6 +73,6 @@ export const authOptions: AuthOptions = {
     },
 }
 
-export const handler = NextAuth(authOptions)
+const handler = NextAuth(authOptions)
 
 export { handler as GET, handler as POST }

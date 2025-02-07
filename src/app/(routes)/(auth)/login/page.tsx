@@ -1,27 +1,25 @@
 "use client"
 import OTPModal from "@/app/components/auth/OTPModal"
 import TextInputField from "@/app/components/common/TextInput"
-import { FetchHelper } from "@/services/fetch-helper"
-import { setAccessToken } from "@/utils/common"
-import { CONFIG } from "@/utils/constants"
+import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
+import { showSweetAlertWithRedirect } from "@/utils/helpers"
 import { LoginSchema, LoginValidationSchema } from "@/validations/auth/user"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { fetchAuthSession, signInWithRedirect, signOut } from "aws-amplify/auth"
 import { NextPage } from "next"
+import { signIn } from "next-auth/react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
 import { Spinner } from "react-bootstrap"
 import { useForm } from "react-hook-form"
-import { toast } from "react-hot-toast"
 import GoogleLogo from "../../../../../public/images/Google-logo.svg"
-import { signIn } from "next-auth/react"
 
 const Login: NextPage = () => {
     const router = useRouter()
     const searchParams = useSearchParams()
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
     const [googleLoginStart, setGoogleLoginStart] = useState(false)
     const [showOtpModal, setShowOtpModal] = useState(false)
     const redirectUrl = searchParams.get(CONFIG.PARAMS.REDIRECT_URL_PARAM) || "/profile"
@@ -69,9 +67,29 @@ const Login: NextPage = () => {
             //     }
             // }
             const response = await signIn("credentials", {
+                ...data,
                 redirect: false,
             })
-            console.log("🚀 ~ submitHandler ~ response:", response)
+            if (response?.ok && response?.status === 200) {
+                // Store the access token in localStorage
+                const session = await fetch("/api/auth/session").then((res) => res.json())
+                const accessToken = session?.accessToken
+                if (accessToken) {
+                    console.log("🚀 ~ submitHandler ~ accessToken:", accessToken)
+                    localStorage.setItem(CONFIG.LOCAL_STORAGE_VARIABLES.ACCESS_TOKEN, accessToken)
+                    showSweetAlertWithRedirect({
+                        icon: ALERT_ICON_TYPE.success,
+                        text: CONFIG.MESSAGES.USER_LOGIN_SUCCESS,
+                        router,
+                        url: redirectUrl,
+                    })
+                }
+
+                // Redirect to dashboard or another page
+                // router.push("/")
+            } else {
+                handleError(response?.error)
+            }
         } catch (error) {
             console.log(error)
             // const cognitoException = JSON.parse(JSON.stringify(error))
@@ -85,16 +103,16 @@ const Login: NextPage = () => {
             handleError(error)
         }
     }
-    const login = async () => {
-        try {
-            setGoogleLoginStart(true)
-            await signInWithRedirect({ provider: CONFIG.COGNITO_AUTH_PROVIDERS.GOOGLE })
-        } catch (error) {
-            console.log(error)
-            handleError(error)
-            setGoogleLoginStart(false)
-        }
-    }
+    // const login = async () => {
+    //     try {
+    //         setGoogleLoginStart(true)
+    //         await signInWithRedirect({ provider: CONFIG.COGNITO_AUTH_PROVIDERS.GOOGLE })
+    //     } catch (error) {
+    //         console.log(error)
+    //         handleError(error)
+    //         setGoogleLoginStart(false)
+    //     }
+    // }
     return (
         <section className="v-login-section v-section-padding">
             <div className="container-fluid">
@@ -106,13 +124,13 @@ const Login: NextPage = () => {
                         <div className="v-google-login-btn">
                             <button
                                 className="v-plane-btn-hover"
-                                onClick={async () =>
-                                    await signIn("google", {
+                                onClick={async () => {
+                                    const response = await signIn("google", {
                                         redirect: true,
                                         callbackUrl: "/components",
-                                        email: "gourav@gmail.com",
                                     })
-                                }
+                                    console.log("🚀 ~ onClick ~ response:", response)
+                                }}
                             >
                                 <Image src={GoogleLogo} alt="google-logo" />
                                 <span>Login with Google</span>

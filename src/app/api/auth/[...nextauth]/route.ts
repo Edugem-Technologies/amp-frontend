@@ -1,29 +1,39 @@
 import NextAuth, { AuthOptions } from "next-auth"
-import Google from "next-auth/providers/google"
-import GithubProvider from "next-auth/providers/github"
 import CredentialsProvider from "next-auth/providers/credentials"
+import Google from "next-auth/providers/google"
 export const authOptions: AuthOptions = {
+    debug: true,
     pages: {
         signIn: "/login",
         error: "/error",
     },
+    session: {
+        strategy: "jwt",
+    },
 
     providers: [
         CredentialsProvider({
+            name: "Credentials",
             credentials: {
                 email: { label: "Email", type: "email" },
                 password: { label: "Password", type: "password" },
             },
             async authorize(credentials, req) {
+                console.log("🚀 ~ authorize ~ req:", req)
                 console.log("🚀 ~ authorize ~ credentials:", credentials)
                 // Implement your user authentication logic here
                 // For now, return a dummy user object or null
-                const res = await fetch("https://triveni-api.onalpha.co/api/v1/admin/login", {
+                const res = await fetch("https://dummyjson.com/auth/login", {
                     method: "POST",
-                    body: JSON.stringify(credentials),
+                    body: JSON.stringify({
+                        username: "emilys",
+                        password: "emilyspass",
+                    }),
+                    credentials: "include",
                     headers: { "Content-Type": "application/json" },
                 })
                 const user = await res.json()
+                console.log("🚀 ~ authorize ~ user:", user)
 
                 // If no error and we have user data, return it
                 if (res.ok && user) {
@@ -52,45 +62,13 @@ export const authOptions: AuthOptions = {
         }),
     ],
     callbacks: {
-        signIn(params) {
-            console.log("🚀 ~ signIn ~ params:", params)
-            return true
+        async jwt({ token, user }) {
+            return { ...token, ...user }
         },
-        // async signIn({ user, account, profile }) {
-        //     // Call your backend API to store the user in the database
-        //     try {
-        //         console.log("user", user)
-        //         const response = await fetch(`/api/users`, {
-        //             method: "POST",
-        //             headers: {
-        //                 "Content-Type": "application/json",
-        //             },
-        //             body: JSON.stringify({
-        //                 email: user.email,
-        //                 name: user.name,
-        //                 image: user.image,
-        //             }),
-        //         })
 
-        //         if (!response.ok) {
-        //             console.error("Failed to store user in the database")
-        //             return false // Cancel sign-in if storing user fails
-        //         }
-
-        //         return true // Continue with the sign-in
-        //     } catch (error) {
-        //         console.error("Error storing user in the database:", error)
-        //         return false // Cancel sign-in on error
-        //     }
-        // },
-
-        session(params) {
-            console.log("session params", params)
-            return params.session
-        },
-        jwt(params) {
-            console.log("🚀 ~ jwt ~ params:", params)
-            return params.token
+        async session({ session, token }) {
+            console.log("🚀 ~ session ~ { session, token }:", { session, token })
+            return { ...session, ...token }
         },
     },
 }

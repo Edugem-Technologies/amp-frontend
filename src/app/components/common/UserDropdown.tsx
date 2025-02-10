@@ -1,3 +1,5 @@
+import { removeAccessToken } from "@/utils/common"
+import { signOut } from "next-auth/react"
 import { useEffect, useState } from "react"
 import { Card, ListGroup } from "react-bootstrap"
 
@@ -20,7 +22,10 @@ const UserDropdown = () => {
             cb()
         }
     }
-
+    const handleLogout = () => {
+        removeAccessToken()
+        signOut()
+    }
     useEffect(() => {
         return () => {
             if (timerId) {
@@ -63,7 +68,7 @@ const UserDropdown = () => {
                         <ListGroup.Item action className="cursor-pointer">
                             My Profile
                         </ListGroup.Item>
-                        <ListGroup.Item action className="cursor-pointer">
+                        <ListGroup.Item action className="cursor-pointer" onClick={handleLogout}>
                             Sign Out
                         </ListGroup.Item>
                     </ListGroup>

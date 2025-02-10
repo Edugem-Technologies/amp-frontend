@@ -7,7 +7,7 @@ import { showSweetAlertWithRedirect } from "@/utils/helpers"
 import { LoginSchema, LoginValidationSchema } from "@/validations/auth/user"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { NextPage } from "next"
-import { signIn } from "next-auth/react"
+import { getSession, signIn } from "next-auth/react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -15,6 +15,8 @@ import { useState } from "react"
 import { Spinner } from "react-bootstrap"
 import { useForm } from "react-hook-form"
 import GoogleLogo from "../../../../../public/images/Google-logo.svg"
+import { setAccessToken } from "@/utils/common"
+import { AnyObject } from "@/types/common/helper"
 
 const Login: NextPage = () => {
     const router = useRouter()
@@ -72,23 +74,19 @@ const Login: NextPage = () => {
             })
             if (response?.ok && response?.status === 200) {
                 // Store the access token in localStorage
-                const session = await fetch("/api/auth/session").then((res) => res.json())
-                const accessToken = session?.accessToken
+                const session = await getSession()
+                const accessToken = (session as AnyObject)?.data?.token
                 if (accessToken) {
-                    console.log("🚀 ~ submitHandler ~ accessToken:", accessToken)
-                    localStorage.setItem(CONFIG.LOCAL_STORAGE_VARIABLES.ACCESS_TOKEN, accessToken)
+                    setAccessToken(accessToken)
                     showSweetAlertWithRedirect({
                         icon: ALERT_ICON_TYPE.success,
                         text: CONFIG.MESSAGES.USER_LOGIN_SUCCESS,
                         router,
                         url: redirectUrl,
                     })
+                } else {
+                    throw (session as AnyObject)?.data
                 }
-
-                // Redirect to dashboard or another page
-                // router.push("/")
-            } else {
-                handleError(response?.error)
             }
         } catch (error) {
             console.log(error)
@@ -125,11 +123,15 @@ const Login: NextPage = () => {
                             <button
                                 className="v-plane-btn-hover"
                                 onClick={async () => {
-                                    const response = await signIn("google", {
-                                        redirect: true,
-                                        callbackUrl: "/components",
-                                    })
-                                    console.log("🚀 ~ onClick ~ response:", response)
+                                    try {
+                                        const response = await signIn("google", {
+                                            redirect: true,
+                                            callbackUrl: "/components",
+                                        })
+                                        console.log("🚀 ~ onClick ~ response:", response)
+                                    } catch (error) {
+                                        handleError(error)
+                                    }
                                 }}
                             >
                                 <Image src={GoogleLogo} alt="google-logo" />

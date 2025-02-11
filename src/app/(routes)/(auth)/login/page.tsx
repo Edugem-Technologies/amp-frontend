@@ -1,6 +1,8 @@
 "use client"
 import OTPModal from "@/app/components/auth/OTPModal"
 import TextInputField from "@/app/components/common/TextInput"
+import { AnyObject } from "@/types/common/helper"
+import { setAccessToken } from "@/utils/common"
 import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
 import { showSweetAlertWithRedirect } from "@/utils/helpers"
@@ -15,14 +17,10 @@ import { useState } from "react"
 import { Spinner } from "react-bootstrap"
 import { useForm } from "react-hook-form"
 import GoogleLogo from "../../../../../public/images/Google-logo.svg"
-import { setAccessToken } from "@/utils/common"
-import { AnyObject } from "@/types/common/helper"
 
 const Login: NextPage = () => {
     const router = useRouter()
     const searchParams = useSearchParams()
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-    const [googleLoginStart, setGoogleLoginStart] = useState(false)
     const [showOtpModal, setShowOtpModal] = useState(false)
     const redirectUrl = searchParams.get(CONFIG.PARAMS.REDIRECT_URL_PARAM) || "/profile"
     const {
@@ -34,50 +32,19 @@ const Login: NextPage = () => {
 
     const submitHandler = async (data: LoginSchema) => {
         try {
-            // signin with AWS cognito
-            // await signOut({ global: true })
-            // const cognitoUser = await signIn({ username: data.email, password: data.password })
-            // if (
-            //     cognitoUser &&
-            //     cognitoUser.nextStep.signInStep ===
-            //         CONFIG.COGNITO_CHALLENGE_NAME.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED
-            // ) {
-            //     router.push("/set-new-password")
-            // } else if (
-            //     cognitoUser &&
-            //     cognitoUser.nextStep.signInStep === CONFIG.COGNITO_CHALLENGE_NAME.CONFIRM_SIGN_UP
-            // ) {
-            //     setShowOtpModal(true)
-            // } else {
-            //     const session = await fetchAuthSession()
-            //     const accessToken = session?.tokens?.accessToken?.toString()
-            //     // if jwt received then check whether user exist in db or not
-            //     if (accessToken) {
-            //         setAccessToken(accessToken)
-            //         const response = await FetchHelper.get(CONFIG.API_ENDPOINTS.GET_USER_BY_TOKEN)
-            //         // if user exists then set the cookie and redirect
-            //         if (response && response.data && response.status) {
-            //             toast(CONFIG.MESSAGES.USER_LOGIN_SUCCESS, CONFIG.TOASTER_OPTIONS.SUCCESS)
-            //             router.push(redirectUrl)
-            //         }
-            //         // else show error
-            //         else {
-            //             handleError(response)
-            //         }
-            //     } else {
-            //         toast(CONFIG.MESSAGES.GENERIC_ERROR, CONFIG.TOASTER_OPTIONS.ERROR)
-            //     }
-            // }
             const response = await signIn("credentials", {
                 ...data,
                 redirect: false,
             })
             if (response?.ok && response?.status === 200) {
-                // Store the access token in localStorage
+                // Retrieve the current session details using NextAuth's `getSession` method
                 const session = await getSession()
-                const accessToken = (session as AnyObject)?.data?.token
+                // Extract the access token from the session data
+                const accessToken = (session as AnyObject)?.data?.data?.token
                 if (accessToken) {
+                    // Save the access token in local storage
                     setAccessToken(accessToken)
+                    // Show a success alert and redirect the user to the specified URL
                     showSweetAlertWithRedirect({
                         icon: ALERT_ICON_TYPE.success,
                         text: CONFIG.MESSAGES.USER_LOGIN_SUCCESS,
@@ -85,32 +52,14 @@ const Login: NextPage = () => {
                         url: redirectUrl,
                     })
                 } else {
+                    // Throw an error if the access token is not found in the session data t show toaster or sweetalert
                     throw (session as AnyObject)?.data
                 }
             }
         } catch (error) {
-            console.log(error)
-            // const cognitoException = JSON.parse(JSON.stringify(error))
-            // if (cognitoException.code === 'UserNotConfirmedException') {
-            //     //? Addition Functionality
-            // here we can send OTP to user regarding account confirmation
-            // then we require OTP confi    rmation Popup
-            // } else {
-            //     toast(CONFIG.MESSAGES.INVALID_LOGIN_CREDENTIALS, CONFIG.TOASTER_OPTIONS.ERROR)
-            // }
             handleError(error)
         }
     }
-    // const login = async () => {
-    //     try {
-    //         setGoogleLoginStart(true)
-    //         await signInWithRedirect({ provider: CONFIG.COGNITO_AUTH_PROVIDERS.GOOGLE })
-    //     } catch (error) {
-    //         console.log(error)
-    //         handleError(error)
-    //         setGoogleLoginStart(false)
-    //     }
-    // }
     return (
         <section className="v-login-section v-section-padding">
             <div className="container-fluid">
@@ -124,11 +73,10 @@ const Login: NextPage = () => {
                                 className="v-plane-btn-hover"
                                 onClick={async () => {
                                     try {
-                                        const response = await signIn("google", {
+                                        await signIn("google", {
                                             redirect: true,
-                                            callbackUrl: "/components",
+                                            callbackUrl: redirectUrl,
                                         })
-                                        console.log("🚀 ~ onClick ~ response:", response)
                                     } catch (error) {
                                         handleError(error)
                                     }
@@ -136,7 +84,6 @@ const Login: NextPage = () => {
                             >
                                 <Image src={GoogleLogo} alt="google-logo" />
                                 <span>Login with Google</span>
-                                {googleLoginStart ? <Spinner variant="dark" /> : ""}
                             </button>
                         </div>
                         <div className="v-hr-row">

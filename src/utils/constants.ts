@@ -41,6 +41,7 @@ export const CONFIG = {
         THIS_CAN_NOT_BE_UNDONE: "This can not be undone.",
         DATA_ADDED_SUCCESSFULLY: "Data added successfully",
         DATA_DELETED_SUCCESSFULLY: "Data deleted successfully",
+        WANT_TO_LOG_OUT: "Do you want to log out?",
     },
     DEFAULT_MESSAGES: {
         TOKEN_EXPIRED: "Token expired. Please login again",
@@ -170,6 +171,7 @@ export const CONFIG = {
     DEFAULT_TABLE_SKELETON_ROW_COUNT: 4,
     CARD_SKELETON_BASIS: 95,
     STATUS_CODES: {
+        SUCCESS: 200,
         NO_CONTENT: 204,
         UNAUTHORIZED: 401,
     },

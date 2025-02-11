@@ -1,23 +1,8 @@
+import { Any } from "@/types/common/helper"
 import NextAuth, { AuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import Google from "next-auth/providers/google"
 const authOptions: AuthOptions = {
-    // debug: true,
-    pages: {
-        signIn: "/login",
-        error: "/login",
-        signOut: undefined,
-    },
-    session: {
-        strategy: "jwt",
-        maxAge: 1 * 60 * 60, //expiry time of 1 hour in seconds
-    },
-    events: {
-        signIn(message) {
-            console.log("🚀 ~ signIn ~ message:", message)
-        },
-    },
-
     providers: [
         CredentialsProvider({
             name: "Credentials",
@@ -25,15 +10,12 @@ const authOptions: AuthOptions = {
                 email: { label: "Email", type: "email" },
                 password: { label: "Password", type: "password" },
             },
-            async authorize(credentials, req) {
+            async authorize(credentials) {
                 try {
-                    console.log("🚀 ~ authorize ~ req:", req)
-                    console.log("🚀 ~ authorize ~ credentials:", credentials)
-                    // Implement your user authentication logic here
-                    // For now, return a dummy user object or null
-                    // const res = await fetch("https://dummyjson.com/auth/login", {
-                    const res = await fetch("https://triveni-api.onalpha.co/api/v1/admin/login", {
+                    // Send a request to the API for user authentication (update YOUR_API with the correct URL)
+                    const res = await fetch("YOUR_API", {
                         method: "POST",
+                        // Payload for authentication API
                         body: JSON.stringify({
                             email: credentials?.email,
                             password: credentials?.password,
@@ -41,49 +23,69 @@ const authOptions: AuthOptions = {
                         credentials: "include",
                         headers: { "Content-Type": "application/json" },
                     })
+                    // Parse the response as JSON
                     const response = await res.json()
-                    console.log("🚀 ~ authorize ~ response:", response)
 
-                    // If no error and we have response data, return it
+                    // If the response is successful and contains data, return it
                     if (res.ok && response) {
-                        return response
+                        return { data: response } as Any // Return the response data wrapped in an object
                     } else {
+                        // Throw an error with the response data for unsuccessful requests
                         throw { data: response }
                     }
                 } catch (error) {
-                    console.log("🚀 ~ authorize ~ error:", error)
+                    // Return the error if the try block fails
                     return error
                 }
             },
         }),
-        // GithubProvider({
-        //     clientId: process.env.GITHUB_ID,
-        //     clientSecret: process.env.GITHUB_SECRET,
-        // }),
         Google({
             clientId: process.env.GOOGLE_CLIENT_ID ?? "",
             clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
-            authorization: {
-                params: {
-                    max_age: 10,
-                },
-            },
         }),
     ],
+    pages: {
+        signIn: "/login",
+        error: "/login",
+        signOut: "/login",
+    },
+    session: {
+        strategy: "jwt",
+        maxAge: 1 * 60 * 60, //expiry time of 1 hour in seconds
+    },
     callbacks: {
         async jwt({ token, user }) {
-            console.log("🚀 ~ jwt ~ user:", user)
-            console.log("🚀 ~ jwt ~ token:", token)
             return { ...token, ...user }
         },
 
         async session({ session, token }) {
-            console.log("🚀 ~ session ~ { session, token }:", { session, token })
             return { ...session, ...token }
         },
-        signIn(params) {
-            console.log("🚀 ~ signIn ~ params:", params)
-            return true
+        async signIn({ account, profile, user }) {
+            // Check if the login provider is Google
+            if (account?.provider === "google") {
+                // Send a POST request to the API for authentication (update YOUR_API with the correct URL)
+                const response = await fetch("YOUR_API", {
+                    method: "POST",
+                    // Payload for authentication API
+                    body: JSON.stringify({
+                        email: profile?.email,
+                        password: "1234",
+                    }),
+                    credentials: "include",
+                    headers: { "Content-Type": "application/json" },
+                })
+                // If a response is received, attach the API response data to the user object
+                if (response) {
+                    Object.assign(user, { data: await response.json() })
+                    return true // Allow sign-in to proceed
+                }
+                // Check if the login provider is credentials
+            } else if (account?.provider === "credentials") {
+                return true
+            }
+            // If neither Google nor credentials provider, reject the sign-in
+            return false
         },
     },
 }

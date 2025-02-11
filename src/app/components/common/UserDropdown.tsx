@@ -1,3 +1,4 @@
+"use client"
 import { removeAccessToken } from "@/utils/common"
 import { signOut } from "next-auth/react"
 import { useEffect, useState } from "react"
@@ -22,9 +23,12 @@ const UserDropdown = () => {
             cb()
         }
     }
-    const handleLogout = () => {
+    const handleLogout = async () => {
         removeAccessToken()
-        signOut()
+        signOut({
+            redirect: true,
+            callbackUrl: "/login",
+        })
     }
     useEffect(() => {
         return () => {

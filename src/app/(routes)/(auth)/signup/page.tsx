@@ -14,14 +14,15 @@ import EyeClose from "../../../../../public/images/Eye-close.svg"
 import EyeOpen from "../../../../../public/images/Eye-open.svg"
 import GoogleLogo from "../../../../../public/images/Google-logo.svg"
 
+import OTPModal from "@/app/components/auth/OTPModal"
+import TextInputField from "@/app/components/common/TextInput"
 import { FetchHelper } from "@/services/fetch-helper"
 import { setAccessToken } from "@/utils/common"
 import { handleError } from "@/utils/handle-error"
-import { fetchAuthSession, signIn, signInWithRedirect } from "aws-amplify/auth"
+import { fetchAuthSession, signIn } from "aws-amplify/auth"
+import { signIn as NextAuthSignIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
-import TextInputField from "@/app/components/common/TextInput"
-import OTPModal from "@/app/components/auth/OTPModal"
 
 const SignUp: NextPage = () => {
     const router = useRouter()
@@ -32,7 +33,6 @@ const SignUp: NextPage = () => {
         e.preventDefault()
         callback((prev) => !prev)
     }
-    const [googleLoginStart, setGoogleLoginStart] = useState(false)
     const [showOtpModal, setShowOtpModal] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -89,15 +89,6 @@ const SignUp: NextPage = () => {
             }
         }
     }
-    const login = async () => {
-        try {
-            setGoogleLoginStart(true)
-            await signInWithRedirect({ provider: CONFIG.COGNITO_AUTH_PROVIDERS.GOOGLE })
-        } catch (error) {
-            handleError(error)
-            setGoogleLoginStart(false)
-        }
-    }
     const sendOtp = async () => {
         try {
             toast.dismiss()
@@ -121,10 +112,21 @@ const SignUp: NextPage = () => {
                     <div className="v-login">
                         <div className="v-tagline">
                             <div className="v-google-login-btn">
-                                <button className="v-plane-btn-hover" onClick={login}>
+                                <button
+                                    className="v-plane-btn-hover"
+                                    onClick={async () => {
+                                        try {
+                                            await NextAuthSignIn("google", {
+                                                redirect: true,
+                                                callbackUrl: "/",
+                                            })
+                                        } catch (error) {
+                                            handleError(error)
+                                        }
+                                    }}
+                                >
                                     <Image src={GoogleLogo} alt="google-logo" />
                                     <span>Sign up with Google</span>
-                                    {googleLoginStart ? <Spinner variant="dark" /> : ""}
                                 </button>
                             </div>
                         </div>

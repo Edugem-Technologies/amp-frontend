@@ -84,6 +84,9 @@ export const FetchHelper = {
      * @returns {Promise<any>} A promise resolving to the response data.
      */
     post: async (url: URL, data: object, params?: Params): Promise<any> => {
+        console.log("🚀 ~ post: ~ url:", url)
+        console.log("🚀 ~ post: ~ data:", data)
+
         url = appendParams(url, params)
         return await axiosInstance({ url: url.toString(), method: "POST", data })
     },

@@ -1,27 +1,26 @@
 "use client"
 import OTPModal from "@/app/components/auth/OTPModal"
 import TextInputField from "@/app/components/common/TextInput"
-import { FetchHelper } from "@/services/fetch-helper"
+import { AnyObject } from "@/types/common/helper"
 import { setAccessToken } from "@/utils/common"
-import { CONFIG } from "@/utils/constants"
+import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
+import { showSweetAlertWithRedirect } from "@/utils/helpers"
 import { LoginSchema, LoginValidationSchema } from "@/validations/auth/user"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { fetchAuthSession, signIn, signInWithRedirect, signOut } from "aws-amplify/auth"
 import { NextPage } from "next"
+import { getSession, signIn } from "next-auth/react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
 import { Spinner } from "react-bootstrap"
 import { useForm } from "react-hook-form"
-import { toast } from "react-hot-toast"
 import GoogleLogo from "../../../../../public/images/Google-logo.svg"
 
 const Login: NextPage = () => {
     const router = useRouter()
     const searchParams = useSearchParams()
-    const [googleLoginStart, setGoogleLoginStart] = useState(false)
     const [showOtpModal, setShowOtpModal] = useState(false)
     const redirectUrl = searchParams.get(CONFIG.PARAMS.REDIRECT_URL_PARAM) || "/profile"
     const {
@@ -33,61 +32,32 @@ const Login: NextPage = () => {
 
     const submitHandler = async (data: LoginSchema) => {
         try {
-            // signin with AWS cognito
-            await signOut({ global: true })
-            const cognitoUser = await signIn({ username: data.email, password: data.password })
-            if (
-                cognitoUser &&
-                cognitoUser.nextStep.signInStep ===
-                    CONFIG.COGNITO_CHALLENGE_NAME.CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED
-            ) {
-                router.push("/set-new-password")
-            } else if (
-                cognitoUser &&
-                cognitoUser.nextStep.signInStep === CONFIG.COGNITO_CHALLENGE_NAME.CONFIRM_SIGN_UP
-            ) {
-                setShowOtpModal(true)
-            } else {
-                const session = await fetchAuthSession()
-                const accessToken = session?.tokens?.accessToken?.toString()
-                // if jwt received then check whether user exist in db or not
+            const response = await signIn("credentials", {
+                ...data,
+                redirect: false,
+            })
+            if (response?.ok && response?.status === 200) {
+                // Retrieve the current session details using NextAuth's `getSession` method
+                const session = await getSession()
+                // Extract the access token from the session data
+                const accessToken = (session as AnyObject)?.data?.data?.token
                 if (accessToken) {
+                    // Save the access token in local storage
                     setAccessToken(accessToken)
-                    const response = await FetchHelper.get(CONFIG.API_ENDPOINTS.GET_USER_BY_TOKEN)
-                    // if user exists then set the cookie and redirect
-                    if (response && response.data && response.status) {
-                        toast(CONFIG.MESSAGES.USER_LOGIN_SUCCESS, CONFIG.TOASTER_OPTIONS.SUCCESS)
-                        router.push(redirectUrl)
-                    }
-                    // else show error
-                    else {
-                        handleError(response)
-                    }
+                    // Show a success alert and redirect the user to the specified URL
+                    showSweetAlertWithRedirect({
+                        icon: ALERT_ICON_TYPE.success,
+                        text: CONFIG.MESSAGES.USER_LOGIN_SUCCESS,
+                        router,
+                        url: redirectUrl,
+                    })
                 } else {
-                    toast(CONFIG.MESSAGES.GENERIC_ERROR, CONFIG.TOASTER_OPTIONS.ERROR)
+                    // Throw an error if the access token is not found in the session data t show toaster or sweetalert
+                    throw (session as AnyObject)?.data
                 }
             }
         } catch (error) {
-            console.log(error)
-            // const cognitoException = JSON.parse(JSON.stringify(error))
-            // if (cognitoException.code === 'UserNotConfirmedException') {
-            //     //? Addition Functionality
-            // here we can send OTP to user regarding account confirmation
-            // then we require OTP confi    rmation Popup
-            // } else {
-            //     toast(CONFIG.MESSAGES.INVALID_LOGIN_CREDENTIALS, CONFIG.TOASTER_OPTIONS.ERROR)
-            // }
             handleError(error)
-        }
-    }
-    const login = async () => {
-        try {
-            setGoogleLoginStart(true)
-            await signInWithRedirect({ provider: CONFIG.COGNITO_AUTH_PROVIDERS.GOOGLE })
-        } catch (error) {
-            console.log(error)
-            handleError(error)
-            setGoogleLoginStart(false)
         }
     }
     return (
@@ -99,10 +69,21 @@ const Login: NextPage = () => {
                             <h1>Login</h1>
                         </div>
                         <div className="v-google-login-btn">
-                            <button className="v-plane-btn-hover" onClick={login}>
+                            <button
+                                className="v-plane-btn-hover"
+                                onClick={async () => {
+                                    try {
+                                        await signIn("google", {
+                                            redirect: true,
+                                            callbackUrl: redirectUrl,
+                                        })
+                                    } catch (error) {
+                                        handleError(error)
+                                    }
+                                }}
+                            >
                                 <Image src={GoogleLogo} alt="google-logo" />
                                 <span>Login with Google</span>
-                                {googleLoginStart ? <Spinner variant="dark" /> : ""}
                             </button>
                         </div>
                         <div className="v-hr-row">

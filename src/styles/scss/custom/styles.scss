@@ -1,3 +1,5 @@
+// theme.scss must be at the top in order to override the bootstrap default variables
+@import "./theme.scss";
 @import "../bootstrap/bootstrap";
 @import "./skeleton.scss";
 @import "./input.scss";
@@ -20,6 +22,7 @@
 
 body {
     box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
 }
 .v-row {
     max-width: 100%;

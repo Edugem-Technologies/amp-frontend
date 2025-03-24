@@ -259,6 +259,10 @@ The `FetchHelper` is imported from `services/fetch-helper.ts` and can be used th
 17. **README:** Maintain a comprehensive README file to help developers understand your project.
 18. **Comments:** Write clear comments in your code to explain complex logic.
 
+## Styling
+
+We have added a theme.scss file where all the variables of bootstrap can be overriden. To override any variable just add that variable to the theme.scss file.
+
 ## Troubleshooting
 
 There might be some issues while using third party libraries. The reason behind this issue can be the implementation of CSP (Content Security Policy) Headers.

@@ -49,9 +49,9 @@ const RenderMenuItem = ({
     const getMenuItems = (name: string, link: string | undefined, icon?: string) => {
         return (
             <MenuItem
-                key={name}
+                key={name + link}
                 style={{
-                    color: isActive(link) ? "#e84118" : "#181C32",
+                    color: isActive(link) ? "var(--bs-primary)" : "#181C32",
                 }}
                 className={!icon && !sidebarCollapse ? "ps-5" : ""}
                 icon={icon && <img src={icon} alt={name} />}
@@ -73,6 +73,7 @@ const RenderMenuItem = ({
                      */
                     <SubMenu
                         label={sideBarItem.label}
+                        key={sideBarItem.label}
                         icon={<img src={"/icons/sample.svg"} alt={sideBarItem.label} />}
                     >
                         <RenderMenuItem

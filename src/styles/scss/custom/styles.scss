@@ -4534,7 +4534,8 @@ select {
     }
 }
 
-.v-cursor-pointer {
+.v-cursor-pointer,
+.cursor-pointer {
     cursor: pointer;
 }
 
@@ -4953,6 +4954,23 @@ table {
     width: 100%;
     table-layout: fixed;
     word-wrap: normal !important;
+    th {
+        font-size: 0.85rem;
+        img {
+            user-select: none;
+            -moz-user-select: none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            -o-user-select: none;
+            opacity: 0.3;
+            &:first-child {
+                transform: rotate(180deg);
+            }
+            &.active {
+                opacity: 1;
+            }
+        }
+    }
     td {
         white-space: nowrap;
         overflow: hidden;
@@ -5107,4 +5125,20 @@ aside.sidebar {
 }
 main.main-content {
     grid-area: content;
+    overflow: auto;
+}
+
+.custom-spinner {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -40%);
+}
+
+.opacity {
+    &-0 {
+        opacity: 0;
+    }
+    &-1 {
+        opacity: 1;
+    }
 }

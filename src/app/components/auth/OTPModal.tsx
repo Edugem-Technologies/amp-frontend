@@ -11,7 +11,7 @@ import React from "react"
 import { Modal } from "react-bootstrap"
 import { useForm } from "react-hook-form"
 import toast from "react-hot-toast"
-import CustomButton from "../common/Button"
+import Button from "../common/Button"
 import TextInputField from "../common/TextInput"
 
 const OTPModal: React.FC<OtpModalPropType> = ({ show, setShow, email, password }) => {
@@ -110,10 +110,10 @@ const OTPModal: React.FC<OtpModalPropType> = ({ show, setShow, email, password }
                                             />
                                         </div>
                                         <div className="v-form-submit-btn">
-                                            <CustomButton
+                                            <Button
                                                 className="v-submit-btn v-fill-btn-hover"
                                                 type="submit"
-                                                isSubmitting={isSubmitting}
+                                                loading={isSubmitting}
                                                 title={"Submit"}
                                             />
                                         </div>

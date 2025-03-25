@@ -1,25 +1,34 @@
-import { ButtonProps } from "@/types/components/button"
 import React from "react"
-import { Spinner } from "react-bootstrap"
+import { Spinner, SpinnerProps } from "react-bootstrap"
 
-/**
- * Custom button component with optional spinner for loading state.
- * @param {ButtonProps} props - Props for the custom button.
- * @returns {JSX.Element} - Custom button element.
- */
-const CustomButton: React.FC<ButtonProps> = ({
-    title,
-    className = "",
-    type,
-    isSubmitting,
-    ...props
-}) => {
+export interface ButtonPropType extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    loading?: boolean
+    title: string
+    loadingText?: string
+    spinnerProps?: Pick<SpinnerProps, "size" | "variant" | "animation">
+}
+
+const Button: React.FC<ButtonPropType> = ({ loading = false, title, spinnerProps, ...props }) => {
     return (
-        <button className={`v-custom-btn ${className}`} type={type} {...props}>
-            {" "}
-            {isSubmitting ? <Spinner variant="light" /> : title}
+        <button
+            type="submit"
+            className="btn btn-primary custom-button-height"
+            disabled={loading}
+            {...props}
+        >
+            <span className="indicator-label position-relative">
+                <span className={loading ? "opacity-0" : "opacity-1"}>
+                    {props.children}
+                    {title}
+                </span>
+                <span
+                    className={`position-absolute custom-spinner ${loading ? "d-block" : "d-none"}`}
+                >
+                    <Spinner size="sm" {...spinnerProps} />
+                </span>
+            </span>
         </button>
     )
 }
 
-export default CustomButton
+export default Button

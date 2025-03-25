@@ -23,9 +23,7 @@ import NoData from "./NoData"
  * @returns {JSX.Element} A table element with the specified rows and columns
  */
 const ReactTable = <T extends RowId>({
-    getFooterGroups,
-    getHeaderGroups,
-    getRowModel,
+    table: { getHeaderGroups, getRowModel, getFooterGroups },
     className,
     loading,
     rowCount,
@@ -36,9 +34,7 @@ const ReactTable = <T extends RowId>({
     )
     return (
         <table
-            className={`table dataTable align-middle table-row-dashed fs-6 gy-5 ${
-                className ? className : ""
-            }`}
+            className={`table dataTable align-middle fs-6 gy-5 ${className ? className : ""}`}
             id="games-table"
         >
             <thead>
@@ -48,34 +44,78 @@ const ReactTable = <T extends RowId>({
                         className="text-start text-primary fw-bold fs-7 text-uppercase gs-0"
                     >
                         {headerGroup.headers.map((header) => (
-                            <>
-                                <th
-                                    key={header.id}
-                                    colSpan={header.colSpan}
-                                    className={`min-w-100px position-relative ${
+                            <th
+                                key={header.id}
+                                colSpan={header.colSpan}
+                                className={`position-relative overflow-hidden`}
+                                style={{
+                                    width: `${header.getSize()}px`,
+                                }}
+                            >
+                                <div
+                                    className={`min-w-100px d-flex align-items-center gap-3 ${
                                         header.column.getCanSort() ? "cursor-pointer sorting" : ""
-                                    } ${
-                                        header.column.getIsSorted()
-                                            ? "sorting_" + header.column.getIsSorted()
-                                            : ""
-                                    } `}
-                                    onClick={header.column.getToggleSortingHandler()}
+                                    }`}
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                        e.preventDefault()
+                                        const handler = header.column.getToggleSortingHandler()
+                                        if (handler) {
+                                            handler(e)
+                                        }
+                                    }}
                                 >
                                     {flexRender(
                                         header.column.columnDef.header,
                                         header.getContext(),
                                     )}
-                                    {header.column.getCanResize() && (
-                                        <div
-                                            onMouseDown={header.getResizeHandler()}
-                                            onTouchStart={header.getResizeHandler()}
-                                            className={`resizer ${
-                                                header.column.getIsResizing() ? "isResizing" : ""
-                                            }`}
-                                        />
+                                    {header.column.getCanSort() && (
+                                        <div className="d-inline-flex flex-column align-items-center">
+                                            <img
+                                                src="/images/caret-down.svg"
+                                                alt=""
+                                                className={
+                                                    header.column.getIsSorted() === "asc"
+                                                        ? "active"
+                                                        : ""
+                                                }
+                                            />
+                                            <img
+                                                src="/images/caret-down.svg"
+                                                alt=""
+                                                className={
+                                                    header.column.getIsSorted() === "desc"
+                                                        ? "active"
+                                                        : ""
+                                                }
+                                            />
+                                        </div>
                                     )}
-                                </th>
-                            </>
+                                </div>
+                                {header.column.getCanResize() && (
+                                    <div
+                                        onMouseDown={(e) => {
+                                            e.preventDefault()
+                                            e.stopPropagation()
+                                            const handler = header.getResizeHandler()
+                                            if (handler) {
+                                                handler(e)
+                                            }
+                                        }}
+                                        onTouchStart={(e) => {
+                                            e.preventDefault()
+                                            e.stopPropagation()
+                                            const handler = header.getResizeHandler()
+                                            if (handler) {
+                                                handler(e)
+                                            }
+                                        }}
+                                        className={`resizer ${
+                                            header.column.getIsResizing() ? "isResizing" : ""
+                                        }`}
+                                    />
+                                )}
+                            </th>
                         ))}
                     </tr>
                 ))}
@@ -95,34 +135,39 @@ const ReactTable = <T extends RowId>({
                     </tr>
                 ) : (
                     getRowModel().rows.map((row) => (
-                        <>
-                            <tr key={row.id}>
-                                {row.getVisibleCells().map((cell) => (
-                                    <td key={cell.id}>
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </td>
-                                ))}
-                            </tr>
-                        </>
+                        <tr key={row.id}>
+                            {row.getVisibleCells().map((cell) => (
+                                <td
+                                    key={cell.id}
+                                    style={{
+                                        width: `${cell.column.getSize()}px`,
+                                    }}
+                                >
+                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                </td>
+                            ))}
+                        </tr>
                     ))
                 )}
             </tbody>
-            <tfoot>
-                {getFooterGroups().map((footerGroup) => (
-                    <tr key={footerGroup.id}>
-                        {footerGroup.headers.map((header) => (
-                            <th key={header.id}>
-                                {header.isPlaceholder
-                                    ? null
-                                    : flexRender(
-                                          header.column.columnDef.footer,
-                                          header.getContext(),
-                                      )}
-                            </th>
-                        ))}
-                    </tr>
-                ))}
-            </tfoot>
+            {getFooterGroups()?.length > 1 ? (
+                <tfoot>
+                    {getFooterGroups().map((footerGroup) => (
+                        <tr key={footerGroup.id}>
+                            {footerGroup.headers.map((header) => (
+                                <th key={header.id}>
+                                    {header.isPlaceholder
+                                        ? null
+                                        : flexRender(
+                                              header.column.columnDef.footer,
+                                              header.getContext(),
+                                          )}
+                                </th>
+                            ))}
+                        </tr>
+                    ))}
+                </tfoot>
+            ) : null}
         </table>
     )
 }

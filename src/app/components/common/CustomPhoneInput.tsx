@@ -27,6 +27,7 @@ const CustomPhoneInput: React.FC<CustomPhoneInputType> = ({
     setPhoneNumberErrors,
     errorMessage,
     setCountry,
+    ...props
 }) => {
     return (
         <>
@@ -69,6 +70,7 @@ const CustomPhoneInput: React.FC<CustomPhoneInputType> = ({
                             setPhoneNumberErrors()
                         }
                     }}
+                    {...props}
                 />
             </div>
 

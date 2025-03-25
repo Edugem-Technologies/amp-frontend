@@ -9,4 +9,5 @@ export interface CustomPhoneInputType {
     clearPhoneNumberErrors: () => void
     setPhoneNumberErrors: () => void
     errorMessage: string
+    country: string
 }

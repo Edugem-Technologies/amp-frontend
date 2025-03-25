@@ -1,27 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ColumnDef, HeaderGroup, RowModel } from "@tanstack/react-table"
+import { ColumnDef, Table } from "@tanstack/react-table"
 
 /**
  * Props for the ReactTable component.
  */
 export interface ReactTableProps<T> {
-    /**
-     * Function to get header groups.
-     * @returns {HeaderGroup<T>[]} The header groups.
-     */
-    getHeaderGroups: () => HeaderGroup<T>[]
-
-    /**
-     * Function to get row model.
-     * @returns {RowModel<T>} The row model.
-     */
-    getRowModel: () => RowModel<T>
-
-    /**
-     * Function to get footer groups.
-     * @returns {HeaderGroup<T>[]} The footer groups.
-     */
-    getFooterGroups: () => HeaderGroup<T>[]
+    table: Table<T>
 
     /**
      * Optional CSS class for the table.
@@ -145,4 +129,6 @@ export interface ReactTableWithPaginationPropType extends ExpandedRowWithTablePr
     /** Class name for the add button */
     addButtonClassName?: string
     dummyData?: any
+    /** Query keys for the table */
+    queryKeys: string[]
 }

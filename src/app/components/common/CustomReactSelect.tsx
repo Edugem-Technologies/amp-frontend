@@ -14,9 +14,9 @@ const CustomReactSelect: React.FC<CustomReactSelectType> = (props) => {
     } = props
     return (
         <ReactSelect
-            className="text-primary fs-base py-0 ps-1 w-auto"
+            className="text-primary fs-base w-auto"
             classNames={{
-                control: () => "form-input-dropdown p-1",
+                control: () => "form-input-dropdown",
             }}
             placeholder={placeholder ?? "Select an option"}
             isClearable={isClearable || true}

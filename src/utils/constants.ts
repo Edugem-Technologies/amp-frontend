@@ -162,7 +162,20 @@ export const CONFIG = {
         CHARS_255: 255,
         CHARS_3: 3,
         CHARS_6: 6,
+        TWO_HUNDREAD_CHARACTERS: 200,
+        TWO_FIFTY_FIVE_CHARACTERS: 255,
+        THREE_HUNDREAD_CHARACTERS: 300,
+        EIGHT_CHARACTERS: 8,
+        FIVE_HUNDREAD_CHARACTERS: 500,
+        ONE_HUNDREAD_CHARACTERS: 100,
+        FIFTEEN_CHARACTERS: 15,
     },
+    USER_ACCESS: [
+        { label: "Admin", value: "Admin" },
+        { label: "Finance", value: "Finance" },
+        { label: "Sales", value: "Sales" },
+        { label: "Marketing", value: "Marketing" },
+    ],
 
     LOADER_TYPES: {
         TABLE_SKELETON: "table-skeleton",

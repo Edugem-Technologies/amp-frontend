@@ -1,6 +1,7 @@
 import { z } from "zod"
 import { generateErrorMessage } from "./message-generator"
 import { CONFIG } from "./constants"
+import { Any } from "@/types/common/helper"
 
 /**
  * Generates a Zod string schema for validating a simple text field.
@@ -35,9 +36,6 @@ export const getNameFieldValidationSchema = (fieldName: string) =>
         .max(CONFIG.VALIDATIONS.CHARS_255, {
             message: generateErrorMessage(fieldName, CONFIG.VALIDATIONS.CHARS_255, true),
         })
-        .refine((value) => value.match(/^[a-zA-Z]+[a-zA-Z\s']*$/), {
-            message: `Invalid ${fieldName}`,
-        })
 
 /**
  * Generates a Zod string schema for validating an email field.
@@ -70,3 +68,78 @@ export const getPasswordFieldValidationSchema = () =>
         .refine((field) => field.match(/^(?=.*[A-Za-z])(?=.*\d).{6,}$/), {
             message: "Must contain a combination of letters and numbers",
         })
+
+export const nameFieldFormat = (value: Any) => {
+    return value.match(/^[a-zA-Z' ]+$/)
+}
+export const passwordFieldFormat = (value: Any) => {
+    return value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d\s]).{8,}$/)
+}
+export function getUserNameSchema(message: string, field_name: string) {
+    return z
+        .string()
+        .trim()
+        .min(1, { message: generateErrorMessage(field_name) })
+        .max(CONFIG.VALIDATIONS.TWO_FIFTY_FIVE_CHARACTERS, {
+            message: generateErrorMessage(
+                field_name,
+                CONFIG.VALIDATIONS.TWO_FIFTY_FIVE_CHARACTERS,
+                true,
+            ),
+        })
+        .refine((field) => nameFieldFormat(field), {
+            message,
+        })
+}
+
+export function getUserEmailSchema() {
+    return z
+        .string()
+        .trim()
+        .min(1, { message: "Email is required" })
+        .max(CONFIG.VALIDATIONS.TWO_FIFTY_FIVE_CHARACTERS, {
+            message: generateErrorMessage(
+                "Email",
+                CONFIG.VALIDATIONS.TWO_FIFTY_FIVE_CHARACTERS,
+                true,
+            ),
+        })
+        .toLowerCase()
+        .email()
+        .regex(/^[^,]+@[^,]+$/, { message: "Email must not contain a comma before the @ sign" })
+}
+
+export function getPhoneNumberSchema(minLength: number) {
+    return z
+        .string({
+            required_error: "Phone number is required",
+            invalid_type_error: "Phone number is required",
+        })
+        .trim()
+        .min(minLength, { message: "Phone number is required" })
+}
+
+export function getUserPasswordSchema(fieldName?: string) {
+    return z
+        .string()
+        .trim()
+        .min(
+            CONFIG.VALIDATIONS.EIGHT_CHARACTERS,
+            generateErrorMessage(
+                fieldName ?? "Password",
+                CONFIG.VALIDATIONS.EIGHT_CHARACTERS,
+                false,
+            ),
+        )
+        .max(CONFIG.VALIDATIONS.TWO_FIFTY_FIVE_CHARACTERS, {
+            message: generateErrorMessage(
+                fieldName ?? "Password",
+                CONFIG.VALIDATIONS.TWO_FIFTY_FIVE_CHARACTERS,
+                true,
+            ),
+        })
+        .refine((field) => passwordFieldFormat(field), {
+            message:
+                "Must contain a combination of letters, numbers and special character with one uppercase and lowercase character",
+        })
+}

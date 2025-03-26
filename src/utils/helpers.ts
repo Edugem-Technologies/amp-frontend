@@ -126,3 +126,17 @@ export const showSweetAlertWithRedirect = (args: {
     showSweetAlert({ icon: args.icon, text: args.text })
     args.router.push(args.url)
 }
+
+export const generateRandomColors = (index?: number) => {
+    if (typeof index === "undefined") {
+        index = Math.floor(Math.random() * CONFIG.COLOR_ARRAY.colorArray.length)
+    }
+    if (index >= CONFIG.COLOR_ARRAY.colorArray.length) {
+        index = index % CONFIG.COLOR_ARRAY.colorArray.length
+    }
+    return CONFIG.COLOR_ARRAY.colorArray[index]
+}
+
+export const getLocalItem = (item: string) => {
+    return localStorage.getItem(item)
+}

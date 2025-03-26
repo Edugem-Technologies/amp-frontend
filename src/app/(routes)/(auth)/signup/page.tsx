@@ -106,7 +106,7 @@ const SignUp: NextPage = () => {
         }
     }
     return (
-        <section className="v-signup-section v-section-padding">
+        <section className="v-signup-section">
             <div className="container">
                 <div className="v-form-container">
                     <div className="v-login">

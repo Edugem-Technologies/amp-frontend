@@ -61,79 +61,77 @@ const Login: NextPage = () => {
         }
     }
     return (
-        <section className="v-login-section v-section-padding">
-            <div className="container-fluid">
-                <div className="v-form-container">
-                    <div className="v-login w-50">
-                        <div className="v-tagline">
-                            <h1>Login</h1>
-                        </div>
-                        <div className="v-google-login-btn">
-                            <button
-                                className="v-plane-btn-hover"
-                                onClick={async () => {
-                                    try {
-                                        await signIn("google", {
-                                            redirect: true,
-                                            callbackUrl: redirectUrl,
-                                        })
-                                    } catch (error) {
-                                        handleError(error)
-                                    }
-                                }}
-                            >
-                                <Image src={GoogleLogo} alt="google-logo" />
-                                <span>Login with Google</span>
-                            </button>
-                        </div>
-                        <div className="v-hr-row">
-                            <hr />
-                            <span>Or Log in with</span>
-                            <hr />
-                        </div>
-                        <div className="v-form-content">
-                            <form onSubmit={handleSubmit(submitHandler)}>
-                                <div className="v-form-group mt-0">
-                                    <TextInputField
-                                        label="Email"
-                                        errorMsg={errors?.email?.message}
-                                        placeholder="E.g. youremail@email.com"
-                                        required
-                                        {...register("email")}
-                                    />
+        <div className="container-fluid">
+            <div className="v-form-container">
+                <div className="v-login w-50">
+                    <div className="v-tagline">
+                        <h1>Login</h1>
+                    </div>
+                    <div className="v-google-login-btn">
+                        <button
+                            className="v-plane-btn-hover"
+                            onClick={async () => {
+                                try {
+                                    await signIn("google", {
+                                        redirect: true,
+                                        callbackUrl: redirectUrl,
+                                    })
+                                } catch (error) {
+                                    handleError(error)
+                                }
+                            }}
+                        >
+                            <Image src={GoogleLogo} alt="google-logo" />
+                            <span>Login with Google</span>
+                        </button>
+                    </div>
+                    <div className="v-hr-row">
+                        <hr />
+                        <span>Or Log in with</span>
+                        <hr />
+                    </div>
+                    <div className="v-form-content">
+                        <form onSubmit={handleSubmit(submitHandler)}>
+                            <div className="v-form-group mt-0">
+                                <TextInputField
+                                    label="Email"
+                                    errorMsg={errors?.email?.message}
+                                    placeholder="E.g. youremail@email.com"
+                                    required
+                                    {...register("email")}
+                                />
+                            </div>
+                            <div className="v-form-group">
+                                <TextInputField
+                                    label="Password"
+                                    errorMsg={errors?.password?.message}
+                                    placeholder="E.g. youremail@email.com"
+                                    required
+                                    type="password"
+                                    {...register("password")}
+                                />
+                                <div className="v-forgot-password">
+                                    <Link href={"/forgot-password"}>Forgot password?</Link>
                                 </div>
-                                <div className="v-form-group">
-                                    <TextInputField
-                                        label="Password"
-                                        errorMsg={errors?.password?.message}
-                                        placeholder="E.g. youremail@email.com"
-                                        required
-                                        type="password"
-                                        {...register("password")}
-                                    />
-                                    <div className="v-forgot-password">
-                                        <Link href={"/forgot-password"}>Forgot password?</Link>
-                                    </div>
-                                </div>
-                                <div className="v-form-group">
-                                    <button
-                                        type="submit"
-                                        className={`v-submit-btn ${
-                                            isSubmitting ? "" : " v-fill-btn-hover"
-                                        }`}
-                                        disabled={isSubmitting}
-                                    >
-                                        {isSubmitting ? <Spinner variant="light" /> : "Login"}
-                                    </button>
-                                </div>
-                                <div className="v-signup">
-                                    <p>
-                                        Don&apos;t have an account?&nbsp;
-                                        <Link href={"/signup"}>Signup</Link>
-                                    </p>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                            <div className="v-form-group">
+                                <button
+                                    type="submit"
+                                    className={`v-submit-btn ${
+                                        isSubmitting ? "" : " v-fill-btn-hover"
+                                    }`}
+                                    disabled={isSubmitting}
+                                >
+                                    {isSubmitting ? <Spinner variant="light" /> : "Login"}
+                                </button>
+                            </div>
+                            <div className="v-signup">
+                                <p>
+                                    Don&apos;t have an account?&nbsp;
+                                    <Link href={"/signup"}>Signup</Link>
+                                </p>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -143,7 +141,7 @@ const Login: NextPage = () => {
                 email={getValues("email")}
                 password={getValues("password")}
             />
-        </section>
+        </div>
     )
 }
 

@@ -1,23 +1,63 @@
 "use client"
+import UserInfo from "@/app/components/auth/UserInfo"
+import CustomSkeleton from "@/app/components/common/CustomSkeleton"
+import { FetchHelper } from "@/services/fetch-helper"
+import { User } from "@/types/auth/user"
+import { CONFIG } from "@/utils/constants"
+import { handleError } from "@/utils/handle-error"
+import { useParams } from "next/navigation"
+import { useState, useEffect } from "react"
 
-const Profile: React.FC = () => {
-    // here we can use the user profile; this page will only be accessible to authenticated users
+/**
+ * SingleUser component is responsible for fetching and displaying the details of a single user.
+ * It shows a loading skeleton while data is being fetched and renders the user information once available.
+ * If an invalid tab is accessed, it redirects to a 404 page.
+ */
+const SingleUser = () => {
+    // State variables for user data and loading status
+    const [userData, setuserData] = useState<User>()
+    const [loading, setLoading] = useState(false)
+    const params = useParams()
+    const userId = params.id as string
+    const [refetch, setRefetch] = useState(false)
+
+    /**
+     * Fetches user data by user ID and updates state accordingly.
+     * Displays loading state while fetching and handles errors gracefully.
+     */
+
+    const getUserById = async () => {
+        try {
+            setLoading(true)
+            const url = new URL(`${CONFIG.API_ENDPOINTS.GET_USER_BY_TOKEN}`)
+            const response = await FetchHelper.get(url, {
+                user__uuid: userId,
+                page: 1,
+                size: 10,
+            })
+            if (response?.result[0]) {
+                setuserData(response.result[0])
+            }
+        } catch (error) {
+            handleError(error)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        getUserById()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [refetch])
     return (
-        <section className="text-center mt-4">
-            <h1>Profile Page</h1>
-            <p>
-                {" "}
-                atae optio omnis! Tempore beatae voluptates ex sed modi, a quas ad ducimus? quo sed
-                consequuntur omnis eum soluta corrupti eveniet! Eius culpa cumque esse perspiciatis.
-                Minus praesentium maiores non sint nemo itaque ab recusandae temporibus commodi quia
-                iusto dolorem et asperiores quas sequi necessitatibus libero ea obcaecati, harum
-                soluta? Excepturi harum rem quae, nulla voluptates necessitatibus quia minus cum
-                quisquam. Eos natus blanditiis fugiat accusamus laboruquidem modi odit nisi dolorum
-                enim, porro odio consectetur pariatur sit in beatae optio omnis! Tempore beatae
-                voluptates ex sed modi, a quas ad ducimus?
-            </p>
-        </section>
+        <div className="container-fluid">
+            {loading ? (
+                <CustomSkeleton stopHorizontalScrolling={true} rowCount={5} />
+            ) : (
+                !!userData && <UserInfo userInfo={userData} setRefetch={setRefetch} />
+            )}
+        </div>
     )
 }
 
-export default Profile
+export default SingleUser

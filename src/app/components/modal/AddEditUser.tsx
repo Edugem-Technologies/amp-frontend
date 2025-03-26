@@ -16,7 +16,7 @@ import ShowFormError from "../common/ShowFormError"
 import CustomPhoneInput from "../common/CustomPhoneInput"
 import { checkValidPhoneNumber, showSweetAlert } from "@/utils/helpers"
 import { handleError } from "@/utils/handle-error"
-import { AddUser, AddUserSchema } from "@/validations/auth/AddUserSchema"
+import { AddUser, AddUserSchema } from "@/validations/auth/add-user-schema"
 import Button from "../common/Button"
 
 export interface AddUserModalPropType {

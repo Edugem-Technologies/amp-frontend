@@ -7,6 +7,7 @@ export interface User {
     email: string
     uuid: string
     first_name: string
+    image?: string
 }
 
 export interface WithAuthPropType {

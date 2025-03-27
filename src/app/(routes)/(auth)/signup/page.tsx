@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { NextPage } from "next"
 import Image from "next/image"
 import Link from "next/link"
-import React, { useState } from "react"
+import React, { Suspense, useState } from "react"
 import { Spinner } from "react-bootstrap"
 import { useForm } from "react-hook-form"
 import EyeClose from "../../../../../public/images/Eye-close.svg"
@@ -306,12 +306,14 @@ const SignUp: NextPage = () => {
                     </div>
                 </div>
             </div>
-            <OTPModal
-                show={showOtpModal}
-                setShow={setShowOtpModal}
-                email={getValues("email")}
-                password={getValues("password")}
-            />
+            <Suspense>
+                <OTPModal
+                    show={showOtpModal}
+                    setShow={setShowOtpModal}
+                    email={getValues("email")}
+                    password={getValues("password")}
+                />
+            </Suspense>
         </section>
     )
 }

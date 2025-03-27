@@ -140,3 +140,19 @@ export const generateRandomColors = (index?: number) => {
 export const getLocalItem = (item: string) => {
     return localStorage.getItem(item)
 }
+
+export const hasAccessPermission = ({
+    userPermissions,
+    requiredPermissions,
+}: {
+    requiredPermissions?: string[]
+    userPermissions: string[]
+}) => {
+    if (userPermissions?.length && requiredPermissions?.length) {
+        const result = requiredPermissions.some((permission) =>
+            userPermissions.includes(permission),
+        )
+        return result
+    }
+    return false
+}

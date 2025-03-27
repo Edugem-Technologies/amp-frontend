@@ -179,6 +179,7 @@ export const CONFIG = {
         CHARS_255: 255,
         CHARS_3: 3,
         CHARS_6: 6,
+        CHARS_8: 8,
         TWO_HUNDREAD_CHARACTERS: 200,
         TWO_FIFTY_FIVE_CHARACTERS: 255,
         THREE_HUNDREAD_CHARACTERS: 300,
@@ -186,6 +187,8 @@ export const CONFIG = {
         FIVE_HUNDREAD_CHARACTERS: 500,
         ONE_HUNDREAD_CHARACTERS: 100,
         FIFTEEN_CHARACTERS: 15,
+        MAX_INT_LIMIT: 35791394,
+        MAX_ORDER_LIMIT: 2147483647,
     },
     USER_ACCESS: [
         { label: "Admin", value: "Admin" },

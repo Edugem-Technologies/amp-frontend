@@ -131,4 +131,17 @@ export interface ReactTableWithPaginationPropType extends ExpandedRowWithTablePr
     dummyData?: any
     /** Query keys for the table */
     queryKeys: string[]
+    /**
+     * Optional flag to indicate table view.
+     */
+    isTableView?: boolean
+
+    /**
+     * Function to render the grid view.
+     * @param {any} asset - The asset to render.
+     * @returns {React.ReactNode} The rendered grid view.
+     */
+    renderGridView?: (asset: any) => React.ReactNode
+    /** Custom class name to be applied to table columns */
+    columnClassName?: string
 }

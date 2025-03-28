@@ -263,6 +263,48 @@ The `FetchHelper` is imported from `services/fetch-helper.ts` and can be used th
 
 We have added a theme.scss file where all the variables of bootstrap can be overriden. To override any variable just add that variable to the theme.scss file.
 
+## CSS Architecture
+
+### Cascade Layers
+
+The project uses CSS Cascade Layers (@layer) to establish a clear and predictable specificity hierarchy. Layers are organized from lowest to highest priority:
+
+1. **reset** - Base level resets for consistent cross-browser styling
+2. **defaults** - Default element styles and base typography
+3. **patterns** - Common design patterns and reusable layouts
+4. **bootstrap** - Bootstrap styles
+5. **components** - Individual component-specific styles
+6. **utilities** - Utility classes for direct style modifications
+7. **overrides** - Highest priority styles for necessary overrides
+
+This layered approach helps:
+
+-   Manage specificity conflicts
+-   Create a predictable styling hierarchy
+-   Separate concerns in the CSS architecture
+-   Make maintenance and updates more manageable
+
+Example usage in SCSS:
+
+```scss
+@layer reset {
+    /* Base resets */
+}
+
+@layer components {
+    /* Component styles */
+}
+
+@layer utilities {
+    /* Utility classes */
+}
+```
+
+Learn more about CSS Cascade Layers:
+
+-   [MDN Web Docs - Cascade Layers](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer)
+-   [W3C Specification](https://www.w3.org/TR/css-cascade-5/#layering)
+
 ## Troubleshooting
 
 There might be some issues while using third party libraries. The reason behind this issue can be the implementation of CSP (Content Security Policy) Headers.

@@ -52,6 +52,11 @@ const Page = () => {
                     endpoint={new URL(`https://random-data-api.com/api/v2/users?size=10`)}
                     queryKeys={["users"]}
                     tableHeaderTitle="Users"
+                    renderGridView={(user) => (
+                        <div className="card text-center">
+                            <div className="card-body">{user.first_name}</div>
+                        </div>
+                    )}
                 />
             </div>
             {showUserModal && (

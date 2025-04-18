@@ -34,14 +34,4 @@ export interface DropzonePropType {
      * Whether multiple files can be dropped.
      */
     multiple?: boolean
-
-    /**
-     * Custom CSS class for the inner div element.
-     */
-    innerDivcustomClass?: string
-
-    /**
-     * Custom CSS class for the container element.
-     */
-    containerCustomClass?: string
 }

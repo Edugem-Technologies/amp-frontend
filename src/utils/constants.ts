@@ -13,6 +13,38 @@ export const ALERT_ICON_TYPE = {
     success: "success",
 } as Record<SweetAlertIcon, SweetAlertIcon>
 export const CONFIG = {
+    FILE_TYPE: {
+        IMAGE: {
+            "image/png": [".png"],
+            "image/jpeg": [".jpeg"],
+            "image/jpg": [".jpg"],
+        },
+        VIDEO: {
+            "video/mp4": [".mp4"],
+            "video/mpeg": [".mpeg"],
+            "video/quicktime": [".mov"],
+            "video/webm": [".webm"],
+        },
+        PDF: {
+            "application/pdf": [".pdf"],
+        },
+        CSV: {
+            "text/csv": [".csv"],
+        },
+        XLSX: {
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"],
+        },
+        DOC: {
+            "application/msword": [".doc"],
+        },
+        DOCX: {
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".docx"],
+        },
+        AUDIO: {
+            "audio/mpeg": [".mp3"],
+            "audio/wav": [".wav"],
+        },
+    },
     AUTH: {
         COOKIE_NAME: "__AT__",
     },

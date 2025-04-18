@@ -14,7 +14,7 @@ const StaticTablePagination: React.FC<Omit<TablePaginationPropType, "colSpan">> 
                             <select
                                 name="movie-table_length"
                                 aria-controls="movie-table"
-                                className="form-select form-select-sm form-select-solid"
+                                className="form-select form-select-sm form-select-solid shadow-none"
                                 onChange={(e) =>
                                     setPagination((prev: object) => ({
                                         ...prev,

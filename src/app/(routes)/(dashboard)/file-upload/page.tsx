@@ -79,7 +79,11 @@ const Upload = () => {
                     </CustomCard.Body>
                     <CustomCard.Footer>
                         <div className="d-flex justify-content-end gap-3">
-                            <Button title="Cancel" className="btn btn-secondary" />
+                            <Button
+                                title="Cancel"
+                                className="btn btn-secondary"
+                                onClick={() => setFiles([])}
+                            />
                             <Button title="Save" className="btn btn-primary" />
                         </div>
                     </CustomCard.Footer>

@@ -42,7 +42,11 @@ const Pagination: React.FC<PaginationPropType> = (props) => {
                     onClick={(event) => onPrevious(event)}
                     className={`page-item previous ${page === 1 ? "disabled" : ""}`}
                 >
-                    <a className="page-link" href="#" aria-label="Previous">
+                    <a
+                        className="page-link text-primary shadow-none"
+                        href="#"
+                        aria-label="Previous"
+                    >
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
@@ -60,11 +64,15 @@ const Pagination: React.FC<PaginationPropType> = (props) => {
                                 <li
                                     key={pageNumber + index.toString()}
                                     className={`page-item paginate_button ${
-                                        pageNumber === page ? "active" : ""
+                                        pageNumber === page ? "active bg-primary" : ""
                                     } `}
                                 >
                                     <a
-                                        className={`page-link`}
+                                        className={`page-link  shadow-none ${
+                                            pageNumber === page
+                                                ? "active border-0 bg-primary"
+                                                : "text-primary"
+                                        } `}
                                         href="#"
                                         onClick={(event) =>
                                             handleClick(event, pageNumber as number)
@@ -82,7 +90,7 @@ const Pagination: React.FC<PaginationPropType> = (props) => {
                     })}
                     onClick={(event) => onNext(event)}
                 >
-                    <a className="page-link" href="#" aria-label="Next">
+                    <a className="page-link text-primary  shadow-none" href="#" aria-label="Next">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>

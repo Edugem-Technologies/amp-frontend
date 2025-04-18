@@ -562,3 +562,8 @@ aside.sidebar {
         }
     }
 }
+
+.dropzone {
+    border: 2px solid map-get($theme-colors, "primary");
+    border-radius: 8px;
+}

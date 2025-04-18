@@ -37,6 +37,7 @@ const Aside = () => {
         { label: "Home", href: "/", icon: "/icons/sample.svg" },
         { label: "Profile", href: "/profile", icon: "/icons/sample.svg" },
         { label: "Users", href: "/users", icon: "/icons/sample.svg" },
+        { label: "File Upload", href: "/file-upload", icon: "/icons/sample.svg" },
         { label: "Roles", href: "/roles", icon: "/icons/sample.svg" },
         {
             label: "Auth",

@@ -40,14 +40,10 @@ const Pagination: React.FC<PaginationPropType> = (props) => {
             <ul className="pagination justify-content-end">
                 <li
                     onClick={(event) => onPrevious(event)}
-                    className={classnames("paginate_button page-item previous", {
-                        disabled: page === 1,
-                    })}
+                    className={`page-item previous ${page === 1 ? "disabled" : ""}`}
                 >
                     <a className="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">
-                            <i className="previous"></i>
-                        </span>
+                        <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
                 {paginationRange &&
@@ -87,9 +83,7 @@ const Pagination: React.FC<PaginationPropType> = (props) => {
                     onClick={(event) => onNext(event)}
                 >
                     <a className="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">
-                            <i className="next"></i>
-                        </span>
+                        <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>
             </ul>

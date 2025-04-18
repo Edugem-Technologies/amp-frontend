@@ -31,12 +31,14 @@
         padding: 0;
         box-sizing: inherit;
     }
+    html {
+        font-size: 14px;
+    }
 }
 
 @layer defaults {
     body {
         box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
     }
     table {
         thead {
@@ -490,6 +492,12 @@
             min-width: 18rem;
         }
     }
+    .pagination {
+        .paginate_button {
+            height: 100%;
+            display: block;
+        }
+    }
 }
 
 @layer utilities {
@@ -566,4 +574,13 @@ aside.sidebar {
 .dropzone {
     border: 2px solid map-get($theme-colors, "primary");
     border-radius: 8px;
+}
+
+@layer overrides {
+    // if you want to orverride already written styles
+    // they will be written here
+    // e.g want to override the default bootstrap gutter space
+    body {
+        font-family: sans-serif;
+    }
 }

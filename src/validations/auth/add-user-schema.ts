@@ -11,11 +11,7 @@ import { z } from "zod"
 export const AddUserSchema = z
     .object({
         // avatar: z.any(),
-        username: getNameFieldValidationSchema("Username")
-            .min(3, {
-                message: "Username must be at least 3 characters long",
-            })
-            .transform((value) => value?.toUpperCase()),
+        username: getNameFieldValidationSchema("Username"),
         first_name: getUserNameSchema(
             "First Name can only contain alphabets single quotes, and spaces",
             "Fist Name",
@@ -25,7 +21,7 @@ export const AddUserSchema = z
         user_access: z.string().min(1, { message: generateErrorMessage("Role") }),
         phone: getPhoneNumberSchema(1),
         phone_country_code: getPhoneNumberSchema(2),
-        password: getUserPasswordSchema("Password"),
+        password: getUserPasswordSchema(),
         confirm_password: getNameFieldValidationSchema("Confirm Password"),
     })
     .superRefine((args, ctx) => {

@@ -2,22 +2,21 @@
 
 import { FetchHelper } from "@/services/fetch-helper"
 import { Any } from "@/types/common/helper"
-import { CONFIG, ALERT_ICON_TYPE } from "@/utils/constants"
+import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
 import { showSweetAlertWithRedirect } from "@/utils/helpers"
 import { generateErrorMessage } from "@/utils/message-generator"
 import { permissionJSON } from "@/utils/permission"
+import { RoleDetailsSchema, RoleDetailsSchemaType } from "@/validations/auth/role"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useParams, useSearchParams } from "next/navigation"
-import { useRouter } from "next/navigation"
-import { useState, useEffect } from "react"
+import { useParams, useRouter, useSearchParams } from "next/navigation"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
+import Button from "../button/Button"
+import CheckboxInput from "../common/CheckboxInput"
 import ShowFormError from "../common/ShowFormError"
 import TabBody from "../common/TabBody"
-import TextInputField from "../common/TextInput"
-import { RoleDetailsSchema, RoleDetailsSchemaType } from "@/validations/auth/role"
-import CheckboxInput from "../common/CheckboxInput"
-import Button from "../common/Button"
+import TextInputField from "../input/TextInput"
 
 const RoleDetails = () => {
     const router = useRouter()
@@ -195,7 +194,7 @@ const RoleDetails = () => {
                         <ShowFormError message={errors?.permissions?.message} />
                     </div>
                     <hr />
-                    <Button title="Submit" loading={isSubmitting} />
+                    <Button buttonTitle="Submit" isSubmitting={isSubmitting} />
                 </form>
             </TabBody>
         </>

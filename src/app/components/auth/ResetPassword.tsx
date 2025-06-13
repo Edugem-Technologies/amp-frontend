@@ -3,12 +3,12 @@ import { FetchHelper } from "@/services/fetch-helper"
 import { CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
 import { showSweetAlert } from "@/utils/helpers"
+import { type ResetPassword, ResetPasswordSchema } from "@/validations/auth/reset-password"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Dispatch, SetStateAction, useState } from "react"
 import { useForm } from "react-hook-form"
-import TextInputField from "../common/TextInput"
-import { type ResetPassword, ResetPasswordSchema } from "@/validations/auth/reset-password"
-import Button from "../common/Button"
+import Button from "../button/Button"
+import TextInputField from "../input/TextInput"
 
 export interface ResetPasswordType {
     handleClose: () => void
@@ -107,14 +107,14 @@ const ResetPassword: React.FC<ResetPasswordType> = ({ handleClose, userEmail }) 
                     <Button
                         type="submit"
                         className="btn btn-primary me-2 px-6 button-update-password custom-button-height"
-                        loading={loading}
-                        title="Update Password"
+                        isSubmitting={loading}
+                        buttonTitle="Update Password"
                     />
                     <Button
                         type="button"
                         className="btn btn-secondary"
-                        loading={loading}
-                        title="Cancel"
+                        isSubmitting={loading}
+                        buttonTitle="Cancel"
                         onClick={handleClose}
                     />
                 </div>

@@ -12,7 +12,10 @@ export const ALERT_ICON_TYPE = {
     question: "question",
     success: "success",
 } as Record<SweetAlertIcon, SweetAlertIcon>
+
+export const MAX_INT_LIMIT = 2147483647
 export const CONFIG = {
+    LOG_IN_TITLE: "Login",
     FILE_TYPE: {
         IMAGE: {
             "image/png": [".png"],
@@ -70,6 +73,8 @@ export const CONFIG = {
         USER__UUID: "user_uuid",
         COOKIE_CHOICE: "cookie_choice",
         ACCESS_TOKEN: "access_token",
+        PERMISSIONS: "permissions",
+        USER_DATA: "user_data",
     },
     DROPDOWN_LABEL_SLICE_LIMIT: 80,
     MESSAGES: {
@@ -208,19 +213,38 @@ export const CONFIG = {
         SKELETON_HEIGHT: 60,
     },
     VALIDATIONS: {
-        CHARS_255: 255,
-        CHARS_3: 3,
-        CHARS_6: 6,
-        CHARS_8: 8,
-        TWO_HUNDREAD_CHARACTERS: 200,
-        TWO_FIFTY_FIVE_CHARACTERS: 255,
-        THREE_HUNDREAD_CHARACTERS: 300,
-        EIGHT_CHARACTERS: 8,
-        FIVE_HUNDREAD_CHARACTERS: 500,
-        ONE_HUNDREAD_CHARACTERS: 100,
-        FIFTEEN_CHARACTERS: 15,
-        MAX_INT_LIMIT: 35791394,
-        MAX_ORDER_LIMIT: 2147483647,
+        CHARACTER_LENGTH: {
+            CHARS_255: 255,
+            CHARS_1: 1,
+            CHARS_3: 3,
+            CHARS_5: 5,
+            CHARS_6: 6,
+            CHARS_60: 60,
+            CHARS_20: 20,
+        },
+        MESSAGE: {
+            ALPHANUMERIC: "Only alphanumeric characters are allowed",
+            NUMERICAL_VALUES_REQUIRED: "Only numeric value is allowed",
+            MAX_CHARACTERS: "must be in range of 0 and 2147483647",
+            EMAIL_REQUIRED: "Email address is required",
+            SIGNATURE_REQUIRED: "Signature is required",
+            DOCUMENT_REQUIRED: "Document is required",
+            GST_CERTIFICATE_REQUIRED: "GST certificate is required",
+            FILE_REQUIRED: "File is required",
+            INVALID_URL: "Invalid URL",
+            USER_PASSWORD:
+                "Must contain a combination of letters, numbers and special character with one uppercase and lowercase character",
+            POSITIVE_NUMERICAL_VALUES_REQUIRED: "Only positive numeric value is allowed",
+            VALIDATION_FAILED: "Unable to proceed. \n Please fill in all mandatory fields (*)",
+            MAX_INT_LIMIT: `${MAX_INT_LIMIT} is the maximum limit`,
+        },
+        FIELD_NAME: {
+            NAME: "Name",
+            EMAIL: "Email",
+            GSTN: "GSTN",
+            GST: "GST",
+            PASSWORD: "Password",
+        },
     },
     USER_ACCESS: [
         { label: "Admin", value: "Admin" },
@@ -246,6 +270,7 @@ export const CONFIG = {
         RESEND_VERIFICATION_CODE: new URL(`${BASE_API_ENDPOINT}/user/resend-verification-code`),
         CREATE_USER: new URL(`${BASE_API_ENDPOINT}/user/create`),
         VERIFY_GOOGLE_USER: new URL(`${BASE_API_ENDPOINT}/user/idp-callback`),
+        LOGIN: new URL(`${BASE_API_ENDPOINT}/auth/login `),
     },
     COLOR_ARRAY: {
         colorArray: [
@@ -317,3 +342,4 @@ export const CONFIG = {
 }
 // Endpoints that do not require authentication
 export const OPEN_ENDPOINTS: string[] = []
+export const CHAR_DEFAULT_MAX_LENGTH = CONFIG.VALIDATIONS.CHARACTER_LENGTH.CHARS_60

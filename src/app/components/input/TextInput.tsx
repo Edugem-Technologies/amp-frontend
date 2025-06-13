@@ -1,49 +1,60 @@
 /* eslint-disable react/display-name */
-import { InputFieldProps } from "@/types/components/text-input"
+import { InputFieldProps } from "@/types/components/textInput"
 import Image from "next/image"
 import { forwardRef, useState } from "react"
 import EyeClose from "../../../../public/images/Eye-close.svg"
 import Eye from "../../../../public/images/Eye-open.svg"
 import ShowFormError from "../common/ShowFormError"
+import Label from "./Label"
 
-/**
- * Component for a customizable text input field with optional label and error message display.
- *
- * @component
- * @param {string} props.label - The label text for the input field.
- * @param {string} [props.errorMsg] - The error message to display.
- * @param {string} [props.className] - Additional CSS classes for the input field.
- * @param {string} [props.labelClass] - Additional CSS classes for the label.
- * @param {boolean} [props.required=false] - Whether the input field is required, it will show * if required.
- * @param {string} [props.type="text"] - The type of the input field.
- * @param {React.Ref<HTMLInputElement>} ref - The reference for the input field.
- * @returns {JSX.Element} The JSX element to render.
- */
 const TextInputField = forwardRef<HTMLInputElement, InputFieldProps>(
-    ({ label, errorMsg, className, labelClass, type, ...props }, ref) => {
+    (
+        {
+            label,
+            errorMsg,
+            className,
+            labelClass,
+            type,
+            postInputText,
+            inputContainerClass = "",
+            preInputText,
+            isRequired = false,
+            isTitleCaseRequired = true,
+            ...props
+        },
+        ref,
+    ) => {
         const [inputType, setInputType] = useState(type || "text")
         const toggleInputType = (type: string) => {
             setInputType(type)
         }
-        const isRequired = props.required
-        // deleting the required property to prevent browser default validation on input fields
-        delete props.required
         return (
             <>
-                {!!label.length && (
-                    <label className={`form-label ${labelClass}`}>
-                        {label}
-                        {isRequired && <span className="text-danger"> *</span>}
-                    </label>
+                {!!label?.length && (
+                    <Label
+                        label={label}
+                        labelClass={labelClass}
+                        isRequired={isRequired}
+                        isTitleCaseRequired={isTitleCaseRequired}
+                    />
                 )}
-
-                <div className="position-relative">
+                <div className={`position-relative ${inputContainerClass} `}>
+                    {preInputText && (
+                        <span className="input-group-text custom-border border-radius-10px">
+                            {preInputText}
+                        </span>
+                    )}
                     <input
-                        className={`form-control form-control-solid position-relative ${className}`}
                         ref={ref}
                         {...props}
+                        className={`form-control form-control-solid position-relative custom-border border-radius-10px ${className}`}
                         type={inputType}
                     />
+                    {postInputText && (
+                        <span className="input-group-text custom-border border-radius-10px">
+                            {postInputText}
+                        </span>
+                    )}
                     {type === "password" && (
                         <button
                             className="position-absolute password-eye-icon"

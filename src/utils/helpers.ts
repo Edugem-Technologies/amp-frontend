@@ -1,8 +1,9 @@
-import { CheckValidPhoneNumberArgsTyps } from "@/types/common/helper"
+import { Any, CheckValidPhoneNumberArgsTyps } from "@/types/common/helper"
 import { isValidNumber, parse } from "libphonenumber-js"
 import Swal, { SweetAlertIcon, SweetAlertOptions } from "sweetalert2"
-import { ALERT_ICON_TYPE, CONFIG } from "./constants"
+import { ALERT_ICON_TYPE, CONFIG, MAX_INT_LIMIT } from "./constants"
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime"
+import crypto from "crypto-js"
 
 /**
  * Generates an array of numbers from 1 to the specified length.
@@ -155,4 +156,160 @@ export const hasAccessPermission = ({
         return result
     }
     return false
+}
+
+export const validateURLValue = (value: Any) => {
+    if (value && value.trim().length > 0) {
+        return value?.match(
+            /^(https?|ftps?):\/\/(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/,
+        )
+    }
+    return true
+}
+
+export const validateMaxIntValue = (value: Any) => {
+    if (value && value?.trim().length > 0) {
+        if (parseInt(value) > MAX_INT_LIMIT) {
+            return false
+        }
+        return true
+    }
+    return true
+}
+
+export function getValueOrNull(value: Any) {
+    if (value === null || value === undefined) {
+        return null
+    }
+
+    if (typeof value === "object") {
+        return value.value ? value.value : null
+    }
+
+    if (value === 0) {
+        return value.toString()
+    }
+
+    return value ? value : null
+}
+
+/**
+ * Returns a new array containing only unique string values from the input array.
+ *
+ * @param {Array<string>} array - The input array containing string values.
+ * @returns {Array<string>} A new array with duplicate string values removed, preserving the order of first occurrences.
+ *
+ * @example
+ * // Example usage:
+ * const values = ["a", "b", "a", "c", "b"];
+ * const uniqueValues = getUniqueValueFromArray(values);
+ * console.log(uniqueValues); // Output: ["a", "b", "c"]
+ */
+export const getUniqueValueFromArray = (array: string[]) => {
+    return Array.from(new Set(array))
+}
+
+export const encrypt = (text: string) => {
+    if (text && text.length > 0 && process.env.NEXT_PUBLIC_CRYPTO_SECRET_KEY) {
+        const cipherText = crypto.AES.encrypt(
+            text,
+            process.env.NEXT_PUBLIC_CRYPTO_SECRET_KEY,
+        ).toString()
+        return cipherText
+    }
+    return null
+}
+
+export const decrypt = (encryptedText: string | null) => {
+    if (encryptedText && encryptedText.length > 0 && process.env.NEXT_PUBLIC_CRYPTO_SECRET_KEY) {
+        try {
+            const bytes = crypto.AES.decrypt(
+                encryptedText,
+                process.env.NEXT_PUBLIC_CRYPTO_SECRET_KEY,
+            )
+            const plainText = bytes.toString(crypto.enc.Utf8)
+            return plainText
+        } catch (e) {
+            // eslint-disable-next-line no-console
+            console.log(e)
+            return null
+        }
+    }
+    return null
+}
+
+export const setLocalStorageData = (variableName: string, data: Any) => {
+    if (typeof data === "string") {
+        localStorage.setItem(variableName, data)
+    } else {
+        localStorage.setItem(variableName, JSON.stringify(data))
+    }
+}
+
+export const getLocalStorageData = (variableName: string) => {
+    const localStorageData = localStorage.getItem(variableName)
+    if (localStorageData) {
+        return JSON.parse(localStorageData)
+    } else {
+        return null
+    }
+}
+
+export const setEncryptedLocalStorageData = (variableName: string, data: Any) => {
+    let encryptedData
+    if (typeof data === "string") {
+        encryptedData = encrypt(data)
+    } else {
+        encryptedData = encrypt(JSON.stringify(data))
+    }
+    if (encryptedData) {
+        setLocalStorageData(variableName, encryptedData)
+    }
+}
+
+export const getDecryptedLocalStorageData = (variableName: string) => {
+    const encryptedData = localStorage.getItem(variableName)
+    if (encryptedData) {
+        const decryptedData = decrypt(encryptedData)
+        if (decryptedData) {
+            return JSON.parse(decryptedData)
+        }
+    } else {
+        return null
+    }
+}
+
+/**
+ * Converts a given text to title case, ensuring correct capitalization rules.
+ * Small words like "of", "and", "in", etc., remain lowercase unless they are the first or last word.
+ *
+ * @param {string} text - The text to be formatted to title case.
+ * @returns {string} The formatted text in title case.
+ *
+ * @example
+ * // Returns "The Quick Brown Fox Jumps Over the Lazy Dog"
+ * formatTextToTitleCase("the quick brown fox jumps over the lazy dog");
+ *
+ * @example
+ * // Returns "Type of Supplier"
+ * formatTextToTitleCase("type of supplier");
+ *
+ * @example
+ * // Returns "A Room in the Castle"
+ * formatTextToTitleCase("a room in the castle");
+ */
+export function formatTextToTitleCase(text: string): string {
+    if (!text) return ""
+
+    const exceptions = ["of", "and", "in", "on", "at", "to", "for", "with", "a", "an", "the"]
+    return text
+        .split(" ") // Splits on spaces
+        .map((word, index, words) => {
+            // Capitalize the word if it's the first, last, or not an exception
+            if (index === 0 || index === words.length - 1 || !exceptions.includes(word)) {
+                return (word?.[0]?.toUpperCase() ?? "") + (word?.slice(1) ?? "")
+            }
+            return word // Keep the word in lowercase if it's an exception
+        })
+        .join(" ")
 }

@@ -1,147 +1,66 @@
 "use client"
-import OTPModal from "@/app/components/auth/OTPModal"
-import TextInputField from "@/app/components/common/TextInput"
-import { AnyObject } from "@/types/common/helper"
-import { setAccessToken } from "@/utils/common"
-import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
-import { handleError } from "@/utils/handle-error"
-import { showSweetAlertWithRedirect } from "@/utils/helpers"
-import { LoginSchema, LoginValidationSchema } from "@/validations/auth/user"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { NextPage } from "next"
-import { getSession, signIn } from "next-auth/react"
-import Image from "next/image"
-import Link from "next/link"
-import { useRouter, useSearchParams } from "next/navigation"
-import { useState } from "react"
-import { Spinner } from "react-bootstrap"
-import { useForm } from "react-hook-form"
-import GoogleLogo from "../../../../../public/images/Google-logo.svg"
 
-const Login: NextPage = () => {
+import AuthHeader from "@/app/components/auth/AuthHeader"
+import LoginForm from "@/app/components/auth/LoginForm"
+import { FetchHelper } from "@/services/fetch-helper"
+import { Role } from "@/types/data/loginData"
+import { CONFIG } from "@/utils/constants"
+import { handleError } from "@/utils/handle-error"
+import {
+    getUniqueValueFromArray,
+    setEncryptedLocalStorageData,
+    showSweetAlertWithRedirect,
+} from "@/utils/helpers"
+import { LoginValidationSchema, LoginValidationSchemaType } from "@/validations/auth/login"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useForm } from "react-hook-form"
+import { SweetAlertIcon } from "sweetalert2"
+import { usePermissions } from "../../context/PermissionContext"
+
+const Login = () => {
     const router = useRouter()
     const searchParams = useSearchParams()
-    const [showOtpModal, setShowOtpModal] = useState(false)
-    const redirectUrl = searchParams.get(CONFIG.PARAMS.REDIRECT_URL_PARAM) || "/profile"
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-        getValues,
-    } = useForm<LoginSchema>({ resolver: zodResolver(LoginValidationSchema) })
+    // Todo: will update once dashboard is created
+    const redirectUrl = searchParams.get(CONFIG.PARAMS.REDIRECT_URL_PARAM) || "/products"
 
-    const submitHandler = async (data: LoginSchema) => {
+    const hookForm = useForm<LoginValidationSchemaType>({
+        resolver: zodResolver(LoginValidationSchema),
+    })
+    const { handleSubmit } = hookForm
+    const { setUserPermissions } = usePermissions()
+
+    const submitHandler = async (data: LoginValidationSchemaType) => {
         try {
-            const response = await signIn("credentials", {
-                ...data,
-                redirect: false,
-            })
-            if (response?.ok && response?.status === 200) {
-                // Retrieve the current session details using NextAuth's `getSession` method
-                const session = await getSession()
-                // Extract the access token from the session data
-                const accessToken = (session as AnyObject)?.data?.data?.token
-                if (accessToken) {
-                    // Save the access token in local storage
-                    setAccessToken(accessToken)
-                    // Show a success alert and redirect the user to the specified URL
-                    showSweetAlertWithRedirect({
-                        icon: ALERT_ICON_TYPE.success,
-                        text: CONFIG.MESSAGES.USER_LOGIN_SUCCESS,
-                        router,
-                        url: redirectUrl,
-                    })
-                } else {
-                    // Throw an error if the access token is not found in the session data t show toaster or sweetalert
-                    throw (session as AnyObject)?.data
-                }
+            const response = await FetchHelper.post(CONFIG.API_ENDPOINTS.LOGIN, data)
+            if (response?.status) {
+                setEncryptedLocalStorageData(
+                    CONFIG.LOCAL_STORAGE_VARIABLES.PERMISSIONS,
+                    response.data.permissions,
+                )
+                const roleData = getUniqueValueFromArray(
+                    response.data.roles.map((role: Role) => role.name),
+                ).join(", ")
+                const userData = { ...response.data.details, role: roleData }
+                setEncryptedLocalStorageData(CONFIG.LOCAL_STORAGE_VARIABLES.USER_DATA, userData)
+                setUserPermissions(response.data.permissions)
+                showSweetAlertWithRedirect({
+                    text: response.message,
+                    icon: CONFIG.SWEETALERT_SUCCESS_OPTION.icon as SweetAlertIcon,
+                    router,
+                    url: redirectUrl,
+                })
             }
         } catch (error) {
             handleError(error)
         }
     }
+
     return (
-        <div className="container-fluid">
-            <div className="v-form-container">
-                <div className="v-login w-50">
-                    <div className="v-tagline">
-                        <h1>Login</h1>
-                    </div>
-                    <div className="v-google-login-btn">
-                        <button
-                            className="v-plane-btn-hover"
-                            onClick={async () => {
-                                try {
-                                    await signIn("google", {
-                                        redirect: true,
-                                        callbackUrl: redirectUrl,
-                                    })
-                                } catch (error) {
-                                    handleError(error)
-                                }
-                            }}
-                        >
-                            <Image src={GoogleLogo} alt="google-logo" />
-                            <span>Login with Google</span>
-                        </button>
-                    </div>
-                    <div className="v-hr-row">
-                        <hr />
-                        <span>Or Log in with</span>
-                        <hr />
-                    </div>
-                    <div className="v-form-content">
-                        <form onSubmit={handleSubmit(submitHandler)}>
-                            <div className="v-form-group mt-0">
-                                <TextInputField
-                                    label="Email"
-                                    errorMsg={errors?.email?.message}
-                                    placeholder="E.g. youremail@email.com"
-                                    required
-                                    {...register("email")}
-                                />
-                            </div>
-                            <div className="v-form-group">
-                                <TextInputField
-                                    label="Password"
-                                    errorMsg={errors?.password?.message}
-                                    placeholder="E.g. youremail@email.com"
-                                    required
-                                    type="password"
-                                    {...register("password")}
-                                />
-                                <div className="v-forgot-password">
-                                    <Link href={"/forgot-password"}>Forgot password?</Link>
-                                </div>
-                            </div>
-                            <div className="v-form-group">
-                                <button
-                                    type="submit"
-                                    className={`v-submit-btn ${
-                                        isSubmitting ? "" : " v-fill-btn-hover"
-                                    }`}
-                                    disabled={isSubmitting}
-                                >
-                                    {isSubmitting ? <Spinner variant="light" /> : "Login"}
-                                </button>
-                            </div>
-                            <div className="v-signup">
-                                <p>
-                                    Don&apos;t have an account?&nbsp;
-                                    <Link href={"/signup"}>Signup</Link>
-                                </p>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <OTPModal
-                show={showOtpModal}
-                setShow={setShowOtpModal}
-                email={getValues("email")}
-                password={getValues("password")}
-            />
-        </div>
+        <form className="form w-100" onSubmit={handleSubmit(submitHandler)}>
+            <AuthHeader title={CONFIG.LOG_IN_TITLE} />
+            <LoginForm hookForm={hookForm} />
+        </form>
     )
 }
 

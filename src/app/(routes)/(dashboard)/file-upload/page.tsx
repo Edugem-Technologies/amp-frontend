@@ -1,6 +1,6 @@
 "use client"
+import Button from "@/app/components/button/Button"
 import CustomCard from "@/app/components/card/CustomCard"
-import Button from "@/app/components/common/Button"
 import Dropzone from "@/app/components/common/Dropzone"
 import ReactStaticTable from "@/app/components/common/ReactStaticTable"
 import { CONFIG } from "@/utils/constants"
@@ -26,7 +26,7 @@ const Upload = () => {
                 cell: ({ row }) => (
                     <div className="d-flex align-items-center gap-3">
                         <Button
-                            title="Show Preview"
+                            buttonTitle="Show Preview"
                             className="btn btn-sm text-white btn-secondary"
                             onClick={() => {
                                 if (row.original.url) {
@@ -40,7 +40,7 @@ const Upload = () => {
                         />
 
                         <Button
-                            title="Remove"
+                            buttonTitle="Remove"
                             className="btn btn-sm text-white btn-danger"
                             onClick={() => {
                                 const remainingFiles = files.filter(
@@ -80,11 +80,11 @@ const Upload = () => {
                     <CustomCard.Footer>
                         <div className="d-flex justify-content-end gap-3">
                             <Button
-                                title="Cancel"
+                                buttonTitle="Cancel"
                                 className="btn btn-secondary"
                                 onClick={() => setFiles([])}
                             />
-                            <Button title="Save" className="btn btn-primary" />
+                            <Button buttonTitle="Save" className="btn btn-primary" />
                         </div>
                     </CustomCard.Footer>
                 </CustomCard>

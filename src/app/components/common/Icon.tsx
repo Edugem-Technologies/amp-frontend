@@ -1,12 +1,13 @@
+import { IconType } from "@/types/common/Icon"
 import React from "react"
-interface IconType {
-    iconName: string
-    width?: number
-    height?: number
-    className?: string
-}
 
-const Icon: React.FC<IconType> = ({ iconName, width = 13, height = 13, className = "" }) => {
+const Icon: React.FC<IconType> = ({
+    iconName,
+    width = 13,
+    height = 13,
+    className = "",
+    ...props
+}) => {
     return (
         <img
             className={className}
@@ -14,6 +15,7 @@ const Icon: React.FC<IconType> = ({ iconName, width = 13, height = 13, className
             width={width}
             height={height}
             alt={iconName}
+            {...props}
         />
     )
 }

@@ -1,6 +1,9 @@
 "use client"
 import { useMutateData } from "@/app/hooks/useFetchHelper"
 import { CONFIG } from "@/utils/constants"
+import { handleError } from "@/utils/handle-error"
+import { checkValidPhoneNumber, showSweetAlert } from "@/utils/helpers"
+import { AddUser, AddUserSchema } from "@/validations/auth/add-user-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -9,15 +12,12 @@ import { Controller, useForm } from "react-hook-form"
 import { CountryData } from "react-phone-input-2"
 import "react-phone-input-2/lib/style.css"
 import { SweetAlertIcon } from "sweetalert2"
-import TextInputField from "../common/TextInput"
-import RequiredField from "../common/RequiredField"
-import CustomReactSelect from "../common/CustomReactSelect"
-import ShowFormError from "../common/ShowFormError"
+import Button from "../button/Button"
 import CustomPhoneInput from "../common/CustomPhoneInput"
-import { checkValidPhoneNumber, showSweetAlert } from "@/utils/helpers"
-import { handleError } from "@/utils/handle-error"
-import { AddUser, AddUserSchema } from "@/validations/auth/add-user-schema"
-import Button from "../common/Button"
+import CustomReactSelect from "../common/CustomReactSelect"
+import RequiredField from "../common/RequiredField"
+import ShowFormError from "../common/ShowFormError"
+import TextInputField from "../input/TextInput"
 
 export interface AddUserModalPropType {
     handleClose: () => void
@@ -257,8 +257,8 @@ const AddEditUser: React.FC<Partial<AddUserModalPropType>> = ({ handleClose, onU
                     </button>
 
                     <Button
-                        title="Save Changes"
-                        loading={isPending || isSubmitting}
+                        buttonTitle="Save Changes"
+                        isSubmitting={isPending || isSubmitting}
                         type="submit"
                         className="btn btn-primary"
                         id="submit-show"

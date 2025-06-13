@@ -1,5 +1,5 @@
 "use client"
-import Button from "@/app/components/common/Button"
+import Button from "@/app/components/button/Button"
 import ReactTableWithPagination from "@/app/components/common/ReactTableWithPagination"
 import AddEditUser from "@/app/components/modal/AddEditUser"
 import { ColumnDef } from "@tanstack/react-table"
@@ -30,13 +30,13 @@ const Page = () => {
                 cell: () => (
                     <div className="d-flex align-items-center gap-3">
                         <Button
-                            title="Edit"
+                            buttonTitle="Edit"
                             className="text-white btn btn-primary"
                             onClick={() => {
                                 setShowUserModal(true)
                             }}
                         />
-                        <Button title="Delete" className="btn btn-danger text-white" />
+                        <Button buttonTitle="Delete" className="btn btn-danger text-white" />
                     </div>
                 ),
             },

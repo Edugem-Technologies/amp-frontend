@@ -1,5 +1,5 @@
 "use client"
-import { useAppContext } from "@/app/context"
+import { useAppContext } from "@/app/(routes)/context/AppContext"
 import useScroll from "@/app/hooks/useScroll"
 import UserDropdown from "./UserDropdown"
 

@@ -7,6 +7,7 @@
 @import "./input.scss";
 @import "./variables.scss";
 @import "./datatable.css";
+@import "../../fonts/plus-jakarta-sans/stylesheet.css";
 // @import "./style.bundle.css";
 
 /* CSS Cascade Layers
@@ -32,7 +33,7 @@
         box-sizing: inherit;
     }
     html {
-        font-size: 14px;
+        font-size: $base-font-size;
     }
 }
 
@@ -581,7 +582,7 @@ aside.sidebar {
     // they will be written here
     // e.g want to override the default bootstrap gutter space
     body {
-        font-family: sans-serif;
+        font-family: "Plus Jakarta Sans";
         color: var(--color-base-font);
     }
     .sign-in-layout {

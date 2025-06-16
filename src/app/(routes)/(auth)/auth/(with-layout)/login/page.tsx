@@ -23,7 +23,7 @@ const Login = () => {
     const router = useRouter()
     const searchParams = useSearchParams()
     // Todo: will update once dashboard is created
-    const redirectUrl = searchParams.get(CONFIG.PARAMS.REDIRECT_URL_PARAM) || "/products"
+    const redirectUrl = searchParams.get(CONFIG.PARAMS.REDIRECT_URL_PARAM) || "/"
 
     const hookForm = useForm<LoginValidationSchemaType>({
         resolver: zodResolver(LoginValidationSchema),

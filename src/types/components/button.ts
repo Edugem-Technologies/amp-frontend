@@ -7,4 +7,5 @@ export interface ButtonProps extends React.HTMLProps<HTMLButtonElement> {
     isSubmitting?: boolean
     customClassName?: string
     spinnerProps?: Pick<SpinnerProps, "size" | "variant" | "animation">
+    buttonContentClass?: string
 }

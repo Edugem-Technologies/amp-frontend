@@ -14,6 +14,7 @@ const CustomButton: React.FC<ButtonProps> = ({
     isSubmitting,
     spinnerProps,
     disabled,
+    buttonContentClass = "",
     ...props
 }) => {
     return (
@@ -25,7 +26,9 @@ const CustomButton: React.FC<ButtonProps> = ({
         >
             {" "}
             <span className="indicator-label position-relative">
-                <span className={isSubmitting ? "opacity-0" : "opacity-1"}>
+                <span
+                    className={`${isSubmitting ? "opacity-0" : "opacity-1"} ${buttonContentClass}`}
+                >
                     {props.children}
                     {buttonTitle}
                 </span>

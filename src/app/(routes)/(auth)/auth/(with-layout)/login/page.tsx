@@ -1,6 +1,7 @@
 "use client"
 
 import AuthHeader from "@/app/components/auth/AuthHeader"
+import SocialLogin from "@/app/components/auth/SocialLogin"
 import LoginForm from "@/app/components/auth/LoginForm"
 import { usePermissions } from "@/app/context/PermissionContext"
 import { FetchHelper } from "@/services/fetch-helper"
@@ -60,6 +61,7 @@ const Login = () => {
         <form className="form w-100" onSubmit={handleSubmit(submitHandler)}>
             <AuthHeader title={CONFIG.LOG_IN_TITLE} />
             <LoginForm hookForm={hookForm} />
+            <SocialLogin />
         </form>
     )
 }

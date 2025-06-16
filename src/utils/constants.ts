@@ -277,6 +277,7 @@ export const CONFIG = {
         LOGIN: new URL(`${BASE_API_ENDPOINT}/auth/login `),
         FORGOT_PASSWORD: new URL(`${BASE_API_ENDPOINT}/auth/forgot-password`),
         RESET_PASSWORD: new URL(`${BASE_API_ENDPOINT}/auth/reset-password`),
+        GOOGLE_LOGIN: new URL(`${BASE_API_ENDPOINT}/auth/google/login`),
     },
     COLOR_ARRAY: {
         colorArray: [

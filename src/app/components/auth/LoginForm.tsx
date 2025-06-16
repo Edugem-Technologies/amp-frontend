@@ -42,7 +42,7 @@ const LoginForm = ({
                 </div>
             </div>
             <div className="d-flex justify-content-end mb-4">
-                <Link legacyBehavior href="/forgot-password">
+                <Link legacyBehavior href="/auth/forgot-password">
                     <a className="font-size-14px">Forgot Password?</a>
                 </Link>
             </div>

@@ -1,6 +1,6 @@
 "use client"
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react"
-import { useMediaQuery } from "../../hooks/useMediaQuery"
+import { useMediaQuery } from "../hooks/useMediaQuery"
 
 // Define the type for your context state
 interface AppContextType {

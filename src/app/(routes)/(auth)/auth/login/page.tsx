@@ -2,6 +2,7 @@
 
 import AuthHeader from "@/app/components/auth/AuthHeader"
 import LoginForm from "@/app/components/auth/LoginForm"
+import { usePermissions } from "@/app/context/PermissionContext"
 import { FetchHelper } from "@/services/fetch-helper"
 import { Role } from "@/types/data/loginData"
 import { CONFIG } from "@/utils/constants"
@@ -16,7 +17,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { SweetAlertIcon } from "sweetalert2"
-import { usePermissions } from "../../context/PermissionContext"
 
 const Login = () => {
     const router = useRouter()

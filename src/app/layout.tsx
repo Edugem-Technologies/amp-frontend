@@ -1,8 +1,8 @@
 import "@/styles/scss/custom/styles.scss"
 import { Metadata } from "next"
-import { AppProvider } from "./(routes)/context/AppContext"
 import ErrorBoundary from "./components/common/Errorboundary"
 import TanstackQueryProvider from "./components/common/TanstackQueryProvider"
+import { AppProvider } from "./context/AppContext"
 
 export const metadata: Metadata = {
     title: "NEXT 14",

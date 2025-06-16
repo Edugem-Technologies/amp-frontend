@@ -674,4 +674,63 @@ aside.sidebar {
     .form-control {
         border-color: var(--color-base-border);
     }
+
+    // SweetAlert(Swal) custom classes
+    .swal2-confirm,
+    .swal2-cancel {
+        box-shadow: none;
+        background: transparent;
+        outline: none;
+        border-radius: 10px;
+        border: none;
+        padding: 10px 20px;
+        margin-inline: 5px;
+    }
+
+    .swal2-confirm {
+        background-color: rgba(255, 0, 0, 0.8);
+        color: #fff;
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+
+    .swal2-cancel {
+        background: transparent;
+        color: $theme-dark-cyan;
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+
+    .swal2-close,
+    .swal2-close:focus {
+        box-shadow: none;
+        border: none;
+        outline: none;
+    }
+    .swal2-title {
+        font-weight: $regular !important;
+        font-size: 1.1rem !important;
+    }
+    .custom-swal-cancel-button {
+        color: $theme-white !important;
+        background-color: $theme-secondary;
+        border: 1px solid $theme-secondary !important;
+        opacity: 1 !important;
+        &:hover {
+            background-color: $theme-secondary-hover;
+            border: 1px solid $theme-secondary-hover !important;
+        }
+    }
+    .custom-swal-confirm-button {
+        color: #fff !important;
+        background-color: red !important;
+        opacity: 1 !important;
+    }
+    .swal2-styled {
+        border-radius: 0.25rem;
+    }
 }

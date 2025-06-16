@@ -20,7 +20,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         <img
                             className="logo-image"
                             src="/images/logos/logo.png"
-                            alt="bolier-plate-logo"
+                            alt="boiler-plate-logo"
                         />
 
                         {children}

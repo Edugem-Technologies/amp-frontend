@@ -1,5 +1,6 @@
 import toast from "react-hot-toast"
-import { CONFIG } from "./constants"
+import { ALERT_ICON_TYPE, CONFIG } from "./constants"
+import { showSweetAlert } from "./helpers"
 
 /**
  * Iterates over an object and constructs a string containing error messages.
@@ -51,11 +52,20 @@ export const handleError = (error: unknown) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const _error = error as Record<string, any>
         const message = iterateObject(_error)
+        // For showing toaster instead of sweetalert you can uncomment below code related to toaster.
         if (message) {
-            toast(message, CONFIG.TOASTER_OPTIONS.ERROR)
+            // toast(message, CONFIG.TOASTER_OPTIONS.ERROR)
+            showSweetAlert({
+                icon: ALERT_ICON_TYPE.error,
+                text: message,
+            })
             console.error(message)
         } else {
-            toast(CONFIG.MESSAGES.GENERIC_ERROR, CONFIG.TOASTER_OPTIONS.ERROR)
+            // toast(CONFIG.MESSAGES.GENERIC_ERROR, CONFIG.TOASTER_OPTIONS.ERROR)
+            showSweetAlert({
+                icon: ALERT_ICON_TYPE.error,
+                text: message,
+            })
 
             console.error("Something went wrong")
         }

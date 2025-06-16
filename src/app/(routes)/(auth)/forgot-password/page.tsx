@@ -1,95 +1,52 @@
 "use client"
-import NewPasswordWithOtp from "@/app/components/auth/NewPasswordSetup"
-import WithoutAuth from "@/app/components/auth/WithoutAuth"
+import AuthHeader from "@/app/components/auth/AuthHeader"
+import ForgotPasswordForm from "@/app/components/auth/ForgotPassword"
+import { FetchHelper } from "@/services/fetch-helper"
 import { CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
+import { showSweetAlert } from "@/utils/helpers"
 import {
-    ForgotPasswordSchema,
-    ForgotPasswordValidationSchema,
-} from "@/validations/auth/forgot-password"
+    BaseForgotPasswordSchema,
+    BaseForgotPasswordSchemaType,
+} from "@/validations/auth/forgotPassword"
+
 import { zodResolver } from "@hookform/resolvers/zod"
-import { resetPassword } from "aws-amplify/auth"
-import { NextPage } from "next"
-import { useState } from "react"
-import { Spinner } from "react-bootstrap"
+import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
-import toast from "react-hot-toast"
+import { SweetAlertIcon } from "sweetalert2"
 
-const ForgotPassword: NextPage = () => {
-    const {
-        register,
-        handleSubmit,
-        getValues,
-        formState: { errors },
-    } = useForm<ForgotPasswordSchema>({ resolver: zodResolver(ForgotPasswordValidationSchema) })
-    const [loader, setLoader] = useState(false)
-    const [showNewPasswordWithOtpForm, setShowNewPasswordWithOtpForm] = useState(false)
+const ForgotPassword = () => {
+    const hookForm = useForm<BaseForgotPasswordSchemaType>({
+        resolver: zodResolver(BaseForgotPasswordSchema),
+    })
+    const { handleSubmit } = hookForm
+    const router = useRouter()
 
-    const submitHandler = async (data: ForgotPasswordSchema) => {
-        toast.dismiss()
-        setLoader(true)
+    const submitHandler = async (data: BaseForgotPasswordSchemaType) => {
         try {
-            await resetPassword({ username: data.email.toLowerCase() })
-            setShowNewPasswordWithOtpForm(true)
-            toast(CONFIG.MESSAGES.OTP_RESENT_SUCCESS, CONFIG.TOASTER_OPTIONS.SUCCESS)
-        } catch (err) {
-            handleError(err)
-        } finally {
-            setLoader(false)
+            const payload = {
+                primary_email: data.primary_email,
+            }
+            const response = await FetchHelper.post(CONFIG.API_ENDPOINTS.FORGOT_PASSWORD, payload)
+            if (response?.status) {
+                showSweetAlert({
+                    text: response.message,
+                    icon: CONFIG.SWEETALERT_SUCCESS_OPTION.icon as SweetAlertIcon,
+                })
+            }
+        } catch (error) {
+            handleError(error)
         }
     }
-
-    return showNewPasswordWithOtpForm ? (
-        <NewPasswordWithOtp usernameOrEmail={getValues("email")} />
-    ) : (
-        <section className="v-forgot-password-section v-section-padding">
-            <div className="container">
-                <div className="v-form-container">
-                    <div className="v-login p-4">
-                        <div className="v-tagline">
-                            <h1>Forgot Password</h1>
-                        </div>
-                        <div className="v-caption">
-                            <p>
-                                Please enter following details to confirm your identity,&nbsp;
-                                <span className="v-lg-text-block">
-                                    {" "}
-                                    once details are validated we will send OTP
-                                </span>
-                            </p>
-                        </div>
-                        <div className="v-form-content">
-                            <form onSubmit={handleSubmit(submitHandler)}>
-                                <div className="v-form-group mt-0">
-                                    <label htmlFor="email">
-                                        Email <span className="text-danger">*</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        placeholder="E.g. youremail@email.com"
-                                        {...register("email")}
-                                    />
-                                    {errors.email && errors.email.message ? (
-                                        <span className="text-danger">{errors.email.message}</span>
-                                    ) : (
-                                        <></>
-                                    )}
-                                </div>
-                                <div className="v-form-submit-btn">
-                                    <button
-                                        className="v-custom-btn v-submit-btn v-fill-btn-hover"
-                                        type="submit"
-                                    >
-                                        {loader ? <Spinner /> : "Send OTP"}
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+    return (
+        <form className="form w-100" onSubmit={handleSubmit(submitHandler)}>
+            <AuthHeader
+                title={CONFIG.FORGOT_PASSWORD_TITLE}
+                handleBackClick={() => router.push("/auth/signin")}
+            />
+            <ForgotPasswordForm hookForm={hookForm} />
+        </form>
     )
 }
 
-export default WithoutAuth(ForgotPassword)
+export default ForgotPassword

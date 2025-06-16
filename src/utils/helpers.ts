@@ -32,8 +32,8 @@ export const checkValidPhoneNumber = ({ country, data }: CheckValidPhoneNumberAr
     }
     return isValid
 }
-const getSwalText = (text: string) => {
-    return `<span>${text} <br><br> ${CONFIG.MESSAGES.THIS_CAN_NOT_BE_UNDONE}</span>`
+const getSwalText = ({ text, subtitleText }: { text: string; subtitleText?: string }) => {
+    return `<span>${text} <br><br> ${subtitleText ?? CONFIG.MESSAGES.THIS_CAN_NOT_BE_UNDONE}</span>`
 }
 
 /**
@@ -63,37 +63,47 @@ export const showSweetAlert = ({
     icon,
     cancelButtonText,
     subtitle = true,
-}: {
+    subtitleText = "",
+    customConfirmButtonClass,
+    ...props
+}: SweetAlertOptions & {
     text: string
     icon: SweetAlertIcon
     cancelButtonText?: string
     subtitle?: boolean
+    subtitleText?: string
+    customConfirmButtonClass?: string
 }) => {
     return Swal.fire({
         heightAuto: false,
         html:
             icon === ALERT_ICON_TYPE.warning
                 ? subtitle
-                    ? getSwalText(text)
+                    ? getSwalText({ text, subtitleText })
                     : `<span>${text}</span>`
                 : null,
         iconColor: icon === ALERT_ICON_TYPE.warning && "red",
         icon, // Set icon based on type
         title: (icon === "success" || icon === "error") && text,
-        showConfirmButton: icon === ALERT_ICON_TYPE.warning,
-        confirmButtonText: subtitle
-            ? CONFIG.SWEETALERT_DELETE_OPTION.confirmButtonText
-            : CONFIG.SWEETALERT_DELETE_OPTION.confirmButtonTextSecondary,
+        showConfirmButton: props?.showConfirmButton ?? icon === ALERT_ICON_TYPE.warning,
+        confirmButtonText: props?.confirmButtonText
+            ? props.confirmButtonText
+            : subtitle
+              ? CONFIG.SWEETALERT_DELETE_OPTION.confirmButtonText
+              : CONFIG.SWEETALERT_DELETE_OPTION.confirmButtonTextSecondary,
         showCancelButton: icon === ALERT_ICON_TYPE.warning, // Only show cancel button for warnings
         cancelButtonText: cancelButtonText || CONFIG.SWEETALERT_DELETE_OPTION.cancelButtonText,
-        timer: (icon === "success" || icon === "error") && CONFIG.SWEETALERT_SUCCESS_OPTION.timer,
+        timer:
+            props.timer ??
+            ((icon === "success" || icon === "error") && CONFIG.SWEETALERT_SUCCESS_OPTION.timer),
         customClass: {
             /* you can add custom classes to different component of sweetalert.
              * To check, please visit {@link https://sweetalert2.github.io/#customClass}
              */
             actions: "d-flex flex-row-reverse",
-            cancelButton: "btn custom-swal-cancel-button",
-            confirmButton: "btn custom-swal-confirm-button",
+            cancelButton: "btn button-3d-effect btn-secondary custom-swal-cancel-button",
+            confirmButton: `btn button-3d-effect btn-danger custom-swal-confirm-button ${customConfirmButtonClass}`,
+            title: "swal2-title",
         },
     } as SweetAlertOptions)
 }

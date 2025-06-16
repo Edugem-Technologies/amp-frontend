@@ -16,6 +16,7 @@ export const ALERT_ICON_TYPE = {
 export const MAX_INT_LIMIT = 2147483647
 export const CONFIG = {
     LOG_IN_TITLE: "Login",
+    FORGOT_PASSWORD_TITLE: "Forgot Password",
     FILE_TYPE: {
         IMAGE: {
             "image/png": [".png"],
@@ -263,6 +264,8 @@ export const CONFIG = {
         SUCCESS: 200,
         NO_CONTENT: 204,
         UNAUTHORIZED: 401,
+        SERVER_ERROR: 500,
+        FORBIDDEN: 403,
     },
     API_ENDPOINTS: {
         GET_USER_BY_TOKEN: new URL(`${BASE_API_ENDPOINT}/user/get-user-by-token`),
@@ -271,6 +274,7 @@ export const CONFIG = {
         CREATE_USER: new URL(`${BASE_API_ENDPOINT}/user/create`),
         VERIFY_GOOGLE_USER: new URL(`${BASE_API_ENDPOINT}/user/idp-callback`),
         LOGIN: new URL(`${BASE_API_ENDPOINT}/auth/login `),
+        FORGOT_PASSWORD: new URL(`${BASE_API_ENDPOINT}/auth/forgot-password`),
     },
     COLOR_ARRAY: {
         colorArray: [

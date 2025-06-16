@@ -1,6 +1,8 @@
 import { getAccessToken } from "@/utils/common"
 import { CONFIG, OPEN_ENDPOINTS } from "@/utils/constants"
 import axios from "axios"
+import { parseResponseError } from "./fetch-helper"
+import { Any } from "@/types/common/helper"
 
 /**
  * Axios instance with custom interceptors for handling authorization and response data.
@@ -37,15 +39,48 @@ axiosInstance.interceptors.response.use(
             return null
         } else return response.data
     },
-    (error) => {
-        // Add additional conditions as needed to handle errors returned by the API. You can use the parseResponseError function or the iterateObject function to extract meaningful error messages from the error object.
-        if (error.response) {
-            throw { error: error.message, status: error.response.status }
-        } else {
+    async (error) => {
+        const status = error?.response?.status
+        const responseData = error?.response?.data
+        const responseURL = error?.response?.request?.responseURL
+
+        // Helper to throw parsed or generic error
+        const throwParsedOrGenericError = (statusCode?: number) => {
+            const parsedError = parseResponseError(responseData)
             throw {
-                error: error.message ?? CONFIG.MESSAGES.GENERIC_ERROR,
-                status: CONFIG.STATUS.SERVER_ERROR,
+                error: parsedError || CONFIG.MESSAGES.GENERIC_ERROR,
+                status: statusCode || CONFIG.STATUS_CODES.SERVER_ERROR,
             }
+        }
+
+        if (status === CONFIG.STATUS_CODES.FORBIDDEN) {
+            throwParsedOrGenericError(status)
+        } else if (
+            status === CONFIG.STATUS_CODES.UNAUTHORIZED &&
+            // This below condition is for the endpoints which are open and get unauthenticated status code for wrong credentials like login
+            !OPEN_ENDPOINTS.includes(responseURL)
+        ) {
+            try {
+                // TODO: will update it once implement refresh token/Login API
+                // const data = await refreshToken()
+                // axios.defaults.headers.common["Authorization"] = `Bearer ${data?.access_token}`
+                const originalRequest = error.config
+                // originalRequest.headers["Authorization"] = `Bearer ${data?.access_token}`
+                return (await axios(originalRequest))?.data
+            } catch (_refreshError) {
+                const refreshError = _refreshError as Any
+                throw {
+                    error: new Error(parseResponseError(refreshError?.response?.data)),
+                    status: refreshError?.response?.status,
+                }
+            }
+        } else if (status === CONFIG.STATUS_CODES.SERVER_ERROR) {
+            throw {
+                error: CONFIG.MESSAGES.GENERIC_ERROR,
+                status,
+            }
+        } else {
+            throwParsedOrGenericError(status)
         }
     },
 )

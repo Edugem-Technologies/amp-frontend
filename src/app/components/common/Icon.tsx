@@ -6,15 +6,17 @@ const Icon: React.FC<IconType> = ({
     width = 13,
     height = 13,
     className = "",
+    iconPath = null,
+    alt = null,
     ...props
 }) => {
     return (
         <img
             className={className}
-            src={`/assets/media/icons/custom/${iconName}.svg`}
+            src={iconPath ?? `/icons/${iconName}.svg`}
             width={width}
             height={height}
-            alt={iconName}
+            alt={alt ?? iconName}
             {...props}
         />
     )

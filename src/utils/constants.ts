@@ -17,6 +17,7 @@ export const MAX_INT_LIMIT = 2147483647
 export const CONFIG = {
     LOG_IN_TITLE: "Login",
     FORGOT_PASSWORD_TITLE: "Forgot Password",
+    RESET_PASSWORD: "Setup New Password",
     FILE_TYPE: {
         IMAGE: {
             "image/png": [".png"],
@@ -275,6 +276,7 @@ export const CONFIG = {
         VERIFY_GOOGLE_USER: new URL(`${BASE_API_ENDPOINT}/user/idp-callback`),
         LOGIN: new URL(`${BASE_API_ENDPOINT}/auth/login `),
         FORGOT_PASSWORD: new URL(`${BASE_API_ENDPOINT}/auth/forgot-password`),
+        RESET_PASSWORD: new URL(`${BASE_API_ENDPOINT}/auth/reset-password`),
     },
     COLOR_ARRAY: {
         colorArray: [

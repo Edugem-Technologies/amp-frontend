@@ -42,7 +42,7 @@ const ForgotPassword = () => {
         <form className="form w-100" onSubmit={handleSubmit(submitHandler)}>
             <AuthHeader
                 title={CONFIG.FORGOT_PASSWORD_TITLE}
-                handleBackClick={() => router.push("/auth/signin")}
+                handleBackClick={() => router.push("/auth/login")}
             />
             <ForgotPasswordForm hookForm={hookForm} />
         </form>

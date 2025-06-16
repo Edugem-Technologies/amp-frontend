@@ -53,14 +53,14 @@ const ResetPassword = () => {
             if (response?.status) {
                 setEncryptedLocalStorageData(
                     CONFIG.LOCAL_STORAGE_VARIABLES.PERMISSIONS,
-                    response.data.permissions,
+                    response?.data?.permissions,
                 )
                 const roleData = getUniqueValueFromArray(
-                    response.data.roles.map((role: Role) => role.name),
+                    response?.data?.roles?.map((role: Role) => role.name),
                 ).join(", ")
-                const userData = { ...response.data.details, role: roleData }
+                const userData = { ...response?.data?.details, role: roleData }
                 setEncryptedLocalStorageData(CONFIG.LOCAL_STORAGE_VARIABLES.USER_DATA, userData)
-                setUserPermissions(response.data.permissions)
+                setUserPermissions(response?.data?.permissions)
 
                 showSweetAlertWithRedirect({
                     text: response?.message,

@@ -224,7 +224,6 @@ const AddEditUser: React.FC<Partial<AddUserModalPropType>> = ({ handleClose, onU
                                 inputClass="form-control form-control-lg form-control-solid 1-100 w-100 custom-phone-input"
                                 setCountry={(country) => setCountry(country)}
                                 value=""
-                                country={"ca"}
                                 setPhoneNumberValue={(number) => setValue(`phone`, number)}
                                 setCountryCodeValue={(countryCode) =>
                                     setValue(`phone_country_code`, countryCode)

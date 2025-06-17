@@ -243,7 +243,6 @@ const UserInfo: React.FC<UserInfoProps> = ({ userInfo, setRefetch }) => {
                             </label>
                             <div className="col-lg-4 fv-row fv-plugins-icon-container">
                                 <CustomPhoneInput
-                                    country={country?.countryCode || ""}
                                     inputClass="form-control form-control-lg form-control-solid 1-100 w-100 custom-phone-input"
                                     setCountry={(country) => setCountry(country)}
                                     value={phone}

@@ -18,6 +18,7 @@ export const CONFIG = {
     LOG_IN_TITLE: "Login",
     FORGOT_PASSWORD_TITLE: "Forgot Password",
     RESET_PASSWORD: "Setup New Password",
+    SIGN_UP_TITLE: "Signup",
     FILE_TYPE: {
         IMAGE: {
             "image/png": [".png"],
@@ -246,6 +247,8 @@ export const CONFIG = {
             GSTN: "GSTN",
             GST: "GST",
             PASSWORD: "Password",
+            FIRST_NAME: "First name",
+            LAST_NAME: "Last name",
         },
     },
     USER_ACCESS: [
@@ -279,6 +282,7 @@ export const CONFIG = {
         RESET_PASSWORD: new URL(`${BASE_API_ENDPOINT}/auth/reset-password`),
         GOOGLE_LOGIN: new URL(`${BASE_API_ENDPOINT}/auth/google/login`),
         GET_USER_DETAILS: new URL(`${BASE_API_ENDPOINT}/user/details`),
+        SIGNUP: new URL(`${BASE_API_ENDPOINT}/auth/signup `),
     },
     COLOR_ARRAY: {
         colorArray: [

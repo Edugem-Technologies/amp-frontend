@@ -47,7 +47,7 @@ const CustomPhoneInput: React.FC<CustomPhoneInputType> = ({
                             // Split only at the first occurrence
                             number = data.slice(countryCode.length).trim()
                         }
-                        setCountry(_country as CountryData)
+                        setCountry && setCountry(_country as CountryData)
                         // Setting the phone number and country code values
                         setPhoneNumberValue(number)
                         if (number?.trim().length) {

@@ -737,4 +737,12 @@ aside.sidebar {
     .cursor-pointer {
         cursor: pointer;
     }
+    .form-subsection {
+        row-gap: 8px;
+    }
+    .form-title {
+        font-size: 1.25rem;
+        font-weight: $bold;
+        line-height: 1.5rem;
+    }
 }

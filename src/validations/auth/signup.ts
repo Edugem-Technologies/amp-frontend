@@ -1,21 +1,25 @@
+import { CONFIG } from "@/utils/constants"
 import {
+    getAlphaNumericFieldSchema,
     getEmailFieldValidationSchema,
-    getNameFieldValidationSchema,
-    getPasswordFieldValidationSchema,
-    getSimpleTextFieldValidationSchema,
+    getOptionalAlphaNumericFieldSchema,
+    getPhoneNumberSchema,
+    getUserPasswordSchema,
 } from "@/utils/validation"
 import { z } from "zod"
 export const SignupValidationSchema = z
     .object({
-        first_name: getNameFieldValidationSchema("First Name"),
-        last_name: getNameFieldValidationSchema("Last Name"),
-        email: getEmailFieldValidationSchema(),
-        password: getPasswordFieldValidationSchema(),
-        confirm_password: getSimpleTextFieldValidationSchema("Confirm Password"),
+        first_name: getAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.FIRST_NAME),
+        last_name: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.LAST_NAME),
+        primary_email: getEmailFieldValidationSchema(),
+        password: getUserPasswordSchema(),
+        password1: getUserPasswordSchema(),
+        primary_phone: getPhoneNumberSchema(1),
+        country_code: getPhoneNumberSchema(2),
     })
-    .refine((schema) => schema.password === schema.confirm_password, {
-        path: ["confirm_password"],
+    .refine((schema) => schema.password === schema.password1, {
+        path: ["password1"],
         message: "Password do not match",
     })
 
-export type SignupSchema = z.infer<typeof SignupValidationSchema>
+export type SignupSchemaType = z.infer<typeof SignupValidationSchema>

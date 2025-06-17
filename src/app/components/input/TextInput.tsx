@@ -12,7 +12,7 @@ const TextInputField = forwardRef<HTMLInputElement, InputFieldProps>(
         {
             label,
             errorMsg,
-            className,
+            inputFieldClassName,
             labelClass,
             type,
             postInputText,
@@ -47,7 +47,7 @@ const TextInputField = forwardRef<HTMLInputElement, InputFieldProps>(
                     <input
                         ref={ref}
                         {...props}
-                        className={`form-control form-control-solid position-relative custom-border border-radius-10px ${className}`}
+                        className={`form-control form-control-solid position-relative custom-border border-radius-10px ${inputFieldClassName}`}
                         type={inputType}
                     />
                     {postInputText && (

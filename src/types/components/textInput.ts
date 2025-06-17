@@ -18,7 +18,7 @@ export interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
      * Additional CSS classes to apply to the input field.
      * @type {string}
      */
-    className?: string
+    inputFieldClassName?: string
 
     /**
      * Additional CSS classes to apply to the label.

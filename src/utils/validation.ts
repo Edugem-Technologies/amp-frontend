@@ -1065,8 +1065,8 @@ export const validGSTNumberSchema = (
 
 export const addressSchema = () =>
     z.object({
-        address_type: requiredSingleDropdownSchema(CONFIG.VALIDATIONS.FIELD_NAME.ADDRESS_TYPE),
-        address: getAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.ADDRESS),
+        address_type: getValueorNullTransformedSchema(),
+        address: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.ADDRESS),
         pincode: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.PINCODE),
         city: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.PINCODE),
         state: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.PINCODE),

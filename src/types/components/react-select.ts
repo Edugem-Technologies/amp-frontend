@@ -1,127 +1,45 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Params } from "@/services/fetch-helper"
 import { ReactElement } from "react"
-import { GroupBase } from "react-select"
+import { GroupBase, Props } from "react-select"
 import { ComponentProps, UseAsyncPaginateParams } from "react-select-async-paginate"
 import { CreatableProps } from "react-select/creatable"
-import { Control, FieldError, FieldErrorsImpl, FieldValues, Merge, Path } from "react-hook-form"
 import { Any } from "../common/helper"
 
-/**
- * Represents an option in the select component.
- */
-export interface OptionType {
-    label: string
-    value: string
-}
 /**
  * Represents the props required for an async paginated creatable select component.
  * Extends CreatableProps, UseAsyncPaginateParams, and ComponentProps from react-select libraries.
  *
- * @template OptionType - Type of the options.
+ * @template Option - Type of the options.
  * @template Group - Type of the group base for options.
  * @template Additional - Additional parameters for async pagination.
  * @template IsMulti - Boolean flag indicating if multi-select is enabled.
  */
 export type AsyncPaginateCreatableProps<
-    OptionType,
-    Group extends GroupBase<OptionType>,
+    Option,
+    Group extends GroupBase<Option>,
     Additional,
     IsMulti extends boolean,
-> = CreatableProps<OptionType, IsMulti, Group> &
-    UseAsyncPaginateParams<OptionType, Group, Additional> &
-    ComponentProps<OptionType, Group, IsMulti>
+> = CreatableProps<Option, IsMulti, Group> &
+    UseAsyncPaginateParams<Option, Group, Additional> &
+    ComponentProps<Option, Group, IsMulti>
 
 /**
  * Represents the type definition for an async paginated creatable select component.
  *
- * @template OptionType - Type of the options.
+ * @template Option - Type of the options.
  * @template Group - Type of the group base for options.
  * @template Additional - Additional parameters for async pagination.
  * @template IsMulti - Boolean flag indicating if multi-select is enabled.
  */
 export type AsyncPaginateCreatableType = <
-    OptionType,
-    Group extends GroupBase<OptionType>,
+    Option,
+    Group extends GroupBase<Option>,
     Additional,
     IsMulti extends boolean = false,
 >(
-    props: AsyncPaginateCreatableProps<OptionType, Group, Additional, IsMulti>,
+    props: AsyncPaginateCreatableProps<Option, Group, Additional, IsMulti>,
 ) => ReactElement
-
-/**
- * Represents the props required for the ReactSelect component.
- * Extends CreatableProps from react-select library.
- */
-export interface ReactSelectPropType
-    extends CreatableProps<OptionType, boolean, GroupBase<OptionType>> {
-    /**
-     * Callback function triggered when an option is selected.
-     * @param option - The selected option or array of options (if multi-select).
-     */
-    onSelected: (option: OptionType | OptionType[] | null) => void
-
-    /**
-     * Additional parameters for option fetching.
-     */
-    params?: Record<string, any>
-
-    /**
-     * Boolean flag indicating if new options can be created.
-     */
-    creatable?: boolean
-
-    /**
-     * Name of the option.
-     */
-    optionName?: string
-
-    /**
-     * Function to retrieve the label of an option.
-     * @param option - The option object.
-     * @returns The label string of the option.
-     */
-    getOptionLabel: (option: any) => string
-
-    /**
-     * Function to retrieve the value of an option.
-     * @param option - The option object.
-     * @returns The value string of the option.
-     */
-    getOptionValue: (option: any) => string
-
-    /**
-     * Callback function triggered when creating a new option.
-     * @param label - The label of the newly created option.
-     */
-    onCreate?: (label: string) => void
-
-    /**
-     * Function to fetch options asynchronously.
-     * @param args - Arguments passed for fetching options.
-     * @returns A promise that resolves with the fetched options.
-     */
-    loadOptionsFetch: (args: any) => any
-}
-export interface Option {
-    label: string
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    value: any
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    data?: any
-}
-export interface BaseSelectPropType extends CreatableProps<Option, boolean, GroupBase<Option>> {
-    endpoint: URL
-    onSelected: (option: Option | Option[] | null) => void
-    params?: Record<string, Any>
-    creatable?: boolean
-    optionName?: string
-    getOptionLabel: (option: Any) => string
-    getOptionValue: (option: Any) => string
-    onCreate?: (label: string) => void
-    getOptionData: (option: Any) => Any
-    searchKey?: string
-    selectAll?: boolean
-}
 
 /**
  * Props for the custom React select component.
@@ -173,40 +91,57 @@ export interface CustomReactSelectType {
     isDisabled?: boolean
 }
 
-/**
- * Common properties for select wrapper components integrated with react-hook-form.
- *
- * @template FormValues - The type of form values.
- * @typedef {Object} CommonSelectWrapperProps
- * @property {Path<FormValues>} name - The name of the form control, which corresponds to a path in the form values.
- * @property {Control<FormValues>} control - The control object from `react-hook-form`.
- * @property {string} [placeholder] - Optional placeholder text for the select input.
- * @property {string} [label] - Optional label for the select input.
- * @property {FieldError | Merge<FieldError, FieldErrorsImpl<FormValues>> | undefined} [error] - Optional error object for form validation.
- */
-export interface CommonSelectWrapperProps<FormValues extends FieldValues> {
-    name: Path<FormValues> // Update this line
-    control: Control<FormValues>
-    placeholder?: string
-    label?: string
-    error?: FieldError | Merge<FieldError, FieldErrorsImpl<FormValues>> | undefined
+export interface Option {
+    label: string
+    value: string | number | undefined
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    data?: any
 }
 
-/**
- * Properties for a React select wrapper component.
- *
- * @template FormValues - The type of form values.
- * @typedef {Object} ReactSelectWrapperProps
- * @extends CommonSelectWrapperProps<FormValues>
- * @property {any[]} optionsData - Array of options to populate the select input.
- * @property {Omit<CustomReactSelectType, "onDropdownChange" | "selectedOptionValue" | "optionsData" | "placeholder">} [selectProps] - Additional props to pass to the custom React select component.
- */
-export interface ReactSelectWrapperProps<FormValues extends FieldValues>
-    extends CommonSelectWrapperProps<FormValues> {
-    optionsData: any[]
-    selectProps?: Omit<
-        CustomReactSelectType,
-        "onDropdownChange" | "selectedOptionValue" | "optionsData" | "placeholder"
-    >
-    afterSelect?: (data: string) => void
+export interface BaseSelectPropType extends CreatableProps<Option, boolean, GroupBase<Option>> {
+    endpoint: URL
+    onSelected: (option: Option | Option[] | null) => void
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    params?: Record<string, any>
+    creatable?: boolean
+    optionName?: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    getOptionLabel: (option: any) => string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    getOptionValue: (option: any) => string
+    onCreate?: (label: string) => void
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    getOptionData: (option: any) => any
+    filterKey?: string
+    showSlicedLabel?: boolean
+    searchKey?: string
+    searchParams?: Record<string, Any>
+}
+
+export interface BaseStaticSelectPropType extends Props<Option> {
+    onSelected: (option: Option | Option[] | null) => void
+    isMulti?: boolean
+    options: Option[]
+    selectedOptionValue?: Option | Option[] | null
+    placeholder?: string
+    className?: string
+}
+
+export interface BaseWrapperSelectPropType
+    extends CreatableProps<Option, boolean, GroupBase<Option>> {
+    selectedOptionValue?: Option | Option[] | null
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onSelected: (option: any) => void
+    isClearable?: boolean
+    isDisabled?: boolean
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    refetch?: Array<any>
+    creatable?: boolean
+    label: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    procurementCategory?: boolean
+    params?: Params
+    isSchemaDesign?: boolean
+    searchParams?: Params
+    searchKey?: string
 }

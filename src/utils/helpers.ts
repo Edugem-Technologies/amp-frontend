@@ -1,4 +1,4 @@
-import { Any, CheckValidPhoneNumberArgsTyps } from "@/types/common/helper"
+import { Any, AnyObject, CheckValidPhoneNumberArgsTyps } from "@/types/common/helper"
 import { isValidNumber, parse } from "libphonenumber-js"
 import Swal, { SweetAlertIcon, SweetAlertOptions } from "sweetalert2"
 import { ALERT_ICON_TYPE, CONFIG, MAX_INT_LIMIT } from "./constants"
@@ -360,4 +360,25 @@ export const setLoginDetailsToLocalStorage = ({
     } catch (error) {
         handleError(error)
     }
+}
+
+/**
+ * Capitalizes the first letter of a given text and converts the rest to lowercase.
+ *
+ * @param {string} text - The text to be formatted.
+ * @returns {string} The formatted text with the first letter capitalized.
+ */
+export const formatTextToCapitalized = (text: string | undefined) => {
+    return (text?.[0]?.toUpperCase() ?? "") + (text?.slice(1)?.toLowerCase() ?? "")
+}
+
+export const getOptionFromEnum = (enumObject: AnyObject, isFormatTextToCapital = true) => {
+    return Object.keys(enumObject).map((key) => ({
+        label: isFormatTextToCapital ? formatTextToCapitalized(key) : key,
+        value: enumObject[key],
+        data: {
+            label: isFormatTextToCapital ? formatTextToCapitalized(key) : key,
+            value: enumObject[key],
+        },
+    }))
 }

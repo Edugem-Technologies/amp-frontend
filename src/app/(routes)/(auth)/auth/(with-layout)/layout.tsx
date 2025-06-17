@@ -18,7 +18,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <Toaster position="top-center" />
             <div className="sign-in-layout w-lg-500px p-10 m-auto">
                 <LoginSwiperSection />
-                <div className=" w-100 container flex-center sign-in-form">
+                <div className=" h-100 w-100 container flex-center sign-in-form">
                     <div className={`${isSignUpPage ? "h-100 sign-up-form" : "w-500px"}`}>
                         <img
                             className="logo-image"

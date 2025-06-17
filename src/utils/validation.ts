@@ -1068,9 +1068,9 @@ export const addressSchema = () =>
         address_type: getValueorNullTransformedSchema(),
         address: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.ADDRESS),
         pincode: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.PINCODE),
-        city: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.PINCODE),
-        state: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.PINCODE),
-        country: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.PINCODE),
+        city: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.city),
+        state: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.state),
+        country: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.country),
     })
 
 export const addressSchemaArray = () => z.array(addressSchema())

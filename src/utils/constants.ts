@@ -252,9 +252,9 @@ export const CONFIG = {
             ADDRESS_TYPE: "Address type",
             ADDRESS: "Address",
             PINCODE: "Pincode",
-            city: "city",
-            state: "state",
-            country: "state",
+            city: "City",
+            state: "State",
+            country: "Country",
         },
     },
     USER_ACCESS: [

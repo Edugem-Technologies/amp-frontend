@@ -29,6 +29,7 @@ const Login = () => {
         setValue,
         clearErrors,
         setError,
+        trigger,
         control,
     } = useForm<SignupSchemaType>({
         resolver: zodResolver(SignupValidationSchema),
@@ -159,9 +160,10 @@ const Login = () => {
                                         onChange={(address) => {
                                             if (address) {
                                                 setValue(`address.${index}`, address)
+                                                trigger(`address.${index}`)
                                             }
                                         }}
-                                        errorMessage={errors?.address?.message?.toString()}
+                                        errors={errors?.address?.[index]}
                                         addressValue={watch("address")?.[index]}
                                     />
                                 </>

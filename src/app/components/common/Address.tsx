@@ -10,7 +10,7 @@ import { getOptionFromEnum } from "@/utils/helpers"
 import { addressTypeEnum } from "@/enums/addressTypeEnum"
 import Label from "../input/Label"
 
-const Address: React.FC<AddressPropType> = ({ onChange, errorMessage, addressValue }) => {
+const Address: React.FC<AddressPropType> = ({ onChange, errors, addressValue }) => {
     const [manualAddress, setManualAddress] = useState<AddressData>(
         addressValue
             ? addressValue
@@ -53,6 +53,7 @@ const Address: React.FC<AddressPropType> = ({ onChange, errorMessage, addressVal
                             value={manualAddress?.address}
                             autoComplete="off"
                             onChange={(e) => handleManualChange("address", e.target.value)}
+                            errorMsg={errors?.address?.message}
                         />
                     </div>
                     <div className="col-md-6">
@@ -64,6 +65,7 @@ const Address: React.FC<AddressPropType> = ({ onChange, errorMessage, addressVal
                                 handleManualChange("address_type", binType as Option)
                             }
                         />
+                        <ShowFormError message={errors?.address_type?.message} />
                     </div>
                     <div className="col-md-6">
                         <TextInputField
@@ -72,6 +74,7 @@ const Address: React.FC<AddressPropType> = ({ onChange, errorMessage, addressVal
                             value={manualAddress?.city}
                             autoComplete="off"
                             onChange={(e) => handleManualChange("city", e.target.value)}
+                            errorMsg={errors?.city?.message}
                         />
                     </div>
                     <div className="col-md-6">
@@ -81,6 +84,7 @@ const Address: React.FC<AddressPropType> = ({ onChange, errorMessage, addressVal
                             autoComplete="off"
                             value={manualAddress?.state}
                             onChange={(e) => handleManualChange("state", e.target.value)}
+                            errorMsg={errors?.state?.message}
                         />
                     </div>
                     <div className="col-md-6">
@@ -90,6 +94,7 @@ const Address: React.FC<AddressPropType> = ({ onChange, errorMessage, addressVal
                             autoComplete="off"
                             value={manualAddress?.pincode}
                             onChange={(e) => handleManualChange("pincode", e.target.value)}
+                            errorMsg={errors?.pincode?.message}
                         />
                     </div>
                     <div className="col-md-6">
@@ -99,11 +104,11 @@ const Address: React.FC<AddressPropType> = ({ onChange, errorMessage, addressVal
                             autoComplete="off"
                             value={manualAddress?.country}
                             onChange={(e) => handleManualChange("country", e.target.value)}
+                            errorMsg={errors?.country?.message}
                         />
                     </div>
                 </div>
             </div>
-            <ShowFormError message={errorMessage} />
         </>
     )
 }

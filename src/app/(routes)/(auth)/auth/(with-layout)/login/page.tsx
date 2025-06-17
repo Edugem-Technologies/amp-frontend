@@ -1,18 +1,13 @@
 "use client"
 
 import AuthHeader from "@/app/components/auth/AuthHeader"
-import SocialLogin from "@/app/components/auth/SocialLogin"
 import LoginForm from "@/app/components/auth/LoginForm"
+import SocialLogin from "@/app/components/auth/SocialLogin"
 import { usePermissions } from "@/app/context/PermissionContext"
 import { FetchHelper } from "@/services/fetch-helper"
-import { Role } from "@/types/data/loginData"
 import { CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
-import {
-    getUniqueValueFromArray,
-    setEncryptedLocalStorageData,
-    showSweetAlertWithRedirect,
-} from "@/utils/helpers"
+import { setLoginDetailsToLocalStorage, showSweetAlertWithRedirect } from "@/utils/helpers"
 import { LoginValidationSchema, LoginValidationSchemaType } from "@/validations/auth/login"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -35,16 +30,12 @@ const Login = () => {
         try {
             const response = await FetchHelper.post(CONFIG.API_ENDPOINTS.LOGIN, data)
             if (response?.status) {
-                setEncryptedLocalStorageData(
-                    CONFIG.LOCAL_STORAGE_VARIABLES.PERMISSIONS,
-                    response.data.permissions,
-                )
-                const roleData = getUniqueValueFromArray(
-                    response.data.roles.map((role: Role) => role.name),
-                ).join(", ")
-                const userData = { ...response.data.details, role: roleData }
-                setEncryptedLocalStorageData(CONFIG.LOCAL_STORAGE_VARIABLES.USER_DATA, userData)
-                setUserPermissions(response.data.permissions)
+                setLoginDetailsToLocalStorage({
+                    permissions: response.data.permissions,
+                    roles: response.data.roles,
+                    setUserPermissions,
+                    userDetails: response.data.user,
+                })
                 showSweetAlertWithRedirect({
                     text: response.message,
                     icon: CONFIG.SWEETALERT_SUCCESS_OPTION.icon as SweetAlertIcon,

@@ -15,14 +15,16 @@ const SocialLogin = () => {
         }
     }
     return (
-        <PrimaryButton
-            buttonTitle="Login with Google"
-            onClick={handleGoogleLogin}
-            customClassName="mt-3 py-2"
-            buttonContentClass="d-flex gap-3 flex-center"
-        >
-            <Image src={GoogleLogo} alt="google-logo" />
-        </PrimaryButton>
+        <div className="d-flex mt-3">
+            <PrimaryButton
+                buttonTitle="Login with Google"
+                onClick={handleGoogleLogin}
+                customClassName=" w-100"
+                buttonContentClass="d-flex gap-3 flex-center"
+            >
+                <Image src={GoogleLogo} alt="google-logo" width={20} height={20} />
+            </PrimaryButton>
+        </div>
     )
 }
 

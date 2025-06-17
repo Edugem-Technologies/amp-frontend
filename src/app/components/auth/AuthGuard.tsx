@@ -42,7 +42,7 @@ const AuthGuard = (props: AuthGuardProps) => {
         } catch (error) {
             handleError(error)
             router.push(`/login?${CONFIG.PARAMS.REDIRECT_URL_PARAM}=${path}`)
-            // next auth sign out fucntion to remove access token of next-auth
+            // next auth sign out function to remove access token of next-auth
             signOut()
         }
     }

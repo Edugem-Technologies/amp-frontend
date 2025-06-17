@@ -247,6 +247,7 @@ export const CONFIG = {
             GSTN: "GSTN",
             GST: "GST",
             PASSWORD: "Password",
+            CONFIRM_PASSWORD: "Confirm password",
             FIRST_NAME: "First name",
             LAST_NAME: "Last name",
             ADDRESS_TYPE: "Address type",

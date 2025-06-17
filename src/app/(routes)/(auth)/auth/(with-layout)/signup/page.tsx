@@ -147,7 +147,7 @@ const Login = () => {
                                 label="Confirm Password"
                                 type="password"
                                 autoComplete="off"
-                                errorMsg={errors?.password?.message}
+                                errorMsg={errors?.password1?.message}
                                 inputFieldClassName="custom-input"
                                 {...register("password1")}
                             />

@@ -2,6 +2,7 @@
 
 import AuthHeader from "@/app/components/auth/AuthHeader"
 import PrimaryButton from "@/app/components/button/PrimaryButton"
+import Address from "@/app/components/common/Address"
 import CustomPhoneInput from "@/app/components/common/CustomPhoneInput"
 import ShowFormError from "@/app/components/common/ShowFormError"
 import Label from "@/app/components/input/Label"
@@ -14,7 +15,7 @@ import { SignupSchemaType, SignupValidationSchema } from "@/validations/auth/sig
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useForm } from "react-hook-form"
+import { useFieldArray, useForm } from "react-hook-form"
 import { SweetAlertIcon } from "sweetalert2"
 
 const Login = () => {
@@ -28,9 +29,24 @@ const Login = () => {
         setValue,
         clearErrors,
         setError,
+        control,
     } = useForm<SignupSchemaType>({
         resolver: zodResolver(SignupValidationSchema),
+        defaultValues: {
+            address: [
+                {
+                    address: "",
+                    address_type: null,
+                    city: null,
+                    country: null,
+                    pincode: null,
+                    state: null,
+                },
+            ],
+        },
     })
+
+    const { fields: addressFields } = useFieldArray({ control, name: "address" })
 
     const submitHandler = async (data: SignupSchemaType) => {
         try {
@@ -135,6 +151,22 @@ const Login = () => {
                                 {...register("password1")}
                             />
                         </div>
+                        {addressFields.map((addressField, index) => {
+                            return (
+                                <>
+                                    <Address
+                                        key={addressField.id}
+                                        onChange={(address) => {
+                                            if (address) {
+                                                setValue(`address.${index}`, address)
+                                            }
+                                        }}
+                                        errorMessage={errors?.address?.message?.toString()}
+                                        addressValue={watch("address")?.[index]}
+                                    />
+                                </>
+                            )
+                        })}
                     </div>
                 </div>
 

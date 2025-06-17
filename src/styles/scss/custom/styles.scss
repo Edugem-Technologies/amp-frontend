@@ -745,4 +745,24 @@ aside.sidebar {
         font-weight: $bold;
         line-height: 1.5rem;
     }
+    .add-more-section {
+        font-size: $font-size-14px;
+        @include media-breakpoint-up(lg) {
+            margin-top: 33px;
+        }
+    }
+    .add-more-fields {
+        cursor: pointer;
+        color: blue;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    .remove-fields {
+        cursor: pointer;
+        color: red;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
 }

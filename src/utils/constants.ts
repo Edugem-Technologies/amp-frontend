@@ -249,6 +249,12 @@ export const CONFIG = {
             PASSWORD: "Password",
             FIRST_NAME: "First name",
             LAST_NAME: "Last name",
+            ADDRESS_TYPE: "Address type",
+            ADDRESS: "Address",
+            PINCODE: "Pincode",
+            city: "city",
+            state: "state",
+            country: "state",
         },
     },
     USER_ACCESS: [

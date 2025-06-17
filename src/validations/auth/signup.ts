@@ -1,5 +1,6 @@
 import { CONFIG } from "@/utils/constants"
 import {
+    addressSchemaArray,
     getAlphaNumericFieldSchema,
     getEmailFieldValidationSchema,
     getOptionalAlphaNumericFieldSchema,
@@ -16,6 +17,7 @@ export const SignupValidationSchema = z
         password1: getUserPasswordSchema(),
         primary_phone: getPhoneNumberSchema(1),
         country_code: getPhoneNumberSchema(2),
+        address: addressSchemaArray(),
     })
     .refine((schema) => schema.password === schema.password1, {
         path: ["password1"],

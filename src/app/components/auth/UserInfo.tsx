@@ -1,12 +1,17 @@
 "use client"
+import { useLocalStorageEffect } from "@/app/hooks/useLocalStorageEffect"
 import { FetchHelper } from "@/services/fetch-helper"
+import { User } from "@/types/auth/user"
 import { CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
 import { checkValidPhoneNumber, showSweetAlert } from "@/utils/helpers"
+import { EditUser, EditUserInfoSchema } from "@/validations/auth/edit-user-schema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useState, useEffect, Dispatch, SetStateAction } from "react"
-import { useForm, Controller } from "react-hook-form"
+import Link from "next/link"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
+import { Controller, useForm } from "react-hook-form"
 import { CountryData } from "react-phone-input-2"
+import Button from "../button/Button"
 import CustomPhoneInput from "../common/CustomPhoneInput"
 import CustomReactSelect from "../common/CustomReactSelect"
 import RequiredField from "../common/RequiredField"
@@ -14,13 +19,8 @@ import ShowFormError from "../common/ShowFormError"
 import TabBody from "../common/TabBody"
 import TabHeader from "../common/TabHeader"
 import TabSection from "../common/TabSection"
-import TextInputField from "../common/TextInput"
-import Link from "next/link"
-import { EditUser, EditUserInfoSchema } from "@/validations/auth/edit-user-schema"
-import { useLocalStorageEffect } from "@/app/hooks/useLocalStorageEffect"
-import { User } from "@/types/auth/user"
+import TextInputField from "../input/TextInput"
 import ResetPassword from "./ResetPassword"
-import Button from "../common/Button"
 
 export interface UserInfoProps {
     userInfo?: User | null
@@ -269,7 +269,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ userInfo, setRefetch }) => {
                         <Link href="/users">
                             <Button
                                 type="button"
-                                title="Discard"
+                                buttonTitle="Discard"
                                 className="btn btn-secondary me-2"
                             />
                         </Link>
@@ -277,8 +277,8 @@ const UserInfo: React.FC<UserInfoProps> = ({ userInfo, setRefetch }) => {
                             type="submit"
                             className="btn btn-primary "
                             disabled={isSubmitting}
-                            loading={isSubmitting}
-                            title="Save Changes"
+                            isSubmitting={isSubmitting}
+                            buttonTitle="Save Changes"
                         />
                     </div>
                 </form>

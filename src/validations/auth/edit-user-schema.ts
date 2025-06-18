@@ -15,11 +15,7 @@ export const EditUserInfoSchema = z
         email: getUserEmailSchema(),
         phone: getPhoneNumberSchema(1),
         phone_country_code: getPhoneNumberSchema(2),
-        username: getNameFieldValidationSchema("Username")
-            .min(3, {
-                message: "Username must be at least 3 characters long",
-            })
-            .transform((value) => value?.toUpperCase()),
+        username: getNameFieldValidationSchema("Username"),
         user_access: z.string().min(1, { message: generateErrorMessage("Role") }),
     })
     .refine((data) => checkValidPhoneNumber({ data: data.phone }), "Invalid phone number")

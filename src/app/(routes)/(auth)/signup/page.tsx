@@ -15,7 +15,7 @@ import EyeOpen from "../../../../../public/images/Eye-open.svg"
 import GoogleLogo from "../../../../../public/images/Google-logo.svg"
 
 import OTPModal from "@/app/components/auth/OTPModal"
-import TextInputField from "@/app/components/common/TextInput"
+import TextInputField from "@/app/components/input/TextInput"
 import { FetchHelper } from "@/services/fetch-helper"
 import { setAccessToken } from "@/utils/common"
 import { handleError } from "@/utils/handle-error"

@@ -11,6 +11,7 @@ export const permissionJSON = {
                 code: "CATEGORY_MASTER_MANAGE",
                 label: "Manage",
             },
+            APPROVE_REJECT: undefined,
         },
     },
     BRAND_MASTER: {
@@ -25,6 +26,7 @@ export const permissionJSON = {
                 code: "BRAND_MASTER_MANAGE",
                 label: "Manage",
             },
+            APPROVE_REJECT: undefined,
         },
     },
     PRODUCT_MASTER: {
@@ -39,6 +41,7 @@ export const permissionJSON = {
                 code: "PRODUCT_MASTER_MANAGE",
                 label: "Manage",
             },
+            APPROVE_REJECT: undefined,
         },
     },
     SUPPLIER_MASTER: {
@@ -53,6 +56,22 @@ export const permissionJSON = {
                 code: "SUPPLIER_MASTER_MANAGE",
                 label: "Manage",
             },
+            APPROVE_REJECT: undefined,
+        },
+    },
+    CUSTOMER_MASTER: {
+        code: "CUSTOMER_MASTER",
+        label: "Customer Master",
+        permissions: {
+            VIEW: {
+                code: "CUSTOMER_MASTER_VIEW",
+                label: "View",
+            },
+            MANAGE: {
+                code: "CUSTOMER_MASTER_MANAGE",
+                label: "Manage",
+            },
+            APPROVE_REJECT: undefined,
         },
     },
     WAREHOUSE_MASTER: {
@@ -67,6 +86,7 @@ export const permissionJSON = {
                 code: "WAREHOUSE_MASTER_MANAGE",
                 label: "Manage",
             },
+            APPROVE_REJECT: undefined,
         },
     },
     BIN_STORAGE_MASTER: {
@@ -81,6 +101,7 @@ export const permissionJSON = {
                 code: "BIN_STORAGE_MASTER_MANAGE",
                 label: "Manage",
             },
+            APPROVE_REJECT: undefined,
         },
     },
     CHANNEL_MASTER: {
@@ -95,20 +116,22 @@ export const permissionJSON = {
                 code: "CHANNEL_MASTER_MANAGE",
                 label: "Manage",
             },
+            APPROVE_REJECT: undefined,
         },
     },
-    CHANNEL_ITEM_MASTER: {
-        code: "CHANNEL_ITEM_MASTER",
-        label: "Channel Item Master",
+    COMBO_MASTER: {
+        code: "COMBO_MASTER",
+        label: "Combo Master",
         permissions: {
             VIEW: {
-                code: "CHANNEL_ITEM_MASTER_VIEW",
+                code: "COMBO_MASTER_VIEW",
                 label: "View",
             },
             MANAGE: {
-                code: "CHANNEL_ITEM_MASTER_MANAGE",
+                code: "COMBO_MASTER_MANAGE",
                 label: "Manage",
             },
+            APPROVE_REJECT: undefined,
         },
     },
     PURCHASE_ORDER: {
@@ -121,6 +144,10 @@ export const permissionJSON = {
             },
             MANAGE: {
                 code: "PURCHASE_ORDER_MANAGE",
+                label: "Manage",
+            },
+            APPROVE_REJECT: {
+                code: "PURCHASE_ORDER_APPROVE_REJECT",
                 label: "Manage",
             },
         },
@@ -137,6 +164,7 @@ export const permissionJSON = {
                 code: "HSN_CODE_MASTER_MANAGE",
                 label: "Manage",
             },
+            APPROVE_REJECT: undefined,
         },
     },
     GOOD_RECEIPT_NOTES: {
@@ -151,6 +179,7 @@ export const permissionJSON = {
                 code: "GOOD_RECEIPT_NOTES_MANAGE",
                 label: "Manage",
             },
+            APPROVE_REJECT: undefined,
         },
     },
     INVENTORY: {
@@ -165,6 +194,7 @@ export const permissionJSON = {
                 code: "INVENTORY_MANAGE",
                 label: "Manage",
             },
+            APPROVE_REJECT: undefined,
         },
     },
     ROLE: {
@@ -179,6 +209,7 @@ export const permissionJSON = {
                 code: "ROLE_MANAGE",
                 label: "Manage",
             },
+            APPROVE_REJECT: undefined,
         },
     },
     USER: {
@@ -193,6 +224,7 @@ export const permissionJSON = {
                 code: "USER_MANAGE",
                 label: "Manage",
             },
+            APPROVE_REJECT: undefined,
         },
     },
 }

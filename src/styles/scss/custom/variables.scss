@@ -13,6 +13,10 @@ $heading-font-weight: 400;
 $heading-line-height: 60px;
 $heading-line-height-sm: 40px;
 
+// font-size percentage to 14px(1 rem)
+$base-font-size: 14px;
+$font-size-14px: 1rem;
+
 // theme-palette
 $theme-black: #434343;
 $theme-dark-cyan: #1bcece;
@@ -20,6 +24,7 @@ $theme-light-cyan: #14e4ea;
 $theme-light-brown: #d3bdb0;
 $theme-light-purple: #dbd4ff;
 $theme-cyan-background: rgba(20, 228, 234, 0.2);
+$theme-white: #ffffff;
 
 // font-sizes
 $navbar-items-fs: 1rem;
@@ -33,3 +38,19 @@ $caption-color: #a1a1a1;
 
 // custom extra properties
 $opacity: 0;
+
+@mixin box-shadow-light($color) {
+    box-shadow: 0 3px 0 mix(white, $color, 20%) !important;
+}
+@mixin box-shadow-light-hover($color) {
+    box-shadow: 0 4px 0 mix(white, $color, 20%) !important;
+}
+@mixin box-shadow-light-active($color) {
+    box-shadow: 0 1px 0 mix(white, $color, 20%) !important;
+}
+
+:root {
+    --color-background-login-swiper: #f3f9fc;
+    --color-base-font: #000;
+    --color-base-border: #ced4da;
+}

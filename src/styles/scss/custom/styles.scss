@@ -7,6 +7,7 @@
 @import "./input.scss";
 @import "./variables.scss";
 @import "./datatable.css";
+@import "../../fonts/plus-jakarta-sans/stylesheet.css";
 // @import "./style.bundle.css";
 
 /* CSS Cascade Layers
@@ -32,7 +33,7 @@
         box-sizing: inherit;
     }
     html {
-        font-size: 14px;
+        font-size: $base-font-size;
     }
 }
 
@@ -581,6 +582,96 @@ aside.sidebar {
     // they will be written here
     // e.g want to override the default bootstrap gutter space
     body {
-        font-family: sans-serif;
+        font-family: "Plus Jakarta Sans";
+        color: var(--color-base-font);
+    }
+    .sign-in-layout {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    .sign-in-form {
+        background-color: $theme-white;
+    }
+    .w-500px {
+        width: 500px;
+    }
+    .flex-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .login-swiper-images-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+        height: 100%;
+        background-color: var(--color-background-login-swiper);
+        .swiper {
+            width: 100%;
+            text-align: center;
+        }
+        .swiper-experince-pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        @include media-breakpoint-down(lg) {
+            display: none;
+        }
+        .image {
+            width: 100%;
+            height: 50vh;
+        }
+        .description {
+            margin-inline: 80px;
+            font-weight: 700;
+            font-size: 22px;
+        }
+    }
+    .button-3d-effect {
+        &:not(&:disabled) {
+            transition: all 0.2s ease !important;
+            transform: translateY(0);
+            &:hover {
+                transform: translateY(-1px);
+            }
+            &:active {
+                transform: translateY(1px);
+            }
+        }
+    }
+
+    // Iterate over each key-value pair in the $theme-colors map,
+    // where `$name` is the name of the theme color (e.g., "primary", "secondary")
+    // and `$color` is the actual color value (e.g., #0d6efd).
+    // For each color, generate custom styles for the corresponding button class
+    // (e.g., .btn-primary, .btn-secondary), and apply a consistent box-shadow
+    // effect for normal, hover, and active states using predefined mixins.
+    @each $name, $color in $theme-colors {
+        // Target button class dynamically using the color name (e.g., .btn-primary, .btn-success, etc.)
+        .btn-#{$name},
+        .cancel-button-class {
+            // Apply default box-shadow using custom mixin
+            @include box-shadow-light($color);
+
+            &:not(&:disabled) {
+                // On hover, apply a slightly stronger box-shadow
+                &:hover {
+                    @include box-shadow-light-hover($color);
+                }
+
+                // On active/click, apply a deeper box-shadow for feedback effect
+                &:active {
+                    @include box-shadow-light-active($color);
+                }
+            }
+        }
+    }
+    .form-control {
+        border-color: var(--color-base-border);
     }
 }

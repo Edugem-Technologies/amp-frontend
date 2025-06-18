@@ -2,7 +2,7 @@ import { SidebarItemsType } from "@/types/components/aside"
 import Link from "next/link"
 import { Sidebar } from "react-pro-sidebar"
 import RenderMenuItem from "./RenderMenuItem"
-import { useAppContext } from "@/app/context"
+import { useAppContext } from "@/app/context/AppContext"
 
 const Aside = () => {
     const { sidebarCollapse } = useAppContext()

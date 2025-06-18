@@ -240,6 +240,7 @@ export const CONFIG = {
             POSITIVE_NUMERICAL_VALUES_REQUIRED: "Only positive numeric value is allowed",
             VALIDATION_FAILED: "Unable to proceed. \n Please fill in all mandatory fields (*)",
             MAX_INT_LIMIT: `${MAX_INT_LIMIT} is the maximum limit`,
+            INVALID_PHONE_NUMBER: "Invalid phone number",
         },
         FIELD_NAME: {
             NAME: "Name",

@@ -382,3 +382,32 @@ export const getOptionFromEnum = (enumObject: AnyObject, isFormatTextToCapital =
         },
     }))
 }
+
+/**
+ * Validates a phone number by combining the country code and phone number.
+ *
+ * @param data - An object containing the phone country code and phone number.
+ * @param data.phone_country_code - The country code part of the phone number.
+ * @param data.phone_number - The phone number part.
+ *
+ * @returns boolean - Returns true if the combined phone number is valid, otherwise false.
+ */
+export const checkIsPhoneNumberValid = (data: {
+    phone_country_code: string | null
+    phone_number: string | null
+}) => {
+    if (
+        (data.phone_country_code?.length === 0 && data.phone_number?.length === 0) ||
+        (!data.phone_country_code && !data.phone_number)
+    ) {
+        return true
+    } else if (data.phone_country_code && data.phone_country_code) {
+        const number = `${data.phone_country_code}${data.phone_number}`
+        const parsedNumber = parse(number)
+        const isValid = isValidNumber(parsedNumber)
+        return isValid
+    } else if (!data.phone_country_code) {
+        return false
+    }
+    return true
+}

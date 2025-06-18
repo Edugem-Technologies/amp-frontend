@@ -1,4 +1,5 @@
 import { CONFIG } from "@/utils/constants"
+import { checkIsPhoneNumberValid } from "@/utils/helpers"
 import {
     addressSchemaArray,
     getAlphaNumericFieldSchema,
@@ -23,5 +24,16 @@ export const SignupValidationSchema = z
         path: ["password1"],
         message: "Password do not match",
     })
+    .refine(
+        (data) =>
+            checkIsPhoneNumberValid({
+                phone_country_code: data.country_code,
+                phone_number: data.primary_phone,
+            }),
+        {
+            path: ["primary_phone"],
+            message: CONFIG.VALIDATIONS.MESSAGE.INVALID_PHONE_NUMBER,
+        },
+    )
 
 export type SignupSchemaType = z.infer<typeof SignupValidationSchema>

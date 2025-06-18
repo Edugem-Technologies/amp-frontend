@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-redeclare */
-import { CustomReactSelectType } from "@/types/components/react-select"
+import { CustomReactSelectType } from "@/types/components/ReactSelect"
 import { CONFIG } from "@/utils/constants"
 import ReactSelect from "react-select"
 

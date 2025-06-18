@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import { TextAreaFieldProps } from "@/types/components/textInput"
+import { TextAreaFieldProps } from "@/types/components/TextInput"
 import { forwardRef } from "react"
 import ShowFormError from "../common/ShowFormError"
 import Label from "./Label"

@@ -1,4 +1,4 @@
-import { CustomPhoneInputType } from "@/types/components/customPhoneInput"
+import { CustomPhoneInputType } from "@/types/components/CustomPhoneInput"
 import { checkValidPhoneNumber } from "@/utils/helpers"
 import PhoneInput, { CountryData } from "react-phone-input-2"
 import "react-phone-input-2/lib/style.css"

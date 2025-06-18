@@ -1,4 +1,4 @@
-import { AddMorePropTypes } from "@/types/components/addMore"
+import { AddMorePropTypes } from "@/types/components/AddMore"
 import React from "react"
 
 const AddMore: React.FC<AddMorePropTypes> = ({

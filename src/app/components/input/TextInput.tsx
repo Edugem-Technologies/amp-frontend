@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import { InputFieldProps } from "@/types/components/textInput"
+import { InputFieldProps } from "@/types/components/TextInput"
 import Image from "next/image"
 import { forwardRef, useState } from "react"
 import EyeClose from "../../../../public/images/Eye-close.svg"

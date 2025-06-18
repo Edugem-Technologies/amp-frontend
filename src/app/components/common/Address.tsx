@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AddressData, AddressPropType } from "@/types/components/address"
+import { addressTypeEnum } from "@/enums/addressTypeEnum"
+import { AddressData, AddressPropType } from "@/types/components/Address"
+import { Option } from "@/types/components/ReactSelect"
+import { getOptionFromEnum } from "@/utils/helpers"
 import React, { useState } from "react"
+import BaseStaticSelect from "../input/BaseStaticSelect"
+import Label from "../input/Label"
 import TextAreaField from "../input/TextArea"
 import TextInputField from "../input/TextInput"
 import ShowFormError from "./ShowFormError"
-import BaseStaticSelect from "../input/BaseStaticSelect"
-import { Option } from "@/types/components/react-select"
-import { getOptionFromEnum } from "@/utils/helpers"
-import { addressTypeEnum } from "@/enums/addressTypeEnum"
-import Label from "../input/Label"
 
 const Address: React.FC<AddressPropType> = ({ onChange, errors, addressValue }) => {
     const [manualAddress, setManualAddress] = useState<AddressData>(

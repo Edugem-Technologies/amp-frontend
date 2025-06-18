@@ -1,4 +1,4 @@
-import { BaseStaticSelectPropType, Option } from "@/types/components/react-select"
+import { BaseStaticSelectPropType, Option } from "@/types/components/ReactSelect"
 import { CONFIG } from "@/utils/constants"
 import ReactSelect, { MultiValue, SingleValue } from "react-select"
 

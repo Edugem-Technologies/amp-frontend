@@ -14,7 +14,7 @@ const AuthHeader: React.FC<{
                     iconName="back-arrow"
                     height={30}
                     width={35}
-                    className="back-icon"
+                    className="back-icon cursor-pointer"
                 />
             )}
 

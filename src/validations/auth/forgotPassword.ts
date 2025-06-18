@@ -14,10 +14,10 @@ export type BaseForgotPasswordSchemaType = z.infer<typeof BaseForgotPasswordSche
 
 export const ResetPasswordValidationSchema = BaseForgotPasswordSchema.extend({
     token: getNameFieldSchema("Token", CONFIG.VALIDATIONS.CHARACTER_LENGTH.CHARS_255),
-    pin: getUserPasswordSchema(),
-    pin_confirmation: getUserPasswordSchema(),
-}).refine((schema) => schema.pin === schema.pin_confirmation, {
-    path: ["pin_confirmation"],
+    password: getUserPasswordSchema(),
+    password_confirmation: getUserPasswordSchema(),
+}).refine((schema) => schema.password === schema.password_confirmation, {
+    path: ["password_confirmation"],
     message: "Password do not match",
 })
 

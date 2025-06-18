@@ -3,6 +3,7 @@ import { Metadata } from "next"
 import ErrorBoundary from "./components/common/Errorboundary"
 import TanstackQueryProvider from "./components/common/TanstackQueryProvider"
 import { AppProvider } from "./context/AppContext"
+import { PermissionProvider } from "./context/PermissionContext"
 
 export const metadata: Metadata = {
     title: "NEXT 14",
@@ -13,9 +14,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <html lang="en">
             <body>
                 <ErrorBoundary>
-                    <TanstackQueryProvider>
-                        <AppProvider>{children}</AppProvider>
-                    </TanstackQueryProvider>
+                    <PermissionProvider>
+                        <TanstackQueryProvider>
+                            <AppProvider>{children}</AppProvider>
+                        </TanstackQueryProvider>
+                    </PermissionProvider>
                 </ErrorBoundary>
             </body>
         </html>

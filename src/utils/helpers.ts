@@ -4,6 +4,8 @@ import Swal, { SweetAlertIcon, SweetAlertOptions } from "sweetalert2"
 import { ALERT_ICON_TYPE, CONFIG, MAX_INT_LIMIT } from "./constants"
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime"
 import crypto from "crypto-js"
+import { handleError } from "./handle-error"
+import { Role, UserDetails } from "@/types/data/loginData"
 
 /**
  * Generates an array of numbers from 1 to the specified length.
@@ -322,4 +324,40 @@ export function formatTextToTitleCase(text: string): string {
             return word // Keep the word in lowercase if it's an exception
         })
         .join(" ")
+}
+
+/**
+ * Stores user login details in local storage with encryption and updates user permissions.
+ *
+ * @param params - The parameters for setting login details.
+ * @param params.permissions - An array of permission strings to be stored.
+ * @param params.roles - An array of user roles.
+ * @param params.userDetails - The user details object.
+ * @param params.setUserPermissions - Callback to update user permissions in the application state.
+ *
+ * @remarks
+ * - Permissions and user data are encrypted before being stored in local storage.
+ * - The user's roles are converted to a comma-separated string and included in the stored user data.
+ * - Any errors encountered during the process are handled by the `handleError` function.
+ */
+export const setLoginDetailsToLocalStorage = ({
+    permissions,
+    roles,
+    userDetails,
+    setUserPermissions,
+}: {
+    permissions: string[]
+    roles: Role[]
+    userDetails: UserDetails
+    setUserPermissions: (permissions: string[]) => void
+}) => {
+    try {
+        setEncryptedLocalStorageData(CONFIG.LOCAL_STORAGE_VARIABLES.PERMISSIONS, permissions)
+        const roleData = getUniqueValueFromArray(roles.map((role: Role) => role.name)).join(", ")
+        const userData = { ...userDetails, role: roleData }
+        setEncryptedLocalStorageData(CONFIG.LOCAL_STORAGE_VARIABLES.USER_DATA, userData)
+        setUserPermissions(permissions)
+    } catch (error) {
+        handleError(error)
+    }
 }

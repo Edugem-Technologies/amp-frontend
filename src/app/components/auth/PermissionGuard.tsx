@@ -1,7 +1,7 @@
 import React from "react"
 import AccessDenied from "./AccessDenied"
-import { usePermissions } from "./PermissionContext"
 import { hasAccessPermission } from "@/utils/helpers"
+import { usePermissions } from "@/app/context/PermissionContext"
 
 interface PermissionGuardProps {
     requiredPermissions: string[]

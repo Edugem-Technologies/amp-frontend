@@ -9,6 +9,7 @@ import { Any } from "@/types/common/helper"
  * @type {import("axios").AxiosInstance}
  */
 export const axiosInstance = axios.create({
+    withCredentials: true,
     headers: {
         "Content-Type": "application/json",
         "ngrok-skip-browser-warning": "true",
@@ -58,7 +59,7 @@ axiosInstance.interceptors.response.use(
         } else if (
             status === CONFIG.STATUS_CODES.UNAUTHORIZED &&
             // This below condition is for the endpoints which are open and get unauthenticated status code for wrong credentials like login
-            !OPEN_ENDPOINTS.includes(responseURL)
+            OPEN_ENDPOINTS.includes(responseURL)
         ) {
             try {
                 // TODO: will update it once implement refresh token/Login API

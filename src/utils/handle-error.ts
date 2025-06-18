@@ -1,5 +1,5 @@
-import toast from "react-hot-toast"
-import { CONFIG } from "./constants"
+import { ALERT_ICON_TYPE } from "./constants"
+import { showSweetAlert } from "./helpers"
 
 /**
  * Iterates over an object and constructs a string containing error messages.
@@ -43,19 +43,36 @@ export function iterateObject(obj: Record<string, any>): string {
  */
 export const handleError = (error: unknown) => {
     // toast.dismiss()
+    // For showing toaster instead of sweetalert you can uncomment below code related to toaster.
     if (typeof error === "string") {
-        toast(error, CONFIG.TOASTER_OPTIONS.ERROR)
+        // toast(error, CONFIG.TOASTER_OPTIONS.ERROR)
+        showSweetAlert({
+            icon: ALERT_ICON_TYPE.error,
+            text: error,
+        })
     } else if (typeof error === "object" && (error as { message: string }).message) {
-        toast((error as { message: string })?.message, CONFIG.TOASTER_OPTIONS.ERROR)
+        // toast((error as { message: string })?.message, CONFIG.TOASTER_OPTIONS.ERROR)
+        showSweetAlert({
+            icon: ALERT_ICON_TYPE.error,
+            text: (error as { message: string })?.message,
+        })
     } else {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const _error = error as Record<string, any>
         const message = iterateObject(_error)
         if (message) {
-            toast(message, CONFIG.TOASTER_OPTIONS.ERROR)
+            // toast(message, CONFIG.TOASTER_OPTIONS.ERROR)
+            showSweetAlert({
+                icon: ALERT_ICON_TYPE.error,
+                text: message,
+            })
             console.error(message)
         } else {
-            toast(CONFIG.MESSAGES.GENERIC_ERROR, CONFIG.TOASTER_OPTIONS.ERROR)
+            // toast(CONFIG.MESSAGES.GENERIC_ERROR, CONFIG.TOASTER_OPTIONS.ERROR)
+            showSweetAlert({
+                icon: ALERT_ICON_TYPE.error,
+                text: message,
+            })
 
             console.error("Something went wrong")
         }

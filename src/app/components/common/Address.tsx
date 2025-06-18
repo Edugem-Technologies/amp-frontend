@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { addressTypeEnum } from "@/enums/addressTypeEnum"
+import { AddressTypeEnum } from "@/enums/AddressTypeEnum"
 import { AddressData, AddressPropType } from "@/types/components/Address"
 import { Option } from "@/types/components/ReactSelect"
 import { getOptionFromEnum } from "@/utils/helpers"
@@ -60,7 +60,7 @@ const Address: React.FC<AddressPropType> = ({ onChange, errors, addressValue }) 
                         <Label label="Address Type" />
                         <BaseStaticSelect
                             value={manualAddress?.address_type}
-                            options={getOptionFromEnum(addressTypeEnum)}
+                            options={getOptionFromEnum(AddressTypeEnum)}
                             onSelected={(binType) =>
                                 handleManualChange("address_type", binType as Option)
                             }

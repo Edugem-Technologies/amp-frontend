@@ -1074,3 +1074,6 @@ export const addressSchema = () =>
     })
 
 export const addressSchemaArray = () => z.array(addressSchema())
+
+export const getOTPFieldSchema = ({ length }: { length: number }) =>
+    z.string().length(length, `OTP must be ${length} digits`)

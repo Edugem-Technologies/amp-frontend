@@ -220,6 +220,7 @@ export const CONFIG = {
             CHARS_255: 255,
             CHARS_1: 1,
             CHARS_3: 3,
+            CHARS_4: 4,
             CHARS_5: 5,
             CHARS_6: 6,
             CHARS_60: 60,

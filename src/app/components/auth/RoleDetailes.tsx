@@ -6,7 +6,6 @@ import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
 import { showSweetAlertWithRedirect } from "@/utils/helpers"
 import { generateErrorMessage } from "@/utils/message-generator"
-import { permissionJSON } from "@/utils/permission"
 import { RoleDetailsSchema, RoleDetailsSchemaType } from "@/validations/auth/role"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
@@ -17,6 +16,7 @@ import CheckboxInput from "../common/CheckboxInput"
 import ShowFormError from "../common/ShowFormError"
 import TabBody from "../common/TabBody"
 import TextInputField from "../input/TextInput"
+import { permissionJSON } from "@/fixtures/Permission"
 
 const RoleDetails = () => {
     const router = useRouter()
@@ -127,33 +127,33 @@ const RoleDetails = () => {
                                 <div className="row" key={item.code}>
                                     <div className="col-md-3">{item.label}</div>
                                     {itemPermissions.map((permission) => (
-                                        <div className="col-md-3" key={permission.code}>
+                                        <div className="col-md-3" key={permission?.code}>
                                             <CheckboxInput
                                                 disabled={
                                                     watch("permissions")?.includes(
                                                         `${item.code}_MANAGE`,
-                                                    ) && permission.code === `${item.code}_VIEW`
+                                                    ) && permission?.code === `${item.code}_VIEW`
                                                         ? true
                                                         : false
                                                 }
                                                 key={watch("permissions") as Any}
                                                 checked={getValues("permissions")?.includes(
-                                                    permission.code,
+                                                    permission?.code,
                                                 )}
                                                 onChange={() => {
                                                     const prevValue = getValues("permissions")
-                                                    if (prevValue?.includes(permission.code)) {
+                                                    if (prevValue?.includes(permission?.code)) {
                                                         const newValue = prevValue?.filter(
                                                             (item: string) =>
-                                                                item !== permission.code,
+                                                                item !== permission?.code,
                                                         )
                                                         setValue("permissions", [...newValue])
                                                         clearErrors("permissions")
                                                     } else {
                                                         let updatedValue = [] as unknown as Set<Any>
-                                                        if (permission.code.includes("MANAGE")) {
+                                                        if (permission?.code.includes("MANAGE")) {
                                                             const newValue = itemPermissions.map(
-                                                                (item) => item.code,
+                                                                (item) => item?.code,
                                                             )
                                                             updatedValue = prevValue
                                                                 ? new Set([
@@ -165,9 +165,9 @@ const RoleDetails = () => {
                                                             updatedValue = prevValue
                                                                 ? new Set([
                                                                       ...prevValue,
-                                                                      permission.code,
+                                                                      permission?.code,
                                                                   ])
-                                                                : new Set([permission.code])
+                                                                : new Set([permission?.code])
                                                         }
                                                         setValue(
                                                             "permissions",

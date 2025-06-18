@@ -1062,3 +1062,15 @@ export const validGSTNumberSchema = (
         .regex(/^[0-3][0-9][A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/, {
             message: `Invalid ${fieldName} format.`,
         })
+
+export const addressSchema = () =>
+    z.object({
+        address_type: getValueorNullTransformedSchema(),
+        address: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.ADDRESS),
+        pincode: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.PINCODE),
+        city: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.city),
+        state: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.state),
+        country: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.country),
+    })
+
+export const addressSchemaArray = () => z.array(addressSchema())

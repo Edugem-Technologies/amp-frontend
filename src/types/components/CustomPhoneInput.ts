@@ -5,9 +5,8 @@ export interface CustomPhoneInputType {
     value: string | null
     setPhoneNumberValue: (number: string) => void
     setCountryCodeValue: (countryCode: string) => void
-    setCountry: (country: CountryData) => void
+    setCountry?: (country: CountryData) => void
     clearPhoneNumberErrors: () => void
     setPhoneNumberErrors: () => void
     errorMessage: string
-    country: string
 }

@@ -1,4 +1,4 @@
-import { CustomPhoneInputType } from "@/types/components/custom-phone-input"
+import { CustomPhoneInputType } from "@/types/components/CustomPhoneInput"
 import { checkValidPhoneNumber } from "@/utils/helpers"
 import PhoneInput, { CountryData } from "react-phone-input-2"
 import "react-phone-input-2/lib/style.css"
@@ -37,17 +37,16 @@ const CustomPhoneInput: React.FC<CustomPhoneInputType> = ({
                     value={value}
                     onChange={(data, _country, e, formattedValue) => {
                         const countryCode = (_country as CountryData)?.dialCode
-                        // Extracting the number from the formatted value
                         // Find the first occurrence of the country code
                         const firstOccurrenceIndex = data.indexOf(countryCode)
-                        let number = data
+                        let number = ""
 
                         // Ensure the country code is at the start
                         if (firstOccurrenceIndex === 0) {
                             // Split only at the first occurrence
                             number = data.slice(countryCode.length).trim()
                         }
-                        setCountry(_country as CountryData)
+                        setCountry && setCountry(_country as CountryData)
                         // Setting the phone number and country code values
                         setPhoneNumberValue(number)
                         if (number?.trim().length) {

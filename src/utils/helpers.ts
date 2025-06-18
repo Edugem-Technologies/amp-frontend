@@ -1,4 +1,4 @@
-import { Any, CheckValidPhoneNumberArgsTyps } from "@/types/common/helper"
+import { Any, AnyObject, CheckValidPhoneNumberArgsTyps } from "@/types/common/helper"
 import { isValidNumber, parse } from "libphonenumber-js"
 import Swal, { SweetAlertIcon, SweetAlertOptions } from "sweetalert2"
 import { ALERT_ICON_TYPE, CONFIG, MAX_INT_LIMIT } from "./constants"
@@ -360,4 +360,54 @@ export const setLoginDetailsToLocalStorage = ({
     } catch (error) {
         handleError(error)
     }
+}
+
+/**
+ * Capitalizes the first letter of a given text and converts the rest to lowercase.
+ *
+ * @param {string} text - The text to be formatted.
+ * @returns {string} The formatted text with the first letter capitalized.
+ */
+export const formatTextToCapitalized = (text: string | undefined) => {
+    return (text?.[0]?.toUpperCase() ?? "") + (text?.slice(1)?.toLowerCase() ?? "")
+}
+
+export const getOptionFromEnum = (enumObject: AnyObject, isFormatTextToCapital = true) => {
+    return Object.keys(enumObject).map((key) => ({
+        label: isFormatTextToCapital ? formatTextToCapitalized(key) : key,
+        value: enumObject[key],
+        data: {
+            label: isFormatTextToCapital ? formatTextToCapitalized(key) : key,
+            value: enumObject[key],
+        },
+    }))
+}
+
+/**
+ * Validates a phone number by combining the country code and phone number.
+ *
+ * @param data - An object containing the phone country code and phone number.
+ * @param data.phone_country_code - The country code part of the phone number.
+ * @param data.phone_number - The phone number part.
+ *
+ * @returns boolean - Returns true if the combined phone number is valid, otherwise false.
+ */
+export const checkIsPhoneNumberValid = (data: {
+    phone_country_code: string | null
+    phone_number: string | null
+}) => {
+    if (
+        (data.phone_country_code?.length === 0 && data.phone_number?.length === 0) ||
+        (!data.phone_country_code && !data.phone_number)
+    ) {
+        return true
+    } else if (data.phone_country_code && data.phone_country_code) {
+        const number = `${data.phone_country_code}${data.phone_number}`
+        const parsedNumber = parse(number)
+        const isValid = isValidNumber(parsedNumber)
+        return isValid
+    } else if (!data.phone_country_code) {
+        return false
+    }
+    return true
 }

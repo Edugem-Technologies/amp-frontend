@@ -34,6 +34,7 @@
     }
     html {
         font-size: $base-font-size;
+        height: 100%;
     }
 }
 
@@ -585,6 +586,19 @@ aside.sidebar {
         font-family: "Plus Jakarta Sans";
         color: var(--color-base-font);
     }
+    .flex-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .w-500px {
+        width: 500px;
+    }
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    // Auth style
     .sign-in-layout {
         display: flex;
         justify-content: center;
@@ -593,14 +607,15 @@ aside.sidebar {
     }
     .sign-in-form {
         background-color: $theme-white;
+        @include media-breakpoint-down(md) {
+            height: 100%;
+        }
     }
-    .w-500px {
-        width: 500px;
-    }
-    .flex-center {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    .sign-up-form {
+        width: 600px;
+        @include media-breakpoint-down(lg) {
+            width: 500px;
+        }
     }
     .login-swiper-images-container {
         display: flex;
@@ -632,6 +647,8 @@ aside.sidebar {
             font-size: 22px;
         }
     }
+
+    // button styles
     .button-3d-effect {
         &:not(&:disabled) {
             transition: all 0.2s ease !important;
@@ -642,6 +659,14 @@ aside.sidebar {
             &:active {
                 transform: translateY(1px);
             }
+        }
+    }
+    button,
+    .btn {
+        &:disabled {
+            cursor: not-allowed !important;
+            pointer-events: unset !important;
+            opacity: unset !important;
         }
     }
 
@@ -670,9 +695,6 @@ aside.sidebar {
                 }
             }
         }
-    }
-    .form-control {
-        border-color: var(--color-base-border);
     }
 
     // SweetAlert(Swal) custom classes
@@ -734,7 +756,40 @@ aside.sidebar {
         border-radius: 0.25rem;
     }
 
-    .cursor-pointer {
+    // form style
+    .form-control {
+        border-color: var(--color-base-border);
+    }
+    .form-subsection {
+        row-gap: 8px;
+    }
+    .form-title {
+        font-size: 1.25rem;
+        font-weight: $bold;
+        line-height: 1.5rem;
+    }
+    .form-label {
+        color: #6b7280;
+        font-weight: $regular;
+    }
+    .add-more-section {
+        font-size: $font-size-14px;
+        @include media-breakpoint-up(lg) {
+            margin-top: 33px;
+        }
+    }
+    .add-more-fields {
         cursor: pointer;
+        color: blue;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    .remove-fields {
+        cursor: pointer;
+        color: red;
+        &:hover {
+            text-decoration: underline;
+        }
     }
 }

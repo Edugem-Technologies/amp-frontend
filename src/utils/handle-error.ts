@@ -1,5 +1,5 @@
 import { ALERT_ICON_TYPE } from "./constants"
-import { showSweetAlert } from "./helpers"
+import { removeUnderscoreFromLabel, showSweetAlert } from "./helpers"
 
 /**
  * Iterates over an object and constructs a string containing error messages.
@@ -18,10 +18,11 @@ export function iterateObject(obj: Record<string, any>): string {
             const value = obj[key]
             if (Array.isArray(value)) {
                 value.forEach((msg) => {
+                    const label = key !== "_schema" ? removeUnderscoreFromLabel(key) + ": " : ""
                     if (typeof msg === "string") {
-                        errorMessage += key[0].toUpperCase() + key.slice(1) + " " + msg + "\n"
+                        errorMessage += `${label} ${msg}` + "\n"
                     } else if (Array.isArray(msg) && typeof msg[0] === "string") {
-                        errorMessage += key[0].toUpperCase() + key.slice(1) + " " + msg[0] + "\n"
+                        errorMessage += `${label} ${msg[0]}` + "\n"
                     } else if (typeof msg === "object") {
                         errorMessage += iterateObject(msg)
                     }

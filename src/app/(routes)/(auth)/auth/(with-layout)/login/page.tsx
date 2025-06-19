@@ -7,12 +7,11 @@ import { CONFIG } from "@/utils/constants"
 
 const Login = () => {
     return (
-        <form className="form w-100">
+        <>
             <AuthHeader title={CONFIG.LOG_IN_TITLE} />
             <LoginFormSwitcher />
-            {/* <LoginForm hookForm={hookForm} /> */}
             <SocialLogin />
-        </form>
+        </>
     )
 }
 

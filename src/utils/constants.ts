@@ -258,6 +258,8 @@ export const CONFIG = {
             city: "City",
             state: "State",
             country: "Country",
+            COUNTRY_CODE: "Country code",
+            OTP: "OTP",
         },
     },
     USER_ACCESS: [
@@ -292,6 +294,10 @@ export const CONFIG = {
         GOOGLE_LOGIN: new URL(`${BASE_API_ENDPOINT}/auth/google/login`),
         GET_USER_DETAILS: new URL(`${BASE_API_ENDPOINT}/user/details`),
         SIGNUP: new URL(`${BASE_API_ENDPOINT}/auth/signup `),
+        BASE_OTP_SEND: new URL(`${BASE_API_ENDPOINT}/otp/send`),
+    },
+    OTP_ENDPOINTS: {
+        LOGIN: "login",
     },
     COLOR_ARRAY: {
         colorArray: [

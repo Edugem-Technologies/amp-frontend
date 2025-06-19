@@ -711,14 +711,16 @@ export const getOptionalEmailSchema = () =>
         .email("Enter a valid email address")
         .regex(/^[^,]+@[^,]+$/, { message: "Email must not contain a comma before the @ sign" })
 
-export function getPhoneNumberSchema(minLength: number) {
+export function getPhoneNumberSchema(minLength: number, fieldName = "Contact number") {
     return z
         .string({
-            required_error: "Contact number is required",
-            invalid_type_error: "Contact number is required",
+            required_error: `${fieldName} is required`,
+            invalid_type_error: `${fieldName} is required`,
         })
         .trim()
-        .min(minLength, { message: "Contact number is required" })
+        .min(minLength, {
+            message: `${fieldName} is required`,
+        })
 }
 
 /**
@@ -1076,4 +1078,9 @@ export const addressSchema = () =>
 export const addressSchemaArray = () => z.array(addressSchema())
 
 export const getOTPFieldSchema = ({ length }: { length: number }) =>
-    z.string().length(length, `OTP must be ${length} digits`)
+    z
+        .string()
+        .min(1, generateErrorMessage(CONFIG.VALIDATIONS.FIELD_NAME.OTP))
+        .max(length, {
+            message: generateErrorMessage(CONFIG.VALIDATIONS.FIELD_NAME.OTP, length, true),
+        })

@@ -411,3 +411,26 @@ export const checkIsPhoneNumberValid = (data: {
     }
     return true
 }
+
+/**
+ * Transforms a given string by removing underscores and capitalizing first letter of each word.
+ *
+ * This function takes a string where words are separated by underscores,
+ * splits the string into individual words, capitalizes first letter each word, and then
+ * joins them back into a single string with spaces between the words.
+ *
+ * Example:
+ * ```
+ * const result = removeUnderscoreFromLabel('hello_world_example');
+ * console.log(result); // Outputs: "Hello World Example"
+ * ```
+ *
+ * @param {string} text - The input string with underscores that need to be removed and words that need to be capitalized.
+ * @returns {string} The transformed string with underscores removed and each word capitalized.
+ */
+export const removeUnderscoreFromLabel = (text: string) => {
+    return text
+        ?.split("_")
+        ?.map((item) => formatTextToCapitalized(item))
+        ?.join(" ")
+}

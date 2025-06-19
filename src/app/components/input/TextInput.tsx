@@ -70,8 +70,8 @@ const TextInputField = forwardRef<HTMLInputElement, InputFieldProps>(
                             )}
                         </button>
                     )}
+                    <ShowFormError message={errorMsg} />
                 </div>
-                <ShowFormError message={errorMsg} />
             </>
         )
     },

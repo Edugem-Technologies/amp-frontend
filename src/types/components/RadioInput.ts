@@ -8,4 +8,5 @@ export interface RadioInputPropTypes extends InputHTMLAttributes<HTMLInputElemen
     errorMsg?: string
     containerClassName?: string
     name: string
+    id?: string
 }

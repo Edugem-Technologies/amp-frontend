@@ -134,35 +134,37 @@ const LoginFormSwitcher = () => {
             {/* Top Switch: Email or Phone */}
             <div className="login-type-section">
                 <CustomButton
-                    customClassName="login-type-section-btn"
+                    customClassName={`login-type-section-btn ${
+                        loginType === LoginTypeEnum.EMAIL ? "active" : ""
+                    }`}
                     buttonTitle="Email"
                     onClick={() => setLoginType(LoginTypeEnum.EMAIL)}
-                    style={{
-                        fontWeight: loginType === "email" ? "bold" : "normal",
-                    }}
                 />
                 <CustomButton
-                    customClassName="login-type-section-btn"
+                    customClassName={`login-type-section-btn ${
+                        loginType === LoginTypeEnum.PHONE ? "active" : ""
+                    }`}
                     buttonTitle="Phone"
                     onClick={() => setLoginType(LoginTypeEnum.PHONE)}
-                    style={{
-                        fontWeight: loginType === "phone" ? "bold" : "normal",
-                    }}
                 />
             </div>
 
             {/* Second Switch: Password or OTP */}
             <div className="auth-method-section">
                 <RadioInput
+                    containerClassName="auth-method-section-btn"
                     name="authMethod"
                     label="Password"
+                    id="password-auth"
                     value={AuthMethodEnum.PASSWORD}
                     checked={authMethod === AuthMethodEnum.PASSWORD}
                     onChange={() => setAuthMethod(AuthMethodEnum.PASSWORD)}
                 />
                 <RadioInput
+                    containerClassName="auth-method-section-btn"
                     name="authMethod"
                     label="OTP"
+                    id="otp-auth"
                     value={AuthMethodEnum.OTP}
                     checked={authMethod === AuthMethodEnum.OTP}
                     onChange={() => setAuthMethod(AuthMethodEnum.OTP)}

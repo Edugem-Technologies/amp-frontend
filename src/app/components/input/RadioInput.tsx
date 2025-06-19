@@ -6,36 +6,34 @@ import { RadioInputPropTypes } from "@/types/components/RadioInput"
 
 const RadioInput = forwardRef<HTMLInputElement, RadioInputPropTypes>(
     (
-        {
-            inputClassName,
-            label,
-            isRequired,
-            labelClass = "",
-            errorMsg,
-            containerClassName = "",
-            ...props
-        },
+        { inputClassName, label, isRequired, errorMsg, containerClassName = "", id, ...props },
         ref,
     ) => {
         return (
-            <div
-                className={`form-check form-switch px-0 d-flex gap-2 align-items-center ${containerClassName}`}
-            >
+            <>
                 {!!label?.length && (
                     <Label
                         label={label}
-                        labelClass={`mb-0 ${labelClass}`}
+                        labelClass={`mb-0 cursor-pointer form-check form-switch d-flex gap-2 align-items-center ${containerClassName}`}
                         isRequired={isRequired}
+                        htmlFor={id}
+                        renderInput={() => (
+                            <>
+                                <input
+                                    className={` custom-radio-input custom-border cursor-pointer ${
+                                        inputClassName || ""
+                                    }`}
+                                    ref={ref}
+                                    id={id}
+                                    {...props}
+                                    type="radio"
+                                />
+                                <ShowFormError message={errorMsg} />
+                            </>
+                        )}
                     />
                 )}
-                <input
-                    className={` custom-radio-input custom-border ${inputClassName || ""}`}
-                    ref={ref}
-                    {...props}
-                    type="radio"
-                />
-                <ShowFormError message={errorMsg} />
-            </div>
+            </>
         )
     },
 )

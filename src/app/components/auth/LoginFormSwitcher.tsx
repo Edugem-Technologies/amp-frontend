@@ -53,7 +53,7 @@ const LoginFormSwitcher = () => {
     const [loginType, setLoginType] = useState<LoginTypeEnum>(LoginTypeEnum.EMAIL)
     const [authMethod, setAuthMethod] = useState<AuthMethodEnum>(AuthMethodEnum.PASSWORD)
 
-    let schema, formType
+    let schema, formType: string
     // Pick the schema and type based on state
     switch (`${loginType}-${authMethod}`) {
         case `${LoginTypeEnum.EMAIL}-${AuthMethodEnum.PASSWORD}`:

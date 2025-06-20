@@ -15,6 +15,7 @@ export const ALERT_ICON_TYPE = {
 
 export const MAX_INT_LIMIT = 2147483647
 export const CONFIG = {
+    REFRESH_TOKEN_MEMOIZED_TIME: 10000,
     LOG_IN_TITLE: "Login",
     FORGOT_PASSWORD_TITLE: "Forgot Password",
     RESET_PASSWORD: "Setup New Password",
@@ -296,6 +297,8 @@ export const CONFIG = {
         GET_USER_DETAILS: new URL(`${BASE_API_ENDPOINT}/user/details`),
         SIGNUP: new URL(`${BASE_API_ENDPOINT}/auth/signup `),
         BASE_OTP_SEND: new URL(`${BASE_API_ENDPOINT}/otp/send`),
+        LOGOUT: new URL(`${BASE_API_ENDPOINT}/auth/logout `),
+        REFRESH_TOKEN: new URL(`${BASE_API_ENDPOINT}/auth/refresh`),
     },
     OTP_ENDPOINTS: {
         LOGIN: "login",
@@ -369,5 +372,11 @@ export const CONFIG = {
     },
 }
 // Endpoints that do not require authentication
-export const OPEN_ENDPOINTS: string[] = []
+export const OPEN_ENDPOINTS: string[] = [
+    CONFIG.API_ENDPOINTS.LOGIN.href,
+    CONFIG.API_ENDPOINTS.FORGOT_PASSWORD.href,
+    CONFIG.API_ENDPOINTS.RESET_PASSWORD.href,
+    CONFIG.API_ENDPOINTS.GOOGLE_LOGIN.href,
+    CONFIG.API_ENDPOINTS.SIGNUP.href,
+]
 export const CHAR_DEFAULT_MAX_LENGTH = CONFIG.VALIDATIONS.CHARACTER_LENGTH.CHARS_60

@@ -522,6 +522,6 @@ export const setIsAuthenticated = () => {
 
 export const removeIsAuthenticated = () => {
     if (typeof window !== "undefined" && localStorage) {
-        localStorage.removeItem(CONFIG.LOCAL_STORAGE_VARIABLES.ACCESS_TOKEN)
+        localStorage.clear()
     }
 }

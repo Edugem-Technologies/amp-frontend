@@ -3,12 +3,12 @@ import { signOut } from "aws-amplify/auth"
 import { deleteCookie, getCookies } from "cookies-next"
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime"
 import toast from "react-hot-toast"
-import { removeAccessToken } from "./common"
 import { CONFIG } from "./constants"
+import { removeIsAuthenticated } from "./helpers"
 
 export const logout = async (router: AppRouterInstance, redirectPath = "/") => {
     try {
-        removeAccessToken()
+        removeIsAuthenticated()
         const cookies = getCookies()
         await signOut({ global: true })
         Object.entries(cookies).forEach((entry) => deleteCookie(entry[0]))

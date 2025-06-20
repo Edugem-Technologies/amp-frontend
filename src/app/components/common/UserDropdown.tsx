@@ -1,5 +1,5 @@
 "use client"
-import { removeAccessToken } from "@/utils/common"
+import { removeIsAuthenticated } from "@/utils/helpers"
 import { signOut } from "next-auth/react"
 import { useEffect, useState } from "react"
 import { Card, ListGroup } from "react-bootstrap"
@@ -24,7 +24,7 @@ const UserDropdown = () => {
         }
     }
     const handleLogout = async () => {
-        removeAccessToken()
+        removeIsAuthenticated()
         signOut({
             redirect: true,
             callbackUrl: "/login",

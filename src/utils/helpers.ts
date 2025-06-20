@@ -424,7 +424,7 @@ export const setLoginDetailsToLocalStorage = ({
         const userData = { ...userDetails, role: roleData }
         setEncryptedLocalStorageData(CONFIG.LOCAL_STORAGE_VARIABLES.USER_DATA, userData)
         setUserPermissions(permissions)
-        setEncryptedLocalStorageData(CONFIG.LOCAL_STORAGE_VARIABLES.IS_AUTHENTICATED, true)
+        setIsAuthenticated()
     } catch (error) {
         handleError(error)
     }
@@ -501,4 +501,27 @@ export const removeUnderscoreFromLabel = (text: string) => {
         ?.split("_")
         ?.map((item) => formatTextToCapitalized(item))
         ?.join(" ")
+}
+
+export const getIsAuthenticated = () => {
+    if (typeof window !== "undefined" && localStorage) {
+        const isAuthenticated = getDecryptedLocalStorageData(
+            CONFIG.LOCAL_STORAGE_VARIABLES.IS_AUTHENTICATED,
+        )
+        return isAuthenticated
+    }
+    getDecryptedLocalStorageData(CONFIG.LOCAL_STORAGE_VARIABLES.IS_AUTHENTICATED)
+    return null
+}
+
+export const setIsAuthenticated = () => {
+    if (typeof window !== "undefined" && localStorage) {
+        setEncryptedLocalStorageData(CONFIG.LOCAL_STORAGE_VARIABLES.IS_AUTHENTICATED, true)
+    }
+}
+
+export const removeIsAuthenticated = () => {
+    if (typeof window !== "undefined" && localStorage) {
+        localStorage.removeItem(CONFIG.LOCAL_STORAGE_VARIABLES.ACCESS_TOKEN)
+    }
 }

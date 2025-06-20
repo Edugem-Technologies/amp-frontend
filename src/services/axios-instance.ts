@@ -1,8 +1,7 @@
-import { getAccessToken } from "@/utils/common"
+import { Any } from "@/types/common/helper"
 import { CONFIG, OPEN_ENDPOINTS } from "@/utils/constants"
 import axios from "axios"
 import { parseResponseError } from "./fetch-helper"
-import { Any } from "@/types/common/helper"
 
 /**
  * Axios instance with custom interceptors for handling authorization and response data.
@@ -16,18 +15,18 @@ export const axiosInstance = axios.create({
     },
 })
 
-/**
- * Axios request interceptor to add authorization header for secured endpoints.
- * @param {config} _config Axios request configuration object.
- * @returns {config} Updated Axios request configuration object with Authorization header.
- */
-axiosInstance.interceptors.request.use((_config) => {
-    if (!OPEN_ENDPOINTS.includes(_config.url as string)) {
-        const accessToken = getAccessToken()
-        _config.headers["Authorization"] = `Bearer ${accessToken}`
-    }
-    return _config
-})
+// /**
+//  * Axios request interceptor to add authorization header for secured endpoints.
+//  * @param {config} _config Axios request configuration object.
+//  * @returns {config} Updated Axios request configuration object with Authorization header.
+//  */
+// axiosInstance.interceptors.request.use((_config) => {
+//     if (!OPEN_ENDPOINTS.includes(_config.url as string)) {
+//         const accessToken = getAccessToken()
+//         _config.headers["Authorization"] = `Bearer ${accessToken}`
+//     }
+//     return _config
+// })
 
 /**
  * Axios response interceptor to handle responses with no content or return response data.

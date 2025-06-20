@@ -2,6 +2,7 @@
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react"
 import { useMediaQuery } from "../hooks/useMediaQuery"
 import { UserWithRole } from "@/types/auth/user"
+import { AnyObject } from "@/types/common/helper"
 
 // Define the type for your context state
 interface AppContextType {
@@ -11,6 +12,8 @@ interface AppContextType {
     setSidebarCollapse: Dispatch<SetStateAction<boolean>>
     user: UserWithRole | null
     setUser: Dispatch<SetStateAction<UserWithRole | null>>
+    filterState: AnyObject | null | undefined
+    setFilterState: Dispatch<SetStateAction<AnyObject | null | undefined>>
 }
 
 // Create the context with a default value
@@ -26,10 +29,20 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     const matched = useMediaQuery("(max-width: 768px)")
     const [sidebarCollapse, setSidebarCollapse] = useState(matched)
     const [user, setUser] = useState<UserWithRole | null>(null)
+    const [filterState, setFilterState] = useState<AnyObject | null | undefined>(null)
 
     return (
         <AppContext.Provider
-            value={{ state, setState, sidebarCollapse, setSidebarCollapse, setUser, user }}
+            value={{
+                state,
+                setState,
+                sidebarCollapse,
+                setSidebarCollapse,
+                setUser,
+                user,
+                filterState,
+                setFilterState,
+            }}
         >
             {children}
         </AppContext.Provider>

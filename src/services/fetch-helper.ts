@@ -50,7 +50,11 @@ const appendParams = (url: URL, params?: Record<string, any>): URL => {
             newUrl.searchParams.delete(key)
         })
         Object.entries(params).forEach(([key, value]) => {
-            newUrl.searchParams.set(key, value)
+            if (typeof value === "object") {
+                newUrl.searchParams.set(key, JSON.stringify(value))
+            } else {
+                newUrl.searchParams.set(key, value)
+            }
         })
     }
     return newUrl

@@ -4,11 +4,11 @@ import Pagination from "../pagination/Pagination"
 import { CONFIG } from "@/utils/constants"
 
 const TablePagination: React.FC<Omit<TablePaginationPropType, "colSpan">> = (props) => {
-    const { pagination, setPagination, totalCount, paginationContainerClass } = props
+    const { pagination, setPagination, totalCount, paginationContainerClass = "" } = props
     return (
-        <div className={`d-flex justify-content-between ${paginationContainerClass}`}>
+        <div className={`d-flex justify-content-between px-1 ${paginationContainerClass}`}>
             <div>
-                {totalCount >= CONFIG.PAGE_SIZE_OPTIONS[12] ? (
+                {totalCount >= CONFIG.PAGE_SIZE_OPTIONS[15] ? (
                     <div className="dataTables_length" id="movie-table_length">
                         <label>
                             <select
@@ -18,7 +18,7 @@ const TablePagination: React.FC<Omit<TablePaginationPropType, "colSpan">> = (pro
                                 onChange={(e) =>
                                     setPagination((prev: object) => ({
                                         ...prev,
-                                        size: Number(e.target.value),
+                                        limit: Number(e.target.value),
                                         page: CONFIG.PAGINATION.PAGE,
                                     }))
                                 }
@@ -27,7 +27,7 @@ const TablePagination: React.FC<Omit<TablePaginationPropType, "colSpan">> = (pro
                                     <option
                                         key={item}
                                         value={item}
-                                        selected={item === pagination.size}
+                                        selected={item === pagination.limit}
                                     >
                                         {item}
                                     </option>
@@ -50,7 +50,7 @@ const TablePagination: React.FC<Omit<TablePaginationPropType, "colSpan">> = (pro
                             setPagination((prev: object) => ({ ...prev, page: value }))
                         }
                         page={pagination.page}
-                        size={pagination.size}
+                        size={pagination.limit}
                     />
                 </div>
             )}

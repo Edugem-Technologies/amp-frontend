@@ -287,7 +287,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ userInfo, setRefetch }) => {
                             userId={userInfo?.uuid as string}
                             handleClose={() => setShowResetPassword(false)}
                             setRefetch={setRefetch}
-                            userEmail={userInfo?.email as string}
+                            userEmail={userInfo?.primary_email as string}
                         />
                     ) : (
                         <div className="card-body d-flex flex-wrap">

@@ -87,7 +87,6 @@ axiosInstance.interceptors.response.use(
             !OPEN_ENDPOINTS.includes(responseURL)
         ) {
             try {
-                // TODO: will update it once implement refresh token/Login API
                 // After refreshing the token, retry the original request and return its data
                 await refreshToken()
                 const originalRequest = error.config // Store the original request configuration that failed due to unauthorized error

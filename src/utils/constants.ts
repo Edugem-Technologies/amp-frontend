@@ -78,6 +78,7 @@ export const CONFIG = {
         ACCESS_TOKEN: "access_token",
         PERMISSIONS: "permissions",
         USER_DATA: "user_data",
+        IS_AUTHENTICATED: "is_authenticated",
     },
     DROPDOWN_LABEL_SLICE_LIMIT: 80,
     MESSAGES: {

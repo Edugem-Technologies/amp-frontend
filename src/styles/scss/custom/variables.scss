@@ -52,6 +52,9 @@ $caption-color: #a1a1a1;
 // custom extra properties
 $opacity: 0;
 
+//card
+$bs-border-width: 1px;
+
 @mixin box-shadow-light($color) {
     box-shadow: 0 3px 0 mix(white, $color, 20%) !important;
 }
@@ -102,4 +105,7 @@ $opacity: 0;
     --bs-pagination-disabled-bg: transparent;
     --bs-pagination-disabled-border-color: transparent;
     --bs-pagination-icon-color: var(--color-theme-primary);
+
+    //card
+    --bs-card-border-color: #f4f4f4;
 }

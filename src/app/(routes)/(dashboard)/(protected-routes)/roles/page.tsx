@@ -48,6 +48,7 @@ const Index = () => {
             ]}
         >
             <CommonList
+                isBackendDrivenColumns
                 moduleType={ModuleTypeEnum.ROLE}
                 isAddButtonDisabled={
                     !hasAccessPermission({

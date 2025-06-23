@@ -61,6 +61,7 @@ const ReactStaticTable = <T extends object>(
                         <>
                             <div className="table-responsive">
                                 <ReactTable
+                                    isBackendDrivenColumns={false}
                                     {...tableProps}
                                     getHeaderGroups={getHeaderGroups}
                                     getRowModel={getRowModel}

@@ -48,6 +48,7 @@ const Page = () => {
             <h4 className="m-0 fw-bold">Fetching dummy users by tanstack Query</h4>
             <div className="mt-4">
                 <ReactTableWithPagination
+                    isBackendDrivenColumns={false}
                     columns={columns}
                     endpoint={new URL(`https://random-data-api.com/api/v2/users?size=10`)}
                     // queryKeys={["users"]}

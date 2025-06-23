@@ -920,6 +920,10 @@ aside.sidebar {
     .card-body {
         padding-inline: 0px;
     }
+    .card-bordered {
+        box-shadow: none;
+        border: $bs-border-width solid var(--bs-card-border-color);
+    }
 
     // Flatpickr styles
     .flatpickr-cross-icon-with-calender-icon {

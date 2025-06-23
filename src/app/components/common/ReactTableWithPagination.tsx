@@ -27,6 +27,7 @@ const ReactTableWithPagination: React.FC<ReactTableWithPaginationPropType> = (pr
         columnClassName = " col-md-6 col-lg-4 col-xl-3",
         sortingId,
         sortByDesc = false,
+        isBackendDrivenColumns,
     } = props
 
     const { setFilterState } = useAppContext()
@@ -154,6 +155,7 @@ const ReactTableWithPagination: React.FC<ReactTableWithPaginationPropType> = (pr
                                             rowCount={rowCount}
                                             filter={filter}
                                             setFilter={setFilter}
+                                            isBackendDrivenColumns={isBackendDrivenColumns}
                                         />
                                     </div>
                                     <hr className="mt-0" />

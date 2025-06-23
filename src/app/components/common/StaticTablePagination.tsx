@@ -8,7 +8,7 @@ const StaticTablePagination: React.FC<Omit<TablePaginationPropType, "colSpan">> 
     return (
         <div className={`d-flex justify-content-between ${paginationContainerClass}`}>
             <div>
-                {totalCount >= CONFIG.PAGE_SIZE_OPTIONS[0] ? (
+                {totalCount >= CONFIG.PAGE_SIZE_OPTIONS[15] ? (
                     <div className="dataTables_length" id="movie-table_length">
                         <label>
                             <select

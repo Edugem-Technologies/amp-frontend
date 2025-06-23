@@ -50,7 +50,7 @@ const Page = () => {
                 <ReactTableWithPagination
                     columns={columns}
                     endpoint={new URL(`https://random-data-api.com/api/v2/users?size=10`)}
-                    queryKeys={["users"]}
+                    // queryKeys={["users"]}
                     tableHeaderTitle="Users"
                     renderGridView={(user) => (
                         <div className="card text-center">

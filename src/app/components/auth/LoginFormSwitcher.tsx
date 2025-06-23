@@ -173,16 +173,16 @@ const LoginFormSwitcher = () => {
 
             {/* Render the correct form */}
             <form className="form w-100" onSubmit={handleSubmit(submitHandler)}>
-                {loginType === "email" && authMethod === "password" && (
+                {loginType === LoginTypeEnum.EMAIL && authMethod === AuthMethodEnum.PASSWORD && (
                     <EmailPasswordLogin hookForm={hookForm} />
                 )}
-                {loginType === "email" && authMethod === "otp" && (
+                {loginType === LoginTypeEnum.EMAIL && authMethod === AuthMethodEnum.OTP && (
                     <EmailOTPLogin hookForm={hookForm} />
                 )}
-                {loginType === "phone" && authMethod === "password" && (
+                {loginType === LoginTypeEnum.PHONE && authMethod === AuthMethodEnum.PASSWORD && (
                     <PhonePasswordLogin hookForm={hookForm} />
                 )}
-                {loginType === "phone" && authMethod === "otp" && (
+                {loginType === LoginTypeEnum.PHONE && authMethod === AuthMethodEnum.OTP && (
                     <PhoneOTPLogin hookForm={hookForm} />
                 )}
                 <div className="d-flex gap-2 justify-content-between mb-4">

@@ -221,6 +221,20 @@ export const getUniqueValueFromArray = (array: string[]) => {
     return Array.from(new Set(array))
 }
 
+/**
+ * Encrypts a plaintext string using AES encryption and a secret key.
+ *
+ * This function uses the AES algorithm to encrypt the provided text with the secret key
+ * specified in the NEXT_PUBLIC_CRYPTO_SECRET_KEY environment variable. The result is a
+ * base64-encoded ciphertext string suitable for storage or transmission.
+ *
+ * @param {string} text - The plaintext string to encrypt.
+ * @returns {string | null} The encrypted ciphertext as a string, or null if encryption fails or input is invalid.
+ *
+ * @example
+ * const encrypted = encrypt('mySecret');
+ * console.log(encrypted); // Output: (encrypted string)
+ */
 export const encrypt = (text: string) => {
     if (text && text.length > 0 && process.env.NEXT_PUBLIC_CRYPTO_SECRET_KEY) {
         const cipherText = crypto.AES.encrypt(
@@ -232,6 +246,41 @@ export const encrypt = (text: string) => {
     return null
 }
 
+/**
+ * Deterministically hashes the text for use as a localStorage key.
+ * This ensures the same input always produces the same output.
+ */
+/**
+ * Generates a deterministic, secure key for localStorage using HMAC-SHA256.
+ * This ensures the same input always produces the same output, and the key is not easily guessable.
+ *
+ * @param {string} text - The original key or variable name.
+ * @returns {string | null} The hashed key string, or null if input/secret is invalid.
+ */
+export const generateSecureLocalStorageKey = (text: string) => {
+    if (text && text.length > 0 && process.env.NEXT_PUBLIC_CRYPTO_SECRET_KEY) {
+        // Use HMAC-SHA256 for deterministic key hashing
+        return crypto.HmacSHA256(text, process.env.NEXT_PUBLIC_CRYPTO_SECRET_KEY).toString()
+    }
+    return null
+}
+
+/**
+ * Decrypts an AES-encrypted string using the configured secret key.
+ *
+ * This function attempts to decrypt the provided encrypted text using AES decryption
+ * and the secret key specified in the NEXT_PUBLIC_CRYPTO_SECRET_KEY environment variable.
+ * If decryption is successful, the plaintext string is returned. If decryption fails
+ * or the input is invalid, null is returned.
+ *
+ * @param {string | null} encryptedText - The AES-encrypted string to decrypt.
+ * @returns {string | null} The decrypted plaintext string, or null if decryption fails or input is invalid.
+ *
+ * @example
+ * const encrypted = encrypt('mySecret');
+ * const decrypted = decrypt(encrypted);
+ * console.log(decrypted); // Output: 'mySecret'
+ */
 export const decrypt = (encryptedText: string | null) => {
     if (encryptedText && encryptedText.length > 0 && process.env.NEXT_PUBLIC_CRYPTO_SECRET_KEY) {
         try {
@@ -250,43 +299,61 @@ export const decrypt = (encryptedText: string | null) => {
     return null
 }
 
-export const setLocalStorageData = (variableName: string, data: Any) => {
-    if (typeof data === "string") {
-        localStorage.setItem(variableName, data)
-    } else {
-        localStorage.setItem(variableName, JSON.stringify(data))
-    }
-}
-
-export const getLocalStorageData = (variableName: string) => {
-    const localStorageData = localStorage.getItem(variableName)
-    if (localStorageData) {
-        return JSON.parse(localStorageData)
-    } else {
-        return null
-    }
-}
-
+/**
+ * Encrypts and stores data in localStorage under a deterministically hashed key.
+ *
+ * This function:
+ * 1. Serializes the provided data to a JSON string.
+ * 2. Encrypts the JSON string using a secret key.
+ * 3. Hashes the variable name deterministically to generate a secure storage key.
+ * 4. Stores the encrypted data in localStorage under the hashed key.
+ *
+ * @param {string} variableName - The original name of the variable to use as the storage key.
+ * @param {any} data - The data to be encrypted and stored (will be JSON-stringified).
+ *
+ * @example
+ * setEncryptedLocalStorageData('user', { name: 'Alice', age: 30 });
+ */
 export const setEncryptedLocalStorageData = (variableName: string, data: Any) => {
-    let encryptedData
-    if (typeof data === "string") {
-        encryptedData = encrypt(data)
-    } else {
-        encryptedData = encrypt(JSON.stringify(data))
-    }
-    if (encryptedData) {
-        setLocalStorageData(variableName, encryptedData)
+    const encryptedData = encrypt(JSON.stringify(data))
+    const encryptedVariableName = generateSecureLocalStorageKey(variableName)
+    if (encryptedData && encryptedVariableName) {
+        localStorage.setItem(encryptedVariableName, encryptedData)
     }
 }
 
+/**
+ * Retrieves and decrypts data from localStorage for a given variable name.
+ *
+ * This function:
+ * 1. Hashes the provided variable name deterministically to get the encrypted key.
+ * 2. Retrieves the encrypted data from localStorage using the hashed key.
+ * 3. Decrypts the retrieved data.
+ * 4. Parses the decrypted data as JSON and returns it.
+ *
+ * @param {string} variableName - The original name of the variable to retrieve from localStorage.
+ * @returns {any | null} The decrypted and parsed data from localStorage, or null if not found or on error.
+ *
+ * @example
+ * const userData = getDecryptedLocalStorageData('user');
+ * if (userData) {
+ *   // Use userData
+ * }
+ */
 export const getDecryptedLocalStorageData = (variableName: string) => {
-    const encryptedData = localStorage.getItem(variableName)
-    if (encryptedData) {
-        const decryptedData = decrypt(encryptedData)
-        if (decryptedData) {
-            return JSON.parse(decryptedData)
-        }
-    } else {
+    const encryptedVariableName = generateSecureLocalStorageKey(variableName)
+    if (!encryptedVariableName) return null
+
+    const encryptedData = localStorage.getItem(encryptedVariableName)
+
+    const decryptedData = decrypt(encryptedData)
+    if (!decryptedData) return null
+
+    try {
+        return JSON.parse(decryptedData)
+    } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error("Failed to parse decrypted localStorage data:", e)
         return null
     }
 }
@@ -357,6 +424,7 @@ export const setLoginDetailsToLocalStorage = ({
         const userData = { ...userDetails, role: roleData }
         setEncryptedLocalStorageData(CONFIG.LOCAL_STORAGE_VARIABLES.USER_DATA, userData)
         setUserPermissions(permissions)
+        setIsAuthenticated()
     } catch (error) {
         handleError(error)
     }
@@ -410,4 +478,50 @@ export const checkIsPhoneNumberValid = (data: {
         return false
     }
     return true
+}
+
+/**
+ * Transforms a given string by removing underscores and capitalizing first letter of each word.
+ *
+ * This function takes a string where words are separated by underscores,
+ * splits the string into individual words, capitalizes first letter each word, and then
+ * joins them back into a single string with spaces between the words.
+ *
+ * Example:
+ * ```
+ * const result = removeUnderscoreFromLabel('hello_world_example');
+ * console.log(result); // Outputs: "Hello World Example"
+ * ```
+ *
+ * @param {string} text - The input string with underscores that need to be removed and words that need to be capitalized.
+ * @returns {string} The transformed string with underscores removed and each word capitalized.
+ */
+export const removeUnderscoreFromLabel = (text: string) => {
+    return text
+        ?.split("_")
+        ?.map((item) => formatTextToCapitalized(item))
+        ?.join(" ")
+}
+
+export const getIsAuthenticated = () => {
+    if (typeof window !== "undefined" && localStorage) {
+        const isAuthenticated = getDecryptedLocalStorageData(
+            CONFIG.LOCAL_STORAGE_VARIABLES.IS_AUTHENTICATED,
+        )
+        return isAuthenticated
+    }
+    getDecryptedLocalStorageData(CONFIG.LOCAL_STORAGE_VARIABLES.IS_AUTHENTICATED)
+    return null
+}
+
+export const setIsAuthenticated = () => {
+    if (typeof window !== "undefined" && localStorage) {
+        setEncryptedLocalStorageData(CONFIG.LOCAL_STORAGE_VARIABLES.IS_AUTHENTICATED, true)
+    }
+}
+
+export const removeIsAuthenticated = () => {
+    if (typeof window !== "undefined" && localStorage) {
+        localStorage.clear()
+    }
 }

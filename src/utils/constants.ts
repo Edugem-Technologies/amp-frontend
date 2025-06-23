@@ -15,6 +15,7 @@ export const ALERT_ICON_TYPE = {
 
 export const MAX_INT_LIMIT = 2147483647
 export const CONFIG = {
+    REFRESH_TOKEN_MEMOIZED_TIME: 10000,
     LOG_IN_TITLE: "Login",
     FORGOT_PASSWORD_TITLE: "Forgot Password",
     RESET_PASSWORD: "Setup New Password",
@@ -78,6 +79,7 @@ export const CONFIG = {
         ACCESS_TOKEN: "access_token",
         PERMISSIONS: "permissions",
         USER_DATA: "user_data",
+        IS_AUTHENTICATED: "is_authenticated",
     },
     DROPDOWN_LABEL_SLICE_LIMIT: 80,
     MESSAGES: {
@@ -220,6 +222,7 @@ export const CONFIG = {
             CHARS_255: 255,
             CHARS_1: 1,
             CHARS_3: 3,
+            CHARS_4: 4,
             CHARS_5: 5,
             CHARS_6: 6,
             CHARS_60: 60,
@@ -257,6 +260,8 @@ export const CONFIG = {
             city: "City",
             state: "State",
             country: "Country",
+            COUNTRY_CODE: "Country code",
+            OTP: "OTP",
         },
     },
     USER_ACCESS: [
@@ -291,6 +296,12 @@ export const CONFIG = {
         GOOGLE_LOGIN: new URL(`${BASE_API_ENDPOINT}/auth/google/login`),
         GET_USER_DETAILS: new URL(`${BASE_API_ENDPOINT}/user/details`),
         SIGNUP: new URL(`${BASE_API_ENDPOINT}/auth/signup `),
+        BASE_OTP_SEND: new URL(`${BASE_API_ENDPOINT}/otp/send`),
+        LOGOUT: new URL(`${BASE_API_ENDPOINT}/auth/logout `),
+        REFRESH_TOKEN: new URL(`${BASE_API_ENDPOINT}/auth/refresh`),
+    },
+    OTP_ENDPOINTS: {
+        LOGIN: "login",
     },
     COLOR_ARRAY: {
         colorArray: [
@@ -361,5 +372,11 @@ export const CONFIG = {
     },
 }
 // Endpoints that do not require authentication
-export const OPEN_ENDPOINTS: string[] = []
+export const OPEN_ENDPOINTS: string[] = [
+    CONFIG.API_ENDPOINTS.LOGIN.href,
+    CONFIG.API_ENDPOINTS.FORGOT_PASSWORD.href,
+    CONFIG.API_ENDPOINTS.RESET_PASSWORD.href,
+    CONFIG.API_ENDPOINTS.GOOGLE_LOGIN.href,
+    CONFIG.API_ENDPOINTS.SIGNUP.href,
+]
 export const CHAR_DEFAULT_MAX_LENGTH = CONFIG.VALIDATIONS.CHARACTER_LENGTH.CHARS_60

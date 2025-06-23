@@ -4,15 +4,10 @@ import PrimaryButton from "@/app/components/button/PrimaryButton"
 import TextInputField from "@/app/components/input/TextInput"
 import { usePermissions } from "@/app/context/PermissionContext"
 import { FetchHelper } from "@/services/fetch-helper"
-import { Role } from "@/types/data/loginData"
 
 import { CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
-import {
-    getUniqueValueFromArray,
-    setEncryptedLocalStorageData,
-    showSweetAlertWithRedirect,
-} from "@/utils/helpers"
+import { setLoginDetailsToLocalStorage, showSweetAlertWithRedirect } from "@/utils/helpers"
 import {
     ResetPasswordSchema,
     ResetPasswordValidationSchema,
@@ -51,16 +46,12 @@ const ResetPassword = () => {
             delete payload.password_confirmation
             const response = await FetchHelper.post(CONFIG.API_ENDPOINTS.RESET_PASSWORD, payload)
             if (response?.status) {
-                setEncryptedLocalStorageData(
-                    CONFIG.LOCAL_STORAGE_VARIABLES.PERMISSIONS,
-                    response?.data?.permissions,
-                )
-                const roleData = getUniqueValueFromArray(
-                    response?.data?.roles?.map((role: Role) => role.name),
-                ).join(", ")
-                const userData = { ...response?.data?.details, role: roleData }
-                setEncryptedLocalStorageData(CONFIG.LOCAL_STORAGE_VARIABLES.USER_DATA, userData)
-                setUserPermissions(response?.data?.permissions)
+                setLoginDetailsToLocalStorage({
+                    permissions: response.data.permissions,
+                    roles: response.data.roles,
+                    setUserPermissions,
+                    userDetails: response.data.user,
+                })
 
                 showSweetAlertWithRedirect({
                     text: response?.message,

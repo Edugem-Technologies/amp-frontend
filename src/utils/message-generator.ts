@@ -19,5 +19,5 @@ export function generateErrorMessage(
     } else if (maxCharsCrossed) {
         return `${fieldName} must be at most ${characters} characters long`
     }
-    return `Please enter ${fieldName}`
+    return `${fieldName} is required`
 }

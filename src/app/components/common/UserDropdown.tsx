@@ -1,10 +1,14 @@
 "use client"
-import { removeAccessToken } from "@/utils/common"
-import { signOut } from "next-auth/react"
+import { FetchHelper } from "@/services/fetch-helper"
+import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
+import { handleError } from "@/utils/handle-error"
+import { removeIsAuthenticated, showSweetAlertWithRedirect } from "@/utils/helpers"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Card, ListGroup } from "react-bootstrap"
 
 const UserDropdown = () => {
+    const router = useRouter()
     const [showDropdown, setShowDropdown] = useState(false)
     const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null)
 
@@ -24,11 +28,20 @@ const UserDropdown = () => {
         }
     }
     const handleLogout = async () => {
-        removeAccessToken()
-        signOut({
-            redirect: true,
-            callbackUrl: "/login",
-        })
+        try {
+            const response = await FetchHelper.get(CONFIG.API_ENDPOINTS.LOGOUT)
+            if (response.status) {
+                removeIsAuthenticated()
+                showSweetAlertWithRedirect({
+                    icon: ALERT_ICON_TYPE.success,
+                    text: response.message,
+                    router,
+                    url: "/auth/login",
+                })
+            }
+        } catch (error) {
+            handleError(error)
+        }
     }
     useEffect(() => {
         return () => {
@@ -73,7 +86,7 @@ const UserDropdown = () => {
                             My Profile
                         </ListGroup.Item>
                         <ListGroup.Item action className="cursor-pointer" onClick={handleLogout}>
-                            Sign Out
+                            Logout
                         </ListGroup.Item>
                     </ListGroup>
                 </Card>

@@ -116,6 +116,8 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 ## How to use this boilerplate
 
+While creating new repository on GitHub, under Repository Template dropdown, select nextjs-boilerplate.
+
 ## Components Usage
 
 All components are created inside components directory.

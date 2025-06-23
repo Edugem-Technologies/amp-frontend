@@ -71,10 +71,9 @@ const CustomPhoneInput: React.FC<CustomPhoneInputType> = ({
                     }}
                     {...props}
                 />
+                {/* Display error message if any  */}
+                <ShowFormError message={errorMessage} />
             </div>
-
-            {/* Display error message if any  */}
-            <ShowFormError message={errorMessage} />
         </>
     )
 }

@@ -113,7 +113,7 @@
                         button {
                             padding: 15px 35px;
                             border-radius: 30px;
-                            background-color: $theme-dark-cyan;
+                            background-color: var(--color-theme-dark-cyan);
                             border: none;
                             box-shadow: none;
                             outline: none;
@@ -284,7 +284,7 @@
                             .v-submit-btn {
                                 border: none;
                                 outline: none;
-                                background: $theme-light-cyan;
+                                background: var(--color-theme-light-cyan);
                                 width: 100%;
                                 padding: 15px 25px;
                                 border-radius: 30px;
@@ -296,7 +296,7 @@
                             float: right;
 
                             a {
-                                color: $theme-dark-cyan;
+                                color: var(--color-theme-dark-cyan);
                                 text-decoration: none;
 
                                 @include media-breakpoint-down("sm") {
@@ -317,7 +317,7 @@
                             }
                         }
                         a {
-                            color: $theme-dark-cyan;
+                            color: var(--color-theme-dark-cyan);
                             text-decoration: none;
 
                             @include media-breakpoint-down("sm") {
@@ -351,7 +351,7 @@
 
     .swal2-cancel {
         background: transparent;
-        color: $theme-dark-cyan;
+        color: var(--color-theme-dark-cyan);
 
         &:hover {
             opacity: 0.7;
@@ -606,7 +606,7 @@ aside.sidebar {
         height: 100vh;
     }
     .sign-in-form {
-        background-color: $theme-white;
+        background-color: var(--color-theme-white);
         @include media-breakpoint-down(md) {
             height: 100%;
         }
@@ -615,6 +615,47 @@ aside.sidebar {
         width: 600px;
         @include media-breakpoint-down(lg) {
             width: 500px;
+        }
+    }
+
+    // Login styles
+    .login-type-section {
+        display: flex;
+        gap: 0.8rem;
+        margin-bottom: 1rem;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        border-radius: 0.5rem;
+        background-color: var(--color-theme-secondary);
+        padding: 0.4rem;
+        .login-type-section-btn {
+            font-size: 1rem;
+            background: none;
+            border-radius: 0;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            color: var(--color-theme-white);
+            width: 50%;
+            &.active {
+                border-radius: 0.5rem;
+                background-color: var(--color-theme-primary);
+            }
+        }
+    }
+    .auth-method-section {
+        display: flex;
+        gap: 0.8rem;
+        margin-bottom: 1.6rem;
+        justify-content: start;
+        .auth-method-section-btn {
+            border-radius: 0.5rem;
+            flex-direction: row-reverse;
+            background-color: var(--color-theme-secondary);
+            padding: 0.5rem 1rem;
+            justify-content: flex-end;
+            width: 150px;
+            color: var(--color-theme-white);
         }
     }
     .login-swiper-images-container {
@@ -649,6 +690,17 @@ aside.sidebar {
     }
 
     // button styles
+    button,
+    .btn {
+        &:disabled {
+            cursor: not-allowed !important;
+            pointer-events: unset !important;
+            opacity: unset !important;
+        }
+        &:focus {
+            box-shadow: none;
+        }
+    }
     .button-3d-effect {
         &:not(&:disabled) {
             transition: all 0.2s ease !important;
@@ -659,14 +711,6 @@ aside.sidebar {
             &:active {
                 transform: translateY(1px);
             }
-        }
-    }
-    button,
-    .btn {
-        &:disabled {
-            cursor: not-allowed !important;
-            pointer-events: unset !important;
-            opacity: unset !important;
         }
     }
 
@@ -720,7 +764,7 @@ aside.sidebar {
 
     .swal2-cancel {
         background: transparent;
-        color: $theme-dark-cyan;
+        color: var(--color-theme-dark-cyan);
 
         &:hover {
             opacity: 0.7;
@@ -738,13 +782,13 @@ aside.sidebar {
         font-size: 1.1rem !important;
     }
     .custom-swal-cancel-button {
-        color: $theme-white !important;
-        background-color: $theme-secondary;
-        border: 1px solid $theme-secondary !important;
+        color: var(--color-theme-white) !important;
+        background-color: var(--color-theme-secondary);
+        border: 1px solid var(--color-theme-secondary) !important;
         opacity: 1 !important;
         &:hover {
-            background-color: $theme-secondary-hover;
-            border: 1px solid $theme-secondary-hover !important;
+            background-color: var(--color-theme-secondary-hover);
+            border: 1px solid var(--color-theme-secondary-hover) !important;
         }
     }
     .custom-swal-confirm-button {
@@ -791,5 +835,8 @@ aside.sidebar {
         &:hover {
             text-decoration: underline;
         }
+    }
+    .custom-radio-input {
+        accent-color: var(--color-theme-primary);
     }
 }

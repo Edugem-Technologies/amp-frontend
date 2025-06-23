@@ -1,20 +1,15 @@
-import { Any } from "@/types/common/helper"
-import { LoginValidationSchemaType } from "@/validations/auth/login"
-import Link from "next/link"
+"use client"
+import { LoginFormProps } from "@/types/components/LoginsForm"
+import { EmailPasswordLoginSchemaType } from "@/validations/auth/Login"
 import { UseFormReturn } from "react-hook-form"
-import PrimaryButton from "../button/PrimaryButton"
-import ShowFormError from "../common/ShowFormError"
 import TextInputField from "../input/TextInput"
 
-const LoginForm = ({
-    hookForm,
-}: {
-    hookForm: UseFormReturn<LoginValidationSchemaType, Any, undefined>
-}) => {
+const EmailPasswordLogin: React.FC<LoginFormProps> = ({ hookForm }) => {
     const {
         register,
-        formState: { errors, isSubmitting },
-    } = hookForm
+        formState: { errors },
+    } = hookForm as UseFormReturn<EmailPasswordLoginSchemaType>
+
     return (
         <>
             <div className="d-flex flex-column gap-4 mb-2">
@@ -26,8 +21,8 @@ const LoginForm = ({
                         autoComplete="false"
                         className="custom-input"
                         {...register("primary_email")}
+                        errorMsg={errors?.primary_email?.message}
                     />
-                    <ShowFormError message={errors?.primary_email?.message} />
                 </div>
 
                 <div className="">
@@ -41,17 +36,8 @@ const LoginForm = ({
                     />
                 </div>
             </div>
-            <div className="d-flex justify-content-end mb-4">
-                <Link legacyBehavior href="/auth/forgot-password">
-                    <a className="font-size-14px">Forgot Password?</a>
-                </Link>
-            </div>
-
-            <div className="d-grid border-radius-10px">
-                <PrimaryButton type="submit" isSubmitting={isSubmitting} buttonTitle="Login" />
-            </div>
         </>
     )
 }
 
-export default LoginForm
+export default EmailPasswordLogin

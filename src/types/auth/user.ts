@@ -4,11 +4,19 @@ export interface UserEmailVerifyPropType {
 }
 
 export interface User {
-    country_code: string | null
+    country_code: string
+    created_at: string
+    created_by: string | null
+    email_verified_at: string | null
     first_name: string
-    last_name: string | null
+    last_login_at: string
+    last_name: string
+    phone_verified_at: string | null
     primary_email: string
-    primary_phone: string | null
+    primary_phone: string
+    source: string
+    updated_at: string
+    updated_by: string | null
     uuid: string
 }
 

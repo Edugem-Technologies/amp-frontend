@@ -306,6 +306,7 @@ export const CONFIG = {
         CREATE_ROLE: new URL(`${BASE_API_ENDPOINT}/role/create`),
         EDIT_ROLE: new URL(`${BASE_API_ENDPOINT}/role`),
         GET_ROLES: new URL(`${BASE_API_ENDPOINT}/role/list`),
+        GET_USERS: new URL(`${BASE_API_ENDPOINT}/user/list`),
         GET_COLUMN_METADATA: new URL(`${BASE_API_ENDPOINT}/common/column-metadata`),
     },
     OTP_ENDPOINTS: {
@@ -382,6 +383,11 @@ export const CONFIG = {
         details: {
             label: "Details",
             path: "details",
+        },
+    },
+    REACT_TABLE: {
+        COLUMN_SIZE: {
+            100: 100,
         },
     },
 }

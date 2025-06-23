@@ -15,7 +15,6 @@ const defaultPermissionContext: PermissionContextType = {
 const PermissionContext = createContext<PermissionContextType>(defaultPermissionContext)
 
 export const PermissionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    // Currently using hardcoded data will update after role API Integration
     const [userPermissions, setUserPermissions] = useState<string[]>([])
     return (
         <PermissionContext.Provider value={{ userPermissions, setUserPermissions }}>

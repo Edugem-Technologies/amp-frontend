@@ -37,3 +37,6 @@ next-env.d.ts
 .env
 public/robots.txt
 public/sitemap*.xml
+
+# cursor rules
+.cursorrule

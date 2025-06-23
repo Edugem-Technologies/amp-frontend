@@ -20,10 +20,13 @@
  * - utilities: Utility classes that override other styles
  * - overrides: Highest priority overrides when needed
  */
-@layer reset, defaults, patterns, bootstrap, components, utilities, overrides;
+@layer reset, defaults, patterns, bootstrap, pagination, components, utilities, overrides;
 
 @layer bootstrap {
     @import "../bootstrap/bootstrap"; /* Bootstrap inside a layer */
+}
+@layer pagination {
+    @import "./pagination.scss"; // Pagination styles inside a layer
 }
 @layer reset {
     *,
@@ -950,6 +953,37 @@ aside.sidebar {
                 margin-bottom: 6px;
                 width: 100%;
             }
+        }
+    }
+
+    // Image with text or background styles
+    .listing-card-image {
+        width: 65px;
+        height: 65px;
+    }
+    .show-text-with-background {
+        min-width: 50px;
+        min-height: 50px;
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        & .show-text {
+            font-size: 25px;
+            font-weight: 600;
+            color: #fff;
+        }
+    }
+    .show-text-with-background-sm {
+        min-width: 50px;
+        min-height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .show-text {
+            font-size: 25px;
+            font-weight: 600;
+            color: #fff;
         }
     }
 }

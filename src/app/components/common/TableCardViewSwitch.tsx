@@ -23,8 +23,8 @@ const TableCardViewSwitch: React.FC<TableCardViewSwitchPropType> = ({
                     <span className="svg-icon svg-icon-2">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
+                            width="21"
+                            height="21"
                             viewBox="0 0 26 22"
                             fill="none"
                         >
@@ -57,8 +57,8 @@ const TableCardViewSwitch: React.FC<TableCardViewSwitchPropType> = ({
                     <span className="svg-icon svg-icon-2">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            width="24px"
-                            height="24px"
+                            width="21"
+                            height="21"
                             viewBox="0 0 24 24"
                         >
                             <g stroke="none" stroke-width="1" fill="white" fill-rule="evenodd">

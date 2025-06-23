@@ -37,17 +37,17 @@ const Pagination: React.FC<PaginationPropType> = (props) => {
 
     return (
         <>
-            <ul className="pagination justify-content-end">
+            <ul className="pagination justify-content-end mb-0">
                 <li
                     onClick={(event) => onPrevious(event)}
-                    className={`page-item previous ${page === 1 ? "disabled" : ""}`}
+                    className={classnames("page-item previous", {
+                        disabled: page === 1,
+                    })}
                 >
-                    <a
-                        className="page-link text-primary shadow-none"
-                        href="#"
-                        aria-label="Previous"
-                    >
-                        <span aria-hidden="true">&laquo;</span>
+                    <a className="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">
+                            <i className="previous"></i>
+                        </span>
                     </a>
                 </li>
                 {paginationRange &&
@@ -64,15 +64,11 @@ const Pagination: React.FC<PaginationPropType> = (props) => {
                                 <li
                                     key={pageNumber + index.toString()}
                                     className={`page-item paginate_button ${
-                                        pageNumber === page ? "active bg-primary" : ""
+                                        pageNumber === page ? "active" : ""
                                     } `}
                                 >
                                     <a
-                                        className={`page-link  shadow-none ${
-                                            pageNumber === page
-                                                ? "active border-0 bg-primary"
-                                                : "text-primary"
-                                        } `}
+                                        className={`page-link`}
                                         href="#"
                                         onClick={(event) =>
                                             handleClick(event, pageNumber as number)
@@ -90,8 +86,10 @@ const Pagination: React.FC<PaginationPropType> = (props) => {
                     })}
                     onClick={(event) => onNext(event)}
                 >
-                    <a className="page-link text-primary  shadow-none" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
+                    <a className="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">
+                            <i className="next"></i>
+                        </span>
                     </a>
                 </li>
             </ul>

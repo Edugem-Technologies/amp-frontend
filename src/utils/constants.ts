@@ -211,7 +211,7 @@ export const CONFIG = {
     DEBOUNCE_TIMEOUT: 500,
     PAGINATION: {
         TYPE: "pagination",
-        SIZE: 10,
+        SIZE: 15,
         PAGE: 1,
     },
     PAGE_SIZE_OPTIONS: { 15: 15, 25: 25, 50: 50, 100: 100 },

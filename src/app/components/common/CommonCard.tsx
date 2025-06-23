@@ -21,7 +21,7 @@ const CommonCard: React.FC<CommonCardInterface> = (props) => {
                     imageSource={props?.avatar}
                     alt="user logo"
                     size={CONFIG.IMAGE_SIZE.USER_CARD}
-                    className="symbol symbol-65px symbol-circle mb-3 user-listing-card-image"
+                    className="symbol symbol-65px symbol-circle mb-3 listing-card-image"
                     iconName={props.iconName || ""}
                     iconHeight={props.iconHeight || 13}
                     iconWidth={props.iconWidth || 13}

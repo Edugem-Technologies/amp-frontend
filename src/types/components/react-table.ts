@@ -1,11 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ColumnDef, Table } from "@tanstack/react-table"
+import { ColumnDef, HeaderGroup, RowModel } from "@tanstack/react-table"
+import { AnyObject } from "../common/helper"
+import { Option } from "./ReactSelect"
 
 /**
  * Props for the ReactTable component.
  */
-export interface ReactTableProps<T> {
-    table: Table<T>
+export interface ReactTableProps<T> extends ExpandedRowWithTablePropType {
+    /**
+     * Function to get header groups.
+     * @returns {HeaderGroup<T>[]} The header groups.
+     */
+    getHeaderGroups: () => HeaderGroup<T>[]
+
+    /**
+     * Function to get row model.
+     * @returns {RowModel<T>} The row model.
+     */
+    getRowModel: () => RowModel<T>
+
+    /**
+     * Function to get footer groups.
+     * @returns {HeaderGroup<T>[]} The footer groups.
+     */
+    getFooterGroups: () => HeaderGroup<T>[]
 
     /**
      * Optional CSS class for the table.
@@ -21,6 +39,13 @@ export interface ReactTableProps<T> {
      * Optional row count for the table.
      */
     rowCount?: number
+    setFilter?: React.Dispatch<React.SetStateAction<AnyObject>>
+    filter?: AnyObject
+}
+export interface ExpandedRowWithTablePropType {
+    expandedRowId?: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    renderExpandedRow?: (id: string) => React.ReactNode
 }
 
 /**
@@ -128,20 +153,20 @@ export interface ReactTableWithPaginationPropType extends ExpandedRowWithTablePr
     addButtonLabel?: string
     /** Class name for the add button */
     addButtonClassName?: string
-    dummyData?: any
-    /** Query keys for the table */
-    queryKeys: string[]
-    /**
-     * Optional flag to indicate table view.
-     */
+    renderGridView?: ((data: any) => React.ReactNode) | undefined
     isTableView?: boolean
-
-    /**
-     * Function to render the grid view.
-     * @param {any} asset - The asset to render.
-     * @returns {React.ReactNode} The rendered grid view.
-     */
-    renderGridView?: (asset: any) => React.ReactNode
-    /** Custom class name to be applied to table columns */
     columnClassName?: string
+    sortByDesc?: boolean
+}
+
+export type Searchable = {
+    searchable?: boolean
+    dropdown?: boolean
+    date?: string
+    dynamicDropdown?: URL
+    dropdownValues?: Option[] | undefined
+    defaultValue?: Option
+    dynamicDropdownValue?: string
+    searchableDropdownFilterKey?: string
+    placeholder?: string
 }

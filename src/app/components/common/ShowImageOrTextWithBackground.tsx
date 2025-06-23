@@ -1,24 +1,8 @@
-// import { getImageUrl } from "@/app/_utils/Helpers"
+import { ShowImageOrTextWithBackgroundPropType } from "@/types/common/ShowImageOrTextWithBackground"
+import { getImageUrl, getResizedImage } from "@/utils/helpers"
 import React, { useEffect, useState } from "react"
 import Icon from "./Icon"
-// import { getResizedImage } from "@/app/_utils/Helpers"
-export interface ShowImageOrTextWithBackgroundPropType {
-    color: string
-    text: string | undefined
-    imageSource: string | null
-    alt: string
-    size: string
-    className?: string
-    customClassName?: string
-    imageClassName?: string
-    squareImage?: boolean
-    small?: boolean
-    textClassName?: string
-    iconName?: string
-    iconWidth?: number
-    iconHeight?: number
-    iconClassName?: string
-}
+
 const ShowImageOrTextWithBackground: React.FC<ShowImageOrTextWithBackgroundPropType> = ({
     color,
     text,
@@ -38,25 +22,28 @@ const ShowImageOrTextWithBackground: React.FC<ShowImageOrTextWithBackgroundPropT
 }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const bgColor = React.useMemo(() => color, [text])
-    const [, setIsImageValid] = useState(true)
-    const [image, setImage] = useState(imageSource)
+    const [isImageValid, setIsImageValid] = useState(true)
+    const [image, setImage] = useState(getImageUrl(imageSource, size))
     useEffect(() => {
         if (imageSource) {
-            const img = imageSource
+            const img = getResizedImage(imageSource, size)
             setImage(img)
             setIsImageValid(true)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [imageSource])
-
     return (
-        <div className={`${className} ${imageSource ? customClassName : ""}`}>
-            {imageSource ? (
+        <div
+            className={`${className} ${
+                isImageValid && imageSource?.resizer_url && imageSource.path ? customClassName : ""
+            }`}
+        >
+            {isImageValid && imageSource?.resizer_url && imageSource.path ? (
                 <img
-                    className={`object-fit-cover w-100 h-100 ${
+                    className={`object-fit-contain w-100 h-100 bg-white ${
                         squareImage && "rounded-3"
                     } ${imageClassName}`}
-                    src={image || ""}
+                    src={image}
                     onError={() => {
                         setIsImageValid(false)
                     }}

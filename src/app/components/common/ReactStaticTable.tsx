@@ -27,7 +27,7 @@ const ReactStaticTable = <T extends object>(
         pageSize: CONFIG.PAGINATION.SIZE,
     })
 
-    const table = useReactTable({
+    const { getHeaderGroups, getRowModel, getFooterGroups } = useReactTable({
         columns,
         data,
         getCoreRowModel: getCoreRowModel(),
@@ -60,7 +60,12 @@ const ReactStaticTable = <T extends object>(
                     {dataView ? (
                         <>
                             <div className="table-responsive">
-                                <ReactTable {...tableProps} table={table} />
+                                <ReactTable
+                                    {...tableProps}
+                                    getHeaderGroups={getHeaderGroups}
+                                    getRowModel={getRowModel}
+                                    getFooterGroups={getFooterGroups}
+                                />
                             </div>
                         </>
                     ) : (

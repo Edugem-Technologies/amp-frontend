@@ -101,6 +101,7 @@ export const CONFIG = {
         DATA_ADDED_SUCCESSFULLY: "Data added successfully",
         DATA_DELETED_SUCCESSFULLY: "Data deleted successfully",
         WANT_TO_LOG_OUT: "Do you want to log out?",
+        COPIED_SUCCESSFULLY: "Copied Successfully",
     },
     DEFAULT_MESSAGES: {
         TOKEN_EXPIRED: "Token expired. Please login again",
@@ -210,10 +211,10 @@ export const CONFIG = {
     DEBOUNCE_TIMEOUT: 500,
     PAGINATION: {
         TYPE: "pagination",
-        SIZE: 10,
+        SIZE: 15,
         PAGE: 1,
     },
-    PAGE_SIZE_OPTIONS: [10, 25, 50, 100],
+    PAGE_SIZE_OPTIONS: { 15: 15, 25: 25, 50: 50, 100: 100 },
     SKELETON_CONFIGURATION: {
         SKELETON_ROWS_COUNT: 5,
         SKELETON_HEIGHT: 60,
@@ -304,6 +305,8 @@ export const CONFIG = {
         GET_ROLE_DETAIL: new URL(`${BASE_API_ENDPOINT}/role`),
         CREATE_ROLE: new URL(`${BASE_API_ENDPOINT}/role/create`),
         EDIT_ROLE: new URL(`${BASE_API_ENDPOINT}/role`),
+        GET_ROLES: new URL(`${BASE_API_ENDPOINT}/role/list`),
+        GET_COLUMN_METADATA: new URL(`${BASE_API_ENDPOINT}/common/column-metadata`),
     },
     OTP_ENDPOINTS: {
         LOGIN: "login",

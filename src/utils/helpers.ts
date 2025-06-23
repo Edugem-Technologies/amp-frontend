@@ -525,3 +525,88 @@ export const removeIsAuthenticated = () => {
         localStorage.clear()
     }
 }
+
+/**
+ * Calculates the specified percentage of a given value.
+ *
+ * @param {number} value - The base value to calculate the percentage from.
+ * @param {number} percentage - The percentage to calculate.
+ * @returns {number} The result of value multiplied by the percentage divided by 100.
+ *
+ * @example
+ * calculatePercentage(200, 10); // returns 20
+ */
+export const calculatePercentage = (value: number, percentage: number) => {
+    return value * (percentage / 100)
+}
+
+/**
+ * Constructs a resized image URL based on the provided image object and size.
+ *
+ * @param {AnyObject | null} [image] - The image object containing the resizer URL and path.
+ * @param {string} [size] - The desired size string (e.g., "200x200") to be appended to the URL.
+ * @returns {string} The constructed image URL if both image and size are provided, otherwise an empty string.
+ *
+ * @example
+ * const image = { resizer_url: "https://img.example.com/", path: "/photo.jpg" };
+ * const url = getImageUrl(image, "200x200");
+ * // url: "https://img.example.com/200x200/photo.jpg"
+ */
+export const getImageUrl = (image?: AnyObject | null, size?: string) => {
+    if (image && size) {
+        const imageUrl = image?.resizer_url + size + image?.path
+        return imageUrl
+    }
+    return ""
+}
+
+/**
+ * Returns a resized image URL based on the original image dimensions and the requested size.
+ * If the calculated 40% of the original image's pixel area is greater than the requested size's pixel area,
+ * it uses the 40% scaled size; otherwise, it uses the requested size.
+ *
+ * @param {AnyObject} imageSource - The image object containing at least `width`, `height`, `resizer_url`, and `path`.
+ * @param {string} size - The desired size in the format "WIDTHxHEIGHT" (e.g., "200x200").
+ * @returns {string} The URL of the resized image.
+ *
+ * @example
+ * const image = { width: 1000, height: 800, resizer_url: "https://img.example.com/", path: "/photo.jpg" };
+ * const url = getResizedImage(image, "200x200");
+ * // Returns a URL with either the 40% scaled size or the requested size, depending on pixel area.
+ */
+export const getResizedImage = (imageSource: AnyObject, size: string) => {
+    const originalImageNewWidth = Math.floor(calculatePercentage(imageSource.width, 40))
+    const originalImageNewHeight = Math.floor(calculatePercentage(imageSource.height, 40))
+
+    const originalImageNewRenderedSize = `${originalImageNewWidth}x${originalImageNewHeight}`
+
+    const resizeImageWidth = Number(size.split("x")?.[0])
+    const resizeImageHeight = Number(size.split("x")?.[1])
+
+    const originalImageNewPixel = originalImageNewWidth * originalImageNewHeight
+    const resizeImageNewPixel = resizeImageWidth * resizeImageHeight
+
+    if (originalImageNewPixel > resizeImageNewPixel) {
+        return getImageUrl(imageSource, originalImageNewRenderedSize)
+    } else {
+        return getImageUrl(imageSource, size)
+    }
+}
+
+/**
+ * Transforms an array of string options into an array of objects with label, value, and data properties.
+ *
+ * @param {string[]} options - The array of string options to transform.
+ * @returns {Array<{label: string, value: string, data: {label: string, value: string}}>}
+ *   The transformed array of option objects.
+ */
+export const transformOptions = (options: string[]) => {
+    return options.map((option) => ({
+        label: option,
+        value: option,
+        data: {
+            label: option,
+            value: option,
+        },
+    }))
+}

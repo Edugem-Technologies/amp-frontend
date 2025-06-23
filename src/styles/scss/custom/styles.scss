@@ -7,6 +7,7 @@
 @import "./input.scss";
 @import "./variables.scss";
 @import "./datatable.css";
+@import "./flatpickr.scss";
 @import "../../fonts/plus-jakarta-sans/stylesheet.css";
 // @import "./style.bundle.css";
 
@@ -19,10 +20,13 @@
  * - utilities: Utility classes that override other styles
  * - overrides: Highest priority overrides when needed
  */
-@layer reset, defaults, patterns, bootstrap, components, utilities, overrides;
+@layer reset, defaults, patterns, bootstrap, pagination, components, utilities, overrides;
 
 @layer bootstrap {
     @import "../bootstrap/bootstrap"; /* Bootstrap inside a layer */
+}
+@layer pagination {
+    @import "./pagination.scss"; // Pagination styles inside a layer
 }
 @layer reset {
     *,
@@ -369,20 +373,10 @@
         width: 100%;
         table-layout: fixed;
         word-wrap: normal !important;
-        th {
-            font-size: 0.85rem;
-            img {
-                user-select: none;
-                -moz-user-select: none;
-                -khtml-user-select: none;
-                -webkit-user-select: none;
-                -o-user-select: none;
-                opacity: 0.3;
-                &:first-child {
-                    transform: rotate(180deg);
-                }
-                &.active {
-                    opacity: 1;
+        tr {
+            &:last-child {
+                td {
+                    border-bottom: 0;
                 }
             }
         }
@@ -390,6 +384,42 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+        th {
+            .icon-container {
+                position: relative;
+                &::after,
+                &::before {
+                    opacity: 0.3;
+                    position: absolute;
+                    right: -16px;
+                    color: white;
+                    font-size: 0.5rem;
+                }
+                &::after {
+                    top: 1px;
+                    content: "▲";
+                }
+                &::before {
+                    top: 9px;
+                    content: "▼";
+                }
+                &.s_asc:after {
+                    opacity: 1;
+                    color: whitesmoke;
+                }
+                &.s_desc:before {
+                    opacity: 1;
+                    color: whitesmoke;
+                }
+            }
+        }
+        tbody {
+            tr {
+                &:hover {
+                    background-color: #f8fafc;
+                }
+            }
         }
     }
 
@@ -858,6 +888,10 @@ aside.sidebar {
     .custom-radio-input {
         accent-color: var(--color-theme-primary);
     }
+    .filter-input {
+        border: 0;
+        border-radius: 0.5rem;
+    }
 
     // Access Denied styles
     .access-denied {
@@ -885,5 +919,71 @@ aside.sidebar {
     .card,
     .card-body {
         padding-inline: 0px;
+    }
+
+    // Flatpickr styles
+    .flatpickr-cross-icon-with-calender-icon {
+        right: 30px;
+        top: 25%;
+    }
+    .flatpickr-cross-icon {
+        right: 8px;
+        top: 19%;
+        img {
+            margin-bottom: 3px;
+        }
+    }
+    .filter-input {
+        &.flatpickr-input {
+            background-color: var(--color-theme-white) !important;
+        }
+    }
+    .filter-flatpickr-input {
+        max-width: 220px;
+        .flatpickr-cross-icon-with-calender-icon {
+            right: 30px;
+            top: 25%;
+        }
+        .flatpickr-cross-icon {
+            right: 20px;
+            top: 5%;
+            height: 16px;
+            width: 16px;
+            img {
+                margin-bottom: 6px;
+                width: 100%;
+            }
+        }
+    }
+
+    // Image with text or background styles
+    .listing-card-image {
+        width: 65px;
+        height: 65px;
+    }
+    .show-text-with-background {
+        min-width: 50px;
+        min-height: 50px;
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        & .show-text {
+            font-size: 25px;
+            font-weight: 600;
+            color: #fff;
+        }
+    }
+    .show-text-with-background-sm {
+        min-width: 50px;
+        min-height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .show-text {
+            font-size: 25px;
+            font-weight: 600;
+            color: #fff;
+        }
     }
 }

@@ -36,6 +36,12 @@ $section-sub-title-font-size: 1.142rem;
 $section-title-font-weight: 700;
 $section-sub-title-font-weight: 700;
 
+// pagination
+$bs-pagination-padding-x: 0.75rem;
+$bs-pagination-padding-y: 0.375rem;
+$bs-pagination-font-size: 1.075rem;
+$bs-pagination-border-radius: 0.475rem;
+
 // custom padding for container-fluid
 $custom-container-fluid-padding: 2rem;
 
@@ -71,4 +77,29 @@ $opacity: 0;
     --color-theme-light-brown: #d3bdb0;
     --color-theme-light-purple: #dbd4ff;
     --color-theme-cyan-background: rgba(20, 228, 234, 0.2);
+
+    // Pagination
+    --bs-component-active-color: var(--color-theme-white);
+    --bs-component-active-bg: var(--color-theme-primary);
+    --bs-component-hover-color: var(--color-theme-primary);
+    --bs-component-hover-bg: var(--color-theme-light-primary);
+    --bs-component-checked-color: var(--color-theme-white);
+    --bs-component-checked-bg: var(--color-theme-primary);
+    --bs-pagination-color: var(--color-theme-primary);
+    --bs-pagination-bg: transparent;
+    --bs-pagination-border-width: 0;
+    --bs-pagination-border-color: transparent;
+    --bs-pagination-hover-color: var(--color-theme-primary);
+    --bs-pagination-hover-bg: var(--bs-component-hover-bg);
+    --bs-pagination-hover-border-color: transparent;
+    --bs-pagination-focus-color: var(--bs-component-hover-color);
+    --bs-pagination-focus-bg: var(--bs-component-hover-bg);
+    --bs-pagination-focus-box-shadow: none;
+    --bs-pagination-active-color: var(--bs-component-active-color);
+    --bs-pagination-active-bg: var(--bs-component-active-bg);
+    --bs-pagination-active-border-color: transparent;
+    --bs-pagination-disabled-color: gray;
+    --bs-pagination-disabled-bg: transparent;
+    --bs-pagination-disabled-border-color: transparent;
+    --bs-pagination-icon-color: var(--color-theme-primary);
 }

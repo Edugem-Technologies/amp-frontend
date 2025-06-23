@@ -1,38 +1,98 @@
 "use client"
-import { CommonListProps } from "@/types/common/CommonList"
-import { AnyObject } from "@/types/common/helper"
+import {
+    BackendDrivenColumns,
+    ClientDrivenColumns,
+    CommonListProps,
+} from "@/types/common/CommonList"
+import { Any, AnyObject } from "@/types/common/helper"
 import { fetchColumnData } from "@/utils/FetchData"
 import { ColumnDef } from "@tanstack/react-table"
 import React, { useEffect, useState } from "react"
+import CustomButton from "../button/Button"
 import ReactTableWithPagination from "./ReactTableWithPagination"
 import TableCardViewSwitch from "./TableCardViewSwitch"
-import CustomButton from "../button/Button"
 
-const CommonList = ({
-    title,
-    columns,
-    endpoint,
-    refetch = false,
-    onAddButton,
-    renderCustomToolbar,
-    addButtonTitle,
-    assetDeleted = false,
-    tableClassName = "",
-    dependencies = [],
-    extraFilters = {},
-    setIsActionsDisabled,
-    setIsTableView,
-    isTableView = true,
-    renderGridView,
-    customAddButtonTitle,
-    isAddButtonDisabled = false,
-    extraColumns = [],
-    moduleType,
-    sortingId,
-    sortByDesc = false,
-    getFetchResponse,
-    renderTitlePrefix,
-}: CommonListProps) => {
+/**
+ * CommonList is a reusable component for displaying tabular data with optional grid view,
+ * supporting both backend-driven and client-driven column definitions.
+ * It provides features like pagination, sorting, filtering, custom toolbars, and add button.
+ *
+ * @component
+ * @param {CommonListProps} props - The props for CommonList.
+ * @param {string} props.title - The title displayed above the table.
+ * @param {string} props.endpoint - The API endpoint to fetch data from.
+ * @param {Function} [props.onAddButton] - Callback for the add button click.
+ * @param {Function} [props.renderCustomToolbar] - Function to render custom toolbar elements.
+ * @param {string} [props.addButtonTitle] - The default title for the add button.
+ * @param {boolean} [props.assetDeleted=false] - Flag to indicate if an asset was deleted (triggers reload).
+ * @param {string} [props.tableClassName] - Additional class names for the table.
+ * @param {Array<any>} [props.dependencies=[]] - Dependencies to trigger data reload.
+ * @param {object} [props.extraFilters={}] - Extra filters to apply to the data fetch.
+ * @param {Function} [props.setIsActionsDisabled] - Callback to enable/disable actions based on data.
+ * @param {Function} [props.setIsTableView] - Callback to toggle between table and grid view.
+ * @param {boolean} [props.isTableView=true] - Whether the table view is active.
+ * @param {Function} [props.renderGridView] - Function to render grid view for each row.
+ * @param {string} [props.customAddButtonTitle] - Custom title for the add button.
+ * @param {boolean} [props.isAddButtonDisabled=false] - Whether the add button is disabled.
+ * @param {string} [props.moduleType] - Module type for backend-driven columns.
+ * @param {string} [props.sortingId] - Default column id to sort by.
+ * @param {boolean} [props.sortByDesc=false] - Whether to sort descending by default.
+ * @param {Function} [props.getFetchResponse] - Callback to receive the raw fetch response.
+ * @param {Function} [props.renderTitlePrefix] - Function to render a prefix before the title.
+ * @param {boolean} [props.isBackendDrivenColumns] - Whether to use backend-driven columns.
+ * @param {Array<ColumnDef>} [props.extraColumns] - Extra columns to append (backend-driven).
+ * @param {Array<ColumnDef>} [props.columns] - Columns to use (client-driven).
+ *
+ * @example
+ * <CommonList
+ *   title="Users"
+ *   endpoint="/api/users"
+ *   isBackendDrivenColumns
+ *   moduleType="USER"
+ *   extraColumns={columns}
+ *   onAddButton={() => setShowAddUserModal(true)}
+ *   addButtonTitle="User"
+ *   tableClassName="user-table"
+ *   isTableView={isTableView}
+ *   setIsTableView={setIsTableView}
+ * />
+ */
+const CommonList = (props: CommonListProps) => {
+    const {
+        title,
+        endpoint,
+        onAddButton,
+        renderCustomToolbar,
+        addButtonTitle,
+        assetDeleted = false,
+        tableClassName = "",
+        dependencies = [],
+        extraFilters = {},
+        setIsActionsDisabled,
+        setIsTableView,
+        isTableView = true,
+        renderGridView,
+        customAddButtonTitle,
+        isAddButtonDisabled = false,
+        moduleType,
+        sortingId,
+        sortByDesc = false,
+        getFetchResponse,
+        renderTitlePrefix,
+        isBackendDrivenColumns,
+    } = props
+
+    // Use type guard to safely access extraColumns or columns
+    let extraColumns: ColumnDef<AnyObject>[] = []
+    let columns: ColumnDef<Any, Any>[] = []
+
+    if (isBackendDrivenColumns) {
+        // TypeScript now knows props is BackendDrivenColumns
+        extraColumns = (props as BackendDrivenColumns).extraColumns ?? []
+    } else {
+        // TypeScript now knows props is ClientDrivenColumns
+        columns = (props as ClientDrivenColumns).columns
+    }
     const [totalCount, setTotalCount] = useState(0)
     const [columnResponse, setColumnResponse] = useState<ColumnDef<AnyObject>[]>([])
     useEffect(() => {
@@ -95,9 +155,10 @@ const CommonList = ({
                 }
             </div>
             <ReactTableWithPagination
-                columns={columns?.length ? columns : getColumns}
+                isBackendDrivenColumns={isBackendDrivenColumns}
+                columns={isBackendDrivenColumns ? getColumns : columns ?? []}
                 endpoint={endpoint}
-                dependencies={[refetch, ...dependencies]}
+                dependencies={dependencies}
                 assetDeleted={assetDeleted}
                 getFetchResponse={(response) => {
                     setTotalCount(response?.data?.metadata?.pagination?.total_items)

@@ -17,6 +17,7 @@ const ReactTable = <T extends RowId>({
     rowCount = CONFIG.DEFAULT_TABLE_SKELETON_ROW_COUNT,
     setFilter,
     filter,
+    isBackendDrivenColumns,
 }: ReactTableProps<T>) => {
     const totalColumns = getHeaderGroups()?.reduce(
         (acc, headerGroup) => acc + headerGroup.headers.length,
@@ -99,51 +100,56 @@ const ReactTable = <T extends RowId>({
                                             )}
                                         </div>
                                     </div>
-                                    <div onClick={(e) => e.stopPropagation()}>
-                                        {(header.column.columnDef.meta as Searchable)
-                                            ?.searchable && (
-                                            <>
-                                                <input
+                                    {isBackendDrivenColumns && (
+                                        <div onClick={(e) => e.stopPropagation()}>
+                                            {(header.column.columnDef.meta as Searchable)
+                                                ?.searchable && (
+                                                <>
+                                                    <input
+                                                        className="filter-input custom-border px-2"
+                                                        placeholder={
+                                                            (
+                                                                header.column.columnDef
+                                                                    .meta as Searchable
+                                                            )?.placeholder ?? "Search"
+                                                        }
+                                                        onChange={(e) => {
+                                                            debouncedSearch(
+                                                                e.target.value.trim(),
+                                                                header.column.id,
+                                                            )
+                                                        }}
+                                                    />
+                                                </>
+                                            )}
+                                            {(header.column.columnDef.meta as Searchable)?.date && (
+                                                <FlatPickrInput
+                                                    customContainerClassName="filter-flatpickr-input"
                                                     className="filter-input custom-border px-2"
-                                                    placeholder={
-                                                        (header.column.columnDef.meta as Searchable)
-                                                            ?.placeholder ?? "Search"
-                                                    }
-                                                    onChange={(e) => {
-                                                        debouncedSearch(
-                                                            e.target.value.trim(),
-                                                            header.column.id,
-                                                        )
+                                                    label=""
+                                                    options={{
+                                                        formatDate: (dateObj) => {
+                                                            return dateObj
+                                                                ? dayjs(dateObj).format(
+                                                                      "DD/MM/YYYY",
+                                                                  )
+                                                                : ""
+                                                        },
                                                     }}
+                                                    onChange={([date]) => {
+                                                        if (date) {
+                                                            setSearchFilter(
+                                                                dayjs(date).format("YYYY-MM-DD"),
+                                                                header.column.id,
+                                                            )
+                                                        } else {
+                                                            setSearchFilter(null, header.column.id)
+                                                        }
+                                                    }}
+                                                    value={filter?.["search"]?.[header.column.id]}
                                                 />
-                                            </>
-                                        )}
-                                        {(header.column.columnDef.meta as Searchable)?.date && (
-                                            <FlatPickrInput
-                                                customContainerClassName="filter-flatpickr-input"
-                                                className="filter-input custom-border px-2"
-                                                label=""
-                                                options={{
-                                                    formatDate: (dateObj) => {
-                                                        return dateObj
-                                                            ? dayjs(dateObj).format("DD/MM/YYYY")
-                                                            : ""
-                                                    },
-                                                }}
-                                                onChange={([date]) => {
-                                                    if (date) {
-                                                        setSearchFilter(
-                                                            dayjs(date).format("YYYY-MM-DD"),
-                                                            header.column.id,
-                                                        )
-                                                    } else {
-                                                        setSearchFilter(null, header.column.id)
-                                                    }
-                                                }}
-                                                value={filter?.["search"]?.[header.column.id]}
-                                            />
-                                        )}
-                                        {/* {(header.column.columnDef.meta as Searchable)?.dropdown && (
+                                            )}
+                                            {/* {(header.column.columnDef.meta as Searchable)?.dropdown && (
                                             <BaseStaticSelect
                                                 className="react-table-base-static-select-dropdown"
                                                 styles={{
@@ -229,7 +235,7 @@ const ReactTable = <T extends RowId>({
                                                 }}
                                             />
                                         )} */}
-                                        {/* {(header.column.columnDef.meta as Searchable)
+                                            {/* {(header.column.columnDef.meta as Searchable)
                                             ?.dynamicDropdown && (
                                             <BaseSelect
                                                 showSlicedLabel={false}
@@ -343,7 +349,8 @@ const ReactTable = <T extends RowId>({
                                                 }}
                                             />
                                         )} */}
-                                    </div>
+                                        </div>
+                                    )}
                                     {header.column.getCanResize() && (
                                         <div
                                             onMouseDown={header.getResizeHandler()}

@@ -4,12 +4,16 @@ export interface UserEmailVerifyPropType {
 }
 
 export interface User {
-    email: string
-    uuid: string
+    country_code: string | null
     first_name: string
-    image?: string
+    last_name: string | null
+    primary_email: string
+    primary_phone: string | null
+    uuid: string
 }
 
 export interface WithAuthPropType {
     user?: User
 }
+
+export type UserWithRole = User & { role: string }

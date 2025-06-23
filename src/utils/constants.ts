@@ -183,6 +183,7 @@ export const CONFIG = {
     },
     PARAMS: {
         REDIRECT_URL_PARAM: "next",
+        EDIT_PARAM: "edit",
     },
     CLIENT_UPLOAD_VIA_FILE: {
         TYPES: [
@@ -262,6 +263,7 @@ export const CONFIG = {
             country: "Country",
             COUNTRY_CODE: "Country code",
             OTP: "OTP",
+            PERMISSION: "Permission",
         },
     },
     USER_ACCESS: [
@@ -299,6 +301,9 @@ export const CONFIG = {
         BASE_OTP_SEND: new URL(`${BASE_API_ENDPOINT}/otp/send`),
         LOGOUT: new URL(`${BASE_API_ENDPOINT}/auth/logout `),
         REFRESH_TOKEN: new URL(`${BASE_API_ENDPOINT}/auth/refresh`),
+        GET_ROLE_DETAIL: new URL(`${BASE_API_ENDPOINT}/role`),
+        CREATE_ROLE: new URL(`${BASE_API_ENDPOINT}/role/create`),
+        EDIT_ROLE: new URL(`${BASE_API_ENDPOINT}/role`),
     },
     OTP_ENDPOINTS: {
         LOGIN: "login",
@@ -369,6 +374,12 @@ export const CONFIG = {
         icon: ALERT_ICON_TYPE.success,
         showConfirmButton: false,
         timer: 5000,
+    },
+    ADD_ROLE_ITEM_STEP_TABS: {
+        details: {
+            label: "Details",
+            path: "details",
+        },
     },
 }
 // Endpoints that do not require authentication

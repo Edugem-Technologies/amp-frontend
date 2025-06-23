@@ -7,10 +7,13 @@ import React from "react"
  * @param {React.ReactNode} props.children - The content to be displayed within the tab section.
  * @returns {JSX.Element} The JSX element to render.
  */
-const TabSection: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const TabSection: React.FC<{ children: React.ReactNode; customClassName?: string }> = ({
+    children,
+    customClassName = "",
+}) => {
     return (
         <div className="show active" id="file-info" role="tabpanel">
-            <div className="card mb-5 mb-xl-10">{children}</div>
+            <div className={`card mb-5 mb-xl-10 ${customClassName}`}>{children}</div>
         </div>
     )
 }

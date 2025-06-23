@@ -30,6 +30,11 @@ $theme-secondary-hover: #5c636a;
 
 // font-sizes
 $navbar-items-fs: 1rem;
+$stepper-list-font-size: 1.285rem;
+$section-title-font-size: 1.142rem;
+$section-sub-title-font-size: 1.142rem;
+$section-title-font-weight: 700;
+$section-sub-title-font-weight: 700;
 
 // custom padding for container-fluid
 $custom-container-fluid-padding: 2rem;
@@ -52,8 +57,9 @@ $opacity: 0;
 }
 
 :root {
+    --color-base-background: whitesmoke;
     --color-background-login-swiper: #f3f9fc;
-    --color-base-font: #000;
+    --color-base-font: #212529;
     --color-base-border: #ced4da;
     --color-theme-primary: #212529;
     --color-theme-secondary: #6c757d;

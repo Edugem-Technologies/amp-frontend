@@ -322,6 +322,7 @@ export const CONFIG = {
     },
     OTP_ENDPOINTS: {
         LOGIN: "login",
+        UPDATE_EMAIL: "update-email",
     },
     COLOR_ARRAY: {
         colorArray: [

@@ -2,8 +2,10 @@ import { CONFIG } from "@/utils/constants"
 import {
     addressSchemaArray,
     getAlphaNumericFieldSchema,
+    getEmailFieldValidationSchema,
     getNameFieldSchema,
     getOptionalAlphaNumericFieldSchema,
+    getOTPFieldSchema,
     getRequiredMultiSelectFieldSchema,
 } from "@/utils/validation"
 import { z } from "zod"
@@ -38,6 +40,16 @@ export const UpdatePasswordSchema = z
         message: CONFIG.VALIDATIONS.MESSAGE.PASSWORD_DO_NOT_MATCH,
     })
 
-export type UpdatePasswordSchemaType = z.infer<typeof UpdatePasswordSchema>
+export const UpdateEmailSchema = z.object({
+    primary_email: getEmailFieldValidationSchema(),
+    otp: getOTPFieldSchema({ length: CONFIG.VALIDATIONS.CHARACTER_LENGTH.CHARS_4 }),
+})
 
+export const SendEmailOTPSchema = UpdateEmailSchema.omit({ otp: true })
+export const VerifyEmailOTPSchema = UpdateEmailSchema.omit({ primary_email: true })
+
+export type UpdatePasswordSchemaType = z.infer<typeof UpdatePasswordSchema>
+export type UpdateEmailSchemaType = z.infer<typeof UpdateEmailSchema>
+export type SendEmailOTPSchemaType = z.infer<typeof SendEmailOTPSchema>
+export type VerifyEmailOTPSchemaType = z.infer<typeof VerifyEmailOTPSchema>
 export type UpdateProfileSchemaType = z.infer<typeof UpdateProfileSchema>

@@ -19,7 +19,7 @@ const Index = () => {
 
     return (
         <div className="tab-content">
-            <PageTitle title="Edit User" />
+            <PageTitle title="Update Profile" />
             <TabSection customClassName="">{renderTabContent()}</TabSection>
         </div>
     )

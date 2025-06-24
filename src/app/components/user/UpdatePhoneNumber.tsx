@@ -5,37 +5,44 @@ import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
 import { showSweetAlert } from "@/utils/helpers"
 import {
-    SendEmailOTPSchema,
-    UpdateEmailSchemaType,
+    SendPhoneNumberOTPSchema,
+    UpdatePhoneNumberSchemaType,
     VerifyOTPSchema,
 } from "@/validations/user/UpdateProfile"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import SendOTP from "../button/SendOTP"
+import CustomPhoneInput from "../common/CustomPhoneInput"
 import FormFooter from "../common/FormFooter"
+import Label from "../input/Label"
 import TextInputField from "../input/TextInput"
 
-const UpdateEmail: React.FC<{ handleClose: () => void }> = ({ handleClose }) => {
+const UpdatePhoneNumber: React.FC<{ handleClose: () => void }> = ({ handleClose }) => {
     const { user } = useAppContext()
     const {
         register,
         handleSubmit,
         watch,
+        setValue,
+        clearErrors,
+        setError,
         formState: { errors, isSubmitting },
-    } = useForm<UpdateEmailSchemaType>({
+    } = useForm<UpdatePhoneNumberSchemaType>({
         resolver: zodResolver(VerifyOTPSchema),
         defaultValues: {
-            primary_email: user?.primary_email,
+            primary_phone: user?.primary_phone,
+            country_code: user?.country_code,
             otp: "",
         },
     })
 
-    const submitHandler = async (data: UpdateEmailSchemaType) => {
+    const submitHandler = async (data: UpdatePhoneNumberSchemaType) => {
         try {
-            const payload: Partial<UpdateEmailSchemaType> = data
-            delete payload.primary_email
+            const payload: Partial<UpdatePhoneNumberSchemaType> = data
+            delete payload.primary_phone
+            delete payload.country_code
             const url = new URL(
-                `${CONFIG.API_ENDPOINTS.BASE_OTP_VERIFY}/${CONFIG.OTP_AND_VERIFY_ENDPOINTS.UPDATE_EMAIL}`,
+                `${CONFIG.API_ENDPOINTS.BASE_OTP_VERIFY}/${CONFIG.OTP_AND_VERIFY_ENDPOINTS.PHONE_NUMBER_UPDATE}`,
             )
             const response = await FetchHelper.patch(url, payload)
             if (response?.status) {
@@ -54,20 +61,31 @@ const UpdateEmail: React.FC<{ handleClose: () => void }> = ({ handleClose }) => 
         <>
             <form className="row form-section mb-0" onSubmit={handleSubmit(submitHandler)}>
                 <div className="col-md-3">
-                    <TextInputField
-                        label="Enter New Email Address"
-                        isRequired
-                        type="text"
-                        autoComplete="false"
-                        className="custom-input"
-                        {...register("primary_email")}
-                        errorMsg={errors?.primary_email?.message}
+                    <Label isRequired label="Enter New Contact Number" />
+                    <CustomPhoneInput
+                        inputClass="form-control form-control-lg form-control-solid 1-100 w-100 custom-phone-input"
+                        value={`${watch("country_code")}${watch("primary_phone")}`}
+                        setPhoneNumberValue={(number) => setValue("primary_phone", number)}
+                        setCountryCodeValue={(countryCode) => setValue("country_code", countryCode)}
+                        clearPhoneNumberErrors={() => {
+                            clearErrors("primary_phone")
+                            clearErrors("country_code")
+                        }}
+                        setPhoneNumberErrors={() =>
+                            setError("primary_phone", {
+                                message: "Invalid phone number",
+                            })
+                        }
+                        errorMessage={
+                            (errors?.primary_phone?.message as string) ||
+                            (errors?.country_code?.message as string)
+                        }
                     />
                     <SendOTP
-                        endpoint={CONFIG.OTP_AND_VERIFY_ENDPOINTS.UPDATE_EMAIL}
+                        endpoint={CONFIG.OTP_AND_VERIFY_ENDPOINTS.PHONE_NUMBER_UPDATE}
                         customClassName="mt-2"
                         payload={watch()}
-                        schema={SendEmailOTPSchema}
+                        schema={SendPhoneNumberOTPSchema}
                     />
                 </div>
 
@@ -84,7 +102,7 @@ const UpdateEmail: React.FC<{ handleClose: () => void }> = ({ handleClose }) => 
                 </div>
 
                 <FormFooter
-                    saveButtonTitle="Update Email"
+                    saveButtonTitle="Update Phone Number"
                     isSubmitting={isSubmitting}
                     handleCancelButton={handleClose}
                 />
@@ -93,4 +111,4 @@ const UpdateEmail: React.FC<{ handleClose: () => void }> = ({ handleClose }) => 
     )
 }
 
-export default UpdateEmail
+export default UpdatePhoneNumber

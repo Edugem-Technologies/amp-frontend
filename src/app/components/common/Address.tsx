@@ -48,7 +48,11 @@ const Address: React.FC<AddressPropType> = ({
 
     return (
         <>
-            <div className="manual-address-fields">
+            <div
+                className={`manual-address-fields ${
+                    (props as AddressPropTypeWithAddMore).index !== 0 ? "mt-4" : ""
+                }`}
+            >
                 <div className="row">
                     <div className={inputColClass}>
                         <TextAreaField

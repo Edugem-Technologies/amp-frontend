@@ -324,6 +324,7 @@ export const CONFIG = {
     OTP_AND_VERIFY_ENDPOINTS: {
         LOGIN: "login",
         UPDATE_EMAIL: "update-email",
+        PHONE_NUMBER_UPDATE: "phone-number-update",
     },
     COLOR_ARRAY: {
         colorArray: [

@@ -6,6 +6,7 @@ import {
     getNameFieldSchema,
     getOptionalAlphaNumericFieldSchema,
     getOTPFieldSchema,
+    getPhoneNumberSchema,
     getRequiredMultiSelectFieldSchema,
 } from "@/utils/validation"
 import { z } from "zod"
@@ -40,16 +41,25 @@ export const UpdatePasswordSchema = z
         message: CONFIG.VALIDATIONS.MESSAGE.PASSWORD_DO_NOT_MATCH,
     })
 
-export const UpdateEmailSchema = z.object({
-    primary_email: getEmailFieldValidationSchema(),
+export const VerifyOTPSchema = z.object({
     otp: getOTPFieldSchema({ length: CONFIG.VALIDATIONS.CHARACTER_LENGTH.CHARS_4 }),
 })
 
-export const SendEmailOTPSchema = UpdateEmailSchema.omit({ otp: true })
-export const VerifyEmailOTPSchema = UpdateEmailSchema.omit({ primary_email: true })
+export const SendEmailOTPSchema = z.object({
+    primary_email: getEmailFieldValidationSchema(),
+})
+export const UpdateEmailSchema = SendEmailOTPSchema.merge(VerifyOTPSchema)
+
+export const SendPhoneNumberOTPSchema = z.object({
+    primary_phone: getPhoneNumberSchema(1),
+    country_code: getPhoneNumberSchema(2),
+})
+export const UpdatePhoneNumberSchema = SendPhoneNumberOTPSchema.merge(VerifyOTPSchema)
 
 export type UpdatePasswordSchemaType = z.infer<typeof UpdatePasswordSchema>
+export type VerifyOTPSchemaType = z.infer<typeof VerifyOTPSchema>
 export type UpdateEmailSchemaType = z.infer<typeof UpdateEmailSchema>
 export type SendEmailOTPSchemaType = z.infer<typeof SendEmailOTPSchema>
-export type VerifyEmailOTPSchemaType = z.infer<typeof VerifyEmailOTPSchema>
+export type UpdatePhoneNumberSchemaType = z.infer<typeof UpdatePhoneNumberSchema>
+export type SendPhoneNumberOTPSchemaType = z.infer<typeof SendPhoneNumberOTPSchema>
 export type UpdateProfileSchemaType = z.infer<typeof UpdateProfileSchema>

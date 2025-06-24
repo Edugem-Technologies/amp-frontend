@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { Dispatch, SetStateAction, useState } from "react"
 import { Controller, useFieldArray, useForm } from "react-hook-form"
+import PrimaryButton from "../button/PrimaryButton"
 import Address from "../common/Address"
 import FormFooter from "../common/FormFooter"
 import ShowFormError from "../common/ShowFormError"
@@ -18,9 +19,9 @@ import TabBody from "../common/TabBody"
 import Label from "../input/Label"
 import RoleSelect from "../input/RoleSelect"
 import TextInputField from "../input/TextInput"
-import UpdatePassword from "./UpdatePassword"
-import PrimaryButton from "../button/PrimaryButton"
 import UpdateEmail from "./UpdateEmail"
+import UpdatePassword from "./UpdatePassword"
+import UpdatePhoneNumber from "./UpdatePhoneNumber"
 
 export interface UserInfoProps {
     userInfo?: User | null
@@ -31,7 +32,7 @@ const UserInfo = () => {
     const { user } = useAppContext()
     const [showUpdatePassword, setShowUpdatePassword] = useState(false)
     const [showUpdateEmail, setShowUpdateEmail] = useState(false)
-
+    const [showUpdatePhoneNumber, setShowUpdatePhoneNumber] = useState(false)
     const {
         control,
         register,
@@ -124,7 +125,7 @@ const UserInfo = () => {
 
     return (
         <TabBody>
-            <form className="card-body" onSubmit={handleSubmit(submitHandler)}>
+            <form className="card-body pb-0" onSubmit={handleSubmit(submitHandler)}>
                 <div className="row form-section">
                     <div className="col-md-12 form-section-title">Basic Details</div>
                     <div className="col-md-3">
@@ -168,31 +169,6 @@ const UserInfo = () => {
                         />
                         <ShowFormError message={errors.roles?.message} />
                     </div>
-
-                    {/* <div className="col-md-3">
-                        <Label isRequired label="Contact Number" />
-                        <CustomPhoneInput
-                            inputClass="form-control form-control-lg form-control-solid 1-100 w-100 custom-phone-input"
-                            value={`${watch("country_code")}${watch("primary_phone")}`}
-                            setPhoneNumberValue={(number) => setValue("primary_phone", number)}
-                            setCountryCodeValue={(countryCode) =>
-                                setValue("country_code", countryCode)
-                            }
-                            clearPhoneNumberErrors={() => {
-                                clearErrors("primary_phone")
-                                clearErrors("country_code")
-                            }}
-                            setPhoneNumberErrors={() =>
-                                setError("primary_phone", {
-                                    message: "Invalid phone number",
-                                })
-                            }
-                            errorMessage={
-                                (errors?.primary_phone?.message as string) ||
-                                (errors?.country_code?.message as string)
-                            }
-                        />
-                    </div> */}
                 </div>
                 <div className="row form-section">
                     <div className="col-md-12 form-section-title">Address Details</div>
@@ -233,7 +209,7 @@ const UserInfo = () => {
                 {showUpdateEmail ? (
                     <UpdateEmail handleClose={() => setShowUpdateEmail(false)} />
                 ) : (
-                    <div className="form-section d-flex flex-wrap">
+                    <div className="form-section d-flex flex-wrap mb-0">
                         <div className="col-md-12 form-section-title">
                             <div className="mb-1">Email Address</div>
                             <div className="fw-normal text-muted fs-6">{user?.primary_email}</div>
@@ -242,6 +218,27 @@ const UserInfo = () => {
                             <PrimaryButton
                                 buttonTitle="Update Email"
                                 onClick={() => setShowUpdateEmail(true)}
+                            />
+                        </div>
+                    </div>
+                )}
+            </div>
+            <hr />
+            <div>
+                {showUpdatePhoneNumber ? (
+                    <UpdatePhoneNumber handleClose={() => setShowUpdatePhoneNumber(false)} />
+                ) : (
+                    <div className="form-section d-flex flex-wrap mb-0">
+                        <div className="col-md-12 form-section-title">
+                            <div className="mb-1">Phone Number</div>
+                            <div className="fw-normal text-muted fs-6">
+                                {`${user?.country_code ?? ""} ${user?.primary_phone ?? ""}`}
+                            </div>
+                        </div>
+                        <div className="ms-auto">
+                            <PrimaryButton
+                                buttonTitle="Update Phone Number"
+                                onClick={() => setShowUpdatePhoneNumber(true)}
                             />
                         </div>
                     </div>

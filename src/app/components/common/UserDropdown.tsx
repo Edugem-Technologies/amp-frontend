@@ -77,12 +77,18 @@ const UserDropdown = () => {
                     }}
                     onMouseLeave={() => setShowDropdown(false)}
                 >
-                    <Card.Body>
-                        <Card.Title>Jane Doe</Card.Title>
-                        <Card.Text>jane@acme.com</Card.Text>
-                    </Card.Body>
                     <ListGroup variant="flush">
-                        <ListGroup.Item action className="cursor-pointer">
+                        <ListGroup.Item>
+                            <Card.Title>Jane Doe</Card.Title>
+                            <Card.Text>jane@acme.com</Card.Text>
+                        </ListGroup.Item>
+                        <ListGroup.Item
+                            action
+                            className="cursor-pointer"
+                            onClick={() =>
+                                router.push(`/profile/${CONFIG.EDIT_USER_STEP_TABS.details.path}`)
+                            }
+                        >
                             My Profile
                         </ListGroup.Item>
                         <ListGroup.Item action className="cursor-pointer" onClick={handleLogout}>

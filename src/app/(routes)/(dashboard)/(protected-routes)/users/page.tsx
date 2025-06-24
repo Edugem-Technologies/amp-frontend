@@ -2,7 +2,7 @@
 import PermissionGuard from "@/app/components/auth/PermissionGuard"
 import CommonCard from "@/app/components/common/CommonCard"
 import CommonList from "@/app/components/common/CommonList"
-import InviteUserModal from "@/app/components/modal/InviteuserModal"
+import InviteUserModal from "@/app/components/modal/InviteUserModal"
 import { usePermissions } from "@/app/context/PermissionContext"
 import { UserStatusEnum } from "@/enums/UserStatusEnum"
 import { permissionJSON } from "@/fixtures/Permission"

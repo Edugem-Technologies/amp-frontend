@@ -2,11 +2,11 @@
 import UserInfo from "@/app/components/auth/UserInfo"
 import CustomSkeleton from "@/app/components/common/CustomSkeleton"
 import { FetchHelper } from "@/services/fetch-helper"
-import { User } from "@/types/auth/user"
+import { User } from "@/types/auth/User"
 import { CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
 import { useParams } from "next/navigation"
-import { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
 
 /**
  * SingleUser component is responsible for fetching and displaying the details of a single user.

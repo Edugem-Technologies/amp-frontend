@@ -50,7 +50,17 @@ const TabBody: React.FC<TabBodyPropType> = ({
                 return <CustomSkeleton rowCount={rowCount} {...props} />
         }
     }
-    return <>{loading ? <div className="card my-5 mb-xl-10 p-8">{getLoader()}</div> : children}</>
+    return (
+        <>
+            {loading ? (
+                <div className={`card my-5 mb-xl-10 p-8 ${loading ? "px-3" : ""}`}>
+                    {getLoader()}
+                </div>
+            ) : (
+                children
+            )}
+        </>
+    )
 }
 
 export default TabBody

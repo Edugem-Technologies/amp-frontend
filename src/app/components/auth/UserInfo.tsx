@@ -1,7 +1,7 @@
 "use client"
 import { useLocalStorageEffect } from "@/app/hooks/useLocalStorageEffect"
 import { FetchHelper } from "@/services/fetch-helper"
-import { User } from "@/types/auth/user"
+import { User } from "@/types/auth/User"
 import { CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
 import { checkValidPhoneNumber, showSweetAlert } from "@/utils/helpers"

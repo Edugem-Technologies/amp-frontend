@@ -41,8 +41,13 @@ const ComponentsPage = () => {
             <IntersectionObserver />
             <br />
             <h2>
-                To check tanstack query implementation, please check{" "}
-                <Link href="/users">Users</Link> page
+                To check UI driven table implementation, please check{" "}
+                <Link href="/users">User listing</Link> page
+            </h2>
+            <br />
+            <h2>
+                To check backend driven table implementation, please check{" "}
+                <Link href="/roles">Role listing</Link> page
             </h2>
             <br />
             <h2>Please click below button for sweetAlert</h2>

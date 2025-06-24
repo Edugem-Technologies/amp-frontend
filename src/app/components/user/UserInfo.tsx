@@ -9,7 +9,7 @@ import { getKeyFromEnumValue, setEncryptedLocalStorageData, showSweetAlert } fro
 import { UpdateProfileSchema, UpdateProfileSchemaType } from "@/validations/user/UpdateProfile"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction, useState } from "react"
 import { Controller, useFieldArray, useForm } from "react-hook-form"
 import Address from "../common/Address"
 import FormFooter from "../common/FormFooter"
@@ -18,6 +18,8 @@ import TabBody from "../common/TabBody"
 import Label from "../input/Label"
 import RoleSelect from "../input/RoleSelect"
 import TextInputField from "../input/TextInput"
+import UpdatePassword from "./UpdatePassword"
+import PrimaryButton from "../button/PrimaryButton"
 
 export interface UserInfoProps {
     userInfo?: User | null
@@ -26,7 +28,7 @@ export interface UserInfoProps {
 const UserInfo = () => {
     const router = useRouter()
     const { user } = useAppContext()
-    // const [showResetPassword, setShowResetPassword] = useState(false)
+    const [showUpdatePassword, setShowUpdatePassword] = useState(false)
 
     const {
         control,
@@ -226,32 +228,24 @@ const UserInfo = () => {
                     saveButtonTitle="Save"
                 />
             </form>
-            {/* <div className="d-flex flex-wrap align-items-center">
-                {showResetPassword ? (
-                    <ResetPassword
-                        userId={userInfo?.uuid as string}
-                        handleClose={() => setShowResetPassword(false)}
-                        setRefetch={setRefetch}
-                        userEmail={userInfo?.primary_email as string}
-                    />
+            <div>
+                {showUpdatePassword ? (
+                    <UpdatePassword handleClose={() => setShowUpdatePassword(false)} />
                 ) : (
-                    <div className="card-body d-flex flex-wrap">
-                        <div id="kt_signin_password">
-                            <div className="fs-6 fw-bold mb-1">Password</div>
-                            <div className="fw-semibold text-gray-600">************</div>
+                    <div className="form-section d-flex flex-wrap">
+                        <div className="col-md-12 form-section-title">
+                            <div className="mb-1">Password</div>
+                            <div className="fw-semibold text-muted">************</div>
                         </div>
-                        <div id="kt_signin_password_button" className="ms-auto">
-                            <button
-                                type="button"
-                                className="btn btn-light btn-active-light-primary"
-                                onClick={() => setShowResetPassword(true)}
-                            >
-                                Reset Password
-                            </button>
+                        <div className="ms-auto">
+                            <PrimaryButton
+                                buttonTitle="Update Password"
+                                onClick={() => setShowUpdatePassword(true)}
+                            />
                         </div>
                     </div>
                 )}
-            </div> */}
+            </div>
         </TabBody>
     )
 }

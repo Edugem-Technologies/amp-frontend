@@ -1,5 +1,5 @@
 "use client"
-import UserInfo from "@/app/components/auth/UserInfo"
+import UserInfo from "@/app/components/user/UserInfo"
 import PageTitle from "@/app/components/common/PageTitle"
 import TabSection from "@/app/components/common/TabSection"
 import { CONFIG } from "@/utils/constants"

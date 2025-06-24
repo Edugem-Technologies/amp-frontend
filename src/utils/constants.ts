@@ -250,6 +250,7 @@ export const CONFIG = {
             VALIDATION_FAILED: "Unable to proceed. \n Please fill in all mandatory fields (*)",
             MAX_INT_LIMIT: `${MAX_INT_LIMIT} is the maximum limit`,
             INVALID_PHONE_NUMBER: "Invalid phone number",
+            PASSWORD_DO_NOT_MATCH: "Password do not match",
         },
         FIELD_NAME: {
             NAME: "Name",
@@ -258,6 +259,8 @@ export const CONFIG = {
             GST: "GST",
             PASSWORD: "Password",
             CONFIRM_PASSWORD: "Confirm password",
+            CURRENT_PASSWORD: "Current password",
+            NEW_PASSWORD: "New password",
             FIRST_NAME: "First name",
             LAST_NAME: "Last name",
             ADDRESS_TYPE: "Address type",
@@ -315,6 +318,7 @@ export const CONFIG = {
         INVITE_USER: new URL(`${BASE_API_ENDPOINT}/user/invite`),
         GET_COLUMN_METADATA: new URL(`${BASE_API_ENDPOINT}/common/column-metadata`),
         UPDATE_USER_DETAILS: new URL(`${BASE_API_ENDPOINT}/user/update`),
+        UPDATE_PASSWORD: new URL(`${BASE_API_ENDPOINT}/user/update/password`),
     },
     OTP_ENDPOINTS: {
         LOGIN: "login",

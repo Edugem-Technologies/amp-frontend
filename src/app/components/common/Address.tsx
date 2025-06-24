@@ -1,27 +1,31 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AddressTypeEnum } from "@/enums/AddressTypeEnum"
-import { AddressData, AddressPropType } from "@/types/components/Address"
+import {
+    AddressData,
+    AddressPropType,
+    AddressPropTypeWithAddMore,
+} from "@/types/components/Address"
 import { Option } from "@/types/components/ReactSelect"
+import { CONFIG } from "@/utils/constants"
 import { getOptionFromEnum } from "@/utils/helpers"
 import React, { useState } from "react"
 import BaseStaticSelect from "../input/BaseStaticSelect"
 import Label from "../input/Label"
 import TextAreaField from "../input/TextArea"
 import TextInputField from "../input/TextInput"
+import AddMore from "./AddMore"
 import ShowFormError from "./ShowFormError"
 
-const Address: React.FC<AddressPropType> = ({ onChange, errors, addressValue }) => {
+const Address: React.FC<AddressPropType> = ({
+    onChange,
+    errors,
+    addressValue,
+    inputColClass = "col-md-6",
+    showAddMore,
+    ...props
+}) => {
     const [manualAddress, setManualAddress] = useState<AddressData>(
-        addressValue
-            ? addressValue
-            : {
-                  address: "",
-                  address_type: "",
-                  city: "",
-                  pincode: "",
-                  country: "",
-                  state: "",
-              },
+        addressValue ? addressValue : CONFIG.ADDRESS_DEFAULT_VALUE,
     )
 
     /**
@@ -46,7 +50,7 @@ const Address: React.FC<AddressPropType> = ({ onChange, errors, addressValue }) 
         <>
             <div className="manual-address-fields">
                 <div className="row">
-                    <div className="col-md-6">
+                    <div className={inputColClass}>
                         <TextAreaField
                             label="Address"
                             className="form-control form-control-solid"
@@ -56,7 +60,7 @@ const Address: React.FC<AddressPropType> = ({ onChange, errors, addressValue }) 
                             errorMsg={errors?.address?.message}
                         />
                     </div>
-                    <div className="col-md-6">
+                    <div className={inputColClass}>
                         <Label label="Address Type" />
                         <BaseStaticSelect
                             value={manualAddress?.address_type}
@@ -67,7 +71,7 @@ const Address: React.FC<AddressPropType> = ({ onChange, errors, addressValue }) 
                         />
                         <ShowFormError message={errors?.address_type?.message} />
                     </div>
-                    <div className="col-md-6">
+                    <div className={inputColClass}>
                         <TextInputField
                             label="City"
                             className="form-control form-control-solid"
@@ -77,7 +81,7 @@ const Address: React.FC<AddressPropType> = ({ onChange, errors, addressValue }) 
                             errorMsg={errors?.city?.message}
                         />
                     </div>
-                    <div className="col-md-6">
+                    <div className={inputColClass}>
                         <TextInputField
                             label="State"
                             className="form-control form-control-solid"
@@ -87,7 +91,7 @@ const Address: React.FC<AddressPropType> = ({ onChange, errors, addressValue }) 
                             errorMsg={errors?.state?.message}
                         />
                     </div>
-                    <div className="col-md-6">
+                    <div className={inputColClass}>
                         <TextInputField
                             label="Pincode"
                             className="form-control form-control-solid"
@@ -97,7 +101,7 @@ const Address: React.FC<AddressPropType> = ({ onChange, errors, addressValue }) 
                             errorMsg={errors?.pincode?.message}
                         />
                     </div>
-                    <div className="col-md-6">
+                    <div className={inputColClass}>
                         <TextInputField
                             label="Country"
                             className="form-control form-control-solid"
@@ -107,6 +111,27 @@ const Address: React.FC<AddressPropType> = ({ onChange, errors, addressValue }) 
                             errorMsg={errors?.country?.message}
                         />
                     </div>
+                    {showAddMore && (
+                        <div className={inputColClass}>
+                            <AddMore
+                                sectionCustomClass={
+                                    (props as AddressPropTypeWithAddMore).addMoreSectionCustomClass
+                                }
+                                index={(props as AddressPropTypeWithAddMore).index}
+                                handleOnClick={() =>
+                                    (props as AddressPropTypeWithAddMore).append(
+                                        CONFIG.ADDRESS_DEFAULT_VALUE,
+                                    )
+                                }
+                                fieldLength={(props as AddressPropTypeWithAddMore).fieldLength}
+                                handleOnRemove={() =>
+                                    (props as AddressPropTypeWithAddMore).remove(
+                                        (props as AddressPropTypeWithAddMore).index,
+                                    )
+                                }
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
         </>

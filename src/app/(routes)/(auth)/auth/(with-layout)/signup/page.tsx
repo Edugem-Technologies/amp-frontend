@@ -34,16 +34,7 @@ const Login = () => {
     } = useForm<SignupSchemaType>({
         resolver: zodResolver(SignupValidationSchema),
         defaultValues: {
-            address: [
-                {
-                    address: "",
-                    address_type: null,
-                    city: null,
-                    country: null,
-                    pincode: null,
-                    state: null,
-                },
-            ],
+            address: [CONFIG.ADDRESS_DEFAULT_VALUE],
         },
     })
 

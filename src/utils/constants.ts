@@ -145,7 +145,7 @@ export const CONFIG = {
         }),
         singleValue: (base: CSSObjectWithLabel) => ({
             ...base,
-            height: "15px",
+            height: "18px",
             color: "#5e6278",
             fontWeight: 500,
             fontSize: "14px",
@@ -314,6 +314,7 @@ export const CONFIG = {
         GET_USERS: new URL(`${BASE_API_ENDPOINT}/user/list`),
         INVITE_USER: new URL(`${BASE_API_ENDPOINT}/user/invite`),
         GET_COLUMN_METADATA: new URL(`${BASE_API_ENDPOINT}/common/column-metadata`),
+        UPDATE_USER_DETAILS: new URL(`${BASE_API_ENDPOINT}/user/update`),
     },
     OTP_ENDPOINTS: {
         LOGIN: "login",
@@ -391,10 +392,24 @@ export const CONFIG = {
             path: "details",
         },
     },
+    EDIT_USER_STEP_TABS: {
+        details: {
+            label: "Details",
+            path: "details",
+        },
+    },
     REACT_TABLE: {
         COLUMN_SIZE: {
             100: 100,
         },
+    },
+    ADDRESS_DEFAULT_VALUE: {
+        address: "",
+        address_type: null,
+        city: null,
+        country: null,
+        pincode: null,
+        state: null,
     },
 }
 // Endpoints that do not require authentication

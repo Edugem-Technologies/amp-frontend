@@ -610,3 +610,26 @@ export const transformOptions = (options: string[]) => {
         },
     }))
 }
+
+/**
+ * Retrieves the key from an enum-like object that corresponds to the given value.
+ *
+ * @param {Object} params - The parameters object.
+ * @param {Any} params.value - The value to search for within the enum object.
+ * @param {AnyObject} params.enumObject - The enum-like object to search.
+ * @returns {string | undefined} The key whose value matches the provided value, or undefined if not found.
+ *
+ * @example
+ * const StatusEnum = { ACTIVE: 1, INACTIVE: 0 };
+ * const key = getKeyFromEnumValue({ value: 1, enumObject: StatusEnum });
+ * // key === "ACTIVE"
+ */
+export const getKeyFromEnumValue = ({
+    value,
+    enumObject,
+}: {
+    value: Any
+    enumObject: AnyObject
+}) => {
+    return Object.keys(enumObject).find((k) => enumObject[k as keyof typeof enumObject] === value)
+}

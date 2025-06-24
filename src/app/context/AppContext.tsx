@@ -1,8 +1,8 @@
 "use client"
+import { UserWithRole } from "@/types/auth/User"
+import { AnyObject } from "@/types/common/helper"
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react"
 import { useMediaQuery } from "../hooks/useMediaQuery"
-import { UserWithRole } from "@/types/auth/user"
-import { AnyObject } from "@/types/common/helper"
 
 // Define the type for your context state
 interface AppContextType {

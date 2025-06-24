@@ -20,8 +20,4 @@ export interface User {
     uuid: string
 }
 
-export interface WithAuthPropType {
-    user?: User
-}
-
-export type UserWithRole = User & { role: string }
+export type UserWithRole = User & { role: string[] }

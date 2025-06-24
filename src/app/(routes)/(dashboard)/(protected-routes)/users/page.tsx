@@ -2,6 +2,7 @@
 import PermissionGuard from "@/app/components/auth/PermissionGuard"
 import CommonCard from "@/app/components/common/CommonCard"
 import CommonList from "@/app/components/common/CommonList"
+import InviteUserModal from "@/app/components/modal/InviteuserModal"
 import { usePermissions } from "@/app/context/PermissionContext"
 import { UserStatusEnum } from "@/enums/UserStatusEnum"
 import { permissionJSON } from "@/fixtures/Permission"
@@ -14,9 +15,9 @@ import { useMemo, useState } from "react"
 
 const Page = () => {
     const { userPermissions } = usePermissions()
-    // const [refetch, setRefetch] = useState(false)
-    // const [userId, setUserId] = useState(null)
+    const [refetch, setRefetch] = useState(false)
     const [isTableView, setIsTableView] = useState(false)
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     const columns = useMemo<ColumnDef<User>[]>(() => {
         return [
@@ -70,10 +71,10 @@ const Page = () => {
                 title="User"
                 customAddButtonTitle="Invite User"
                 tableClassName="action-columns-width"
-                // onAddButton={() => {
-                //     setIsModalOpen(true)
-                // }}
-                // dependencies={[refetch]}
+                onAddButton={() => {
+                    setIsModalOpen(true)
+                }}
+                dependencies={[refetch]}
                 isTableView={isTableView}
                 setIsTableView={setIsTableView}
                 renderGridView={(data) => {
@@ -84,10 +85,6 @@ const Page = () => {
                         editButtonClass: "btn-secondary",
                         email: data.primary_email,
                         role: data.roles,
-                        // onClickEditButton: () => {
-                        //     setIsModalOpen(true)
-                        //     setUserId(data.uuid)
-                        // },
                         status: data?.status,
                         isEditDisabled: data?.status !== UserStatusEnum.ACCEPTED,
                     }
@@ -99,6 +96,16 @@ const Page = () => {
                     )
                 }}
             />
+            {isModalOpen && (
+                <InviteUserModal
+                    onClose={() => {
+                        setIsModalOpen(false)
+                    }}
+                    onAdded={() => {
+                        setRefetch((prev) => !prev)
+                    }}
+                />
+            )}
         </PermissionGuard>
     )
 }

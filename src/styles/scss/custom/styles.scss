@@ -842,6 +842,11 @@ aside.sidebar {
     .form-control {
         border-color: var(--color-base-border);
     }
+    .form-title {
+        font-size: 1.25rem;
+        font-weight: $bold;
+        line-height: 1.5rem;
+    }
     .form-section {
         padding-inline: 1.142rem;
         row-gap: 0.571rem;

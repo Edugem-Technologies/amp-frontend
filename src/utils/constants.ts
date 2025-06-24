@@ -136,14 +136,16 @@ export const CONFIG = {
         },
     },
     DROPDOWN_STYLE: {
+        control: (base: CSSObjectWithLabel) => ({ ...base, minHeight: "33px", maxHeight: "33px" }),
         menu: (base: CSSObjectWithLabel) => ({ ...base, zIndex: "9" }),
         valueContainer: (base: CSSObjectWithLabel) => ({
             ...base,
-            maxHeight: "37px",
             overflow: "auto",
+            maxHeight: "33px",
         }),
         singleValue: (base: CSSObjectWithLabel) => ({
             ...base,
+            height: "15px",
             color: "#5e6278",
             fontWeight: 500,
             fontSize: "14px",
@@ -162,6 +164,8 @@ export const CONFIG = {
             ":hover": { backgroundColor: state.isSelected ? "#242565" : "#DEEBFF" },
             backgroundColor: state.isSelected ? "#242565" : "none",
         }),
+        dropdownIndicator: (base: CSSObjectWithLabel) => ({ ...base, padding: "6px" }),
+        clearIndicator: (base: CSSObjectWithLabel) => ({ ...base, padding: "6px" }),
     },
     COGNITO_CHALLENGE_NAME: {
         CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE: "CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE",
@@ -265,6 +269,7 @@ export const CONFIG = {
             COUNTRY_CODE: "Country code",
             OTP: "OTP",
             PERMISSION: "Permission",
+            ROLE: "Role",
         },
     },
     USER_ACCESS: [
@@ -307,6 +312,7 @@ export const CONFIG = {
         EDIT_ROLE: new URL(`${BASE_API_ENDPOINT}/role`),
         GET_ROLES: new URL(`${BASE_API_ENDPOINT}/role/list`),
         GET_USERS: new URL(`${BASE_API_ENDPOINT}/user/list`),
+        INVITE_USER: new URL(`${BASE_API_ENDPOINT}/user/invite`),
         GET_COLUMN_METADATA: new URL(`${BASE_API_ENDPOINT}/common/column-metadata`),
     },
     OTP_ENDPOINTS: {

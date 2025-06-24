@@ -20,6 +20,7 @@ import RoleSelect from "../input/RoleSelect"
 import TextInputField from "../input/TextInput"
 import UpdatePassword from "./UpdatePassword"
 import PrimaryButton from "../button/PrimaryButton"
+import UpdateEmail from "./UpdateEmail"
 
 export interface UserInfoProps {
     userInfo?: User | null
@@ -29,6 +30,7 @@ const UserInfo = () => {
     const router = useRouter()
     const { user } = useAppContext()
     const [showUpdatePassword, setShowUpdatePassword] = useState(false)
+    const [showUpdateEmail, setShowUpdateEmail] = useState(false)
 
     const {
         control,
@@ -192,7 +194,6 @@ const UserInfo = () => {
                         />
                     </div> */}
                 </div>
-                <hr />
                 <div className="row form-section">
                     <div className="col-md-12 form-section-title">Address Details</div>
                     {addressFields.map((addressField, index) => {
@@ -220,7 +221,6 @@ const UserInfo = () => {
                         )
                     })}
                 </div>
-                <hr />
 
                 <FormFooter
                     isSubmitting={isSubmitting}
@@ -228,6 +228,26 @@ const UserInfo = () => {
                     saveButtonTitle="Save"
                 />
             </form>
+            <hr />
+            <div>
+                {showUpdateEmail ? (
+                    <UpdateEmail handleClose={() => setShowUpdateEmail(false)} />
+                ) : (
+                    <div className="form-section d-flex flex-wrap">
+                        <div className="col-md-12 form-section-title">
+                            <div className="mb-1">Email Address</div>
+                            <div className="fw-normal text-muted fs-6">{user?.primary_email}</div>
+                        </div>
+                        <div className="ms-auto">
+                            <PrimaryButton
+                                buttonTitle="Update Email"
+                                onClick={() => setShowUpdateEmail(true)}
+                            />
+                        </div>
+                    </div>
+                )}
+            </div>
+            <hr />
             <div>
                 {showUpdatePassword ? (
                     <UpdatePassword handleClose={() => setShowUpdatePassword(false)} />
@@ -235,7 +255,7 @@ const UserInfo = () => {
                     <div className="form-section d-flex flex-wrap">
                         <div className="col-md-12 form-section-title">
                             <div className="mb-1">Password</div>
-                            <div className="fw-semibold text-muted">************</div>
+                            <div className="fw-normal text-muted fs-6">************</div>
                         </div>
                         <div className="ms-auto">
                             <PrimaryButton

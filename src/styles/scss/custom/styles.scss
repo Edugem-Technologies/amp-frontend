@@ -995,4 +995,33 @@ aside.sidebar {
             color: #fff;
         }
     }
+
+    // font weight style
+    .fw-lighter {
+        font-weight: lighter !important;
+    }
+
+    .fw-light {
+        font-weight: 300 !important;
+    }
+
+    .fw-normal {
+        font-weight: 400 !important;
+    }
+
+    .fw-medium {
+        font-weight: 500 !important;
+    }
+
+    .fw-semibold {
+        font-weight: 500 !important;
+    }
+
+    .fw-bold {
+        font-weight: 600 !important;
+    }
+
+    .fw-bolder {
+        font-weight: 700 !important;
+    }
 }

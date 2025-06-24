@@ -27,7 +27,7 @@ const EmailOTPLogin: React.FC<LoginFormProps> = ({ hookForm }) => {
                         errorMsg={errors?.primary_email?.message}
                     />
                     <SendOTP
-                        endpoint={CONFIG.OTP_ENDPOINTS.LOGIN}
+                        endpoint={CONFIG.OTP_AND_VERIFY_ENDPOINTS.LOGIN}
                         customClassName="mt-2"
                         payload={watch()}
                         schema={EmailOTPSendSchema}

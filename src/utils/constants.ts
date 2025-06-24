@@ -319,8 +319,9 @@ export const CONFIG = {
         GET_COLUMN_METADATA: new URL(`${BASE_API_ENDPOINT}/common/column-metadata`),
         UPDATE_USER_DETAILS: new URL(`${BASE_API_ENDPOINT}/user/update`),
         UPDATE_PASSWORD: new URL(`${BASE_API_ENDPOINT}/user/update/password`),
+        BASE_OTP_VERIFY: new URL(`${BASE_API_ENDPOINT}/otp/verify`),
     },
-    OTP_ENDPOINTS: {
+    OTP_AND_VERIFY_ENDPOINTS: {
         LOGIN: "login",
         UPDATE_EMAIL: "update-email",
     },

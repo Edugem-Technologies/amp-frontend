@@ -43,7 +43,7 @@ const PhoneOTPLogin: React.FC<LoginFormProps> = ({ hookForm }) => {
                         }
                     />
                     <SendOTP
-                        endpoint={CONFIG.OTP_ENDPOINTS.LOGIN}
+                        endpoint={CONFIG.OTP_AND_VERIFY_ENDPOINTS.LOGIN}
                         customClassName="mt-2"
                         payload={watch()}
                         schema={PhoneOTPSendSchema}

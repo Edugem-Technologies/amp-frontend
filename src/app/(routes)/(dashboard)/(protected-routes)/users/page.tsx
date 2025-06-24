@@ -19,6 +19,7 @@ const Page = () => {
     const [isTableView, setIsTableView] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
 
+    // This is a UI-driven table implementation. You must explicitly define all columns in the frontend and pass them to the CommonList component, setting isBackendDrivenColumns to false. This means the table structure is controlled by the UI code, not dynamically from the backend.
     const columns = useMemo<ColumnDef<User>[]>(() => {
         return [
             {

@@ -23,4 +23,5 @@ export interface User {
     uuid: string
     roles: Role[]
     address_detail: Address[]
+    document: Document[]
 }

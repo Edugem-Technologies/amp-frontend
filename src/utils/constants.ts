@@ -20,6 +20,10 @@ export const CONFIG = {
     FORGOT_PASSWORD_TITLE: "Forgot Password",
     RESET_PASSWORD: "Setup New Password",
     SIGN_UP_TITLE: "Signup",
+    FILE_UPLOAD_STATUS: {
+        PENDING: "pending",
+        COMPLETED: "completed",
+    },
     FILE_TYPE: {
         IMAGE: {
             "image/png": [".png"],
@@ -136,7 +140,7 @@ export const CONFIG = {
         },
     },
     DROPDOWN_STYLE: {
-        control: (base: CSSObjectWithLabel) => ({ ...base, minHeight: "33px", maxHeight: "33px" }),
+        control: (base: CSSObjectWithLabel) => ({ ...base, minHeight: "36px", maxHeight: "36px" }),
         menu: (base: CSSObjectWithLabel) => ({ ...base, zIndex: "9" }),
         valueContainer: (base: CSSObjectWithLabel) => ({
             ...base,
@@ -251,6 +255,7 @@ export const CONFIG = {
             MAX_INT_LIMIT: `${MAX_INT_LIMIT} is the maximum limit`,
             INVALID_PHONE_NUMBER: "Invalid phone number",
             PASSWORD_DO_NOT_MATCH: "Password do not match",
+            ONLY_JPG_PNG_JPEG_ALLOWED: "only jpg, png and jpeg files are accepted",
         },
         FIELD_NAME: {
             NAME: "Name",
@@ -320,10 +325,12 @@ export const CONFIG = {
         UPDATE_USER_DETAILS: new URL(`${BASE_API_ENDPOINT}/user/update`),
         UPDATE_PASSWORD: new URL(`${BASE_API_ENDPOINT}/user/update/password`),
         BASE_OTP_VERIFY: new URL(`${BASE_API_ENDPOINT}/otp/verify`),
+        GET_S3_UPLOAD_URL: new URL(`${BASE_API_ENDPOINT}/document/upload/url`),
+        GET_S3_DOWNLOAD_URL: new URL(`${BASE_API_ENDPOINT}/document/download/url`),
     },
     OTP_AND_VERIFY_ENDPOINTS: {
         LOGIN: "login",
-        UPDATE_EMAIL: "update-email",
+        EMAIL_UPDATE: "email-update",
         PHONE_NUMBER_UPDATE: "phone-number-update",
     },
     COLOR_ARRAY: {
@@ -417,6 +424,10 @@ export const CONFIG = {
         country: null,
         pincode: null,
         state: null,
+    },
+    CODE: {
+        INVALID_FILE_TYPE: "file-invalid-type",
+        FILE_TOO_LARGE: "file-too-large",
     },
 }
 // Endpoints that do not require authentication

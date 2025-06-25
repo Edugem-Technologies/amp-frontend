@@ -1,6 +1,6 @@
 "use client"
-import { useAppContext } from "@/app/context/AppContext"
 import { FetchHelper } from "@/services/fetch-helper"
+import { BaseUpdateUserProps } from "@/types/components/UpdateUser"
 import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
 import { showSweetAlert } from "@/utils/helpers"
@@ -15,8 +15,7 @@ import SendOTP from "../button/SendOTP"
 import FormFooter from "../common/FormFooter"
 import TextInputField from "../input/TextInput"
 
-const UpdateEmail: React.FC<{ handleClose: () => void }> = ({ handleClose }) => {
-    const { user } = useAppContext()
+const UpdateEmail: React.FC<BaseUpdateUserProps> = ({ handleClose, user, setRefetch }) => {
     const {
         register,
         handleSubmit,
@@ -35,7 +34,7 @@ const UpdateEmail: React.FC<{ handleClose: () => void }> = ({ handleClose }) => 
             const payload: Partial<UpdateEmailSchemaType> = data
             delete payload.primary_email
             const url = new URL(
-                `${CONFIG.API_ENDPOINTS.BASE_OTP_VERIFY}/${CONFIG.OTP_AND_VERIFY_ENDPOINTS.UPDATE_EMAIL}`,
+                `${CONFIG.API_ENDPOINTS.BASE_OTP_VERIFY}/${CONFIG.OTP_AND_VERIFY_ENDPOINTS.EMAIL_UPDATE}`,
             )
             const response = await FetchHelper.patch(url, payload)
             if (response?.status) {
@@ -43,6 +42,7 @@ const UpdateEmail: React.FC<{ handleClose: () => void }> = ({ handleClose }) => 
                     icon: ALERT_ICON_TYPE.success,
                     text: response.message,
                 })
+                setRefetch((prev) => !prev)
                 handleClose()
             }
         } catch (error) {
@@ -64,7 +64,7 @@ const UpdateEmail: React.FC<{ handleClose: () => void }> = ({ handleClose }) => 
                         errorMsg={errors?.primary_email?.message}
                     />
                     <SendOTP
-                        endpoint={CONFIG.OTP_AND_VERIFY_ENDPOINTS.UPDATE_EMAIL}
+                        endpoint={CONFIG.OTP_AND_VERIFY_ENDPOINTS.EMAIL_UPDATE}
                         customClassName="mt-2"
                         payload={watch()}
                         schema={SendEmailOTPSchema}

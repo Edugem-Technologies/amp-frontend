@@ -1,4 +1,5 @@
 "use client"
+import { useAppContext } from "@/app/context/AppContext"
 import { FetchHelper } from "@/services/fetch-helper"
 import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
@@ -9,6 +10,7 @@ import { Card, ListGroup } from "react-bootstrap"
 
 const UserDropdown = () => {
     const router = useRouter()
+    const { user } = useAppContext()
     const [showDropdown, setShowDropdown] = useState(false)
     const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null)
 
@@ -86,7 +88,9 @@ const UserDropdown = () => {
                             action
                             className="cursor-pointer"
                             onClick={() =>
-                                router.push(`/profile/${CONFIG.EDIT_USER_STEP_TABS.details.path}`)
+                                router.push(
+                                    `/users/${user?.uuid}/${CONFIG.EDIT_USER_STEP_TABS.details.path}`,
+                                )
                             }
                         >
                             My Profile

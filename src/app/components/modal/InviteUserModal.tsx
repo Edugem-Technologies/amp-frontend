@@ -51,7 +51,7 @@ const InviteUserModal: React.FC<DefaultModalPropType> = ({ onClose, onAdded }) =
                 <TabBody stopVh>
                     <form className="card-body" onSubmit={handleSubmit(submitHandler)}>
                         <div className="row mb-4 form-section">
-                            <div className="col-12">
+                            <div className="col-md-6">
                                 <TextInputField
                                     label="First Name"
                                     isRequired
@@ -59,7 +59,7 @@ const InviteUserModal: React.FC<DefaultModalPropType> = ({ onClose, onAdded }) =
                                     {...register("first_name")}
                                 />
                             </div>
-                            <div className="col-12">
+                            <div className="col-md-6">
                                 <TextInputField
                                     label="Last Name"
                                     errorMsg={errors.last_name?.message}

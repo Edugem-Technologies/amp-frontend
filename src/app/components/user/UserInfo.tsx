@@ -1,19 +1,27 @@
 "use client"
-import { useAppContext } from "@/app/context/AppContext"
 import { AddressTypeEnum } from "@/enums/AddressTypeEnum"
+import { DocumentTypeEnum } from "@/enums/DocumentTypeEnum"
+import { ModuleTypeEnum } from "@/enums/ModuleTypeEnum"
 import { FetchHelper } from "@/services/fetch-helper"
-import { User } from "@/types/auth/User"
+import { Any, AnyObject } from "@/types/common/helper"
 import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
-import { getKeyFromEnumValue, setEncryptedLocalStorageData, showSweetAlert } from "@/utils/helpers"
+import {
+    getKeyFromEnumValue,
+    handleUploadFile,
+    setEncryptedLocalStorageData,
+    showSweetAlert,
+} from "@/utils/helpers"
 import { UpdateProfileSchema, UpdateProfileSchemaType } from "@/validations/user/UpdateProfile"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
-import { Dispatch, SetStateAction, useState } from "react"
+import { useEffect, useState } from "react"
 import { Controller, useFieldArray, useForm } from "react-hook-form"
+import uuid from "uuid-random"
 import PrimaryButton from "../button/PrimaryButton"
 import Address from "../common/Address"
 import FormFooter from "../common/FormFooter"
+import ImageEdit from "../common/ImageEdit"
 import ShowFormError from "../common/ShowFormError"
 import TabBody from "../common/TabBody"
 import Label from "../input/Label"
@@ -22,73 +30,44 @@ import TextInputField from "../input/TextInput"
 import UpdateEmail from "./UpdateEmail"
 import UpdatePassword from "./UpdatePassword"
 import UpdatePhoneNumber from "./UpdatePhoneNumber"
+import { User } from "@/types/auth/User"
 
-export interface UserInfoProps {
-    userInfo?: User | null
-    setRefetch: Dispatch<SetStateAction<boolean>>
-}
 const UserInfo = () => {
     const router = useRouter()
-    const { user } = useAppContext()
     const [showUpdatePassword, setShowUpdatePassword] = useState(false)
     const [showUpdateEmail, setShowUpdateEmail] = useState(false)
     const [showUpdatePhoneNumber, setShowUpdatePhoneNumber] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [user, setUser] = useState<User | null>(null)
+    const [refetch, setRefetch] = useState(false)
     const {
         control,
         register,
         handleSubmit,
         setValue,
         watch,
+        setError,
+        clearErrors,
         trigger,
+        reset,
         formState: { errors, isSubmitting },
     } = useForm<UpdateProfileSchemaType>({
         resolver: zodResolver(UpdateProfileSchema),
-        defaultValues: {
-            // country_code: user?.country_code,
-            // primary_phone: user?.primary_phone,
-            first_name: user?.first_name,
-            last_name: user?.last_name,
-            roles: user?.roles?.length
-                ? user?.roles?.map((role) => {
-                      return {
-                          label: role?.name,
-                          value: role?.uuid,
-                          data: role,
-                      }
-                  })
-                : [],
-            address: user?.address_detail.length
-                ? user.address_detail.map((address) => {
-                      return {
-                          uuid: address?.uuid ?? null,
-                          address: address?.address,
-                          address_type: {
-                              label: getKeyFromEnumValue({
-                                  value: address?.address_type,
-                                  enumObject: AddressTypeEnum,
-                              }),
-                              value: address?.address_type,
-                              data: {
-                                  label: getKeyFromEnumValue({
-                                      value: address?.address_type,
-                                      enumObject: AddressTypeEnum,
-                                  }),
-                                  value: address?.address_type,
-                              },
-                          },
-                          pincode: address?.pincode,
-                          city: address?.city,
-                          state: address?.state,
-                          country: address?.country,
-                      }
-                  })
-                : [CONFIG.ADDRESS_DEFAULT_VALUE],
-        },
     })
     const { fields: addressFields, remove, append } = useFieldArray({ control, name: "address" })
-
     const submitHandler = async (data: UpdateProfileSchemaType) => {
         try {
+            let documents = watch("document") ? [watch("document")] : []
+
+            if (watch("document")?.local_uuid) {
+                const updatedProfilePicture = await handleUploadFile({
+                    fileToUpload: [watch("document")],
+                    documentType: DocumentTypeEnum.PROFILE_IMAGE,
+                    moduleType: ModuleTypeEnum.USER,
+                })
+                documents = updatedProfilePicture
+            }
+
             const updatedAddressData = data?.address?.map((address) => {
                 if (!address?.uuid) {
                     // Create a shallow copy and delete the uuid field if it's null or undefined
@@ -100,6 +79,7 @@ const UserInfo = () => {
             })
             const payload = {
                 ...data,
+                document: documents,
                 address: updatedAddressData,
             }
             const response = await FetchHelper.patch(
@@ -123,11 +103,130 @@ const UserInfo = () => {
         }
     }
 
+    const getUserDetails = async () => {
+        try {
+            setLoading(true)
+            const response: { data: User; status: boolean } = await FetchHelper.get(
+                CONFIG.API_ENDPOINTS.GET_USER_DETAILS,
+            )
+            if (response?.status) {
+                setUser(response?.data)
+                const defaultValues = {
+                    first_name: response?.data?.first_name,
+                    last_name: response?.data?.last_name,
+                    roles: response?.data?.roles?.length
+                        ? response?.data?.roles?.map((role) => {
+                              return {
+                                  label: role?.name,
+                                  value: role?.uuid,
+                                  data: role,
+                              }
+                          })
+                        : [],
+                    address: response?.data?.address_detail.length
+                        ? response?.data?.address_detail.map((address) => {
+                              return {
+                                  uuid: address?.uuid ?? null,
+                                  address: address?.address,
+                                  address_type: {
+                                      label: getKeyFromEnumValue({
+                                          value: address?.address_type,
+                                          enumObject: AddressTypeEnum,
+                                      }),
+                                      value: address?.address_type,
+                                      data: {
+                                          label: getKeyFromEnumValue({
+                                              value: address?.address_type,
+                                              enumObject: AddressTypeEnum,
+                                          }),
+                                          value: address?.address_type,
+                                      },
+                                  },
+                                  pincode: address?.pincode,
+                                  city: address?.city,
+                                  state: address?.state,
+                                  country: address?.country,
+                              }
+                          })
+                        : [CONFIG.ADDRESS_DEFAULT_VALUE],
+                    document: response?.data?.document?.[0],
+                }
+                reset(defaultValues)
+            }
+        } catch (error) {
+            handleError(error)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        getUserDetails()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [refetch])
+
     return (
-        <TabBody>
+        <TabBody loading={loading}>
             <form className="card-body pb-0" onSubmit={handleSubmit(submitHandler)}>
                 <div className="row form-section">
                     <div className="col-md-12 form-section-title">Basic Details</div>
+                    <div className="row">
+                        <div className="col-md-3">
+                            <Label label="Profile Image" />
+                            <br />
+                            <Controller
+                                control={control}
+                                name="document"
+                                render={({ field }) => (
+                                    <ImageEdit
+                                        type={CONFIG.FILE_TYPE.IMAGE}
+                                        disabled={isSubmitting}
+                                        onDrop={async (_file: Any) => {
+                                            const fileUrl = URL.createObjectURL(_file)
+                                            const localUUID = uuid()
+                                            const fileObject: Any = {
+                                                file: _file,
+                                                name: _file.name,
+                                                size: _file.size,
+                                                uuid: localUUID,
+                                                local_uuid: localUUID,
+                                                fileUrl,
+                                                status: CONFIG.FILE_UPLOAD_STATUS.PENDING,
+                                            }
+
+                                            setValue("document", fileObject)
+
+                                            clearErrors("document")
+                                        }}
+                                        onError={(errors: AnyObject) => {
+                                            switch (errors?.code) {
+                                                case CONFIG.CODE.INVALID_FILE_TYPE:
+                                                    setError("document", {
+                                                        message:
+                                                            CONFIG.VALIDATIONS.MESSAGE
+                                                                .ONLY_JPG_PNG_JPEG_ALLOWED,
+                                                    })
+                                                    break
+
+                                                default:
+                                                    setError("document", {
+                                                        message: errors?.message,
+                                                    })
+                                                    break
+                                            }
+                                        }}
+                                        onFileRemove={() => {
+                                            field.onChange(null)
+                                        }}
+                                        file={field.value}
+                                        innerDivcustomClass="d-flex align-items-center"
+                                    />
+                                )}
+                            />
+
+                            <ShowFormError message={errors?.document?.message?.toString()} />
+                        </div>
+                    </div>
                     <div className="col-md-3">
                         <TextInputField
                             label="First Name"
@@ -207,7 +306,11 @@ const UserInfo = () => {
             <hr />
             <div>
                 {showUpdateEmail ? (
-                    <UpdateEmail handleClose={() => setShowUpdateEmail(false)} />
+                    <UpdateEmail
+                        handleClose={() => setShowUpdateEmail(false)}
+                        user={user}
+                        setRefetch={setRefetch}
+                    />
                 ) : (
                     <div className="form-section d-flex flex-wrap mb-0">
                         <div className="col-md-12 form-section-title">
@@ -226,7 +329,11 @@ const UserInfo = () => {
             <hr />
             <div>
                 {showUpdatePhoneNumber ? (
-                    <UpdatePhoneNumber handleClose={() => setShowUpdatePhoneNumber(false)} />
+                    <UpdatePhoneNumber
+                        handleClose={() => setShowUpdatePhoneNumber(false)}
+                        user={user}
+                        setRefetch={setRefetch}
+                    />
                 ) : (
                     <div className="form-section d-flex flex-wrap mb-0">
                         <div className="col-md-12 form-section-title">

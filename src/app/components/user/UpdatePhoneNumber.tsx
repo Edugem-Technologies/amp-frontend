@@ -1,6 +1,6 @@
 "use client"
-import { useAppContext } from "@/app/context/AppContext"
 import { FetchHelper } from "@/services/fetch-helper"
+import { BaseUpdateUserProps } from "@/types/components/UpdateUser"
 import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
 import { showSweetAlert } from "@/utils/helpers"
@@ -17,8 +17,7 @@ import FormFooter from "../common/FormFooter"
 import Label from "../input/Label"
 import TextInputField from "../input/TextInput"
 
-const UpdatePhoneNumber: React.FC<{ handleClose: () => void }> = ({ handleClose }) => {
-    const { user } = useAppContext()
+const UpdatePhoneNumber: React.FC<BaseUpdateUserProps> = ({ handleClose, user, setRefetch }) => {
     const {
         register,
         handleSubmit,
@@ -50,6 +49,7 @@ const UpdatePhoneNumber: React.FC<{ handleClose: () => void }> = ({ handleClose 
                     icon: ALERT_ICON_TYPE.success,
                     text: response.message,
                 })
+                setRefetch((prev) => !prev)
                 handleClose()
             }
         } catch (error) {

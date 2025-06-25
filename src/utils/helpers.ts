@@ -6,6 +6,8 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 import crypto from "crypto-js"
 import { handleError } from "./handle-error"
 import { Role, UserDetails } from "@/types/data/loginData"
+import { FileUpload, uploadedFileType } from "@/types/common/FileUpload"
+import { FetchHelper } from "@/services/fetch-helper"
 
 /**
  * Generates an array of numbers from 1 to the specified length.
@@ -632,4 +634,190 @@ export const getKeyFromEnumValue = ({
     enumObject: AnyObject
 }) => {
     return Object.keys(enumObject).find((k) => enumObject[k as keyof typeof enumObject] === value)
+}
+
+export const convertBytesToMb = (fileSizeBytes: number) => {
+    const fileSizeMb = fileSizeBytes / (1024 * 1024) // Convert bytes to MB (1024 bytes/KB * 1024 KB/MB)
+    return Number(fileSizeMb.toFixed(2))
+}
+
+export const convertBytesToKB = (fileSizeBytes: number) => {
+    const fileSizeMb = fileSizeBytes / 1024 // Convert bytes to MB (1024 bytes/KB * 1024 KB/MB)
+    return Number(fileSizeMb.toFixed(2))
+}
+
+/**
+ * Convert a value in megabytes to gigabytes.
+ *
+ * @param {number} megabytes - The size in megabytes (MB) to be converted.
+ * @returns {number} The size in gigabytes (GB).
+ */
+export const convertMbToGb = (megabytes: number) => {
+    // There are 1024 megabytes in a gigabyte
+    const MB_TO_GB_CONVERSION_FACTOR = 1024
+    // Perform the conversion by dividing the megabytes by the conversion factor
+    const gigabytes = megabytes / MB_TO_GB_CONVERSION_FACTOR
+    return gigabytes
+}
+
+/**
+ * Converts a given file size in megabytes (MB) to bytes.
+ *
+ * @param {number} fileSize - The file size in megabytes to be converted.
+ * @returns {number} - The equivalent file size in bytes, rounded to two decimal places.
+ */
+export const convertMBToBytes = (fileSize: number): number => {
+    const fileSizeinBytes = fileSize * (1024 * 1024)
+    return Number(fileSizeinBytes.toFixed(2))
+}
+
+/**
+ * Converts a given file size in kilobytes (KB) to bytes.
+ *
+ * @param {number} fileSize - The file size in kilobytes to be converted.
+ * @returns {number} - The equivalent file size in bytes, rounded to two decimal places.
+ */
+export const convertKBToBytes = (fileSize: number): number => {
+    const fileSizeinBytes = fileSize * 1024
+    return Number(fileSizeinBytes.toFixed(2))
+}
+
+/**
+ * Uploads a file to the server using a bulk upload API and handles retries on failure.
+ *
+ * @param {uploadedImageType} item - The file item to be uploaded. Contains details about the file.
+ * @param {boolean} [isRetrying=false] - Flag to indicate if the function is being retried after a failure.
+ * @returns {Promise<Object|null>} - A promise that resolves to an object containing upload details, or `null` if the operation fails.
+ *
+ * @typedef {Object} uploadedImageType
+ * @property {File} file - The file object to be uploaded.
+ *
+ * @typedef {Object} ModuleTypeEnum
+ * @property {string} PURCHASE_ORDER - Module type for purchase orders.
+ *
+ * @typedef {Object} ModuleTaskEnum
+ * @property {string} CUSTOMER_PO_UPLOAD_DATA - Task for uploading customer purchase order data.
+ *
+ * @throws {Error} - Propagates the error if retries also fail.
+ *
+ * @example
+ * const fileItem = { file: new File(["content"], "example.txt", { type: "text/plain" }) };
+ * hitBulkUploadApi(fileItem)
+ *   .then((result) => console.log(result))
+ *   .catch((error) => console.error(error));
+ */
+
+export const hitBulkUploadApi = async ({
+    item,
+    isRetrying,
+    moduleType,
+    documentType,
+    isDirectlyUpdateToBackend = true,
+}: FileUpload & {
+    item: uploadedFileType
+}): Promise<Partial<uploadedFileType> | null | undefined> => {
+    try {
+        const payload = {
+            module_type: moduleType,
+            file_name: item.file.name,
+            document_type: documentType,
+        }
+        const response = await FetchHelper.get(CONFIG.API_ENDPOINTS.GET_S3_UPLOAD_URL, payload)
+        if (response?.data?.upload_url) {
+            const uploadUrl = response.data.upload_url
+            await FetchHelper.putFileData(new URL(uploadUrl), item.file, item.file.type)
+            const updatedItemObject = {
+                uuid: null,
+                name: response?.data?.file_name,
+                size: item.file.size,
+                file_format: item.file.type,
+                description: null,
+                module_type: moduleType,
+                document_type: documentType,
+            }
+            return isDirectlyUpdateToBackend
+                ? updatedItemObject
+                : {
+                      ...updatedItemObject,
+                      local_uuid: item?.local_uuid,
+                  }
+            // need to create a array of object to send in edit API
+        }
+    } catch (error) {
+        if (isRetrying) {
+            handleError(error)
+        } else {
+            return hitBulkUploadApi({
+                item,
+                isRetrying: true,
+                moduleType,
+                documentType,
+                isDirectlyUpdateToBackend,
+            })
+        }
+    }
+}
+
+/**
+ * Handles the upload of multiple files sequentially by calling the `hitBulkUploadApi` function for each file.
+ *
+ * @returns {Promise<Object[]>} - A promise that resolves to an array of uploaded file details.
+ * If an error occurs, the function handles it and continues processing the remaining files.
+ *
+ * @throws {Error} - Propagates the error if it occurs during the file upload process.
+ *
+ * @example
+ * handleUploadFile()
+ *   .then((uploadedItems) => console.log(uploadedItems))
+ *   .catch((error) => console.error("Upload failed:", error));
+ */
+export const handleUploadFile = async ({
+    fileToUpload,
+    moduleType,
+    documentType,
+    isDirectlyUpdateToBackend = true,
+}: FileUpload & {
+    fileToUpload: uploadedFileType[]
+}) => {
+    const items = []
+    try {
+        for (const item of fileToUpload) {
+            const _item = await hitBulkUploadApi({
+                documentType,
+                item,
+                moduleType,
+                isRetrying: false,
+                isDirectlyUpdateToBackend,
+            })
+            if (_item) {
+                items.push(_item)
+            }
+        }
+    } catch (error) {
+        handleError(error)
+    }
+    return items
+}
+
+export const getFileUrl = async (file: AnyObject) => {
+    try {
+        if (typeof file === "object") {
+            {
+                if (file?.uuid && !file?.local_uuid) {
+                    const response = await FetchHelper.get(
+                        CONFIG.API_ENDPOINTS.GET_S3_DOWNLOAD_URL,
+                        {
+                            document_uuid: file?.uuid,
+                        },
+                    )
+                    if (response?.data?.download_url) {
+                        return response?.data?.download_url
+                    }
+                }
+            }
+        }
+    } catch (error) {
+        handleError(error)
+        return null
+    }
 }

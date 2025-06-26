@@ -16,6 +16,44 @@ import TextInputField from "../input/TextInput"
 import AddMore from "./AddMore"
 import ShowFormError from "./ShowFormError"
 
+/**
+ * Address component for rendering and managing a single address form section.
+ *
+ * This component provides input fields for address, address type, city, state, pincode, and country.
+ * It supports both single and multiple address entry modes (with "Add More" functionality).
+ * The component manages its own local state for the address fields and notifies the parent
+ * via the `onChange` callback whenever any field is updated.
+ *
+ * Error messages for each field can be displayed via the `errors` prop.
+ *
+ * @component
+ * @param {AddressPropType} props - The props for the Address component.
+ * @param {function} props.onChange - Callback invoked with the updated address object when any field changes.
+ * @param {object} [props.errors] - Error messages for each address field (optional).
+ * @param {AddressData} [props.addressValue] - The current value of the address fields (optional).
+ * @param {string} [props.inputColClass="col-md-6"] - CSS class for input column layout (optional).
+ * @param {boolean} [props.showAddMore] - Whether to show the "Add More" button for multiple addresses (optional).
+ * @param {...any} props - Additional props, including those for multi-address mode (index, append, remove, etc.).
+ *
+ * @example
+ * <Address
+ *   onChange={handleAddressChange}
+ *   errors={formErrors.address}
+ *   addressValue={formValues.address}
+ * />
+ *
+ * @example <caption>With Add More functionality</caption>
+ * <Address
+ *   onChange={handleAddressChange}
+ *   errors={formErrors.address[0]}
+ *   addressValue={formValues.address[0]}
+ *   showAddMore
+ *   index={0}
+ *   append={appendAddress}
+ *   remove={removeAddress}
+ *   fieldLength={formValues.address.length}
+ * />
+ */
 const Address: React.FC<AddressPropType> = ({
     onChange,
     errors,
@@ -34,8 +72,8 @@ const Address: React.FC<AddressPropType> = ({
      * Updates the specified field in the manual address state and triggers the `onChange` callback
      * with the updated address data.
      *
-     * @param field - The name of the address field to update (e.g., "street", "city").
-     * @param value - The new value for the specified address field.
+     * @param {string} field - The name of the address field to update (e.g., "street", "city").
+     * @param {string|Option} value - The new value for the specified address field.
      */
     const handleManualChange = (field: string, value: string | Option) => {
         const updatedAddress = { [field]: value }

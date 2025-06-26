@@ -741,7 +741,6 @@ export const hitBulkUploadApi = async ({
                       ...updatedItemObject,
                       local_uuid: item?.local_uuid,
                   }
-            // need to create a array of object to send in edit API
         }
     } catch (error) {
         if (isRetrying) {
@@ -799,23 +798,39 @@ export const handleUploadFile = async ({
     return items
 }
 
-export const getFileUrl = async (file: AnyObject) => {
+/**
+ * Retrieves the download URL for a file from the server using its UUID.
+ *
+ * This function checks if the provided file object contains a `uuid` property and does not have a `local_uuid` property.
+ * If so, it requests a signed S3 download URL from the backend API. If the API returns a valid download URL,
+ * it is returned; otherwise, null is returned.
+ *
+ * @async
+ * @function getFileUrl
+ * @param {AnyObject} file - The file object, expected to have a `uuid` property for remote files.
+ * @returns {Promise<string|null>} The download URL as a string if available, or null if not found or on error.
+ *
+ * @example
+ * const url = await getFileUrl({ uuid: "abc-123" });
+ * if (url) {
+ *   // Use the download URL
+ * }
+ */
+export const getFileUrl = async (file: AnyObject): Promise<string | null> => {
     try {
         if (typeof file === "object") {
-            {
-                if (file?.uuid && !file?.local_uuid) {
-                    const response = await FetchHelper.get(
-                        CONFIG.API_ENDPOINTS.GET_S3_DOWNLOAD_URL,
-                        {
-                            document_uuid: file?.uuid,
-                        },
-                    )
-                    if (response?.data?.download_url) {
-                        return response?.data?.download_url
-                    }
+            if (file?.uuid && !file?.local_uuid) {
+                const response = await FetchHelper.get(CONFIG.API_ENDPOINTS.GET_S3_DOWNLOAD_URL, {
+                    document_uuid: file?.uuid,
+                })
+                if (response?.data?.download_url) {
+                    return response?.data?.download_url
                 }
+                return null
             }
+            return null
         }
+        return null
     } catch (error) {
         handleError(error)
         return null

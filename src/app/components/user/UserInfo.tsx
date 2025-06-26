@@ -14,7 +14,7 @@ import {
 } from "@/utils/helpers"
 import { UpdateProfileSchema, UpdateProfileSchemaType } from "@/validations/user/UpdateProfile"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useRouter } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Controller, useFieldArray, useForm } from "react-hook-form"
 import uuid from "uuid-random"
@@ -34,6 +34,8 @@ import { User } from "@/types/auth/User"
 
 const UserInfo = () => {
     const router = useRouter()
+    const params = useParams()
+    const user_uuid = params?.id
     const [showUpdatePassword, setShowUpdatePassword] = useState(false)
     const [showUpdateEmail, setShowUpdateEmail] = useState(false)
     const [showUpdatePhoneNumber, setShowUpdatePhoneNumber] = useState(false)
@@ -82,10 +84,8 @@ const UserInfo = () => {
                 document: documents,
                 address: updatedAddressData,
             }
-            const response = await FetchHelper.patch(
-                CONFIG.API_ENDPOINTS.UPDATE_USER_DETAILS,
-                payload,
-            )
+            const url = new URL(`${CONFIG.API_ENDPOINTS.BASE_USER}/${user_uuid}/update`)
+            const response = await FetchHelper.patch(url, payload)
             if (response?.status) {
                 showSweetAlert({
                     text: response?.message,
@@ -106,9 +106,8 @@ const UserInfo = () => {
     const getUserDetails = async () => {
         try {
             setLoading(true)
-            const response: { data: User; status: boolean } = await FetchHelper.get(
-                CONFIG.API_ENDPOINTS.GET_USER_DETAILS,
-            )
+            const url = new URL(`${CONFIG.API_ENDPOINTS.BASE_USER}/${user_uuid}/details`)
+            const response: { data: User; status: boolean } = await FetchHelper.get(url)
             if (response?.status) {
                 setUser(response?.data)
                 const defaultValues = {

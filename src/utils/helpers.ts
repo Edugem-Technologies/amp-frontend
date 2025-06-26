@@ -733,7 +733,7 @@ export const hitBulkUploadApi = async ({
                 file_format: item.file.type,
                 description: null,
                 module_type: moduleType,
-                document_type: documentType,
+                type: documentType,
             }
             return isDirectlyUpdateToBackend
                 ? updatedItemObject

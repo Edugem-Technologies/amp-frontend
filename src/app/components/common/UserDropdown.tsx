@@ -81,8 +81,10 @@ const UserDropdown = () => {
                 >
                     <ListGroup variant="flush">
                         <ListGroup.Item>
-                            <Card.Title>Jane Doe</Card.Title>
-                            <Card.Text>jane@acme.com</Card.Text>
+                            <Card.Title>
+                                {user?.first_name ?? ""} {user?.last_name ?? ""}
+                            </Card.Title>
+                            <Card.Text>{user?.primary_email}</Card.Text>
                         </ListGroup.Item>
                         <ListGroup.Item
                             action

@@ -9,13 +9,14 @@ import { handleError } from "@/utils/handle-error"
 import {
     getKeyFromEnumValue,
     handleUploadFile,
+    hasAccessPermission,
     setEncryptedLocalStorageData,
     showSweetAlert,
 } from "@/utils/helpers"
 import { UpdateProfileSchema, UpdateProfileSchemaType } from "@/validations/user/UpdateProfile"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useParams, useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Controller, useFieldArray, useForm } from "react-hook-form"
 import uuid from "uuid-random"
 import PrimaryButton from "../button/PrimaryButton"
@@ -31,6 +32,9 @@ import UpdateEmail from "./UpdateEmail"
 import UpdatePassword from "./UpdatePassword"
 import UpdatePhoneNumber from "./UpdatePhoneNumber"
 import { User } from "@/types/auth/User"
+import { useAppContext } from "@/app/context/AppContext"
+import { permissionJSON } from "@/fixtures/Permission"
+import { usePermissions } from "@/app/context/PermissionContext"
 
 const UserInfo = () => {
     const router = useRouter()
@@ -42,6 +46,8 @@ const UserInfo = () => {
     const [loading, setLoading] = useState(false)
     const [user, setUser] = useState<User | null>(null)
     const [refetch, setRefetch] = useState(false)
+    const { user: loggedInUser, setUser: setLoggedInUser } = useAppContext()
+    const { userPermissions } = usePermissions()
     const {
         control,
         register,
@@ -56,6 +62,14 @@ const UserInfo = () => {
     } = useForm<UpdateProfileSchemaType>({
         resolver: zodResolver(UpdateProfileSchema),
     })
+
+    const updatedLoggedInUserInfo = useCallback(({ data }: { data: User }) => {
+        if (loggedInUser?.uuid === user_uuid) {
+            setEncryptedLocalStorageData(CONFIG.LOCAL_STORAGE_VARIABLES.USER_DATA, data)
+            setLoggedInUser(data)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
     const { fields: addressFields, remove, append } = useFieldArray({ control, name: "address" })
     const submitHandler = async (data: UpdateProfileSchemaType) => {
         try {
@@ -91,10 +105,7 @@ const UserInfo = () => {
                     text: response?.message,
                     icon: ALERT_ICON_TYPE.success,
                 })
-                setEncryptedLocalStorageData(
-                    CONFIG.LOCAL_STORAGE_VARIABLES.USER_DATA,
-                    response?.data,
-                )
+                updatedLoggedInUserInfo({ data: response?.data })
 
                 // setRefetch((prev) => !prev)
             }
@@ -150,6 +161,7 @@ const UserInfo = () => {
                         : [CONFIG.ADDRESS_DEFAULT_VALUE],
                     document: response?.data?.document?.[0],
                 }
+                updatedLoggedInUserInfo({ data: response?.data })
                 reset(defaultValues)
             }
         } catch (error) {
@@ -257,6 +269,16 @@ const UserInfo = () => {
                             render={({ field }) => (
                                 <>
                                     <RoleSelect
+                                        // Disable the RoleSelect input unless the current user has the "MANAGE" permission for users.
+                                        // This ensures that only users with sufficient privileges (such as admins) can modify user roles.
+                                        isDisabled={
+                                            !hasAccessPermission({
+                                                userPermissions,
+                                                requiredPermissions: [
+                                                    permissionJSON.USER.permissions.MANAGE.code,
+                                                ],
+                                            })
+                                        }
                                         isMulti
                                         onSelected={(role) => field.onChange(role)}
                                         label=""

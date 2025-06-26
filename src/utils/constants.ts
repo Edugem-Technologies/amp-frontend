@@ -314,6 +314,7 @@ export const CONFIG = {
         FORGOT_PASSWORD: new URL(`${BASE_API_ENDPOINT}/auth/forgot-password`),
         RESET_PASSWORD: new URL(`${BASE_API_ENDPOINT}/auth/reset-password`),
         GOOGLE_LOGIN: new URL(`${BASE_API_ENDPOINT}/auth/google/login`),
+        BASE_USER: new URL(`${BASE_API_ENDPOINT}/user`),
         GET_USER_DETAILS: new URL(`${BASE_API_ENDPOINT}/user/details`),
         SIGNUP: new URL(`${BASE_API_ENDPOINT}/auth/signup `),
         BASE_OTP_SEND: new URL(`${BASE_API_ENDPOINT}/otp/send`),

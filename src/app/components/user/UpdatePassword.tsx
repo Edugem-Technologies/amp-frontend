@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import FormFooter from "../common/FormFooter"
 import TextInputField from "../input/TextInput"
+import { useParams } from "next/navigation"
 
 const UpdatePassword: React.FC<{ handleClose: () => void }> = ({ handleClose }) => {
     const {
@@ -22,12 +23,14 @@ const UpdatePassword: React.FC<{ handleClose: () => void }> = ({ handleClose }) 
             confirm_password: "",
         },
     })
+    const params = useParams()
+    const user_uuid = params?.id
 
     const submitHandler = async (data: UpdatePasswordSchemaType) => {
         try {
             const payload: Partial<UpdatePasswordSchemaType> = data
             delete payload.confirm_password
-            const url = new URL(`${CONFIG.API_ENDPOINTS.UPDATE_PASSWORD}`)
+            const url = new URL(`${CONFIG.API_ENDPOINTS.BASE_USER}/${user_uuid}/update/password`)
             const response = await FetchHelper.patch(url, payload)
             if (response?.status) {
                 showSweetAlert({

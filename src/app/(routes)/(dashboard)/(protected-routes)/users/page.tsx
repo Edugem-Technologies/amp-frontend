@@ -2,22 +2,26 @@
 import PermissionGuard from "@/app/components/auth/PermissionGuard"
 import BulkDownloadButton from "@/app/components/button/BulkDownloadButton"
 import BulkUploadButton from "@/app/components/button/BulkUploadButton"
+import ActionColumn from "@/app/components/common/ActionColumn"
 import CommonCard from "@/app/components/common/CommonCard"
 import CommonList from "@/app/components/common/CommonList"
 import InviteUserModal from "@/app/components/modal/InviteUserModal"
+import { useAppContext } from "@/app/context/AppContext"
 import { usePermissions } from "@/app/context/PermissionContext"
 import { ModuleTypeEnum } from "@/enums/ModuleTypeEnum"
-import { UserStatusEnum } from "@/enums/UserStatusEnum"
 import { permissionJSON } from "@/fixtures/Permission"
 import { User } from "@/types/auth/User"
 import { CommonCardInterface } from "@/types/common/CommonCard"
 import { CONFIG } from "@/utils/constants"
 import { hasAccessPermission } from "@/utils/helpers"
 import { ColumnDef } from "@tanstack/react-table"
+import { useRouter } from "next/navigation"
 import { useMemo, useState } from "react"
 
 const Page = () => {
+    const router = useRouter()
     const { userPermissions } = usePermissions()
+    const { user } = useAppContext()
     const [refetch, setRefetch] = useState(false)
     const [isTableView, setIsTableView] = useState(false)
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -51,7 +55,40 @@ const Page = () => {
                 accessorKey: "created_at",
                 cell: ({ row }) => row.original.created_at,
             },
+            {
+                header: "Action",
+                cell: ({ row }) => {
+                    return (
+                        <ActionColumn
+                            // The 'isEditDisabled' property determines whether the edit button for a user card should be disabled.
+                            // It will be set to 'true' (disabled) unless one of the following conditions is met:
+                            //   1. The currently logged-in user is viewing their own user card (i.e., user?.uuid === data.uuid).
+                            //      This allows users to edit their own profile.
+                            //   2. The currently logged-in user has the 'MANAGE' permission for users.
+                            //      This allows users with sufficient privileges (such as admins) to edit any user's profile.
+                            // If neither of these conditions is true, the edit button will be disabled for that user card.
+                            isEditDisable={
+                                !(
+                                    (user?.uuid && user?.uuid === row.original.uuid) ||
+                                    hasAccessPermission({
+                                        userPermissions,
+                                        requiredPermissions: [
+                                            permissionJSON.USER.permissions.MANAGE.code,
+                                        ],
+                                    })
+                                )
+                            }
+                            handleEdit={() => {
+                                router.push(
+                                    `/users/${row.original.uuid}/${CONFIG.EDIT_USER_STEP_TABS.details.path}`,
+                                )
+                            }}
+                        />
+                    )
+                },
+            },
         ]
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
@@ -90,7 +127,24 @@ const Page = () => {
                         email: data.primary_email,
                         role: data.roles,
                         status: data?.status,
-                        isEditDisabled: data?.status !== UserStatusEnum.ACCEPTED,
+                        // The 'isEditDisabled' property determines whether the edit button for a user card should be disabled.
+                        // It will be set to 'true' (disabled) unless one of the following conditions is met:
+                        //   1. The currently logged-in user is viewing their own user card (i.e., user?.uuid === data.uuid).
+                        //      This allows users to edit their own profile.
+                        //   2. The currently logged-in user has the 'MANAGE' permission for users.
+                        //      This allows users with sufficient privileges (such as admins) to edit any user's profile.
+                        // If neither of these conditions is true, the edit button will be disabled for that user card.
+                        isEditDisabled: !(
+                            (user?.uuid && user?.uuid === data.uuid) ||
+                            hasAccessPermission({
+                                userPermissions,
+                                requiredPermissions: [permissionJSON.USER.permissions.MANAGE.code],
+                            })
+                        ),
+                        onClickEditButton: () =>
+                            router.push(
+                                `/users/${data.uuid}/${CONFIG.EDIT_USER_STEP_TABS.details.path}`,
+                            ),
                     }
                     return (
                         <div className="pb-5 h-100">

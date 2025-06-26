@@ -85,6 +85,9 @@ export const CONFIG = {
         USER_DATA: "user_data",
         IS_AUTHENTICATED: "is_authenticated",
     },
+    SESSION_STORAGE_VARIABLES: {
+        PROFILE_IMAGE_URL: "profile_image_url",
+    },
     DROPDOWN_LABEL_SLICE_LIMIT: 80,
     MESSAGES: {
         INVALID_LOGIN_CREDENTIALS: "Invalid email or password",

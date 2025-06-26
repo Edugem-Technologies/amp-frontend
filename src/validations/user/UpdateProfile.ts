@@ -5,9 +5,9 @@ import {
     getEmailFieldValidationSchema,
     getNameFieldSchema,
     getOptionalAlphaNumericFieldSchema,
+    getOptionalMultiSelectFieldSchema,
     getOTPFieldSchema,
     getPhoneNumberSchema,
-    getRequiredMultiSelectFieldSchema,
 } from "@/utils/validation"
 import { z } from "zod"
 
@@ -33,7 +33,7 @@ import { z } from "zod"
 export const UpdateProfileSchema = z.object({
     first_name: getAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.FIRST_NAME),
     last_name: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.LAST_NAME),
-    roles: getRequiredMultiSelectFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.ROLE),
+    roles: getOptionalMultiSelectFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.ROLE),
     address: addressSchemaArray(),
     document: z.any(),
 })

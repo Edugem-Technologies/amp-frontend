@@ -7,10 +7,12 @@ import { Any, AnyObject } from "@/types/common/helper"
 import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
 import {
+    getFileUrl,
     getKeyFromEnumValue,
     handleUploadFile,
     hasAccessPermission,
     setEncryptedLocalStorageData,
+    setEncryptedSessionStorageData,
     showSweetAlert,
 } from "@/utils/helpers"
 import { UpdateProfileSchema, UpdateProfileSchemaType } from "@/validations/user/UpdateProfile"
@@ -105,6 +107,11 @@ const UserInfo = () => {
                     text: response?.message,
                     icon: ALERT_ICON_TYPE.success,
                 })
+                const profileImageURL = await getFileUrl(response?.data?.document[0])
+                setEncryptedSessionStorageData(
+                    CONFIG.SESSION_STORAGE_VARIABLES.PROFILE_IMAGE_URL,
+                    profileImageURL,
+                )
                 updatedLoggedInUserInfo({ data: response?.data })
 
                 // setRefetch((prev) => !prev)
@@ -138,20 +145,22 @@ const UserInfo = () => {
                               return {
                                   uuid: address?.uuid ?? null,
                                   address: address?.address,
-                                  address_type: {
-                                      label: getKeyFromEnumValue({
-                                          value: address?.address_type,
-                                          enumObject: AddressTypeEnum,
-                                      }),
-                                      value: address?.address_type,
-                                      data: {
-                                          label: getKeyFromEnumValue({
-                                              value: address?.address_type,
-                                              enumObject: AddressTypeEnum,
-                                          }),
-                                          value: address?.address_type,
-                                      },
-                                  },
+                                  address_type: address?.address_type
+                                      ? {
+                                            label: getKeyFromEnumValue({
+                                                value: address?.address_type,
+                                                enumObject: AddressTypeEnum,
+                                            }),
+                                            value: address?.address_type,
+                                            data: {
+                                                label: getKeyFromEnumValue({
+                                                    value: address?.address_type,
+                                                    enumObject: AddressTypeEnum,
+                                                }),
+                                                value: address?.address_type,
+                                            },
+                                        }
+                                      : null,
                                   pincode: address?.pincode,
                                   city: address?.city,
                                   state: address?.state,

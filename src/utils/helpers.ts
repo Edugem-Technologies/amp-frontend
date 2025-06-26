@@ -1,13 +1,14 @@
+import { FetchHelper } from "@/services/fetch-helper"
+import { User } from "@/types/auth/User"
+import { FileUpload, uploadedFileType } from "@/types/common/FileUpload"
 import { Any, AnyObject, CheckValidPhoneNumberArgsTyps } from "@/types/common/helper"
+import { Role } from "@/types/data/loginData"
+import crypto from "crypto-js"
 import { isValidNumber, parse } from "libphonenumber-js"
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime"
 import Swal, { SweetAlertIcon, SweetAlertOptions } from "sweetalert2"
 import { ALERT_ICON_TYPE, CONFIG, MAX_INT_LIMIT } from "./constants"
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime"
-import crypto from "crypto-js"
 import { handleError } from "./handle-error"
-import { Role, UserDetails } from "@/types/data/loginData"
-import { FileUpload, uploadedFileType } from "@/types/common/FileUpload"
-import { FetchHelper } from "@/services/fetch-helper"
 
 /**
  * Generates an array of numbers from 1 to the specified length.
@@ -259,7 +260,7 @@ export const encrypt = (text: string) => {
  * @param {string} text - The original key or variable name.
  * @returns {string | null} The hashed key string, or null if input/secret is invalid.
  */
-export const generateSecureLocalStorageKey = (text: string) => {
+export const generateSecureKey = (text: string) => {
     if (text && text.length > 0 && process.env.NEXT_PUBLIC_CRYPTO_SECRET_KEY) {
         // Use HMAC-SHA256 for deterministic key hashing
         return crypto.HmacSHA256(text, process.env.NEXT_PUBLIC_CRYPTO_SECRET_KEY).toString()
@@ -318,7 +319,7 @@ export const decrypt = (encryptedText: string | null) => {
  */
 export const setEncryptedLocalStorageData = (variableName: string, data: Any) => {
     const encryptedData = encrypt(JSON.stringify(data))
-    const encryptedVariableName = generateSecureLocalStorageKey(variableName)
+    const encryptedVariableName = generateSecureKey(variableName)
     if (encryptedData && encryptedVariableName) {
         localStorage.setItem(encryptedVariableName, encryptedData)
     }
@@ -343,7 +344,7 @@ export const setEncryptedLocalStorageData = (variableName: string, data: Any) =>
  * }
  */
 export const getDecryptedLocalStorageData = (variableName: string) => {
-    const encryptedVariableName = generateSecureLocalStorageKey(variableName)
+    const encryptedVariableName = generateSecureKey(variableName)
     if (!encryptedVariableName) return null
 
     const encryptedData = localStorage.getItem(encryptedVariableName)
@@ -356,6 +357,65 @@ export const getDecryptedLocalStorageData = (variableName: string) => {
     } catch (e) {
         // eslint-disable-next-line no-console
         console.error("Failed to parse decrypted localStorage data:", e)
+        return null
+    }
+}
+
+/**
+ * Encrypts and stores data in sessionStorage under a deterministically hashed key.
+ *
+ * This function:
+ * 1. Serializes the provided data to a JSON string.
+ * 2. Encrypts the JSON string using a secret key.
+ * 3. Hashes the variable name deterministically to generate a secure storage key.
+ * 4. Stores the encrypted data in sessionStorage under the hashed key.
+ *
+ * @param {string} variableName - The original name of the variable to use as the storage key.
+ * @param {any} data - The data to be encrypted and stored (will be JSON-stringified).
+ *
+ * @example
+ * setEncryptedSessionStorageData('sessionUser', { name: 'Bob', age: 25 });
+ */
+export const setEncryptedSessionStorageData = (variableName: string, data: Any) => {
+    const encryptedData = encrypt(JSON.stringify(data))
+    const encryptedVariableName = generateSecureKey(variableName)
+    if (encryptedData && encryptedVariableName) {
+        sessionStorage.setItem(encryptedVariableName, encryptedData)
+    }
+}
+
+/**
+ * Retrieves and decrypts data from sessionStorage using a securely generated key.
+ *
+ * This function:
+ * 1. Generates a secure, deterministic key from the provided variable name.
+ * 2. Retrieves the encrypted data from sessionStorage using the secure key.
+ * 3. Decrypts the data.
+ * 4. Parses the decrypted data as JSON and returns the result.
+ *
+ * @param {string} variableName - The original name of the variable to retrieve from sessionStorage.
+ * @returns {any | null} The decrypted and parsed data from sessionStorage, or null if not found or on error.
+ *
+ * @example
+ * const sessionData = getDecryptedSessionStorageData('sessionUser');
+ * if (sessionData) {
+ *   // Use sessionData
+ * }
+ */
+export const getDecryptedSessionStorageData = (variableName: string) => {
+    const encryptedVariableName = generateSecureKey(variableName)
+    if (!encryptedVariableName) return null
+
+    const encryptedData = sessionStorage.getItem(encryptedVariableName)
+
+    const decryptedData = decrypt(encryptedData)
+    if (!decryptedData) return null
+
+    try {
+        return JSON.parse(decryptedData)
+    } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error("Failed to parse decrypted sessionStorage data:", e)
         return null
     }
 }
@@ -409,7 +469,7 @@ export function formatTextToTitleCase(text: string): string {
  * - The user's roles are converted to a comma-separated string and included in the stored user data.
  * - Any errors encountered during the process are handled by the `handleError` function.
  */
-export const setLoginDetailsToLocalStorage = ({
+export const setLoginDetailsToLocalStorage = async ({
     permissions,
     roles,
     userDetails,
@@ -417,7 +477,7 @@ export const setLoginDetailsToLocalStorage = ({
 }: {
     permissions: string[]
     roles: Role[]
-    userDetails: UserDetails
+    userDetails: User
     setUserPermissions: (permissions: string[]) => void
 }) => {
     try {
@@ -427,6 +487,13 @@ export const setLoginDetailsToLocalStorage = ({
         setEncryptedLocalStorageData(CONFIG.LOCAL_STORAGE_VARIABLES.USER_DATA, userData)
         setUserPermissions(permissions)
         setIsAuthenticated()
+        if (userDetails?.document?.length) {
+            const profileImageURL = await getFileUrl(userDetails?.document[0])
+            setEncryptedSessionStorageData(
+                CONFIG.SESSION_STORAGE_VARIABLES.PROFILE_IMAGE_URL,
+                profileImageURL,
+            )
+        }
     } catch (error) {
         handleError(error)
     }

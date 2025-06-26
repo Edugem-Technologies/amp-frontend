@@ -334,6 +334,7 @@ export const CONFIG = {
         DOWNLOAD_BULK_UPLOAD_SAMPLE_FILE: new URL(`${BASE_API_ENDPOINT}/bulk-upload/sample`),
         BULK_UPLOAD: new URL(`${BASE_API_ENDPOINT}/bulk-upload`),
         BULK_DOWNLOAD: new URL(`${BASE_API_ENDPOINT}/bulk-download`),
+        GET_QUEUE_TASKS: new URL(`${BASE_API_ENDPOINT}/queue-task/list`),
     },
     OTP_AND_VERIFY_ENDPOINTS: {
         LOGIN: "login",

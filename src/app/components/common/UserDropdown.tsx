@@ -17,9 +17,7 @@ const UserDropdown = () => {
     const { user } = useAppContext()
     const [showDropdown, setShowDropdown] = useState(false)
     const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null)
-    const [profileImageURL, setProfileImageURL] = useState<string | null>(
-        getDecryptedSessionStorageData(CONFIG.SESSION_STORAGE_VARIABLES.PROFILE_IMAGE_URL),
-    )
+    const [profileImageURL, setProfileImageURL] = useState<string | null>(null)
 
     const setCustomTimeout = (ms: number, cb: () => void) => {
         if (timerId) {

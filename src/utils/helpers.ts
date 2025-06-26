@@ -895,3 +895,46 @@ export const createFileObjectForS3Upload = (file: File) => {
     }
     return fileObject
 }
+
+/**
+ * Dynamically loads the Google reCAPTCHA v3 script into the document.
+ *
+ * This function appends a script tag to the document body with the reCAPTCHA API,
+ * using the site key specified in the environment variable NEXT_PUBLIC_GOOGLE_CAPTCHA_SITE_KEY.
+ *
+ * @function loadRecaptcha
+ * @example
+ * // Call this before using grecaptcha methods
+ * loadRecaptcha();
+ */
+export const loadRecaptcha = () => {
+    const script = document.createElement("script")
+    script.src = `https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_GOOGLE_CAPTCHA_SITE_KEY}`
+    script.id = "recaptcha-script"
+    script.async = true
+    document.body.append(script)
+}
+
+/**
+ * Removes the Google reCAPTCHA v3 script and badge from the document.
+ *
+ * This function removes the script tag with id "recaptcha-script" and the first
+ * element with class "grecaptcha-badge" from the DOM, if they exist.
+ * Useful for cleaning up reCAPTCHA resources when navigating away from a page.
+ *
+ * @function removeRecaptcha
+ * @example
+ * // Call this to clean up reCAPTCHA resources
+ * removeRecaptcha();
+ */
+export const removeRecaptcha = () => {
+    const script = document.getElementById("recaptcha-script")
+    if (script) {
+        script.remove()
+    }
+
+    const recaptchaElems = document.getElementsByClassName("grecaptcha-badge")
+    if (recaptchaElems.length) {
+        recaptchaElems[0].remove()
+    }
+}

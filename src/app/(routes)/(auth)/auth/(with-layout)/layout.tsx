@@ -1,14 +1,22 @@
 "use client"
 import LoginSwiperSection from "@/app/components/common/LoginSwiperSection"
+import { loadRecaptcha, removeRecaptcha } from "@/utils/helpers"
 import dynamic from "next/dynamic"
 import { usePathname } from "next/navigation"
-import React from "react"
+import React, { useEffect } from "react"
 import toast from "react-hot-toast"
 const Toaster = dynamic(() => import("react-hot-toast").then(({ Toaster }) => Toaster), {
     ssr: false,
 })
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    // Load Google reCAPTCHA script when the layout mounts, and clean up by removing it when the layout unmounts.
+    useEffect(() => {
+        loadRecaptcha()
+        return () => {
+            removeRecaptcha()
+        }
+    }, [])
     toast.remove()
     const pathName = usePathname()
     const isSignUpPage = pathName.includes("signup")

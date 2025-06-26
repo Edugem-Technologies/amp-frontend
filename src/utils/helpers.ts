@@ -8,6 +8,7 @@ import { handleError } from "./handle-error"
 import { Role, UserDetails } from "@/types/data/loginData"
 import { FileUpload, uploadedFileType } from "@/types/common/FileUpload"
 import { FetchHelper } from "@/services/fetch-helper"
+import uuid from "uuid-random"
 
 /**
  * Generates an array of numbers from 1 to the specified length.
@@ -683,6 +684,26 @@ export const convertKBToBytes = (fileSize: number): number => {
 }
 
 /**
+ * Formats a file size value in kilobytes (KB) into a human-readable string.
+ *
+ * If the file size is greater than 1024 KB, it is converted to megabytes (MB) and formatted with two decimal places.
+ * Otherwise, the value is displayed in kilobytes (KB) with two decimal places.
+ *
+ * @param {number} fileSizeValueInKb - The file size in kilobytes (KB) to format.
+ * @returns {string} The formatted file size string (e.g., "512.00 kb" or "1.23 mb").
+ *
+ * @example
+ * formatFileSize(500);    // "500.00 kb"
+ * formatFileSize(2048);   // "2.05 mb"
+ */
+export const formatFileSize = (fileSizeValueInKb: number): string => {
+    if (fileSizeValueInKb > 1024) {
+        return `${(fileSizeValueInKb / 1000).toFixed(2)} mb`
+    }
+    return `${fileSizeValueInKb.toFixed(2)} kb`
+}
+
+/**
  * Uploads a file to the server using a bulk upload API and handles retries on failure.
  *
  * @param {uploadedImageType} item - The file item to be uploaded. Contains details about the file.
@@ -835,4 +856,42 @@ export const getFileUrl = async (file: AnyObject): Promise<string | null> => {
         handleError(error)
         return null
     }
+}
+
+/**
+ * Creates a file object suitable for S3 upload operations.
+ *
+ * This function generates a local object URL for the provided file and assigns a unique local UUID.
+ * The returned object contains metadata and status information required for upload tracking.
+ *
+ * @function createFileObjectForS3Upload
+ * @param {File} file - The file to be prepared for S3 upload.
+ * @returns {Any} An object containing:
+ *   - file: The original File object.
+ *   - name: The file's name.
+ *   - size: The file's size in bytes.
+ *   - uuid: A generated local UUID for tracking.
+ *   - local_uuid: Same as uuid, for local identification.
+ *   - fileUrl: A local object URL for previewing the file.
+ *   - status: The initial upload status (pending).
+ *
+ * @example
+ * const fileInput = document.querySelector('input[type="file"]');
+ * const file = fileInput.files[0];
+ * const fileObj = createFileObjectForS3Upload(file);
+ * // fileObj can now be used for upload and preview
+ */
+export const createFileObjectForS3Upload = (file: File) => {
+    const fileUrl = URL.createObjectURL(file)
+    const localUUID = uuid()
+    const fileObject: Any = {
+        file,
+        name: file.name,
+        size: file.size,
+        uuid: localUUID,
+        local_uuid: localUUID,
+        fileUrl,
+        status: CONFIG.FILE_UPLOAD_STATUS.PENDING,
+    }
+    return fileObject
 }

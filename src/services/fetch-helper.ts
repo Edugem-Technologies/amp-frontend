@@ -156,4 +156,23 @@ export const FetchHelper = {
         }).then(parseResponse)
         // no need for catch here as we don't want to swallow errors
     },
+    /**
+     * Performs a GET request and returns the response as a Blob.
+     * Useful for downloading files or binary data from the server.
+     *
+     * @async
+     * @function getBlobResponse
+     * @memberof FetchHelper
+     * @param {URL} url - The URL to fetch.
+     * @param {Params} [params] - Optional parameters to append to the URL query string.
+     * @returns {Promise<Blob>} A promise resolving to the response Blob.
+     *
+     * @example
+     * const blob = await FetchHelper.getBlobResponse(new URL('/api/file'), { id: 123 });
+     * // Use blob to create a download link or process binary data
+     */
+    getBlobResponse: async (url: URL, params?: Params): Promise<Blob> => {
+        url = appendParams(url, params)
+        return await axiosInstance({ url: url.toString(), method: "GET", responseType: "blob" })
+    },
 }

@@ -1087,4 +1087,126 @@ aside.sidebar {
             }
         }
     }
+
+    // Bulk upload modal styles
+    .stepper {
+        .stepper-list {
+            flex-direction: column-reverse;
+        }
+        .step {
+            min-height: 85px;
+        }
+        .line {
+            height: 50px !important;
+            width: 2px;
+            background-color: lightgrey !important;
+        }
+        .lead {
+            font-weight: $regular;
+            font-size: 0.875rem;
+            padding-block: 0.5rem;
+            margin-bottom: 0 !important;
+        }
+    }
+    .bulk-upload-dropzone {
+        height: 200px;
+    }
+
+    // Pdf file preview styles
+    .dropzone {
+        .dz-preview,
+        .dz-preview:hover {
+            z-index: 0;
+        }
+
+        .dz-preview {
+            border-radius: 0.475rem !important;
+            margin: 0.75rem;
+            display: inline-block;
+            vertical-align: top;
+            min-height: 100px;
+
+            &.dz-file-preview {
+                .dz-image {
+                    background: aliceblue;
+                    border-radius: 0.475rem !important;
+                    z-index: 1;
+                    overflow: hidden;
+                    width: 120px;
+                    height: 120px;
+                    position: relative;
+                    display: block;
+
+                    img {
+                        display: block;
+                    }
+                }
+
+                .dz-details {
+                    opacity: 1;
+                }
+            }
+
+            .dz-details {
+                z-index: 20;
+                position: absolute;
+                top: 0;
+                left: 0;
+                opacity: 0;
+                font-size: 13px;
+                min-width: 100%;
+                max-width: 100%;
+                padding: 2em 1em;
+                text-align: center;
+                color: rgba(0, 0, 0, 0.9);
+                line-height: 150%;
+
+                .dz-size {
+                    margin-bottom: 1em;
+                    font-size: 16px;
+                }
+
+                .dz-filename {
+                    white-space: nowrap;
+
+                    &:not(:hover) {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+                    &:hover {
+                        white-space: normal;
+                    }
+
+                    span {
+                        background-color: white;
+                    }
+                }
+            }
+
+            .dz-error-mark,
+            .dz-success-mark {
+                pointer-events: none;
+                opacity: 0;
+                z-index: 500;
+                position: absolute;
+                display: block;
+                top: 50%;
+                left: 50%;
+                margin-left: -27px;
+                margin-top: -27px;
+            }
+        }
+    }
+    .file-preview-cross-btn {
+        top: -8px;
+        z-index: 2;
+        right: -20px;
+        border-radius: 20px;
+        cursor: pointer !important;
+        background: rgba(255, 255, 255, 0.6);
+        img {
+            cursor: pointer !important;
+        }
+    }
 }

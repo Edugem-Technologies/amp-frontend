@@ -3,7 +3,7 @@ import AuthGuard from "@/app/components/auth/AuthGuard"
 import { useAppContext } from "@/app/context/AppContext"
 import { usePermissions } from "@/app/context/PermissionContext"
 import { CONFIG } from "@/utils/constants"
-import { generateSecureLocalStorageKey, getDecryptedLocalStorageData } from "@/utils/helpers"
+import { generateSecureKey, getDecryptedLocalStorageData } from "@/utils/helpers"
 import React, { ReactNode, useEffect } from "react"
 
 const Template: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -44,16 +44,10 @@ const Template: React.FC<{ children: ReactNode }> = ({ children }) => {
         // If the "permissions" or "user_data" keys are changed (e.g., user logs in/out elsewhere),
         // it updates the permissions and user data in the current tab accordingly.
         const handleStorageChange = (event: StorageEvent) => {
-            if (
-                event.key ===
-                generateSecureLocalStorageKey(CONFIG.LOCAL_STORAGE_VARIABLES.PERMISSIONS)
-            ) {
+            if (event.key === generateSecureKey(CONFIG.LOCAL_STORAGE_VARIABLES.PERMISSIONS)) {
                 setPermission()
             }
-            if (
-                event.key ===
-                generateSecureLocalStorageKey(CONFIG.LOCAL_STORAGE_VARIABLES.USER_DATA)
-            ) {
+            if (event.key === generateSecureKey(CONFIG.LOCAL_STORAGE_VARIABLES.USER_DATA)) {
                 setUserData()
             }
         }

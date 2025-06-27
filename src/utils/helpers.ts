@@ -1005,3 +1005,34 @@ export const removeRecaptcha = () => {
         recaptchaElems[0].remove()
     }
 }
+
+/**
+ * Executes a provided async callback function after successfully obtaining a Google reCAPTCHA v3 token.
+ *
+ * This function ensures that the reCAPTCHA script is ready, then executes the reCAPTCHA action
+ * using the site key from the environment variable. If successful, it calls the provided callback.
+ * If an error occurs during the reCAPTCHA process, it is handled by the global error handler.
+ *
+ * @function executeWithRecaptcha
+ * @param {() => Promise<void>} callback - The async function to execute after reCAPTCHA validation.
+ * @returns {Promise<void>} Resolves when the callback completes, or rejects if an error occurs.
+ *
+ * @example
+ * executeWithRecaptcha(async () => {
+ *   // Your protected logic here, e.g., form submission
+ * });
+ */
+export const executeWithRecaptcha = async (callback: () => Promise<void>) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
+    grecaptcha.ready(() => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        grecaptcha
+            .execute(process.env.NEXT_PUBLIC_GOOGLE_CAPTCHA_SITE_KEY, { action: "submit" })
+            .then(callback)
+            .catch((error: Any) => {
+                handleError(error)
+            })
+    })
+}

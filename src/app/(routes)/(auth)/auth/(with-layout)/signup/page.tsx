@@ -8,10 +8,9 @@ import ShowFormError from "@/app/components/common/ShowFormError"
 import Label from "@/app/components/input/Label"
 import TextInputField from "@/app/components/input/TextInput"
 import { FetchHelper } from "@/services/fetch-helper"
-import { Any } from "@/types/common/helper"
 import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
-import { showSweetAlertWithRedirect } from "@/utils/helpers"
+import { executeWithRecaptcha, showSweetAlertWithRedirect } from "@/utils/helpers"
 import { SignupSchemaType, SignupValidationSchema } from "@/validations/auth/Signup"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
@@ -42,30 +41,16 @@ const Login = () => {
 
     const submitHandler = async (data: SignupSchemaType) => {
         try {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            //@ts-ignore
-            // We use grecaptcha to prevent automated abuse and ensure that the signup request is made by a real user.
-            grecaptcha.ready(() => {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                //@ts-ignore
-                grecaptcha
-                    .execute(process.env.NEXT_PUBLIC_GOOGLE_CAPTCHA_SITE_KEY, {
-                        action: "submit",
+            executeWithRecaptcha(async () => {
+                const response = await FetchHelper.post(CONFIG.API_ENDPOINTS.SIGNUP, data)
+                if (response?.status) {
+                    showSweetAlertWithRedirect({
+                        text: response.message,
+                        icon: ALERT_ICON_TYPE.success,
+                        router,
+                        url: "/auth/login",
                     })
-                    .then(async () => {
-                        const response = await FetchHelper.post(CONFIG.API_ENDPOINTS.SIGNUP, data)
-                        if (response?.status) {
-                            showSweetAlertWithRedirect({
-                                text: response.message,
-                                icon: ALERT_ICON_TYPE.success,
-                                router,
-                                url: "/auth/login",
-                            })
-                        }
-                    })
-                    .catch((error: Any) => {
-                        handleError(error)
-                    })
+                }
             })
         } catch (error) {
             handleError(error)

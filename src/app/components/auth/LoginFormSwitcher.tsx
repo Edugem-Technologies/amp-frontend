@@ -4,7 +4,11 @@ import { AuthMethodEnum, LoginTypeEnum } from "@/enums/LoginTypeEnum"
 import { FetchHelper } from "@/services/fetch-helper"
 import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
-import { setLoginDetailsToLocalStorage, showSweetAlertWithRedirect } from "@/utils/helpers"
+import {
+    executeWithRecaptcha,
+    setLoginDetailsToLocalStorage,
+    showSweetAlertWithRedirect,
+} from "@/utils/helpers"
 import {
     EmailOTPLoginSchema,
     EmailPasswordLoginSchema,
@@ -24,7 +28,6 @@ import EmailOTPLogin from "./EmailOTPLogin"
 import EmailPasswordLogin from "./EmailPasswordLogin"
 import PhoneOTPLogin from "./PhoneOTPLogin"
 import PhonePasswordLogin from "./PhonePasswordLogin"
-import { Any } from "@/types/common/helper"
 
 /**
  * LoginFormSwitcher is a React component that provides a dynamic login form
@@ -101,33 +104,22 @@ const LoginFormSwitcher = () => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             //@ts-ignore
             // We use grecaptcha to prevent automated abuse and ensure that the login request is made by a real user.
-            grecaptcha.ready(() => {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                //@ts-ignore
-                grecaptcha
-                    .execute(process.env.NEXT_PUBLIC_GOOGLE_CAPTCHA_SITE_KEY, {
-                        action: "submit",
+            executeWithRecaptcha(async () => {
+                const response = await FetchHelper.post(CONFIG.API_ENDPOINTS.LOGIN, data)
+                if (response?.status) {
+                    setLoginDetailsToLocalStorage({
+                        permissions: response.data.permissions,
+                        roles: response.data.roles,
+                        setUserPermissions,
+                        userDetails: response.data.user,
                     })
-                    .then(async () => {
-                        const response = await FetchHelper.post(CONFIG.API_ENDPOINTS.LOGIN, data)
-                        if (response?.status) {
-                            setLoginDetailsToLocalStorage({
-                                permissions: response.data.permissions,
-                                roles: response.data.roles,
-                                setUserPermissions,
-                                userDetails: response.data.user,
-                            })
-                            showSweetAlertWithRedirect({
-                                text: response.message,
-                                icon: ALERT_ICON_TYPE.success,
-                                router,
-                                url: redirectUrl,
-                            })
-                        }
+                    showSweetAlertWithRedirect({
+                        text: response.message,
+                        icon: ALERT_ICON_TYPE.success,
+                        router,
+                        url: redirectUrl,
                     })
-                    .catch((error: Any) => {
-                        handleError(error)
-                    })
+                }
             })
         } catch (error) {
             handleError(error)

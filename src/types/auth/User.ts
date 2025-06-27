@@ -1,3 +1,6 @@
+import { Address } from "../data/Address"
+import { Role } from "../data/loginData"
+
 export interface UserEmailVerifyPropType {
     verification_code: string
     email: string
@@ -18,6 +21,7 @@ export interface User {
     updated_at: string
     updated_by: string | null
     uuid: string
+    roles: Role[]
+    address_detail: Address[]
+    document: Document[]
 }
-
-export type UserWithRole = User & { role: string[] }

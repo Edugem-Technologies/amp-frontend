@@ -1067,6 +1067,7 @@ export const validGSTNumberSchema = (
 
 export const addressSchema = () =>
     z.object({
+        uuid: getValueorNullTransformedSchema(),
         address_type: getValueorNullTransformedSchema(),
         address: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.ADDRESS),
         pincode: getOptionalAlphaNumericFieldSchema(CONFIG.VALIDATIONS.FIELD_NAME.PINCODE),

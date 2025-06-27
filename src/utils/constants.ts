@@ -20,6 +20,10 @@ export const CONFIG = {
     FORGOT_PASSWORD_TITLE: "Forgot Password",
     RESET_PASSWORD: "Setup New Password",
     SIGN_UP_TITLE: "Signup",
+    FILE_UPLOAD_STATUS: {
+        PENDING: "pending",
+        COMPLETED: "completed",
+    },
     FILE_TYPE: {
         IMAGE: {
             "image/png": [".png"],
@@ -81,6 +85,9 @@ export const CONFIG = {
         USER_DATA: "user_data",
         IS_AUTHENTICATED: "is_authenticated",
     },
+    SESSION_STORAGE_VARIABLES: {
+        PROFILE_IMAGE_URL: "profile_image_url",
+    },
     DROPDOWN_LABEL_SLICE_LIMIT: 80,
     MESSAGES: {
         INVALID_LOGIN_CREDENTIALS: "Invalid email or password",
@@ -136,7 +143,7 @@ export const CONFIG = {
         },
     },
     DROPDOWN_STYLE: {
-        control: (base: CSSObjectWithLabel) => ({ ...base, minHeight: "33px", maxHeight: "33px" }),
+        control: (base: CSSObjectWithLabel) => ({ ...base, minHeight: "36px", maxHeight: "36px" }),
         menu: (base: CSSObjectWithLabel) => ({ ...base, zIndex: "9" }),
         valueContainer: (base: CSSObjectWithLabel) => ({
             ...base,
@@ -145,7 +152,7 @@ export const CONFIG = {
         }),
         singleValue: (base: CSSObjectWithLabel) => ({
             ...base,
-            height: "15px",
+            height: "18px",
             color: "#5e6278",
             fontWeight: 500,
             fontSize: "14px",
@@ -250,6 +257,8 @@ export const CONFIG = {
             VALIDATION_FAILED: "Unable to proceed. \n Please fill in all mandatory fields (*)",
             MAX_INT_LIMIT: `${MAX_INT_LIMIT} is the maximum limit`,
             INVALID_PHONE_NUMBER: "Invalid phone number",
+            PASSWORD_DO_NOT_MATCH: "Password do not match",
+            ONLY_JPG_PNG_JPEG_ALLOWED: "only jpg, png and jpeg files are accepted",
         },
         FIELD_NAME: {
             NAME: "Name",
@@ -258,6 +267,8 @@ export const CONFIG = {
             GST: "GST",
             PASSWORD: "Password",
             CONFIRM_PASSWORD: "Confirm password",
+            CURRENT_PASSWORD: "Current password",
+            NEW_PASSWORD: "New password",
             FIRST_NAME: "First name",
             LAST_NAME: "Last name",
             ADDRESS_TYPE: "Address type",
@@ -302,6 +313,7 @@ export const CONFIG = {
         FORGOT_PASSWORD: new URL(`${BASE_API_ENDPOINT}/auth/forgot-password`),
         RESET_PASSWORD: new URL(`${BASE_API_ENDPOINT}/auth/reset-password`),
         GOOGLE_LOGIN: new URL(`${BASE_API_ENDPOINT}/auth/google/login`),
+        BASE_USER: new URL(`${BASE_API_ENDPOINT}/user`),
         GET_USER_DETAILS: new URL(`${BASE_API_ENDPOINT}/user/details`),
         SIGNUP: new URL(`${BASE_API_ENDPOINT}/auth/signup `),
         BASE_OTP_SEND: new URL(`${BASE_API_ENDPOINT}/otp/send`),
@@ -314,9 +326,16 @@ export const CONFIG = {
         GET_USERS: new URL(`${BASE_API_ENDPOINT}/user/list`),
         INVITE_USER: new URL(`${BASE_API_ENDPOINT}/user/invite`),
         GET_COLUMN_METADATA: new URL(`${BASE_API_ENDPOINT}/common/column-metadata`),
+        UPDATE_USER_DETAILS: new URL(`${BASE_API_ENDPOINT}/user/update`),
+        UPDATE_PASSWORD: new URL(`${BASE_API_ENDPOINT}/user/update/password`),
+        BASE_OTP_VERIFY: new URL(`${BASE_API_ENDPOINT}/otp/verify`),
+        GET_S3_UPLOAD_URL: new URL(`${BASE_API_ENDPOINT}/document/upload/url`),
+        GET_S3_DOWNLOAD_URL: new URL(`${BASE_API_ENDPOINT}/document/download/url`),
     },
-    OTP_ENDPOINTS: {
+    OTP_AND_VERIFY_ENDPOINTS: {
         LOGIN: "login",
+        EMAIL_UPDATE: "email-update",
+        PHONE_NUMBER_UPDATE: "phone-number-update",
     },
     COLOR_ARRAY: {
         colorArray: [
@@ -391,10 +410,28 @@ export const CONFIG = {
             path: "details",
         },
     },
+    EDIT_USER_STEP_TABS: {
+        details: {
+            label: "Details",
+            path: "details",
+        },
+    },
     REACT_TABLE: {
         COLUMN_SIZE: {
             100: 100,
         },
+    },
+    ADDRESS_DEFAULT_VALUE: {
+        address: "",
+        address_type: null,
+        city: null,
+        country: null,
+        pincode: null,
+        state: null,
+    },
+    CODE: {
+        INVALID_FILE_TYPE: "file-invalid-type",
+        FILE_TOO_LARGE: "file-too-large",
     },
 }
 // Endpoints that do not require authentication

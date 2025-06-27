@@ -1,16 +1,23 @@
 "use client"
+import { useAppContext } from "@/app/context/AppContext"
 import { FetchHelper } from "@/services/fetch-helper"
 import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
-import { removeIsAuthenticated, showSweetAlertWithRedirect } from "@/utils/helpers"
+import {
+    getDecryptedSessionStorageData,
+    removeIsAuthenticated,
+    showSweetAlertWithRedirect,
+} from "@/utils/helpers"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Card, ListGroup } from "react-bootstrap"
 
 const UserDropdown = () => {
     const router = useRouter()
+    const { user } = useAppContext()
     const [showDropdown, setShowDropdown] = useState(false)
     const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null)
+    const [profileImageURL, setProfileImageURL] = useState<string | null>(null)
 
     const setCustomTimeout = (ms: number, cb: () => void) => {
         if (timerId) {
@@ -50,6 +57,17 @@ const UserDropdown = () => {
             }
         }
     })
+    useEffect(() => {
+        setProfileImageURL(
+            getDecryptedSessionStorageData(CONFIG.SESSION_STORAGE_VARIABLES.PROFILE_IMAGE_URL),
+        )
+    }, [user])
+
+    /**
+     * Call this function after updating the profile image in sessionStorage
+     * to notify all listeners in the current tab.
+     * Example: window.dispatchEvent(new Event("profileImageChanged"))
+     */
 
     return (
         <div
@@ -63,7 +81,10 @@ const UserDropdown = () => {
         >
             {/* Profile Icon */}
             <img
-                src="https://images.unsplash.com/photo-1640960543409-dbe56ccc30e2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8dXNlcnxlbnwwfHwwfHx8MA%3D%3D"
+                src={
+                    profileImageURL ??
+                    "https://images.unsplash.com/photo-1640960543409-dbe56ccc30e2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8dXNlcnxlbnwwfHwwfHx8MA%3D%3D"
+                }
                 alt="Profile Icon"
                 className="profile-icon"
             />
@@ -77,12 +98,22 @@ const UserDropdown = () => {
                     }}
                     onMouseLeave={() => setShowDropdown(false)}
                 >
-                    <Card.Body>
-                        <Card.Title>Jane Doe</Card.Title>
-                        <Card.Text>jane@acme.com</Card.Text>
-                    </Card.Body>
                     <ListGroup variant="flush">
-                        <ListGroup.Item action className="cursor-pointer">
+                        <ListGroup.Item>
+                            <Card.Title>
+                                {user?.first_name ?? ""} {user?.last_name ?? ""}
+                            </Card.Title>
+                            <Card.Text>{user?.primary_email}</Card.Text>
+                        </ListGroup.Item>
+                        <ListGroup.Item
+                            action
+                            className="cursor-pointer"
+                            onClick={() =>
+                                router.push(
+                                    `/users/${user?.uuid}/${CONFIG.EDIT_USER_STEP_TABS.details.path}`,
+                                )
+                            }
+                        >
                             My Profile
                         </ListGroup.Item>
                         <ListGroup.Item action className="cursor-pointer" onClick={handleLogout}>

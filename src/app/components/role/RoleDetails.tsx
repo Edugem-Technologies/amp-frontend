@@ -166,7 +166,7 @@ const RoleDetails = () => {
             <TabBody loading={loading}>
                 <form className="card-body" onSubmit={handleSubmit(submitHandler)}>
                     <div className="row form-section">
-                        <div className="col-md-12 form-section-title">Details</div>
+                        <div className="col-md-12 form-section-title">Basic Details</div>
                         <div className="col-md-3">
                             <TextInputField
                                 label="Name"

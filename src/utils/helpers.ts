@@ -1,11 +1,14 @@
+import { FetchHelper } from "@/services/fetch-helper"
+import { User } from "@/types/auth/User"
+import { FileUpload, uploadedFileType } from "@/types/common/FileUpload"
 import { Any, AnyObject, CheckValidPhoneNumberArgsTyps } from "@/types/common/helper"
+import { Role } from "@/types/data/loginData"
+import crypto from "crypto-js"
 import { isValidNumber, parse } from "libphonenumber-js"
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime"
 import Swal, { SweetAlertIcon, SweetAlertOptions } from "sweetalert2"
 import { ALERT_ICON_TYPE, CONFIG, MAX_INT_LIMIT } from "./constants"
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime"
-import crypto from "crypto-js"
 import { handleError } from "./handle-error"
-import { Role, UserDetails } from "@/types/data/loginData"
 
 /**
  * Generates an array of numbers from 1 to the specified length.
@@ -257,7 +260,7 @@ export const encrypt = (text: string) => {
  * @param {string} text - The original key or variable name.
  * @returns {string | null} The hashed key string, or null if input/secret is invalid.
  */
-export const generateSecureLocalStorageKey = (text: string) => {
+export const generateSecureKey = (text: string) => {
     if (text && text.length > 0 && process.env.NEXT_PUBLIC_CRYPTO_SECRET_KEY) {
         // Use HMAC-SHA256 for deterministic key hashing
         return crypto.HmacSHA256(text, process.env.NEXT_PUBLIC_CRYPTO_SECRET_KEY).toString()
@@ -316,7 +319,7 @@ export const decrypt = (encryptedText: string | null) => {
  */
 export const setEncryptedLocalStorageData = (variableName: string, data: Any) => {
     const encryptedData = encrypt(JSON.stringify(data))
-    const encryptedVariableName = generateSecureLocalStorageKey(variableName)
+    const encryptedVariableName = generateSecureKey(variableName)
     if (encryptedData && encryptedVariableName) {
         localStorage.setItem(encryptedVariableName, encryptedData)
     }
@@ -341,7 +344,7 @@ export const setEncryptedLocalStorageData = (variableName: string, data: Any) =>
  * }
  */
 export const getDecryptedLocalStorageData = (variableName: string) => {
-    const encryptedVariableName = generateSecureLocalStorageKey(variableName)
+    const encryptedVariableName = generateSecureKey(variableName)
     if (!encryptedVariableName) return null
 
     const encryptedData = localStorage.getItem(encryptedVariableName)
@@ -354,6 +357,65 @@ export const getDecryptedLocalStorageData = (variableName: string) => {
     } catch (e) {
         // eslint-disable-next-line no-console
         console.error("Failed to parse decrypted localStorage data:", e)
+        return null
+    }
+}
+
+/**
+ * Encrypts and stores data in sessionStorage under a deterministically hashed key.
+ *
+ * This function:
+ * 1. Serializes the provided data to a JSON string.
+ * 2. Encrypts the JSON string using a secret key.
+ * 3. Hashes the variable name deterministically to generate a secure storage key.
+ * 4. Stores the encrypted data in sessionStorage under the hashed key.
+ *
+ * @param {string} variableName - The original name of the variable to use as the storage key.
+ * @param {any} data - The data to be encrypted and stored (will be JSON-stringified).
+ *
+ * @example
+ * setEncryptedSessionStorageData('sessionUser', { name: 'Bob', age: 25 });
+ */
+export const setEncryptedSessionStorageData = (variableName: string, data: Any) => {
+    const encryptedData = encrypt(JSON.stringify(data))
+    const encryptedVariableName = generateSecureKey(variableName)
+    if (encryptedData && encryptedVariableName) {
+        sessionStorage.setItem(encryptedVariableName, encryptedData)
+    }
+}
+
+/**
+ * Retrieves and decrypts data from sessionStorage using a securely generated key.
+ *
+ * This function:
+ * 1. Generates a secure, deterministic key from the provided variable name.
+ * 2. Retrieves the encrypted data from sessionStorage using the secure key.
+ * 3. Decrypts the data.
+ * 4. Parses the decrypted data as JSON and returns the result.
+ *
+ * @param {string} variableName - The original name of the variable to retrieve from sessionStorage.
+ * @returns {any | null} The decrypted and parsed data from sessionStorage, or null if not found or on error.
+ *
+ * @example
+ * const sessionData = getDecryptedSessionStorageData('sessionUser');
+ * if (sessionData) {
+ *   // Use sessionData
+ * }
+ */
+export const getDecryptedSessionStorageData = (variableName: string) => {
+    const encryptedVariableName = generateSecureKey(variableName)
+    if (!encryptedVariableName) return null
+
+    const encryptedData = sessionStorage.getItem(encryptedVariableName)
+
+    const decryptedData = decrypt(encryptedData)
+    if (!decryptedData) return null
+
+    try {
+        return JSON.parse(decryptedData)
+    } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error("Failed to parse decrypted sessionStorage data:", e)
         return null
     }
 }
@@ -407,7 +469,7 @@ export function formatTextToTitleCase(text: string): string {
  * - The user's roles are converted to a comma-separated string and included in the stored user data.
  * - Any errors encountered during the process are handled by the `handleError` function.
  */
-export const setLoginDetailsToLocalStorage = ({
+export const setLoginDetailsToLocalStorage = async ({
     permissions,
     roles,
     userDetails,
@@ -415,7 +477,7 @@ export const setLoginDetailsToLocalStorage = ({
 }: {
     permissions: string[]
     roles: Role[]
-    userDetails: UserDetails
+    userDetails: User
     setUserPermissions: (permissions: string[]) => void
 }) => {
     try {
@@ -425,6 +487,13 @@ export const setLoginDetailsToLocalStorage = ({
         setEncryptedLocalStorageData(CONFIG.LOCAL_STORAGE_VARIABLES.USER_DATA, userData)
         setUserPermissions(permissions)
         setIsAuthenticated()
+        if (userDetails?.document?.length) {
+            const profileImageURL = await getFileUrl(userDetails?.document[0])
+            setEncryptedSessionStorageData(
+                CONFIG.SESSION_STORAGE_VARIABLES.PROFILE_IMAGE_URL,
+                profileImageURL,
+            )
+        }
     } catch (error) {
         handleError(error)
     }
@@ -609,4 +678,228 @@ export const transformOptions = (options: string[]) => {
             value: option,
         },
     }))
+}
+
+/**
+ * Retrieves the key from an enum-like object that corresponds to the given value.
+ *
+ * @param {Object} params - The parameters object.
+ * @param {Any} params.value - The value to search for within the enum object.
+ * @param {AnyObject} params.enumObject - The enum-like object to search.
+ * @returns {string | undefined} The key whose value matches the provided value, or undefined if not found.
+ *
+ * @example
+ * const StatusEnum = { ACTIVE: 1, INACTIVE: 0 };
+ * const key = getKeyFromEnumValue({ value: 1, enumObject: StatusEnum });
+ * // key === "ACTIVE"
+ */
+export const getKeyFromEnumValue = ({
+    value,
+    enumObject,
+}: {
+    value: Any
+    enumObject: AnyObject
+}) => {
+    return Object.keys(enumObject).find((k) => enumObject[k as keyof typeof enumObject] === value)
+}
+
+export const convertBytesToMb = (fileSizeBytes: number) => {
+    const fileSizeMb = fileSizeBytes / (1024 * 1024) // Convert bytes to MB (1024 bytes/KB * 1024 KB/MB)
+    return Number(fileSizeMb.toFixed(2))
+}
+
+export const convertBytesToKB = (fileSizeBytes: number) => {
+    const fileSizeMb = fileSizeBytes / 1024 // Convert bytes to MB (1024 bytes/KB * 1024 KB/MB)
+    return Number(fileSizeMb.toFixed(2))
+}
+
+/**
+ * Convert a value in megabytes to gigabytes.
+ *
+ * @param {number} megabytes - The size in megabytes (MB) to be converted.
+ * @returns {number} The size in gigabytes (GB).
+ */
+export const convertMbToGb = (megabytes: number) => {
+    // There are 1024 megabytes in a gigabyte
+    const MB_TO_GB_CONVERSION_FACTOR = 1024
+    // Perform the conversion by dividing the megabytes by the conversion factor
+    const gigabytes = megabytes / MB_TO_GB_CONVERSION_FACTOR
+    return gigabytes
+}
+
+/**
+ * Converts a given file size in megabytes (MB) to bytes.
+ *
+ * @param {number} fileSize - The file size in megabytes to be converted.
+ * @returns {number} - The equivalent file size in bytes, rounded to two decimal places.
+ */
+export const convertMBToBytes = (fileSize: number): number => {
+    const fileSizeinBytes = fileSize * (1024 * 1024)
+    return Number(fileSizeinBytes.toFixed(2))
+}
+
+/**
+ * Converts a given file size in kilobytes (KB) to bytes.
+ *
+ * @param {number} fileSize - The file size in kilobytes to be converted.
+ * @returns {number} - The equivalent file size in bytes, rounded to two decimal places.
+ */
+export const convertKBToBytes = (fileSize: number): number => {
+    const fileSizeinBytes = fileSize * 1024
+    return Number(fileSizeinBytes.toFixed(2))
+}
+
+/**
+ * Uploads a file to the server using a bulk upload API and handles retries on failure.
+ *
+ * @param {uploadedImageType} item - The file item to be uploaded. Contains details about the file.
+ * @param {boolean} [isRetrying=false] - Flag to indicate if the function is being retried after a failure.
+ * @returns {Promise<Object|null>} - A promise that resolves to an object containing upload details, or `null` if the operation fails.
+ *
+ * @typedef {Object} uploadedImageType
+ * @property {File} file - The file object to be uploaded.
+ *
+ * @typedef {Object} ModuleTypeEnum
+ * @property {string} PURCHASE_ORDER - Module type for purchase orders.
+ *
+ * @typedef {Object} ModuleTaskEnum
+ * @property {string} CUSTOMER_PO_UPLOAD_DATA - Task for uploading customer purchase order data.
+ *
+ * @throws {Error} - Propagates the error if retries also fail.
+ *
+ * @example
+ * const fileItem = { file: new File(["content"], "example.txt", { type: "text/plain" }) };
+ * hitBulkUploadApi(fileItem)
+ *   .then((result) => console.log(result))
+ *   .catch((error) => console.error(error));
+ */
+
+export const hitBulkUploadApi = async ({
+    item,
+    isRetrying,
+    moduleType,
+    documentType,
+    isDirectlyUpdateToBackend = true,
+}: FileUpload & {
+    item: uploadedFileType
+}): Promise<Partial<uploadedFileType> | null | undefined> => {
+    try {
+        const payload = {
+            module_type: moduleType,
+            file_name: item.file.name,
+            document_type: documentType,
+        }
+        const response = await FetchHelper.get(CONFIG.API_ENDPOINTS.GET_S3_UPLOAD_URL, payload)
+        if (response?.data?.upload_url) {
+            const uploadUrl = response.data.upload_url
+            await FetchHelper.putFileData(new URL(uploadUrl), item.file, item.file.type)
+            const updatedItemObject = {
+                uuid: null,
+                name: response?.data?.file_name,
+                size: item.file.size,
+                file_format: item.file.type,
+                description: null,
+                module_type: moduleType,
+                type: documentType,
+            }
+            return isDirectlyUpdateToBackend
+                ? updatedItemObject
+                : {
+                      ...updatedItemObject,
+                      local_uuid: item?.local_uuid,
+                  }
+        }
+    } catch (error) {
+        if (isRetrying) {
+            handleError(error)
+        } else {
+            return hitBulkUploadApi({
+                item,
+                isRetrying: true,
+                moduleType,
+                documentType,
+                isDirectlyUpdateToBackend,
+            })
+        }
+    }
+}
+
+/**
+ * Handles the upload of multiple files sequentially by calling the `hitBulkUploadApi` function for each file.
+ *
+ * @returns {Promise<Object[]>} - A promise that resolves to an array of uploaded file details.
+ * If an error occurs, the function handles it and continues processing the remaining files.
+ *
+ * @throws {Error} - Propagates the error if it occurs during the file upload process.
+ *
+ * @example
+ * handleUploadFile()
+ *   .then((uploadedItems) => console.log(uploadedItems))
+ *   .catch((error) => console.error("Upload failed:", error));
+ */
+export const handleUploadFile = async ({
+    fileToUpload,
+    moduleType,
+    documentType,
+    isDirectlyUpdateToBackend = true,
+}: FileUpload & {
+    fileToUpload: uploadedFileType[]
+}) => {
+    const items = []
+    try {
+        for (const item of fileToUpload) {
+            const _item = await hitBulkUploadApi({
+                documentType,
+                item,
+                moduleType,
+                isRetrying: false,
+                isDirectlyUpdateToBackend,
+            })
+            if (_item) {
+                items.push(_item)
+            }
+        }
+    } catch (error) {
+        handleError(error)
+    }
+    return items
+}
+
+/**
+ * Retrieves the download URL for a file from the server using its UUID.
+ *
+ * This function checks if the provided file object contains a `uuid` property and does not have a `local_uuid` property.
+ * If so, it requests a signed S3 download URL from the backend API. If the API returns a valid download URL,
+ * it is returned; otherwise, null is returned.
+ *
+ * @async
+ * @function getFileUrl
+ * @param {AnyObject} file - The file object, expected to have a `uuid` property for remote files.
+ * @returns {Promise<string|null>} The download URL as a string if available, or null if not found or on error.
+ *
+ * @example
+ * const url = await getFileUrl({ uuid: "abc-123" });
+ * if (url) {
+ *   // Use the download URL
+ * }
+ */
+export const getFileUrl = async (file: AnyObject): Promise<string | null> => {
+    try {
+        if (typeof file === "object") {
+            if (file?.uuid && !file?.local_uuid) {
+                const response = await FetchHelper.get(CONFIG.API_ENDPOINTS.GET_S3_DOWNLOAD_URL, {
+                    document_uuid: file?.uuid,
+                })
+                if (response?.data?.download_url) {
+                    return response?.data?.download_url
+                }
+                return null
+            }
+            return null
+        }
+        return null
+    } catch (error) {
+        handleError(error)
+        return null
+    }
 }

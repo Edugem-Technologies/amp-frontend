@@ -1,5 +1,5 @@
 "use client"
-import { UserWithRole } from "@/types/auth/User"
+import { User } from "@/types/auth/User"
 import { AnyObject } from "@/types/common/helper"
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react"
 import { useMediaQuery } from "../hooks/useMediaQuery"
@@ -10,8 +10,8 @@ interface AppContextType {
     setState: (value: string) => void
     sidebarCollapse: boolean
     setSidebarCollapse: Dispatch<SetStateAction<boolean>>
-    user: UserWithRole | null
-    setUser: Dispatch<SetStateAction<UserWithRole | null>>
+    user: User | null
+    setUser: Dispatch<SetStateAction<User | null>>
     filterState: AnyObject | null | undefined
     setFilterState: Dispatch<SetStateAction<AnyObject | null | undefined>>
 }
@@ -28,7 +28,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     const [state, setState] = useState("Hello from context")
     const matched = useMediaQuery("(max-width: 768px)")
     const [sidebarCollapse, setSidebarCollapse] = useState(matched)
-    const [user, setUser] = useState<UserWithRole | null>(null)
+    const [user, setUser] = useState<User | null>(null)
     const [filterState, setFilterState] = useState<AnyObject | null | undefined>(null)
 
     return (

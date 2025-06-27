@@ -841,6 +841,7 @@ aside.sidebar {
     // form style
     .form-control {
         border-color: var(--color-base-border);
+        height: 36px;
     }
     .form-title {
         font-size: 1.25rem;
@@ -993,6 +994,97 @@ aside.sidebar {
             font-size: 25px;
             font-weight: 600;
             color: #fff;
+        }
+    }
+
+    // font weight style
+    .fw-lighter {
+        font-weight: lighter !important;
+    }
+
+    .fw-light {
+        font-weight: 300 !important;
+    }
+
+    .fw-normal {
+        font-weight: 400 !important;
+    }
+
+    .fw-medium {
+        font-weight: 500 !important;
+    }
+
+    .fw-semibold {
+        font-weight: 500 !important;
+    }
+
+    .fw-bold {
+        font-weight: 600 !important;
+    }
+
+    .fw-bolder {
+        font-weight: 700 !important;
+    }
+
+    // Image Edit dropzone styles
+    .dropzone-container {
+        margin-top: 10px;
+        .image-input-wrapper {
+            position: relative;
+        }
+        .pencil-btn {
+            position: absolute;
+            right: -10px;
+            top: -10px;
+        }
+        .cross-btn {
+            position: absolute;
+            right: -10px;
+            bottom: -10px;
+        }
+        &-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        &-spinner {
+            position: absolute;
+            left: 40%;
+            top: 40%;
+        }
+    }
+    .image-input {
+        position: relative;
+        display: inline-block;
+        border-radius: 0.475rem;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+        &:not(.image-input-empty) {
+            background-image: none !important;
+        }
+
+        .image-input-wrapper {
+            width: 120px;
+            height: 120px;
+            border-radius: 0.475rem;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        &.image-input-circle {
+            border-radius: 50%;
+
+            .image-input-wrapper {
+                border-radius: 50%;
+            }
+        }
+
+        &.image-input-outline {
+            .image-input-wrapper {
+                border: 3px solid var(--bs-body-bg);
+                box-shadow: var(--bs-box-shadow);
+            }
         }
     }
 }

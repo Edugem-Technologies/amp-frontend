@@ -15,16 +15,3 @@ export interface UserDetails {
     primary_phone: string | null
     uuid: string
 }
-
-// Main Interface for the JSON Response
-export interface LoginData {
-    data: {
-        access_token: string
-        details: UserDetails
-        permissions: string[]
-        refresh_token: string
-        roles: Role[]
-    }
-    message: string
-    status: boolean
-}

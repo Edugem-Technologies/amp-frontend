@@ -1,7 +1,7 @@
 "use client"
 import Button from "@/app/components/button/Button"
 import CustomCard from "@/app/components/card/CustomCard"
-import Dropzone from "@/app/components/common/Dropzone"
+import InputDropzone from "@/app/components/common/InputDropzone"
 import ReactStaticTable from "@/app/components/common/ReactStaticTable"
 import { CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
@@ -62,20 +62,18 @@ const Upload = () => {
                         <h4 className="fw-bold">Upload Files</h4>
                     </CustomCard.Title>
                     <CustomCard.Body className="p-2">
-                        <div className={`dropzone`}>
-                            <Dropzone
-                                onDrop={(_files) => {
-                                    const allFiles = [...files, ...(_files as File[])]
-                                    setFiles(allFiles)
-                                }}
-                                disabled={false}
-                                onError={handleError}
-                                type={{ ...CONFIG.FILE_TYPE.IMAGE, ...CONFIG.FILE_TYPE.PDF }}
-                                multiple
-                            >
-                                <p className="m-0 text-center p-5">Drop or select an image</p>
-                            </Dropzone>
-                        </div>
+                        <InputDropzone
+                            onDrop={(_files) => {
+                                const allFiles = [...files, ...(_files as File[])]
+                                setFiles(allFiles)
+                            }}
+                            disabled={false}
+                            onError={handleError}
+                            type={{ ...CONFIG.FILE_TYPE.IMAGE, ...CONFIG.FILE_TYPE.PDF }}
+                            multiple
+                        >
+                            <p className="m-0 text-center p-5">Drop or select an image</p>
+                        </InputDropzone>
                     </CustomCard.Body>
                     <CustomCard.Footer>
                         <div className="d-flex justify-content-end gap-3">

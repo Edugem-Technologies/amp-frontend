@@ -1,11 +1,14 @@
 "use client"
 import PermissionGuard from "@/app/components/auth/PermissionGuard"
+import BulkDownloadButton from "@/app/components/button/BulkDownloadButton"
+import BulkUploadButton from "@/app/components/button/BulkUploadButton"
 import ActionColumn from "@/app/components/common/ActionColumn"
 import CommonCard from "@/app/components/common/CommonCard"
 import CommonList from "@/app/components/common/CommonList"
 import InviteUserModal from "@/app/components/modal/InviteUserModal"
 import { useAppContext } from "@/app/context/AppContext"
 import { usePermissions } from "@/app/context/PermissionContext"
+import { ModuleTypeEnum } from "@/enums/ModuleTypeEnum"
 import { permissionJSON } from "@/fixtures/Permission"
 import { User } from "@/types/auth/User"
 import { CommonCardInterface } from "@/types/common/CommonCard"
@@ -150,6 +153,34 @@ const Page = () => {
                         </div>
                     )
                 }}
+                renderCustomToolbar={() => (
+                    <>
+                        <BulkDownloadButton
+                            disabled={
+                                !hasAccessPermission({
+                                    userPermissions,
+                                    requiredPermissions: [
+                                        permissionJSON.USER.permissions.VIEW.code,
+                                        permissionJSON.USER.permissions.MANAGE.code,
+                                    ],
+                                })
+                            }
+                            moduleType={ModuleTypeEnum.USER}
+                        />
+
+                        <BulkUploadButton
+                            disabled={
+                                !hasAccessPermission({
+                                    userPermissions,
+                                    requiredPermissions: [
+                                        permissionJSON.USER.permissions.MANAGE.code,
+                                    ],
+                                })
+                            }
+                            moduleType={ModuleTypeEnum.USER}
+                        />
+                    </>
+                )}
             />
             {isModalOpen && (
                 <InviteUserModal

@@ -60,6 +60,7 @@ export const CONFIG = {
         COOKIE_NAME: "__AT__",
     },
     WORD_SLICE_LIMIT: 50,
+    WORD_SLICE_LIMIT_TWENTY: 20,
     IMAGE_SIZE: {
         CARD: "160x160",
         TABLE_LIST: "50x50",
@@ -109,6 +110,8 @@ export const CONFIG = {
         DATA_DELETED_SUCCESSFULLY: "Data deleted successfully",
         WANT_TO_LOG_OUT: "Do you want to log out?",
         COPIED_SUCCESSFULLY: "Copied Successfully",
+        FILE_UPLOAD_SUCCESSFULLY: "File uploaded successfully",
+        DOWNLOAD_STARTED: "Download has been started, please check reports page for details.",
     },
     DEFAULT_MESSAGES: {
         TOKEN_EXPIRED: "Token expired. Please login again",
@@ -259,6 +262,7 @@ export const CONFIG = {
             INVALID_PHONE_NUMBER: "Invalid phone number",
             PASSWORD_DO_NOT_MATCH: "Password do not match",
             ONLY_JPG_PNG_JPEG_ALLOWED: "only jpg, png and jpeg files are accepted",
+            ONLY_XLSX_FILE_ACCEPTED: "Only .xlsx file is accepted",
         },
         FIELD_NAME: {
             NAME: "Name",
@@ -331,6 +335,10 @@ export const CONFIG = {
         BASE_OTP_VERIFY: new URL(`${BASE_API_ENDPOINT}/otp/verify`),
         GET_S3_UPLOAD_URL: new URL(`${BASE_API_ENDPOINT}/document/upload/url`),
         GET_S3_DOWNLOAD_URL: new URL(`${BASE_API_ENDPOINT}/document/download/url`),
+        DOWNLOAD_BULK_UPLOAD_SAMPLE_FILE: new URL(`${BASE_API_ENDPOINT}/bulk-upload/sample`),
+        BULK_UPLOAD: new URL(`${BASE_API_ENDPOINT}/bulk-upload`),
+        BULK_DOWNLOAD: new URL(`${BASE_API_ENDPOINT}/bulk-download`),
+        GET_QUEUE_TASKS: new URL(`${BASE_API_ENDPOINT}/queue-task/list`),
     },
     OTP_AND_VERIFY_ENDPOINTS: {
         LOGIN: "login",

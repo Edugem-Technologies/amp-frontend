@@ -1,12 +1,17 @@
 "use client"
+import { useAppContext } from "@/app/context/AppContext"
+import { usePermissions } from "@/app/context/PermissionContext"
 import { AddressTypeEnum } from "@/enums/AddressTypeEnum"
 import { DocumentTypeEnum } from "@/enums/DocumentTypeEnum"
 import { ModuleTypeEnum } from "@/enums/ModuleTypeEnum"
+import { permissionJSON } from "@/fixtures/Permission"
 import { FetchHelper } from "@/services/fetch-helper"
+import { User } from "@/types/auth/User"
 import { Any, AnyObject } from "@/types/common/helper"
 import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
 import {
+    createFileObjectForS3Upload,
     getFileUrl,
     getKeyFromEnumValue,
     handleUploadFile,
@@ -20,7 +25,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useParams, useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 import { Controller, useFieldArray, useForm } from "react-hook-form"
-import uuid from "uuid-random"
 import PrimaryButton from "../button/PrimaryButton"
 import Address from "../common/Address"
 import FormFooter from "../common/FormFooter"
@@ -33,10 +37,6 @@ import TextInputField from "../input/TextInput"
 import UpdateEmail from "./UpdateEmail"
 import UpdatePassword from "./UpdatePassword"
 import UpdatePhoneNumber from "./UpdatePhoneNumber"
-import { User } from "@/types/auth/User"
-import { useAppContext } from "@/app/context/AppContext"
-import { permissionJSON } from "@/fixtures/Permission"
-import { usePermissions } from "@/app/context/PermissionContext"
 
 const UserInfo = () => {
     const router = useRouter()
@@ -202,17 +202,7 @@ const UserInfo = () => {
                                         type={CONFIG.FILE_TYPE.IMAGE}
                                         disabled={isSubmitting}
                                         onDrop={async (_file: Any) => {
-                                            const fileUrl = URL.createObjectURL(_file)
-                                            const localUUID = uuid()
-                                            const fileObject: Any = {
-                                                file: _file,
-                                                name: _file.name,
-                                                size: _file.size,
-                                                uuid: localUUID,
-                                                local_uuid: localUUID,
-                                                fileUrl,
-                                                status: CONFIG.FILE_UPLOAD_STATUS.PENDING,
-                                            }
+                                            const fileObject = createFileObjectForS3Upload(_file)
 
                                             setValue("document", fileObject)
 

@@ -1,0 +1,3 @@
+export enum MFAEnum {
+    AUTHENTICATOR_APP = "AUTHENTICATOR_APP",
+}

@@ -1209,4 +1209,32 @@ aside.sidebar {
             cursor: pointer !important;
         }
     }
+
+    // MFA styles
+    .mfa-form-container {
+        background-color: var(--color-base-background);
+        border-radius: 0.715rem;
+    }
+    .mfa-form-container-child {
+        background-color: white;
+        padding: 1.5rem;
+        border-radius: 0.715rem;
+    }
+    .info-icon-inner {
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+    }
+    .min-w-700 {
+        min-width: 700px;
+    }
+    .min-w-220 {
+        min-width: 220px;
+    }
+    .two-factor-settings-modal {
+        z-index: 1000;
+    }
+    .modal-backdrop.show {
+        z-index: 999;
+    }
 }

@@ -106,18 +106,25 @@ const LoginFormSwitcher = () => {
             // We use grecaptcha to prevent automated abuse and ensure that the login request is made by a real user.
             executeWithRecaptcha(async () => {
                 const response = await FetchHelper.post(CONFIG.API_ENDPOINTS.LOGIN, data)
+                console.log(
+                    "🚀 ~ executeWithRecaptcha ~ response:",
+                    JSON.parse(JSON.stringify(response.data.user)),
+                )
                 if (response?.status) {
                     setLoginDetailsToLocalStorage({
                         permissions: response.data.permissions,
                         roles: response.data.roles,
                         setUserPermissions,
                         userDetails: response.data.user,
+                        updateAuthenticatedStatus: !response?.data?.user?.has_2fa_enabled,
                     })
                     showSweetAlertWithRedirect({
                         text: response.message,
                         icon: ALERT_ICON_TYPE.success,
                         router,
-                        url: redirectUrl,
+                        url: response?.data?.user?.has_2fa_enabled
+                            ? `/auth/mfa?redirectUrl=${redirectUrl}`
+                            : redirectUrl,
                     })
                 }
             })

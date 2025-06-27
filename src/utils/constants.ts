@@ -17,6 +17,7 @@ export const MAX_INT_LIMIT = 2147483647
 export const CONFIG = {
     REFRESH_TOKEN_MEMOIZED_TIME: 10000,
     LOG_IN_TITLE: "Login",
+    MFA_VERIFY_TITLE: "MFA Verification",
     FORGOT_PASSWORD_TITLE: "Forgot Password",
     RESET_PASSWORD: "Setup New Password",
     SIGN_UP_TITLE: "Signup",
@@ -339,6 +340,9 @@ export const CONFIG = {
         BULK_UPLOAD: new URL(`${BASE_API_ENDPOINT}/bulk-upload`),
         BULK_DOWNLOAD: new URL(`${BASE_API_ENDPOINT}/bulk-download`),
         GET_QUEUE_TASKS: new URL(`${BASE_API_ENDPOINT}/queue-task/list`),
+        GET_QR_CODE: new URL(`${BASE_API_ENDPOINT}/auth/mfa/qr-code`),
+        VERIFY_MFA: new URL(`${BASE_API_ENDPOINT}/auth/mfa/verify`),
+        UPDATE_MFA_STATUS: new URL(`${BASE_API_ENDPOINT}/auth/mfa/status`),
     },
     OTP_AND_VERIFY_ENDPOINTS: {
         LOGIN: "login",

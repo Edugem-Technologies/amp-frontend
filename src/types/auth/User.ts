@@ -1,3 +1,4 @@
+import { MFAEnum } from "@/enums/MFAEnum"
 import { Address } from "../data/Address"
 import { Role } from "../data/loginData"
 
@@ -24,4 +25,7 @@ export interface User {
     roles: Role[]
     address_detail: Address[]
     document: Document[]
+    has_2fa_enabled: boolean
+    has_2fa_enforced: boolean
+    selected_2fa_type: MFAEnum
 }

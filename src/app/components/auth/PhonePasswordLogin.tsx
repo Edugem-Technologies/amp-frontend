@@ -46,6 +46,7 @@ const PhonePasswordLogin: React.FC<LoginFormProps> = ({ hookForm }) => {
                     <TextInputField
                         label="Password"
                         type="password"
+                        isRequired
                         autoComplete="off"
                         errorMsg={errors?.password?.message}
                         className="custom-input"

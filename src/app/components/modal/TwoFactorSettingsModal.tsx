@@ -1,14 +1,11 @@
-import React, { useEffect, useRef, useState } from "react"
-import PrimaryButton from "../button/PrimaryButton"
-import SecondaryButton from "../button/SecondaryButton"
+import { DefaultModalPropType } from "@/types/components/Modal"
+import React, { useState } from "react"
+import Authenticator from "../common/Authenticator"
 import CustomTooltip from "../common/CustomTooltip"
 import RadioInput from "../input/RadioInput"
-import TextInputField from "../input/TextInput"
 import ToggleSwitchInput from "../input/ToggleSwitchInput"
-import ModalWrapper from "./ModalWrapper"
 import AuthModal from "./AuthModal"
-import Authenticator from "../common/Authenticator"
-import { DefaultModalPropType } from "@/types/components/Modal"
+import ModalWrapper from "./ModalWrapper"
 
 // Info icon with class for styling (add .info-icon class in your CSS/SCSS)
 const InfoIcon = () => (
@@ -25,7 +22,7 @@ const TwoFactorSettingsModal: React.FC<DefaultModalPropType & { isMFAEnabled: bo
     onAdded,
     isMFAEnabled,
 }) => {
-    const [isAuthenticationModalOpen, setIsAuthenticationModalOpen] = useState(true)
+    // const [isAuthenticationModalOpen, setIsAuthenticationModalOpen] = useState(true)
     return (
         <ModalWrapper
             size="xl"
@@ -48,43 +45,43 @@ const TwoFactorSettingsModal: React.FC<DefaultModalPropType & { isMFAEnabled: bo
                 </div>
 
                 {/* 2FA Method and OTP Section */}
-                {!isAuthenticationModalOpen && (
-                    <div className="d-flex gap-4 mfa-form-container rounded-4 p-4">
-                        {/* Method Selection */}
-                        <div className="min-w-220  mfa-form-container-child">
-                            <div className="mb-3 d-flex align-items-center gap-2">
-                                <span className="fw-semibold">Start 2FA Via</span>
-                                <span data-tooltip-id="2fa-method-tooltip"></span>
-                                <CustomTooltip id="2fa-method-tooltip" place="top">
-                                    Choose how you want to receive your OTP for authentication.
-                                </CustomTooltip>
-                            </div>
-                            <div className="d-flex flex-column gap-2 mb-4">
-                                {/* TODO: will add email option later */}
-                                {/* <RadioInput
+                {/* {!isAuthenticationModalOpen && ( */}
+                <div className="d-flex gap-4 mfa-form-container rounded-4 p-4">
+                    {/* Method Selection */}
+                    <div className="min-w-220  mfa-form-container-child">
+                        <div className="mb-3 d-flex align-items-center gap-2">
+                            <span className="fw-semibold">Start 2FA Via</span>
+                            <span data-tooltip-id="2fa-method-tooltip"></span>
+                            <CustomTooltip id="2fa-method-tooltip" place="top">
+                                Choose how you want to receive your OTP for authentication.
+                            </CustomTooltip>
+                        </div>
+                        <div className="d-flex flex-column gap-2 mb-4">
+                            {/* TODO: will add email option later */}
+                            {/* <RadioInput
                                 id="2fa-email"
                                 label="Email"
                                 checked={method === "email"}
                                 onChange={() => setMethod("email")}
                                 name="2fa-method"
                             /> */}
-                                <RadioInput
-                                    containerClassName="p-0"
-                                    id="2fa-authenticator"
-                                    label="Authenticator App"
-                                    name="2fa-method"
-                                    checked={true}
-                                />
-                            </div>
-                            {/* <PrimaryButton
+                            <RadioInput
+                                containerClassName="p-0"
+                                id="2fa-authenticator"
+                                label="Authenticator App"
+                                name="2fa-method"
+                                checked={true}
+                            />
+                        </div>
+                        {/* <PrimaryButton
                                 buttonTitle="Start Authentication"
                                 onClick={() => setIsAuthenticationModalOpen(true)}
                                 customClassName="w-100"
                             /> */}
-                        </div>
+                    </div>
 
-                        {/* OTP Input Section */}
-                        {/* <div className="flex-grow-1">
+                    {/* OTP Input Section */}
+                    {/* <div className="flex-grow-1">
                             <TextInputField
                                 label="OTP"
                                 isRequired
@@ -112,20 +109,20 @@ const TwoFactorSettingsModal: React.FC<DefaultModalPropType & { isMFAEnabled: bo
                                 <PrimaryButton buttonTitle="Verify OTP" />
                             </div>
                         </div> */}
-                        <Authenticator
-                            onClose={onClose}
-                            onAdded={onAdded}
-                            isMFAEnabled={isMFAEnabled}
-                        />
-                    </div>
-                )}
+                    <Authenticator
+                        onClose={onClose}
+                        onAdded={onAdded}
+                        isMFAEnabled={isMFAEnabled}
+                    />
+                </div>
+                {/* )} */}
 
                 {/* Footer */}
                 {/* <div className="d-flex justify-content-end mt-4">
                     <SecondaryButton buttonTitle="Cancel" onClick={onClose} />
                 </div> */}
             </div>
-            {isAuthenticationModalOpen && (
+            {/* {isAuthenticationModalOpen && (
                 <AuthModal
                     onClose={
                         isMFAEnabled
@@ -140,7 +137,7 @@ const TwoFactorSettingsModal: React.FC<DefaultModalPropType & { isMFAEnabled: bo
                         isMFAEnabled ? () => onAdded && onAdded() : undefined
                     }}
                 />
-            )}
+            )} */}
         </ModalWrapper>
     )
 }

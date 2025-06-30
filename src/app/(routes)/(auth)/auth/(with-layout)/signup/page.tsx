@@ -41,16 +41,32 @@ const Login = () => {
 
     const submitHandler = async (data: SignupSchemaType) => {
         try {
-            executeWithRecaptcha(async () => {
-                const response = await FetchHelper.post(CONFIG.API_ENDPOINTS.SIGNUP, data)
-                if (response?.status) {
-                    showSweetAlertWithRedirect({
-                        text: response.message,
-                        icon: ALERT_ICON_TYPE.success,
-                        router,
-                        url: "/auth/login",
-                    })
-                }
+            /**
+             * We use a Promise here to ensure that the async signup logic inside
+             * `executeWithRecaptcha` completes before the submitHandler itself resolves.
+             *
+             * The `executeWithRecaptcha` function expects a callback, but does not return a Promise.
+             * By wrapping it in a new Promise and calling `resolve()` after the async logic finishes,
+             * we allow the outer async/await flow (such as form submission state) to properly wait
+             * for the entire signup and reCAPTCHA process to complete before proceeding.
+             */
+            await new Promise<void>((resolve) => {
+                executeWithRecaptcha(async () => {
+                    try {
+                        const response = await FetchHelper.post(CONFIG.API_ENDPOINTS.SIGNUP, data)
+                        if (response?.status) {
+                            showSweetAlertWithRedirect({
+                                text: response.message,
+                                icon: ALERT_ICON_TYPE.success,
+                                router,
+                                url: "/auth/login",
+                            })
+                        }
+                        resolve()
+                    } catch (error) {
+                        handleError(error)
+                    }
+                })
             })
         } catch (error) {
             handleError(error)

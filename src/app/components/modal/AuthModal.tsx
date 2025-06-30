@@ -2,17 +2,16 @@ import PrimaryButton from "@/app/components/button/PrimaryButton"
 import TextInputField from "@/app/components/input/TextInput"
 import ModalWrapper from "@/app/components/modal/ModalWrapper"
 import { usePermissions } from "@/app/context/PermissionContext"
+import { MFAEnum } from "@/enums/MFAEnum"
 import { FetchHelper } from "@/services/fetch-helper"
+import { DefaultModalPropType } from "@/types/components/Modal"
 import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
-import { setLoginDetailsToLocalStorage, showSweetAlert } from "@/utils/helpers"
+import { showSweetAlert } from "@/utils/helpers"
 import { EmailPasswordLoginSchema, EmailPasswordLoginSchemaType } from "@/validations/auth/Login"
 import { zodResolver } from "@hookform/resolvers/zod"
 import React, { useState } from "react"
 import { useForm } from "react-hook-form"
-import TwoFactorSettingsModal from "./TwoFactorSettingsModal"
-import { DefaultModalPropType } from "@/types/components/Modal"
-import { MFAEnum } from "@/enums/MFAEnum"
 
 interface AuthModalProps {
     onClose: () => void
@@ -32,6 +31,7 @@ const AuthModal: React.FC<DefaultModalPropType & { isMFAEnabled: boolean }> = ({
     })
     const { setUserPermissions } = usePermissions()
     const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const [isMFASettingsModalOpen, setIsMFASettingsModalOpen] = useState(false)
 
     const submitHandler = async (data: EmailPasswordLoginSchemaType) => {
         try {
@@ -56,15 +56,12 @@ const AuthModal: React.FC<DefaultModalPropType & { isMFAEnabled: boolean }> = ({
                     if (MFAStatusResponse?.status) {
                         showSweetAlert({
                             icon: ALERT_ICON_TYPE.success,
-                            text: response?.message,
+                            text: MFAStatusResponse?.message,
                         })
                         onAdded && onAdded()
-                        onClose()
                     }
-                } else {
-                    onAdded && onAdded()
-                    onClose()
                 }
+                onClose()
             }
         } catch (error) {
             handleError(error)
@@ -100,6 +97,14 @@ const AuthModal: React.FC<DefaultModalPropType & { isMFAEnabled: boolean }> = ({
                     <PrimaryButton type="submit" buttonTitle="Authenticate" />
                 </div>
             </form>
+            {/* {isMFASettingsModalOpen && (
+                <TwoFactorSettingsModal
+                    onClose={() => {
+                        setIsMFASettingsModalOpen(false)
+                    }}
+                    isMFAEnabled={isMFAEnabled}
+                />
+            )} */}
         </ModalWrapper>
     )
 }

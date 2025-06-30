@@ -8,15 +8,14 @@ import ShowFormError from "@/app/components/common/ShowFormError"
 import Label from "@/app/components/input/Label"
 import TextInputField from "@/app/components/input/TextInput"
 import { FetchHelper } from "@/services/fetch-helper"
-import { CONFIG } from "@/utils/constants"
+import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
-import { showSweetAlertWithRedirect } from "@/utils/helpers"
+import { executeWithRecaptcha, showSweetAlertWithRedirect } from "@/utils/helpers"
 import { SignupSchemaType, SignupValidationSchema } from "@/validations/auth/Signup"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useFieldArray, useForm } from "react-hook-form"
-import { SweetAlertIcon } from "sweetalert2"
 
 const Login = () => {
     const router = useRouter()
@@ -42,15 +41,17 @@ const Login = () => {
 
     const submitHandler = async (data: SignupSchemaType) => {
         try {
-            const response = await FetchHelper.post(CONFIG.API_ENDPOINTS.SIGNUP, data)
-            if (response?.status) {
-                showSweetAlertWithRedirect({
-                    text: response.message,
-                    icon: CONFIG.SWEETALERT_SUCCESS_OPTION.icon as SweetAlertIcon,
-                    router,
-                    url: "/auth/login",
-                })
-            }
+            executeWithRecaptcha(async () => {
+                const response = await FetchHelper.post(CONFIG.API_ENDPOINTS.SIGNUP, data)
+                if (response?.status) {
+                    showSweetAlertWithRedirect({
+                        text: response.message,
+                        icon: ALERT_ICON_TYPE.success,
+                        router,
+                        url: "/auth/login",
+                    })
+                }
+            })
         } catch (error) {
             handleError(error)
         }

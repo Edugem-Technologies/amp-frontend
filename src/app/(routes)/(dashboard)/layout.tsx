@@ -2,9 +2,14 @@
 import Aside from "@/app/components/common/Aside"
 import Footer from "@/app/components/common/Footer"
 import Navbar from "@/app/components/common/Navbar"
-import React, { ReactNode } from "react"
+import { removeRecaptcha } from "@/utils/helpers"
+import React, { ReactNode, useEffect } from "react"
 
 const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
+    // Remove Google reCAPTCHA script when the protected routes mount.
+    useEffect(() => {
+        removeRecaptcha()
+    }, [])
     return (
         <div className="main-grid">
             <Navbar />

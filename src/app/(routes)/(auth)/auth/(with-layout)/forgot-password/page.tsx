@@ -2,9 +2,9 @@
 import AuthHeader from "@/app/components/auth/AuthHeader"
 import ForgotPasswordForm from "@/app/components/auth/ForgotPassword"
 import { FetchHelper } from "@/services/fetch-helper"
-import { CONFIG } from "@/utils/constants"
+import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
-import { showSweetAlert } from "@/utils/helpers"
+import { executeWithRecaptcha, showSweetAlert } from "@/utils/helpers"
 import {
     BaseForgotPasswordSchema,
     BaseForgotPasswordSchemaType,
@@ -13,7 +13,6 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
-import { SweetAlertIcon } from "sweetalert2"
 
 const ForgotPassword = () => {
     const hookForm = useForm<BaseForgotPasswordSchemaType>({
@@ -24,16 +23,22 @@ const ForgotPassword = () => {
 
     const submitHandler = async (data: BaseForgotPasswordSchemaType) => {
         try {
-            const payload = {
-                primary_email: data.primary_email,
-            }
-            const response = await FetchHelper.post(CONFIG.API_ENDPOINTS.FORGOT_PASSWORD, payload)
-            if (response?.status) {
-                showSweetAlert({
-                    text: response.message,
-                    icon: CONFIG.SWEETALERT_SUCCESS_OPTION.icon as SweetAlertIcon,
-                })
-            }
+            // We use grecaptcha to prevent automated abuse and ensure that the forgot password request is made by a real user.
+            executeWithRecaptcha(async () => {
+                const payload = {
+                    primary_email: data.primary_email,
+                }
+                const response = await FetchHelper.post(
+                    CONFIG.API_ENDPOINTS.FORGOT_PASSWORD,
+                    payload,
+                )
+                if (response?.status) {
+                    showSweetAlert({
+                        text: response.message,
+                        icon: ALERT_ICON_TYPE.success,
+                    })
+                }
+            })
         } catch (error) {
             handleError(error)
         }

@@ -4,7 +4,11 @@ import { AuthMethodEnum, LoginTypeEnum } from "@/enums/LoginTypeEnum"
 import { FetchHelper } from "@/services/fetch-helper"
 import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
 import { handleError } from "@/utils/handle-error"
-import { setLoginDetailsToLocalStorage, showSweetAlertWithRedirect } from "@/utils/helpers"
+import {
+    executeWithRecaptcha,
+    setLoginDetailsToLocalStorage,
+    showSweetAlertWithRedirect,
+} from "@/utils/helpers"
 import {
     EmailOTPLoginSchema,
     EmailPasswordLoginSchema,
@@ -97,21 +101,26 @@ const LoginFormSwitcher = () => {
 
     const submitHandler = async (data: LoginSchemaType) => {
         try {
-            const response = await FetchHelper.post(CONFIG.API_ENDPOINTS.LOGIN, data)
-            if (response?.status) {
-                setLoginDetailsToLocalStorage({
-                    permissions: response.data.permissions,
-                    roles: response.data.roles,
-                    setUserPermissions,
-                    userDetails: response.data.user,
-                })
-                showSweetAlertWithRedirect({
-                    text: response.message,
-                    icon: ALERT_ICON_TYPE.success,
-                    router,
-                    url: redirectUrl,
-                })
-            }
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            //@ts-ignore
+            // We use grecaptcha to prevent automated abuse and ensure that the login request is made by a real user.
+            executeWithRecaptcha(async () => {
+                const response = await FetchHelper.post(CONFIG.API_ENDPOINTS.LOGIN, data)
+                if (response?.status) {
+                    setLoginDetailsToLocalStorage({
+                        permissions: response.data.permissions,
+                        roles: response.data.roles,
+                        setUserPermissions,
+                        userDetails: response.data.user,
+                    })
+                    showSweetAlertWithRedirect({
+                        text: response.message,
+                        icon: ALERT_ICON_TYPE.success,
+                        router,
+                        url: redirectUrl,
+                    })
+                }
+            })
         } catch (error) {
             handleError(error)
         }

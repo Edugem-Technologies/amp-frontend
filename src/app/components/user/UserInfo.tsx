@@ -68,7 +68,6 @@ const UserInfo = () => {
         resolver: zodResolver(UpdateProfileSchema),
     })
     const [isMFAEnabled, setIsMFAEnabled] = useState(!!loggedInUser?.has_2fa_enabled)
-    const [isMFAEnabledLocal, setIsMFAEnabledLocal] = useState(!!loggedInUser?.has_2fa_enabled)
     const [isAuthenticateModalOpen, setIsAuthenticateModalOpen] = useState(false)
     const [isMFASettingsModalOpen, setIsMFASettingsModalOpen] = useState(false)
 
@@ -415,11 +414,11 @@ const UserInfo = () => {
                                 inputClassName="ms-0"
                                 containerClassName="mb-2"
                                 label=""
-                                defaultChecked={isMFAEnabledLocal}
-                                checked={isMFAEnabledLocal}
+                                defaultChecked={isMFAEnabled}
+                                checked={isMFAEnabled}
                                 onChange={() => {
                                     setIsAuthenticateModalOpen(true)
-                                    setIsMFAEnabledLocal((prev) => !prev)
+                                    setIsMFAEnabled((prev) => !prev)
                                 }}
                             />
                         </div>
@@ -449,12 +448,14 @@ const UserInfo = () => {
                 <AuthModal
                     onClose={() => {
                         setIsAuthenticateModalOpen(false)
-                        setIsMFAEnabledLocal((prev) => !prev)
+                        setIsMFAEnabled((prev) => !prev)
                     }}
-                    isMFAEnabled={isMFAEnabled}
+                    isMFAEnabled={!isMFAEnabled}
                     onAdded={() => {
                         setIsAuthenticateModalOpen(false)
-                        isMFAEnabled ? setRefetch((prev) => !prev) : setIsMFASettingsModalOpen(true)
+                        !isMFAEnabled
+                            ? setRefetch((prev) => !prev)
+                            : setIsMFASettingsModalOpen(true)
                     }}
                 />
             )}
@@ -462,9 +463,9 @@ const UserInfo = () => {
                 <TwoFactorSettingsModal
                     onClose={() => {
                         setIsMFASettingsModalOpen(false)
-                        setIsMFAEnabledLocal((prev) => !prev)
+                        setIsMFAEnabled((prev) => !prev)
                     }}
-                    isMFAEnabled={isMFAEnabled}
+                    isMFAEnabled={!isMFAEnabled}
                     onAdded={() => {
                         setIsMFASettingsModalOpen(false)
                         setRefetch((prev) => !prev)

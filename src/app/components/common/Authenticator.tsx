@@ -1,23 +1,20 @@
 "use client"
+import { useAppContext } from "@/app/context/AppContext"
+import { MFAEnum } from "@/enums/MFAEnum"
+import { FetchHelper } from "@/services/fetch-helper"
+import { DefaultModalPropType } from "@/types/components/Modal"
 import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
+import { handleError } from "@/utils/handle-error"
+import { showSweetAlert } from "@/utils/helpers"
+import { MFAuthenticatorSchema, MFAuthenticatorSchemaType } from "@/validations/auth/MFASchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
-import ShowFormError from "../common/ShowFormError"
-import { FetchHelper } from "@/services/fetch-helper"
-import { handleError } from "@/utils/handle-error"
-import CustomSkeleton from "../common/CustomSkeleton"
-import toast from "react-hot-toast"
-import { MFAEnum } from "@/enums/MFAEnum"
-import TextInputField from "../input/TextInput"
-import { MFAuthenticatorSchema, MFAuthenticatorSchemaType } from "@/validations/auth/MFASchema"
-import { useAppContext } from "@/app/context/AppContext"
 import PrimaryButton from "../button/PrimaryButton"
-import { showSweetAlert } from "@/utils/helpers"
-import { DefaultModalPropType } from "@/types/components/Modal"
+import CustomSkeleton from "../common/CustomSkeleton"
+import TextInputField from "../input/TextInput"
 
 const Authenticator: React.FC<DefaultModalPropType & { isMFAEnabled: boolean }> = ({
-    onClose,
     onAdded,
     isMFAEnabled,
 }) => {
@@ -51,7 +48,7 @@ const Authenticator: React.FC<DefaultModalPropType & { isMFAEnabled: boolean }> 
                         icon: ALERT_ICON_TYPE.success,
                         text: response?.message,
                     })
-                    onClose()
+                    // onClose()
                     onAdded && onAdded()
                 }
             }

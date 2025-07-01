@@ -68,6 +68,7 @@ const UserInfo = () => {
         resolver: zodResolver(UpdateProfileSchema),
     })
     const [isMFAEnabled, setIsMFAEnabled] = useState(!!loggedInUser?.has_2fa_enabled)
+    const [isMFAEnabledLocal, setIsMFAEnabledLocal] = useState(!!loggedInUser?.has_2fa_enabled)
     const [isAuthenticateModalOpen, setIsAuthenticateModalOpen] = useState(false)
     const [isMFASettingsModalOpen, setIsMFASettingsModalOpen] = useState(false)
 
@@ -402,54 +403,72 @@ const UserInfo = () => {
                     </div>
                 )}
             </div>
-            <hr />
-            <div className="row form-section">
-                <div className="col-md-12 form-section-title">Others</div>
-                <div className="col-md-3 d-flex gap-3 align-items-center">
-                    <Label label="MFA:" />
-                    <ToggleSwitchInput
-                        inputClassName="ms-0"
-                        containerClassName="mb-2"
-                        label=""
-                        checked={isMFAEnabled}
-                        onChange={() => {
-                            setIsAuthenticateModalOpen(true)
-                        }}
-                    />
-                </div>
-            </div>
-            {/* {isAuthenticateModalOpen &&
-                (!isMFAEnabled ? (
-                    <TwoFactorSettingsModal
-                        onClose={() => setIsAuthenticateModalOpen(false)}
-                        isMFAEnabled={isMFAEnabled}
-                        onAdded={() => setRefetch((prev) => !prev)}
-                    />
-                ) : (
-                    <AuthModal
-                        onClose={() => {
-                            setIsAuthenticateModalOpen(false)
-                        }}
-                        isMFAEnabled={isMFAEnabled}
-                        onAdded={() => setRefetch((prev) => !prev)}
-                    />
-                ))} */}
+            {user?.uuid === loggedInUser?.uuid && (
+                <>
+                    {" "}
+                    <hr />
+                    <div className="row form-section">
+                        <div className="col-md-12 form-section-title">Others</div>
+                        <div className="col-md-3 d-flex gap-3 align-items-center">
+                            <Label label="MFA:" />
+                            <ToggleSwitchInput
+                                inputClassName="ms-0"
+                                containerClassName="mb-2"
+                                label=""
+                                defaultChecked={isMFAEnabledLocal}
+                                checked={isMFAEnabledLocal}
+                                onChange={() => {
+                                    setIsAuthenticateModalOpen(true)
+                                    setIsMFAEnabledLocal((prev) => !prev)
+                                }}
+                            />
+                        </div>
+                    </div>{" "}
+                </>
+            )}
+            {/*
+             * This section conditionally renders two modal dialogs related to Multi-Factor
+             * Authentication (MFA):
+             *
+             * 1. AuthModal:
+             *    - Rendered when `isAuthenticateModalOpen` is true.
+             *    - Used to authenticate the user before enabling or disabling MFA.
+             *    - onClose: Closes the modal and toggles the local MFA enabled state.
+             *    - isMFAEnabled: Indicates if MFA is currently enabled for the user.
+             *    - onAdded: After successful authentication, closes the modal. If MFA was enabled, triggers a refetch;
+             *      if not, opens the MFA settings modal for further setup.
+             *
+             * 2. TwoFactorSettingsModal:
+             *    - Rendered when `isMFASettingsModalOpen` is true.
+             *    - Allows the user to configure their MFA settings (e.g., set up an authenticator app).
+             *    - onClose: Closes the modal and toggles the local MFA enabled state.
+             *    - isMFAEnabled: Indicates if MFA is currently enabled for the user.
+             *    - onAdded: After successful setup, closes the modal and triggers a refetch to update the UI.
+             */}
             {isAuthenticateModalOpen && (
                 <AuthModal
                     onClose={() => {
                         setIsAuthenticateModalOpen(false)
-                        if (!isMFAEnabled) {
-                            setIsMFASettingsModalOpen(true)
-                        }
+                        setIsMFAEnabledLocal((prev) => !prev)
                     }}
                     isMFAEnabled={isMFAEnabled}
-                    onAdded={() => setRefetch((prev) => !prev)}
+                    onAdded={() => {
+                        setIsAuthenticateModalOpen(false)
+                        isMFAEnabled ? setRefetch((prev) => !prev) : setIsMFASettingsModalOpen(true)
+                    }}
                 />
             )}
             {isMFASettingsModalOpen && (
                 <TwoFactorSettingsModal
-                    onClose={() => setIsMFASettingsModalOpen(false)}
+                    onClose={() => {
+                        setIsMFASettingsModalOpen(false)
+                        setIsMFAEnabledLocal((prev) => !prev)
+                    }}
                     isMFAEnabled={isMFAEnabled}
+                    onAdded={() => {
+                        setIsMFASettingsModalOpen(false)
+                        setRefetch((prev) => !prev)
+                    }}
                 />
             )}
         </TabBody>

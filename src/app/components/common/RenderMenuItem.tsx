@@ -1,4 +1,4 @@
-import { SidebarItemsType } from "@/types/components/aside"
+import { SidebarItemsType } from "@/types/components/Aside"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Menu, MenuItem, SubMenu } from "react-pro-sidebar"

@@ -2,7 +2,7 @@ import { ModuleTypeEnum } from "@/enums/ModuleTypeEnum"
 import React from "react"
 import { SpinnerProps } from "react-bootstrap"
 import { ZodSchema } from "zod"
-import { Any, AnyObject } from "../common/helper"
+import { Any, AnyObject } from "../common/Helper"
 
 /**
  * Props for a generic button component.

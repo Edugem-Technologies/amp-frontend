@@ -6,8 +6,8 @@ import {
     AddressPropTypeWithAddMore,
 } from "@/types/components/Address"
 import { Option } from "@/types/components/ReactSelect"
-import { CONFIG } from "@/utils/constants"
-import { getOptionFromEnum } from "@/utils/helpers"
+import { CONFIG } from "@/utils/Constants"
+import { getOptionFromEnum } from "@/utils/Helpers"
 import React, { useState } from "react"
 import BaseStaticSelect from "../input/BaseStaticSelect"
 import Label from "../input/Label"

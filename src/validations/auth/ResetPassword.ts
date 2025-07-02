@@ -1,20 +1,5 @@
-import { getUserEmailSchema, getUserPasswordSchema } from "@/utils/validation"
+import { getUserPasswordSchema } from "@/utils/Validation"
 import { z } from "zod"
-
-export const SettingsSchema = z.object({
-    avatar: z.any(),
-    first_name: z.string().trim().min(1),
-    last_name: z.string().trim().min(1),
-    role: z.string().min(1),
-})
-
-export type AddSettings = z.infer<typeof SettingsSchema>
-
-export const ChangeEmailSchema = z.object({
-    email: getUserEmailSchema(),
-})
-
-export type ChangeEmail = z.infer<typeof ChangeEmailSchema>
 
 export const ResetPasswordSchema = z
     .object({

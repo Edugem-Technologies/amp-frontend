@@ -1,9 +1,9 @@
-import { Any } from "@/types/common/helper"
-import { CONFIG, OPEN_ENDPOINTS } from "@/utils/constants"
+import { Any } from "@/types/common/Helper"
+import { CONFIG, OPEN_ENDPOINTS } from "@/utils/Constants"
+import { removeIsAuthenticated } from "@/utils/Helpers"
 import axios from "axios"
-import { parseResponseError } from "./fetch-helper"
 import mem from "mem"
-import { removeIsAuthenticated } from "@/utils/helpers"
+import { parseResponseError } from "./FetchHelper"
 
 /**
  * Memoized function to refresh the authentication token.

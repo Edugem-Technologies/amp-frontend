@@ -1,9 +1,10 @@
 import { CSSObjectWithLabel } from "react-select"
-import { SweetAlertIcon } from "sweetalert2"
+import { SweetAlertIcon, SweetAlertOptions } from "sweetalert2"
 
 export const API_VERSION = "api/v1"
 
 export const BASE_API_ENDPOINT = `${process.env.NEXT_PUBLIC_API_URL}/${API_VERSION}`
+export const BASE_REDIRECT_URL = "/components"
 export const ALERT_ICON_TYPE = {
     // WARNING: "warning",
     warning: "warning",
@@ -16,6 +17,16 @@ export const ALERT_ICON_TYPE = {
 export const MAX_INT_LIMIT = 2147483647
 export const CONFIG = {
     REFRESH_TOKEN_MEMOIZED_TIME: 10000,
+    SWEETALERT_LOGOUT_OPTION: {
+        text: "Are you sure you want to Sign Out",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes",
+        confirmButtonTextSecondary: "Yes",
+        cancelButtonText: "Cancel",
+    } as SweetAlertOptions & { icon: string },
     LOG_IN_TITLE: "Login",
     MFA_VERIFY_TITLE: "MFA Verification",
     FORGOT_PASSWORD_TITLE: "Forgot Password",
@@ -113,6 +124,7 @@ export const CONFIG = {
         COPIED_SUCCESSFULLY: "Copied Successfully",
         FILE_UPLOAD_SUCCESSFULLY: "File uploaded successfully",
         DOWNLOAD_STARTED: "Download has been started, please check reports page for details.",
+        CONFIRM_LOGOUT: "Are you sure you want to Log Out?",
     },
     DEFAULT_MESSAGES: {
         TOKEN_EXPIRED: "Token expired. Please login again",

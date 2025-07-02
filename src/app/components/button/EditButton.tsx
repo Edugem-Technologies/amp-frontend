@@ -1,6 +1,6 @@
+import { ButtonProps } from "@/types/components/Button"
 import React from "react"
 import SecondaryButton from "./SecondaryButton"
-import { ButtonProps } from "@/types/components/button"
 
 const EditButton: React.FC<ButtonProps> = ({
     buttonTitle,

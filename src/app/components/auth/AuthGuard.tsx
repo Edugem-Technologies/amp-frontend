@@ -1,7 +1,7 @@
 "use client"
-import { CONFIG } from "@/utils/constants"
-import { handleError } from "@/utils/handle-error"
-import { getIsAuthenticated, removeIsAuthenticated } from "@/utils/helpers"
+import { CONFIG } from "@/utils/Constants"
+import { handleError } from "@/utils/HandleError"
+import { getIsAuthenticated, removeIsAuthenticated } from "@/utils/Helpers"
 import { usePathname, useRouter } from "next/navigation"
 import { ReactNode, useEffect, useState } from "react"
 

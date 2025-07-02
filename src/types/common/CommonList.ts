@@ -1,7 +1,7 @@
+import { ModuleTypeEnum } from "@/enums/ModuleTypeEnum"
 import { ColumnDef } from "@tanstack/react-table"
 import { Dispatch, SetStateAction } from "react"
-import { Any, AnyObject } from "./helper"
-import { ModuleTypeEnum } from "@/enums/ModuleTypeEnum"
+import { Any, AnyObject } from "./Helper"
 
 /**
  * Base properties for the CommonList component.

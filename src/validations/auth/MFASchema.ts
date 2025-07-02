@@ -1,5 +1,5 @@
-import { CONFIG } from "@/utils/constants"
-import { getOTPFieldSchema } from "@/utils/validation"
+import { CONFIG } from "@/utils/Constants"
+import { getOTPFieldSchema } from "@/utils/Validation"
 import { z } from "zod"
 
 export const MFAuthenticatorSchema = z.object({

@@ -1,4 +1,4 @@
-import { DraggableTableRowPropType } from "@/types/components/drag-drop"
+import { DraggableTableRowPropType } from "@/types/components/DragDrop"
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 import { flexRender } from "@tanstack/react-table"

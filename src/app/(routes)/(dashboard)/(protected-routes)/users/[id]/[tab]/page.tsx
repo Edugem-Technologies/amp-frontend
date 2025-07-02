@@ -1,8 +1,8 @@
 "use client"
-import UserInfo from "@/app/components/user/UserInfo"
 import PageTitle from "@/app/components/common/PageTitle"
 import TabSection from "@/app/components/common/TabSection"
-import { CONFIG } from "@/utils/constants"
+import UserInfo from "@/app/components/user/UserInfo"
+import { CONFIG } from "@/utils/Constants"
 import { useParams } from "next/navigation"
 
 const Index = () => {

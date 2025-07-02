@@ -5,7 +5,7 @@ import PageTitle from "@/app/components/common/PageTitle"
 import TabSection from "@/app/components/common/TabSection"
 import RoleDetails from "@/app/components/role/RoleDetails"
 import { permissionJSON } from "@/fixtures/Permission"
-import { CONFIG } from "@/utils/constants"
+import { CONFIG } from "@/utils/Constants"
 import { useParams, useSearchParams } from "next/navigation"
 import { useState } from "react"
 

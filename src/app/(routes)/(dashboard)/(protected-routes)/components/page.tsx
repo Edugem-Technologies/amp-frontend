@@ -3,8 +3,8 @@ import LoadingComponent from "@/app/components/common/LoadingComponents"
 import IntersectionObserver from "@/app/components/demo/IntersectionObserver"
 import MediaQuery from "@/app/components/demo/MediaQuery"
 import Scroll from "@/app/components/demo/Scroll"
-import { CONFIG } from "@/utils/constants"
-import { showSweetAlert, showSweetAlertWithRedirect } from "@/utils/helpers"
+import { CONFIG } from "@/utils/Constants"
+import { showSweetAlert, showSweetAlertWithRedirect } from "@/utils/Helpers"
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -41,13 +41,12 @@ const ComponentsPage = () => {
             <IntersectionObserver />
             <br />
             <h2>
-                To check UI driven table implementation, please check{" "}
-                <Link href="/users">User listing</Link> page
+                UI driven table :<Link href="/users">User listing</Link>
             </h2>
             <br />
             <h2>
-                To check backend driven table implementation, please check{" "}
-                <Link href="/roles">Role listing</Link> page
+                Backend driven table:
+                <Link href="/roles">Role listing</Link>
             </h2>
             <br />
             <h2>Please click below button for sweetAlert</h2>

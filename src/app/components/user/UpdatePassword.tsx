@@ -1,14 +1,14 @@
 "use client"
-import { FetchHelper } from "@/services/fetch-helper"
-import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
-import { handleError } from "@/utils/handle-error"
-import { showSweetAlert } from "@/utils/helpers"
+import { FetchHelper } from "@/services/FetchHelper"
+import { ALERT_ICON_TYPE, CONFIG } from "@/utils/Constants"
+import { handleError } from "@/utils/HandleError"
+import { showSweetAlert } from "@/utils/Helpers"
 import { UpdatePasswordSchema, UpdatePasswordSchemaType } from "@/validations/user/UpdateProfile"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useParams } from "next/navigation"
 import { useForm } from "react-hook-form"
 import FormFooter from "../common/FormFooter"
 import TextInputField from "../input/TextInput"
-import { useParams } from "next/navigation"
 
 const UpdatePassword: React.FC<{ handleClose: () => void }> = ({ handleClose }) => {
     const {

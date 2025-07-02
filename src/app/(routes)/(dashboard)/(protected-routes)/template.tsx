@@ -2,8 +2,8 @@
 import AuthGuard from "@/app/components/auth/AuthGuard"
 import { useAppContext } from "@/app/context/AppContext"
 import { usePermissions } from "@/app/context/PermissionContext"
-import { CONFIG } from "@/utils/constants"
-import { generateSecureKey, getDecryptedLocalStorageData } from "@/utils/helpers"
+import { CONFIG } from "@/utils/Constants"
+import { generateSecureKey, getDecryptedLocalStorageData } from "@/utils/Helpers"
 import React, { ReactNode, useEffect } from "react"
 
 const Template: React.FC<{ children: ReactNode }> = ({ children }) => {

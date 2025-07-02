@@ -1,5 +1,5 @@
 import { CustomPhoneInputType } from "@/types/components/CustomPhoneInput"
-import { checkValidPhoneNumber } from "@/utils/helpers"
+import { checkValidPhoneNumber } from "@/utils/Helpers"
 import PhoneInput, { CountryData } from "react-phone-input-2"
 import "react-phone-input-2/lib/style.css"
 import ShowFormError from "../common/ShowFormError"

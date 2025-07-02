@@ -2,7 +2,7 @@ import {
     getAlphaNumericFieldSchema,
     getOptionalAlphaNumericFieldSchema,
     getRequiredMultiSelectFieldSchema,
-} from "@/utils/validation"
+} from "@/utils/Validation"
 import { z } from "zod"
 
 export const RoleDetailsSchema = z.object({

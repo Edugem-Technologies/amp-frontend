@@ -1,4 +1,4 @@
-import { handleError } from "@/utils/handle-error"
+import { handleError } from "@/utils/HandleError"
 import React from "react"
 import { Spinner } from "react-bootstrap"
 

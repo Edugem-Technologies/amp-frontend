@@ -5,11 +5,11 @@ import { AddressTypeEnum } from "@/enums/AddressTypeEnum"
 import { DocumentTypeEnum } from "@/enums/DocumentTypeEnum"
 import { ModuleTypeEnum } from "@/enums/ModuleTypeEnum"
 import { permissionJSON } from "@/fixtures/Permission"
-import { FetchHelper } from "@/services/fetch-helper"
+import { FetchHelper } from "@/services/FetchHelper"
 import { User } from "@/types/auth/User"
-import { Any, AnyObject } from "@/types/common/helper"
-import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
-import { handleError } from "@/utils/handle-error"
+import { Any, AnyObject } from "@/types/common/Helper"
+import { ALERT_ICON_TYPE, CONFIG } from "@/utils/Constants"
+import { handleError } from "@/utils/HandleError"
 import {
     createFileObjectForS3Upload,
     getFileUrl,
@@ -19,7 +19,7 @@ import {
     setEncryptedLocalStorageData,
     setEncryptedSessionStorageData,
     showSweetAlert,
-} from "@/utils/helpers"
+} from "@/utils/Helpers"
 import { UpdateProfileSchema, UpdateProfileSchemaType } from "@/validations/user/UpdateProfile"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useParams, useRouter } from "next/navigation"
@@ -35,11 +35,11 @@ import Label from "../input/Label"
 import RoleSelect from "../input/RoleSelect"
 import TextInputField from "../input/TextInput"
 import ToggleSwitchInput from "../input/ToggleSwitchInput"
+import AuthModal from "../modal/AuthModal"
 import TwoFactorSettingsModal from "../modal/TwoFactorSettingsModal"
 import UpdateEmail from "./UpdateEmail"
 import UpdatePassword from "./UpdatePassword"
 import UpdatePhoneNumber from "./UpdatePhoneNumber"
-import AuthModal from "../modal/AuthModal"
 
 const UserInfo = () => {
     const router = useRouter()

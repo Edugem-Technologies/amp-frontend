@@ -1,6 +1,6 @@
+import { FetchHelper } from "@/services/FetchHelper"
 import { UseMutationOptions, UseQueryOptions } from "@tanstack/react-query"
-import { Any, AnyObject } from "../common/helper"
-import { FetchHelper } from "@/services/fetch-helper"
+import { Any, AnyObject } from "../common/Helper"
 
 /**
  * Type definition for the parameters accepted by the `useFetchData` hook.

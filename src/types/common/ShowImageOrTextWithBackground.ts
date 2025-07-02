@@ -1,4 +1,4 @@
-import { AnyObject } from "./helper"
+import { AnyObject } from "./Helper"
 
 export interface ShowImageOrTextWithBackgroundPropType {
     color: string

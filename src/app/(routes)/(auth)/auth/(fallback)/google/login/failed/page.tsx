@@ -1,8 +1,8 @@
 "use client"
-import { ALERT_ICON_TYPE } from "@/utils/constants"
-import { showSweetAlertWithRedirect } from "@/utils/helpers"
+import { ALERT_ICON_TYPE } from "@/utils/Constants"
+import { showSweetAlertWithRedirect } from "@/utils/Helpers"
 import { useRouter, useSearchParams } from "next/navigation"
-import React, { useEffect } from "react"
+import { useEffect } from "react"
 
 const Page = () => {
     const router = useRouter()

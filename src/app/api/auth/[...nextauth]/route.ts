@@ -1,4 +1,4 @@
-import { Any } from "@/types/common/helper"
+import { Any } from "@/types/common/Helper"
 import NextAuth, { AuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import Google from "next-auth/providers/google"

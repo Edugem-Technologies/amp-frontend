@@ -1,4 +1,4 @@
-import { UseDataDeleteEffectPropsType } from "@/types/hooks/useDataDeleteEffect"
+import { UseDataDeleteEffectPropsType } from "@/types/hooks/UseDataDeleteEffect"
 import { useEffect, useState } from "react"
 
 /**

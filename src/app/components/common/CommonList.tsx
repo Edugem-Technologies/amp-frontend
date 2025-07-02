@@ -4,7 +4,7 @@ import {
     ClientDrivenColumns,
     CommonListProps,
 } from "@/types/common/CommonList"
-import { Any, AnyObject } from "@/types/common/helper"
+import { Any, AnyObject } from "@/types/common/Helper"
 import { fetchColumnData } from "@/utils/FetchData"
 import { ColumnDef } from "@tanstack/react-table"
 import React, { useEffect, useState } from "react"

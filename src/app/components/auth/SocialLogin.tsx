@@ -1,5 +1,5 @@
-import { CONFIG } from "@/utils/constants"
-import { handleError } from "@/utils/handle-error"
+import { CONFIG } from "@/utils/Constants"
+import { handleError } from "@/utils/HandleError"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import GoogleLogo from "../../../../public/images/Google-logo.svg"

@@ -1,4 +1,4 @@
-import { CONFIG } from "@/utils/constants"
+import { CONFIG } from "@/utils/Constants"
 import {
     addressSchemaArray,
     getAlphaNumericFieldSchema,
@@ -8,7 +8,7 @@ import {
     getOptionalMultiSelectFieldSchema,
     getOTPFieldSchema,
     getPhoneNumberSchema,
-} from "@/utils/validation"
+} from "@/utils/Validation"
 import { z } from "zod"
 
 /**

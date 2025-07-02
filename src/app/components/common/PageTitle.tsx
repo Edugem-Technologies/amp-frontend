@@ -1,4 +1,4 @@
-import { formatTextToTitleCase } from "@/utils/helpers"
+import { formatTextToTitleCase } from "@/utils/Helpers"
 import React from "react"
 
 const PageTitle: React.FC<{ title: string }> = ({ title }) => {

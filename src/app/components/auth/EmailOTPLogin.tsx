@@ -1,6 +1,6 @@
 "use client"
 import { LoginFormProps } from "@/types/components/LoginsForm"
-import { CONFIG } from "@/utils/constants"
+import { CONFIG } from "@/utils/Constants"
 import { EmailOTPLoginSchemaType, EmailOTPSendSchema } from "@/validations/auth/Login"
 import { UseFormReturn } from "react-hook-form"
 import SendOTP from "../button/SendOTP"

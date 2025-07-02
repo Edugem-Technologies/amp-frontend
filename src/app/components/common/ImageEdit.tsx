@@ -1,10 +1,10 @@
-import { InputUploadDropzone } from "@/types/components/dropzone"
+import { AnyObject } from "@/types/common/Helper"
+import { InputUploadDropzone } from "@/types/components/Dropzone"
+import { getFileUrl } from "@/utils/Helpers"
 import React, { useEffect, useState } from "react"
 import { Spinner } from "react-bootstrap"
 import { FileRejection, useDropzone } from "react-dropzone"
 import Icon from "./Icon"
-import { getFileUrl } from "@/utils/helpers"
-import { AnyObject } from "@/types/common/helper"
 
 /**
  * ImageEdit component provides an image upload and preview interface using drag-and-drop or file picker.

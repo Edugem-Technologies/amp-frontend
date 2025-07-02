@@ -1,11 +1,11 @@
-import { CONFIG } from "@/utils/constants"
-import { checkIsPhoneNumberValid } from "@/utils/helpers"
+import { CONFIG } from "@/utils/Constants"
+import { checkIsPhoneNumberValid } from "@/utils/Helpers"
 import {
     getNameFieldSchema,
     getOTPFieldSchema,
     getPhoneNumberSchema,
     getRequiredEmailSchema,
-} from "@/utils/validation"
+} from "@/utils/Validation"
 import { z } from "zod"
 
 export const EmailPasswordLoginSchema = z.object({

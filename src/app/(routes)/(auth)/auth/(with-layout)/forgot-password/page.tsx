@@ -1,14 +1,14 @@
 "use client"
 import AuthHeader from "@/app/components/auth/AuthHeader"
 import ForgotPasswordForm from "@/app/components/auth/ForgotPassword"
-import { FetchHelper } from "@/services/fetch-helper"
-import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
-import { handleError } from "@/utils/handle-error"
-import { executeWithRecaptcha, showSweetAlert } from "@/utils/helpers"
+import { FetchHelper } from "@/services/FetchHelper"
+import { ALERT_ICON_TYPE, CONFIG } from "@/utils/Constants"
+import { handleError } from "@/utils/HandleError"
+import { executeWithRecaptcha, showSweetAlert } from "@/utils/Helpers"
 import {
     BaseForgotPasswordSchema,
     BaseForgotPasswordSchemaType,
-} from "@/validations/auth/forgotPassword"
+} from "@/validations/auth/ForgotPassword"
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"

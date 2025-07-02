@@ -1,9 +1,9 @@
-import { CONFIG } from "@/utils/constants"
+import { CONFIG } from "@/utils/Constants"
 import {
     getNameFieldSchema,
     getRequiredEmailSchema,
     getUserPasswordSchema,
-} from "@/utils/validation"
+} from "@/utils/Validation"
 import { z } from "zod"
 
 export const BaseForgotPasswordSchema = z.object({

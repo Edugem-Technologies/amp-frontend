@@ -1,5 +1,5 @@
-import { CONFIG } from "@/utils/constants"
-import { requiredImageSchema } from "@/utils/validation"
+import { CONFIG } from "@/utils/Constants"
+import { requiredImageSchema } from "@/utils/Validation"
 import { z } from "zod"
 
 export const BulkUploadModalSchema = z.object({

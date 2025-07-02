@@ -1,7 +1,7 @@
-import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
+import { ALERT_ICON_TYPE, CONFIG } from "@/utils/Constants"
+import { handleError } from "@/utils/HandleError"
+import { showSweetAlert } from "@/utils/Helpers"
 import Icon from "./Icon"
-import { handleError } from "@/utils/handle-error"
-import { showSweetAlert } from "@/utils/helpers"
 
 const CopyToClipboard = ({ textToCopy }: { textToCopy: string }) => {
     const handleCopy = async () => {

@@ -1,16 +1,16 @@
+import { useAppContext } from "@/app/context/AppContext"
 import useDataDeleteEffect from "@/app/hooks/useDataDeleteEffect"
-import { FetchHelper } from "@/services/fetch-helper"
-import { Any, AnyObject } from "@/types/common/helper"
-import { ReactTableWithPaginationPropType } from "@/types/components/react-table"
-import { CONFIG } from "@/utils/constants"
-import { getArray } from "@/utils/helpers"
+import { FetchHelper } from "@/services/FetchHelper"
+import { Any, AnyObject } from "@/types/common/Helper"
+import { ReactTableWithPaginationPropType } from "@/types/components/ReactTable"
+import { CONFIG } from "@/utils/Constants"
+import { getArray } from "@/utils/Helpers"
 import { getCoreRowModel, SortingState, useReactTable } from "@tanstack/react-table"
 import { useEffect, useMemo, useState } from "react"
 import CardLoader from "./CardSkeleton"
 import NoData from "./NoData"
 import ReactTable from "./ReactTable"
 import TablePagination from "./TablePagination"
-import { useAppContext } from "@/app/context/AppContext"
 
 const ReactTableWithPagination: React.FC<ReactTableWithPaginationPropType> = (props) => {
     const {

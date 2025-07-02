@@ -1,14 +1,14 @@
 "use client"
 import { usePermissions } from "@/app/context/PermissionContext"
 import { AuthMethodEnum, LoginTypeEnum } from "@/enums/LoginTypeEnum"
-import { FetchHelper } from "@/services/fetch-helper"
-import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
-import { handleError } from "@/utils/handle-error"
+import { FetchHelper } from "@/services/FetchHelper"
+import { ALERT_ICON_TYPE, BASE_REDIRECT_URL, CONFIG } from "@/utils/Constants"
+import { handleError } from "@/utils/HandleError"
 import {
     executeWithRecaptcha,
     setLoginDetailsToLocalStorage,
     showSweetAlertWithRedirect,
-} from "@/utils/helpers"
+} from "@/utils/Helpers"
 import {
     EmailOTPLoginSchema,
     EmailPasswordLoginSchema,
@@ -53,7 +53,7 @@ const LoginFormSwitcher = () => {
     const { setUserPermissions } = usePermissions()
     const router = useRouter()
     const searchParams = useSearchParams()
-    const redirectUrl = searchParams.get("redirectUrl") || "/"
+    const redirectUrl = searchParams.get("redirectUrl") || BASE_REDIRECT_URL
     const [loginType, setLoginType] = useState<LoginTypeEnum>(LoginTypeEnum.EMAIL)
     const [authMethod, setAuthMethod] = useState<AuthMethodEnum>(AuthMethodEnum.PASSWORD)
 

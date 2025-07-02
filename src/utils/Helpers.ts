@@ -1,15 +1,15 @@
-import { FetchHelper } from "@/services/fetch-helper"
+import { FetchHelper } from "@/services/FetchHelper"
 import { User } from "@/types/auth/User"
 import { FileUpload, uploadedFileType } from "@/types/common/FileUpload"
-import { Any, AnyObject, CheckValidPhoneNumberArgsTyps } from "@/types/common/helper"
-import { Role } from "@/types/data/loginData"
+import { Any, AnyObject, CheckValidPhoneNumberArgsTyps } from "@/types/common/Helper"
+import { Role } from "@/types/data/LoginData"
 import crypto from "crypto-js"
 import { isValidNumber, parse } from "libphonenumber-js"
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime"
 import Swal, { SweetAlertIcon, SweetAlertOptions } from "sweetalert2"
 import uuid from "uuid-random"
-import { ALERT_ICON_TYPE, CONFIG, MAX_INT_LIMIT } from "./constants"
-import { handleError } from "./handle-error"
+import { ALERT_ICON_TYPE, CONFIG, MAX_INT_LIMIT } from "./Constants"
+import { handleError } from "./HandleError"
 
 /**
  * Generates an array of numbers from 1 to the specified length.
@@ -1039,4 +1039,23 @@ export const executeWithRecaptcha = async (callback: () => Promise<void>) => {
                 handleError(error)
             })
     })
+}
+
+/**
+ * Truncates a string to a specified length and appends an ellipsis ("  ...") if the original string exceeds that length.
+ *
+ * @function sliceWithEllipsis
+ * @param {string | undefined | null} name - The string to be truncated. If undefined or null, returns an empty string.
+ * @param {number} sliceLimit - The maximum number of characters to keep before truncating.
+ * @returns {string} The truncated string with an ellipsis if it was longer than the limit, or the original string otherwise.
+ *
+ * @example
+ * sliceWithEllipsis("Hello, world!", 5); // "Hello  ..."
+ * sliceWithEllipsis("Hi", 5); // "Hi"
+ * sliceWithEllipsis(undefined, 5); // ""
+ */
+export function sliceWithEllipsis(name: string | undefined | null, sliceLimit: number): string {
+    const slicedName = name?.slice(0, sliceLimit) || ""
+    const ellipsis = name?.length && name.length > sliceLimit ? "  ..." : ""
+    return slicedName ? slicedName + ellipsis : ""
 }

@@ -1,5 +1,5 @@
 import { ShowImageOrTextWithBackgroundPropType } from "@/types/common/ShowImageOrTextWithBackground"
-import { getImageUrl, getResizedImage } from "@/utils/helpers"
+import { getImageUrl, getResizedImage } from "@/utils/Helpers"
 import React, { useEffect, useState } from "react"
 import Icon from "./Icon"
 

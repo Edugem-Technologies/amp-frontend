@@ -99,27 +99,49 @@ const LoginFormSwitcher = () => {
         formState: { isSubmitting },
     } = hookForm
 
+    console.log("isSubmitting before", isSubmitting)
+
     const submitHandler = async (data: LoginSchemaType) => {
         try {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             //@ts-ignore
             // We use grecaptcha to prevent automated abuse and ensure that the login request is made by a real user.
-            executeWithRecaptcha(async () => {
-                const response = await FetchHelper.post(CONFIG.API_ENDPOINTS.LOGIN, data)
-                if (response?.status) {
-                    setLoginDetailsToLocalStorage({
-                        permissions: response.data.permissions,
-                        roles: response.data.roles,
-                        setUserPermissions,
-                        userDetails: response.data.user,
-                    })
-                    showSweetAlertWithRedirect({
-                        text: response.message,
-                        icon: ALERT_ICON_TYPE.success,
-                        router,
-                        url: redirectUrl,
-                    })
-                }
+
+            /**
+             * We use a Promise here to ensure that the async login logic inside
+             * `executeWithRecaptcha` completes before the submitHandler itself resolves.
+             *
+             * The `executeWithRecaptcha` function expects a callback, but does not return a Promise.
+             * By wrapping it in a new Promise and calling `resolve()` after the async logic finishes,
+             * we allow the outer async/await flow (such as form submission state) to properly wait
+             * for the entire login and reCAPTCHA process to complete before proceeding.
+             */
+            await new Promise<void>((resolve) => {
+                executeWithRecaptcha(async () => {
+                    try {
+                        const response = await FetchHelper.post(CONFIG.API_ENDPOINTS.LOGIN, data)
+                        if (response?.status) {
+                            setLoginDetailsToLocalStorage({
+                                permissions: response.data.permissions,
+                                roles: response.data.roles,
+                                setUserPermissions,
+                                userDetails: response.data.user,
+                                updateAuthenticatedStatus: !response?.data?.user?.has_2fa_enabled,
+                            })
+                            showSweetAlertWithRedirect({
+                                text: response.message,
+                                icon: ALERT_ICON_TYPE.success,
+                                router,
+                                url: response?.data?.user?.has_2fa_enabled
+                                    ? `/auth/mfa?redirectUrl=${redirectUrl}`
+                                    : redirectUrl,
+                            })
+                        }
+                        resolve()
+                    } catch (error) {
+                        handleError(error)
+                    }
+                })
             })
         } catch (error) {
             handleError(error)

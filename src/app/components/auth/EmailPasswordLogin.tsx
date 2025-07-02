@@ -27,6 +27,7 @@ const EmailPasswordLogin: React.FC<LoginFormProps> = ({ hookForm }) => {
 
                 <div className="">
                     <TextInputField
+                        isRequired
                         label="Password"
                         type="password"
                         autoComplete="off"

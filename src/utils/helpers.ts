@@ -475,11 +475,13 @@ export const setLoginDetailsToLocalStorage = async ({
     roles,
     userDetails,
     setUserPermissions,
+    updateAuthenticatedStatus = true,
 }: {
     permissions: string[]
     roles: Role[]
     userDetails: User
     setUserPermissions: (permissions: string[]) => void
+    updateAuthenticatedStatus?: boolean
 }) => {
     try {
         setEncryptedLocalStorageData(CONFIG.LOCAL_STORAGE_VARIABLES.PERMISSIONS, permissions)
@@ -487,13 +489,15 @@ export const setLoginDetailsToLocalStorage = async ({
         const userData = { ...userDetails, role: roleData }
         setEncryptedLocalStorageData(CONFIG.LOCAL_STORAGE_VARIABLES.USER_DATA, userData)
         setUserPermissions(permissions)
-        setIsAuthenticated()
-        if (userDetails?.document?.length) {
-            const profileImageURL = await getFileUrl(userDetails?.document[0])
-            setEncryptedSessionStorageData(
-                CONFIG.SESSION_STORAGE_VARIABLES.PROFILE_IMAGE_URL,
-                profileImageURL,
-            )
+        if (updateAuthenticatedStatus) {
+            setIsAuthenticated()
+            if (userDetails?.document?.length) {
+                const profileImageURL = await getFileUrl(userDetails?.document[0])
+                setEncryptedSessionStorageData(
+                    CONFIG.SESSION_STORAGE_VARIABLES.PROFILE_IMAGE_URL,
+                    profileImageURL,
+                )
+            }
         }
     } catch (error) {
         handleError(error)

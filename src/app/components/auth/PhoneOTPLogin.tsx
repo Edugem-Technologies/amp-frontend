@@ -52,6 +52,7 @@ const PhoneOTPLogin: React.FC<LoginFormProps> = ({ hookForm }) => {
 
                 <div className="">
                     <TextInputField
+                        isRequired
                         label="OTP"
                         type="text"
                         autoComplete="off"

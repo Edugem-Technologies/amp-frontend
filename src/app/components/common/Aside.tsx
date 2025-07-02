@@ -34,12 +34,17 @@ const Aside = () => {
      * ];
      */
     const sidebarItems: SidebarItemsType[] = [
-        { label: "Home", href: "/", icon: "/icons/sample.svg" },
-        { label: "Profile", href: "/profile", icon: "/icons/sample.svg" },
-        { label: "Users", href: "/users", icon: "/icons/sample.svg" },
+        { label: "Components", href: "/components", icon: "/icons/sample.svg" },
         { label: "File Upload", href: "/file-upload", icon: "/icons/sample.svg" },
-        { label: "Roles", href: "/roles", icon: "/icons/sample.svg" },
         { label: "Reports", href: "/reports", icon: "/icons/sample.svg" },
+        {
+            label: "Manage",
+            icon: "/icons/sample.svg",
+            sidebarItems: [
+                { label: "Roles", href: "/roles" },
+                { label: "Users", href: "/users" },
+            ],
+        },
         {
             label: "Auth",
             icon: "/icons/sample.svg",

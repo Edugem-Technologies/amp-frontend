@@ -6,6 +6,7 @@ import { handleError } from "@/utils/HandleError"
 import {
     getDecryptedSessionStorageData,
     removeIsAuthenticated,
+    showSweetAlert,
     showSweetAlertWithRedirect,
 } from "@/utils/Helpers"
 import { useRouter } from "next/navigation"
@@ -36,15 +37,23 @@ const UserDropdown = () => {
     }
     const handleLogout = async () => {
         try {
-            const response = await FetchHelper.get(CONFIG.API_ENDPOINTS.LOGOUT)
-            if (response.status) {
-                removeIsAuthenticated()
-                showSweetAlertWithRedirect({
-                    icon: ALERT_ICON_TYPE.success,
-                    text: response.message,
-                    router,
-                    url: "/auth/login",
-                })
+            const result = await showSweetAlert({
+                icon: ALERT_ICON_TYPE.warning,
+                text: CONFIG.MESSAGES.CONFIRM_LOGOUT,
+                cancelButtonText: CONFIG.SWEETALERT_LOGOUT_OPTION.cancelButtonText,
+                subtitle: false,
+            })
+            if (result.isConfirmed) {
+                const response = await FetchHelper.get(CONFIG.API_ENDPOINTS.LOGOUT)
+                if (response.status) {
+                    removeIsAuthenticated()
+                    showSweetAlertWithRedirect({
+                        icon: ALERT_ICON_TYPE.success,
+                        text: response.message,
+                        router,
+                        url: "/auth/login",
+                    })
+                }
             }
         } catch (error) {
             handleError(error)

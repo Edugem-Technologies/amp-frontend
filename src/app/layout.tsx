@@ -6,7 +6,7 @@ import { AppProvider } from "./context/AppContext"
 import { PermissionProvider } from "./context/PermissionContext"
 
 export const metadata: Metadata = {
-    title: "NEXT 14",
+    title: "Boilerplate - NEXT",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

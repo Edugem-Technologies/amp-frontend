@@ -41,13 +41,12 @@ const ComponentsPage = () => {
             <IntersectionObserver />
             <br />
             <h2>
-                To check UI driven table implementation, please check{" "}
-                <Link href="/users">User listing</Link> page
+                UI driven table :<Link href="/users">User listing</Link>
             </h2>
             <br />
             <h2>
-                To check backend driven table implementation, please check{" "}
-                <Link href="/roles">Role listing</Link> page
+                Backend driven table:
+                <Link href="/roles">Role listing</Link>
             </h2>
             <br />
             <h2>Please click below button for sweetAlert</h2>

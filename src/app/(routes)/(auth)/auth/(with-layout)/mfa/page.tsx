@@ -3,7 +3,7 @@ import AuthHeader from "@/app/components/auth/AuthHeader"
 import PrimaryButton from "@/app/components/button/PrimaryButton"
 import TextInputField from "@/app/components/input/TextInput"
 import { FetchHelper } from "@/services/FetchHelper"
-import { ALERT_ICON_TYPE, CONFIG } from "@/utils/Constants"
+import { ALERT_ICON_TYPE, BASE_REDIRECT_URL, CONFIG } from "@/utils/Constants"
 import { handleError } from "@/utils/HandleError"
 import {
     executeWithRecaptcha,
@@ -21,7 +21,7 @@ import { useForm } from "react-hook-form"
 const Page = () => {
     const router = useRouter()
     const searchParams = useSearchParams()
-    const redirectUrl = searchParams.get("redirectUrl") || "/"
+    const redirectUrl = searchParams.get("redirectUrl") || BASE_REDIRECT_URL
     const {
         register,
         handleSubmit,

@@ -1,6 +1,6 @@
 import { CommonCardInterface } from "@/types/common/CommonCard"
-import { CONFIG } from "@/utils/constants"
-import { formatTextToCapitalized } from "@/utils/helpers"
+import { CONFIG } from "@/utils/Constants"
+import { formatTextToCapitalized } from "@/utils/Helpers"
 import { getRandomColor } from "@bombaysoftwares/tskit"
 import { useRouter } from "next/navigation"
 import React from "react"

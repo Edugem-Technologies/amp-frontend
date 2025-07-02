@@ -1,8 +1,8 @@
-import { Any } from "@/types/common/helper"
-import { BulkUploadButtonProps } from "@/types/components/button"
+import { Any } from "@/types/common/Helper"
+import { BulkUploadButtonProps } from "@/types/components/Button"
 import { useState } from "react"
-import SecondaryButton from "./SecondaryButton"
 import BulkUploadModal from "../modal/BulkUploadModal"
+import SecondaryButton from "./SecondaryButton"
 
 /**
  * BulkUploadButton component renders a button that opens a modal for bulk uploading files.

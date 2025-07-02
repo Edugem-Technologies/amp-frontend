@@ -1,5 +1,5 @@
-import { ReactTableProps, RowId, Searchable } from "@/types/components/react-table"
-import { CONFIG } from "@/utils/constants"
+import { ReactTableProps, RowId, Searchable } from "@/types/components/ReactTable"
+import { CONFIG } from "@/utils/Constants"
 import { flexRender } from "@tanstack/react-table"
 import dayjs from "dayjs"
 import { debounce } from "lodash"

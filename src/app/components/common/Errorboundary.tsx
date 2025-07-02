@@ -1,5 +1,5 @@
 "use client"
-import { ErrorBoundaryPropType, ErrorBoundaryStateType } from "@/types/common/error-boundary"
+import { ErrorBoundaryPropType, ErrorBoundaryStateType } from "@/types/common/ErrorBoundary"
 import React, { ErrorInfo } from "react"
 
 class ErrorBoundary extends React.Component<ErrorBoundaryPropType, ErrorBoundaryStateType> {

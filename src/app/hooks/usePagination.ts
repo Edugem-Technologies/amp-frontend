@@ -1,4 +1,4 @@
-import { UsePaginationHookType } from "@/types/components/pagination"
+import { UsePaginationHookType } from "@/types/components/Pagination"
 import { useMemo } from "react"
 
 export const DOTS = "..."

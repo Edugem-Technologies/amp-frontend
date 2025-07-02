@@ -1,13 +1,13 @@
 "use client"
 import { useAppContext } from "@/app/context/AppContext"
-import { FetchHelper } from "@/services/fetch-helper"
-import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
-import { handleError } from "@/utils/handle-error"
+import { FetchHelper } from "@/services/FetchHelper"
+import { ALERT_ICON_TYPE, CONFIG } from "@/utils/Constants"
+import { handleError } from "@/utils/HandleError"
 import {
     getDecryptedSessionStorageData,
     removeIsAuthenticated,
     showSweetAlertWithRedirect,
-} from "@/utils/helpers"
+} from "@/utils/Helpers"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { Card, ListGroup } from "react-bootstrap"

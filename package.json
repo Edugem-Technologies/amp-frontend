@@ -32,6 +32,7 @@
         "cookies-next": "^4.1.0",
         "crypto-js": "^4.2.0",
         "dayjs": "^1.11.13",
+        "eslint-plugin-validate-filename": "^1.0.0",
         "libphonenumber-js": "^1.11.12",
         "lodash": "^4.17.21",
         "mem": "^10.0.0",

@@ -1,5 +1,5 @@
+import { ButtonProps } from "@/types/components/Button"
 import React from "react"
-import { ButtonProps } from "@/types/components/button"
 import CustomButton from "./Button"
 
 const PrimaryButton: React.FC<ButtonProps> = ({

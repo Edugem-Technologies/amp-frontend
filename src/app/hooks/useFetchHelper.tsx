@@ -1,12 +1,12 @@
 "use client"
-import { FetchHelper } from "@/services/fetch-helper"
-import { AnyObject } from "@/types/common/helper"
+import { FetchHelper } from "@/services/FetchHelper"
+import { AnyObject } from "@/types/common/Helper"
 import {
     MutationFunctionType,
     UseFetchDataType,
     UseMutateDataType,
-} from "@/types/hooks/useFetchHelper"
-import { handleError } from "@/utils/handle-error"
+} from "@/types/hooks/UseFetchHelper"
+import { handleError } from "@/utils/HandleError"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 /**

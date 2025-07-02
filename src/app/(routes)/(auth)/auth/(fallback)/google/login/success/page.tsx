@@ -1,9 +1,9 @@
 "use client"
 import { usePermissions } from "@/app/context/PermissionContext"
-import { FetchHelper } from "@/services/fetch-helper"
-import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
-import { handleError } from "@/utils/handle-error"
-import { setLoginDetailsToLocalStorage, showSweetAlertWithRedirect } from "@/utils/helpers"
+import { FetchHelper } from "@/services/FetchHelper"
+import { ALERT_ICON_TYPE, CONFIG } from "@/utils/Constants"
+import { handleError } from "@/utils/HandleError"
+import { setLoginDetailsToLocalStorage, showSweetAlertWithRedirect } from "@/utils/Helpers"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect } from "react"
 

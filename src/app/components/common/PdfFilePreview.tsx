@@ -1,9 +1,8 @@
+import { CONFIG } from "@/utils/Constants"
+import { convertBytesToKB, formatFileSize, sliceWithEllipsis } from "@/utils/Helpers"
 import React from "react"
 import { Spinner } from "react-bootstrap"
-import { sliceWithEllipsis } from "@/utils/common"
 import Icon from "./Icon"
-import { CONFIG } from "@/utils/constants"
-import { convertBytesToKB, formatFileSize } from "@/utils/helpers"
 
 const PdfFilePreview = ({
     setFile,

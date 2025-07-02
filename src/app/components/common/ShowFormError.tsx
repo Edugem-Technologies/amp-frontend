@@ -1,4 +1,4 @@
-import { ShowFormErrorPropType } from "@/types/common/show-form-error"
+import { ShowFormErrorPropType } from "@/types/common/ShowFormError"
 import React from "react"
 
 /**

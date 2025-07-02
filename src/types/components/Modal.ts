@@ -1,5 +1,5 @@
 import { ModalHeaderProps, ModalProps, ModalTitleProps } from "react-bootstrap"
-import { AnyObject } from "../common/helper"
+import { AnyObject } from "../common/Helper"
 
 export interface DefaultModalPropType {
     onClose: () => void

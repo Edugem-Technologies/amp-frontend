@@ -2,9 +2,9 @@
 import AuthHeader from "@/app/components/auth/AuthHeader"
 import PrimaryButton from "@/app/components/button/PrimaryButton"
 import TextInputField from "@/app/components/input/TextInput"
-import { FetchHelper } from "@/services/fetch-helper"
-import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
-import { handleError } from "@/utils/handle-error"
+import { FetchHelper } from "@/services/FetchHelper"
+import { ALERT_ICON_TYPE, CONFIG } from "@/utils/Constants"
+import { handleError } from "@/utils/HandleError"
 import {
     executeWithRecaptcha,
     getDecryptedLocalStorageData,
@@ -12,7 +12,7 @@ import {
     setEncryptedSessionStorageData,
     setIsAuthenticated,
     showSweetAlertWithRedirect,
-} from "@/utils/helpers"
+} from "@/utils/Helpers"
 import { MFAVerifySchema, MFAVerifySchemaType } from "@/validations/auth/MFASchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter, useSearchParams } from "next/navigation"

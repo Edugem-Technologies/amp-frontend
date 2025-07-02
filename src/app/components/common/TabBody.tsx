@@ -1,9 +1,9 @@
-import { TabBodyPropType } from "@/types/components/tab-body"
-import { getArray } from "@/utils/helpers"
+import { TabBodyPropType } from "@/types/components/TabBody"
+import { CONFIG } from "@/utils/Constants"
+import { getArray } from "@/utils/Helpers"
 import React from "react"
 import CardLoader from "./CardSkeleton"
 import CustomSkeleton from "./CustomSkeleton"
-import { CONFIG } from "@/utils/constants"
 
 /**
  * Component to display the body of a tab with optional loading skeletons.

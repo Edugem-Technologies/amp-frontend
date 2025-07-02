@@ -1,6 +1,6 @@
 "use client"
 import LoginSwiperSection from "@/app/components/common/LoginSwiperSection"
-import { loadRecaptcha, removeRecaptcha } from "@/utils/helpers"
+import { loadRecaptcha, removeRecaptcha } from "@/utils/Helpers"
 import dynamic from "next/dynamic"
 import { usePathname } from "next/navigation"
 import React, { useEffect } from "react"

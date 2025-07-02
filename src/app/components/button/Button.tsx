@@ -1,4 +1,4 @@
-import { ButtonProps } from "@/types/components/button"
+import { ButtonProps } from "@/types/components/Button"
 import React from "react"
 import { Spinner } from "react-bootstrap"
 

@@ -1,5 +1,5 @@
 import { BaseStaticSelectPropType, Option } from "@/types/components/ReactSelect"
-import { CONFIG } from "@/utils/constants"
+import { CONFIG } from "@/utils/Constants"
 import ReactSelect, { MultiValue, SingleValue } from "react-select"
 
 const BaseStaticSelect: React.FC<BaseStaticSelectPropType> = (props) => {

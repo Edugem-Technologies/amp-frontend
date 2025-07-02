@@ -1,9 +1,9 @@
 "use client"
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { iterateObject } from "@/utils/handle-error"
-import { axiosInstance } from "./axios-instance"
-import { CONFIG } from "@/utils/constants"
+import { CONFIG } from "@/utils/Constants"
+import { iterateObject } from "@/utils/HandleError"
+import { axiosInstance } from "./AxiosInstance"
 
 export type Params = Record<string, any>
 

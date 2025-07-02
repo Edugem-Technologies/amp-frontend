@@ -1,6 +1,6 @@
-import { Any } from "@/types/common/helper"
-import TextInputField from "../input/TextInput"
+import { Any } from "@/types/common/Helper"
 import PrimaryButton from "../button/PrimaryButton"
+import TextInputField from "../input/TextInput"
 
 const ForgotPasswordForm = ({ hookForm }: { hookForm: Any }) => {
     const {

@@ -2,7 +2,7 @@
 import Aside from "@/app/components/common/Aside"
 import Footer from "@/app/components/common/Footer"
 import Navbar from "@/app/components/common/Navbar"
-import { removeRecaptcha } from "@/utils/helpers"
+import { removeRecaptcha } from "@/utils/Helpers"
 import React, { ReactNode, useEffect } from "react"
 
 const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {

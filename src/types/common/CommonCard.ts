@@ -1,4 +1,4 @@
-import { AnyObject } from "./helper"
+import { AnyObject } from "./Helper"
 
 export interface CommonCardInterface {
     first_name: string

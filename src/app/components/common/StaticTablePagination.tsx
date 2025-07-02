@@ -1,7 +1,7 @@
-import { TablePaginationPropType } from "@/types/components/pagination"
+import { TablePaginationPropType } from "@/types/components/Pagination"
+import { CONFIG } from "@/utils/Constants"
 import React from "react"
 import Pagination from "../pagination/Pagination"
-import { CONFIG } from "@/utils/constants"
 
 const StaticTablePagination: React.FC<Omit<TablePaginationPropType, "colSpan">> = (props) => {
     const { pagination, setPagination, totalCount, paginationContainerClass } = props

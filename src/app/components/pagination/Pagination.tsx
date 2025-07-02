@@ -1,6 +1,6 @@
+import { PaginationPropType } from "@/types/components/Pagination"
 import classnames from "classnames"
-import { DOTS, usePagination } from "./usePagination"
-import { PaginationPropType } from "@/types/components/pagination"
+import { DOTS, usePagination } from "../../hooks/usePagination"
 
 const Pagination: React.FC<PaginationPropType> = (props) => {
     const { onChange, totalCount, siblingCount = 1, page, size } = props

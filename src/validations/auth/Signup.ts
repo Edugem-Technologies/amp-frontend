@@ -1,5 +1,5 @@
-import { CONFIG } from "@/utils/constants"
-import { checkIsPhoneNumberValid } from "@/utils/helpers"
+import { CONFIG } from "@/utils/Constants"
+import { checkIsPhoneNumberValid } from "@/utils/Helpers"
 import {
     addressSchemaArray,
     getAlphaNumericFieldSchema,
@@ -7,7 +7,7 @@ import {
     getNameFieldSchema,
     getOptionalAlphaNumericFieldSchema,
     getPhoneNumberSchema,
-} from "@/utils/validation"
+} from "@/utils/Validation"
 import { z } from "zod"
 export const SignupValidationSchema = z
     .object({

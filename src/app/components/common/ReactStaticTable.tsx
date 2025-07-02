@@ -1,3 +1,6 @@
+import { Any } from "@/types/common/Helper"
+import { ReactTableProps, ReactTableWithPaginationPropType } from "@/types/components/ReactTable"
+import { CONFIG } from "@/utils/Constants"
 import {
     getCoreRowModel,
     getPaginationRowModel,
@@ -6,11 +9,8 @@ import {
     useReactTable,
 } from "@tanstack/react-table"
 import { useState } from "react"
-import ReactTable from "./ReactTable"
-import { CONFIG } from "@/utils/constants"
-import { Any } from "@/types/common/helper"
 import CustomTooltip from "./CustomTooltip"
-import { ReactTableProps, ReactTableWithPaginationPropType } from "@/types/components/react-table"
+import ReactTable from "./ReactTable"
 import StaticTablePagination from "./StaticTablePagination"
 
 const ReactStaticTable = <T extends object>(

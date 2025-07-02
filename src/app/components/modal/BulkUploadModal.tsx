@@ -1,16 +1,16 @@
 import { DocumentTypeEnum } from "@/enums/DocumentTypeEnum"
-import { FetchHelper } from "@/services/fetch-helper"
-import { AnyObject } from "@/types/common/helper"
-import { BulkUploadButtonProps } from "@/types/components/button"
+import { FetchHelper } from "@/services/FetchHelper"
+import { AnyObject } from "@/types/common/Helper"
+import { BulkUploadButtonProps } from "@/types/components/Button"
 import { DefaultModalPropType } from "@/types/components/Modal"
-import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
-import { handleError } from "@/utils/handle-error"
+import { ALERT_ICON_TYPE, CONFIG } from "@/utils/Constants"
+import { handleError } from "@/utils/HandleError"
 import {
     createFileObjectForS3Upload,
     formatTextToTitleCase,
     handleUploadFile,
     showSweetAlert,
-} from "@/utils/helpers"
+} from "@/utils/Helpers"
 import {
     BulkUploadModalSchema,
     BulkUploadModalSchemaType,

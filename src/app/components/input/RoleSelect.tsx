@@ -1,6 +1,6 @@
-import React from "react"
-import { CONFIG } from "@/utils/constants"
 import { BaseWrapperSelectPropType } from "@/types/components/ReactSelect"
+import { CONFIG } from "@/utils/Constants"
+import React from "react"
 import BaseSelect from "./BaseSelect"
 
 const RoleSelect: React.FC<BaseWrapperSelectPropType> = (props) => {

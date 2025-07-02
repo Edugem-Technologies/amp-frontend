@@ -1,9 +1,9 @@
 "use client"
-import { FetchHelper } from "@/services/fetch-helper"
+import { FetchHelper } from "@/services/FetchHelper"
 import { BaseUpdateUserProps } from "@/types/components/UpdateUser"
-import { ALERT_ICON_TYPE, CONFIG } from "@/utils/constants"
-import { handleError } from "@/utils/handle-error"
-import { showSweetAlert } from "@/utils/helpers"
+import { ALERT_ICON_TYPE, CONFIG } from "@/utils/Constants"
+import { handleError } from "@/utils/HandleError"
+import { showSweetAlert } from "@/utils/Helpers"
 import {
     SendEmailOTPSchema,
     UpdateEmailSchemaType,

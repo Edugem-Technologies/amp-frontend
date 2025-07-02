@@ -1,5 +1,5 @@
-import { LabelPropsType } from "@/types/components/label"
-import { formatTextToTitleCase } from "@/utils/helpers"
+import { LabelPropsType } from "@/types/components/Label"
+import { formatTextToTitleCase } from "@/utils/Helpers"
 import React from "react"
 
 const Label: React.FC<LabelPropsType> = ({

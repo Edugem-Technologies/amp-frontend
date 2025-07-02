@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Params } from "@/services/fetch-helper"
+import { Params } from "@/services/FetchHelper"
 import { ReactElement } from "react"
 import { GroupBase, Props } from "react-select"
 import { ComponentProps, UseAsyncPaginateParams } from "react-select-async-paginate"
 import { CreatableProps } from "react-select/creatable"
-import { Any } from "../common/helper"
+import { Any } from "../common/Helper"
 
 /**
  * Represents the props required for an async paginated creatable select component.

@@ -16,7 +16,7 @@
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "plugins": ["@typescript-eslint", "react"],
+    "plugins": ["@typescript-eslint", "react", "validate-filename"],
     "rules": {
         "@next/next/no-img-element": "off",
         "camelcase": 0,
@@ -40,7 +40,51 @@
         "no-case-declarations": "error",
         "no-useless-escape": "off",
         "prefer-const": "error",
-        "prefer-spread": 2
+        "prefer-spread": 2,
+        "validate-filename/naming-rules": [
+            "error",
+            {
+                "rules": [
+                    {
+                        "case": "pascal",
+                        "target": "**/app/components/**"
+                    },
+                    {
+                        "case": "pascal",
+                        "target": "**/app/contexts/**"
+                    },
+                    {
+                        "case": "pascal",
+                        "target": "**/src/types/**"
+                    },
+                    {
+                        "case": "pascal",
+                        "target": "**/src/utils/**"
+                    },
+                    {
+                        "case": "pascal",
+                        "target": "**/src/fixtures/**"
+                    },
+                    {
+                        "case": "pascal",
+                        "target": "**/src/enums/**"
+                    },
+                    {
+                        "case": "pascal",
+                        "target": "**/src/validations/**"
+                    },
+                    {
+                        "case": "pascal",
+                        "target": "**/src/services/**"
+                    },
+                    {
+                        "case": "camel",
+                        "target": "**/src/app/hooks/**",
+                        "patterns": "^use"
+                    }
+                ]
+            }
+        ]
     },
     "ignorePatterns": ["public/*"]
 }

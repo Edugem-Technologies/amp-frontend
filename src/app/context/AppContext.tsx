@@ -1,6 +1,6 @@
 "use client"
 import { User } from "@/types/auth/User"
-import { AnyObject } from "@/types/common/helper"
+import { AnyObject } from "@/types/common/Helper"
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react"
 import { useMediaQuery } from "../hooks/useMediaQuery"
 

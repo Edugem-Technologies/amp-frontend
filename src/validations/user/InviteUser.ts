@@ -1,10 +1,10 @@
-import { CONFIG } from "@/utils/constants"
+import { CONFIG } from "@/utils/Constants"
 import {
     getAlphaNumericFieldSchema,
     getOptionalAlphaNumericFieldSchema,
     getRequiredEmailSchema,
     getRequiredMultiSelectFieldSchema,
-} from "@/utils/validation"
+} from "@/utils/Validation"
 import { z } from "zod"
 
 export const InviteUserSchema = z.object({

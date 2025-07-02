@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-redeclare */
 import { CustomReactSelectType } from "@/types/components/ReactSelect"
-import { CONFIG } from "@/utils/constants"
+import { CONFIG } from "@/utils/Constants"
 import ReactSelect from "react-select"
 
 const CustomReactSelect: React.FC<CustomReactSelectType> = (props) => {

@@ -1,5 +1,5 @@
-import { ALERT_ICON_TYPE } from "./constants"
-import { removeUnderscoreFromLabel, showSweetAlert } from "./helpers"
+import { ALERT_ICON_TYPE } from "./Constants"
+import { removeUnderscoreFromLabel, showSweetAlert } from "./Helpers"
 
 /**
  * Iterates over an object and constructs a string containing error messages.

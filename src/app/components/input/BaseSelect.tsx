@@ -1,12 +1,12 @@
-import { FetchHelper } from "@/services/fetch-helper"
+import { FetchHelper } from "@/services/FetchHelper"
 import {
     AsyncPaginateCreatableType,
     BaseSelectPropType,
     Option,
 } from "@/types/components/ReactSelect"
-import { sliceWithEllipsis } from "@/utils/common"
-import { CONFIG } from "@/utils/constants"
-import { handleError } from "@/utils/handle-error"
+import { CONFIG } from "@/utils/Constants"
+import { handleError } from "@/utils/HandleError"
+import { sliceWithEllipsis } from "@/utils/Helpers"
 import { useState } from "react"
 import { MultiValue, SingleValue } from "react-select"
 import { withAsyncPaginate } from "react-select-async-paginate"

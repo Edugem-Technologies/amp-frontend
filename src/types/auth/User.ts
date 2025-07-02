@@ -1,6 +1,6 @@
 import { MFAEnum } from "@/enums/MFAEnum"
 import { Address } from "../data/Address"
-import { Role } from "../data/loginData"
+import { Role } from "../data/LoginData"
 
 export interface UserEmailVerifyPropType {
     verification_code: string

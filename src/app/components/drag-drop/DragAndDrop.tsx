@@ -1,5 +1,5 @@
-import { DragAndDropPropType } from "@/types/components/drag-drop"
-import { handleError } from "@/utils/handle-error"
+import { DragAndDropPropType } from "@/types/components/DragDrop"
+import { handleError } from "@/utils/HandleError"
 import {
     closestCenter,
     DndContext,

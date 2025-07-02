@@ -1,5 +1,5 @@
-import { CustomSkeletonType } from "@/types/common/custom-skeleton"
-import { CONFIG } from "@/utils/constants"
+import { CustomSkeletonType } from "@/types/common/CustomSkeleton"
+import { CONFIG } from "@/utils/Constants"
 import Skeleton from "react-loading-skeleton"
 import "react-loading-skeleton/dist/skeleton.css"
 

@@ -457,6 +457,10 @@ export const CONFIG = {
         INVALID_FILE_TYPE: "file-invalid-type",
         FILE_TOO_LARGE: "file-too-large",
     },
+    LAYOUT: {
+        VERTICAL: "vertical",
+        HORIZONTAL: "horizontal",
+    },
 }
 // Endpoints that do not require authentication
 export const OPEN_ENDPOINTS: string[] = [

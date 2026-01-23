@@ -37,17 +37,17 @@ const Aside = () => {
      * ];
      */
     const topSidebarItems: SidebarItemsType[] = [
-        { label: "Dashboard", href: "/dashboard", icon: "Dashboard" },
-        { label: "Roadmaps", href: "/roadmaps", icon: "Map" },
-        { label: "Pipeline", href: "/pipeline", icon: "Insights" },
-        { label: "Team", href: "/team", icon: "Groups" },
+        { label: "Dashboard", href: "/dashboard", icon: "/icons/sidenav-icons/dashboard.svg" },
+        { label: "Roadmaps", href: "/roadmaps", icon: "/icons/sidenav-icons/timeline.svg" },
+        { label: "Pipeline", href: "/pipeline", icon: "/icons/sidenav-icons/pipeline.svg" },
+        { label: "Team", href: "/team", icon: "/icons/sidenav-icons/user-group.svg" },
     ]
 
     const bottomSidebarItems: SidebarItemsType[] = [
-        { label: "Favorites", href: "", icon: "StarBorder" },
-        { label: "Mirrored", href: "", icon: "ContentCopy" },
-        { label: "Requests", href: "", icon: "Bolt" },
-        { label: "Assistants", href: "", icon: "SmartToy" },
+        { label: "Favorites", href: "", icon: "/icons/sidenav-icons/star-dark.svg" },
+        { label: "Mirrored", href: "", icon: "/icons/sidenav-icons/copy.svg" },
+        { label: "Requests", href: "", icon: "/icons/sidenav-icons/bolt-dark.svg" },
+        { label: "Assistants", href: "", icon: "/icons/sidenav-icons/sensor_occupied.svg" },
     ]
 
     const [show, setShow] = useState(false)

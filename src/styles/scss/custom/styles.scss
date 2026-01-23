@@ -616,6 +616,11 @@
     }
 }
 
+.ps-collapsed {
+    width: 75px !important;
+    min-width: 75px !important;
+}
+
 // intentionally kept outside all layers
 aside.sidebar {
     position: sticky !important;
@@ -667,7 +672,7 @@ aside.sidebar {
         display: flex;
         flex-direction: column;
         box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.05);
-        background-color: white;
+        background-color: #f5f8fa;
 
         &:hover {
             &::-webkit-scrollbar-thumb {
@@ -705,7 +710,7 @@ aside.sidebar {
     body {
         font-family: Poppins, Helvetica, "sans-serif";
         color: var(--color-base-font);
-        background-color: var(--color-base-background);
+        background: $theme-primary;
     }
 
     .flex-center {
@@ -1832,6 +1837,294 @@ aside.sidebar {
                     font-weight: 500;
                 }
             }
+        }
+    }
+}
+
+.main-dashboard-container {
+    padding: 30px;
+}
+
+.vertical-view {
+    .accordion-item {
+        border: none;
+        margin-bottom: 12px;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    }
+
+    .accordion-button {
+        font-weight: 600;
+        background: #f7f8fa;
+        box-shadow: none;
+    }
+
+    .accordion-body {
+        padding: 0;
+    }
+
+    .task-list {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        .task-row:first-child {
+            margin-top: 10px;
+        }
+
+        .task-row {
+            padding: 8px 16px 8px 8px;
+            border-bottom: 1px solid #ececec;
+            background-color: white;
+            border-radius: $br-radius;
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            .progress-circle {
+                width: 36px;
+                height: 36px;
+                position: relative;
+                flex-shrink: 0;
+
+                svg {
+                    width: 36px;
+                    height: 36px;
+                    transform: rotate(-90deg);
+
+                    .circle-bg {
+                        fill: none;
+                        stroke: #e6e6e6;
+                        stroke-width: 3;
+                    }
+
+                    .circle-progress {
+                        fill: none;
+                        stroke: #28a745;
+                        stroke-width: 3;
+                        stroke-linecap: round;
+                        transition: stroke-dasharray 0.4s ease;
+                    }
+                }
+
+                .progress-value {
+                    position: absolute;
+                    inset: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 11px;
+                    font-weight: 600;
+                    color: #28a745;
+                }
+            }
+
+            .task-content {
+                .task-title {
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: #3f4254;
+                }
+
+                .task-subtitle {
+                    font-size: 12px;
+                    color: #a1a5b7;
+                }
+            }
+
+            .status-dropdown {
+                min-width: 130px;
+            }
+
+            .avatar-group {
+                min-width: 160px;
+
+                .avatar {
+                    width: 28px;
+                    height: 28px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    border: 2px solid #fff;
+                    margin-left: -8px;
+
+                    &:first-child {
+                        margin-left: 0;
+                    }
+                }
+            }
+
+            .task-actions {
+                svg {
+                    cursor: pointer;
+                    color: #6c757d;
+
+                    &:hover {
+                        color: #000;
+                    }
+                }
+
+                .icon-container {
+                    border-radius: $br-radius;
+                    background-color: $tag-input-color;
+                    padding: 2px;
+                }
+            }
+        }
+    }
+}
+
+.vertical-view {
+    .accordion-item {
+        border: none !important;
+    }
+
+    .accordion-header {
+        all: unset;
+        position: relative;
+        background-color: $theme-primary;
+        padding-bottom: 10px !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .accordion-button {
+        background-color: var(--header-primary);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 16px;
+        font-weight: 600;
+        font-size: 13px !important;
+        color: var(--amp-color-base-font);
+        border-radius: $br-radius;
+
+        // REMOVE default bootstrap chevron
+        &::after {
+            display: none;
+        }
+
+        // LEFT chevron (custom)
+        &::before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            border-right: 2px solid #6b7280;
+            border-bottom: 2px solid #6b7280;
+            transform: rotate(-45deg);
+            transition: transform 0.25s ease;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+
+        &:focus {
+            box-shadow: none;
+        }
+    }
+
+    .accordion-button:not(.collapsed) {
+        &::before {
+            transform: rotate(45deg);
+        }
+    }
+
+    .accordion-body {
+        background-color: $theme-primary;
+
+        .form-input-dropdown {
+            background-color: $tag-input-color;
+            border-radius: $br-radius;
+            border-color: $tag-input-color;
+            width: 140px;
+            overflow: hidden;
+
+            .css-1279fkc-singleValue {
+                font-size: 0.975rem;
+                color: #5e6278;
+                font-weight: 500;
+            }
+        }
+    }
+}
+
+.horizontal-view {
+    .fence-wrapper {
+        border-radius: $br-radius;
+        overflow: hidden;
+
+        .fence-column {
+            .fence-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background-color: var(--header-primary);
+                padding: 11px 20px;
+
+                span {
+                    font-size: 1.2rem;
+                    font-weight: 500;
+                    color: #181c32;
+                }
+
+                .actions {
+                    display: flex;
+                    gap: 3px;
+
+                    button {
+                        background-color: rgba(24, 28, 50, 0.8);
+                        border-radius: $br-radius;
+                        border: none;
+                        outline: none;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        padding: 1px;
+                        cursor: pointer;
+
+                        span {
+                            font-size: 17px;
+                            color: white;
+                        }
+                    }
+                }
+            }
+
+            .task-list-container {
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                background-color: #f5f8fa;
+
+                .task-check-item {
+                    padding: 10px 15px;
+                    border-radius: $br-radius;
+                    box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.05);
+                    margin-bottom: 10px;
+                    background: #fff;
+                }
+
+                .item-label {
+                    font-size: 11px;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+
+    .expanded {
+        min-width: 280px;
+    }
+
+    .kanban-item {
+        transition:
+            box-shadow 0.2s ease,
+            transform 0.2s ease;
+
+        &[style*="transform"] {
+            z-index: 5;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
     }
 }

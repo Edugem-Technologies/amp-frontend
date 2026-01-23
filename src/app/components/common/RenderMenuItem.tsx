@@ -2,7 +2,6 @@ import { SidebarItemsType } from "@/types/components/Aside"
 import Link from "next/link"
 // import { usePathname } from "next/navigation"
 import { Menu, MenuItem, SubMenu } from "react-pro-sidebar"
-import * as MuiIcons from "@mui/icons-material"
 
 /**
  * Recursively renders a sidebar menu with menu items and nested submenus.
@@ -37,9 +36,7 @@ const RenderMenuItem = ({
      */
     const getIconComponent = (iconName?: string) => {
         if (!iconName) return null
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const IconComponent = (MuiIcons as any)[iconName]
-        return IconComponent ? <IconComponent style={{ fontSize: "24px" }} /> : null
+        return <img src={iconName} alt="" style={{ width: 26, height: 26 }} />
     }
 
     /**
@@ -90,11 +87,7 @@ const RenderMenuItem = ({
                     /**
                      * Renders a submenu recursively if nested items are present.
                      */
-                    <SubMenu
-                        label={sideBarItem.label}
-                        key={sideBarItem.label}
-                        icon={<MuiIcons.ExpandMore />}
-                    >
+                    <SubMenu label={sideBarItem.label} key={sideBarItem.label}>
                         <RenderMenuItem
                             sidebarItems={sideBarItem.sidebarItems}
                             sidebarCollapse={sidebarCollapse}

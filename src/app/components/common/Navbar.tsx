@@ -1,25 +1,15 @@
 "use client"
 
 import { useState } from "react"
-import Select, { components, DropdownIndicatorProps, MenuListProps } from "react-select"
+import Select, { components, MenuListProps } from "react-select"
 import useScroll from "@/app/hooks/useScroll"
 import UserDropdown from "./UserDropdown"
 import { useAppContext } from "@/app/context/AppContext"
 import TextInputField from "../input/TextInput"
-import SearchIcon from "@mui/icons-material/Search"
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
-import AccessTimeIcon from "@mui/icons-material/AccessTime"
 import BaseStaticSelect from "../input/BaseStaticSelect"
 import { Option } from "@/types/components/ReactSelect"
 import { filterData } from "@/fixtures/CheckboxFilterData"
-
-const DropdownIndicator = (props: DropdownIndicatorProps) => {
-    return (
-        <components.DropdownIndicator {...props}>
-            <KeyboardArrowDownIcon />
-        </components.DropdownIndicator>
-    )
-}
+import { CONFIG } from "@/utils/Constants"
 
 const FlexMenuListCheckbox = (props: MenuListProps) => {
     const [selectedValues, setSelectedValues] = useState<Record<string, string[]>>({})
@@ -72,7 +62,8 @@ const Navbar = () => {
     const { setSidebarCollapse, sidebarCollapse } = useAppContext()
     const [isCatActive, setIsCatActive] = useState<boolean>(false)
     const [isTimerActive, setIsTimerActive] = useState<boolean>(false)
-    const [layout, setLayout] = useState<"horizontal" | "vertical">("horizontal")
+    const { layout, setLayout } = useAppContext()
+
     const [selectedRoadmaps, setSelectedRoadmaps] = useState<Option[]>([])
 
     const roadmapOptions = [
@@ -130,7 +121,14 @@ const Navbar = () => {
                         type="text"
                         autoComplete="false"
                         className="custom-input"
-                        inplaceIcon={<SearchIcon sx={{ color: "#a1a5b7" }} />}
+                        inplaceIcon={
+                            <span
+                                className="material-symbols-outlined"
+                                style={{ color: "#a1a5b7", fontSize: "22px" }}
+                            >
+                                search
+                            </span>
+                        }
                         placeholder="Search..."
                         inputContainerClass="inplace-input-wrapper"
                     />
@@ -141,7 +139,6 @@ const Navbar = () => {
                             components={{
                                 MenuList: FlexMenuListCheckbox,
                                 IndicatorSeparator: () => null,
-                                DropdownIndicator,
                             }}
                             isSearchable={false}
                             closeMenuOnSelect={false}
@@ -173,7 +170,7 @@ const Navbar = () => {
                             className={isTimerActive ? "active" : ""}
                             onClick={() => setIsTimerActive((prev) => !prev)}
                         >
-                            <AccessTimeIcon />
+                            timer
                         </button>
                     </div>
                 </div>
@@ -182,15 +179,19 @@ const Navbar = () => {
                 <div className="nav-right-bar d-flex align-items-center gap-3">
                     <div className="ve-hr-selector-wrapper d-flex gap-3 align-items-center">
                         <button
-                            className={`hr-btn ${layout === "horizontal" ? "hr-btn-active " : ""}`}
-                            onClick={() => setLayout("horizontal")}
+                            className={`hr-btn ${
+                                layout === CONFIG.LAYOUT.HORIZONTAL ? "hr-btn-active " : ""
+                            }`}
+                            onClick={() => setLayout && setLayout(CONFIG.LAYOUT.HORIZONTAL)}
                         >
                             Horizontal
                         </button>
 
                         <button
-                            className={`ve-btn ${layout === "vertical" ? "ve-btn-active " : ""}`}
-                            onClick={() => setLayout("vertical")}
+                            className={`ve-btn ${
+                                layout === CONFIG.LAYOUT.VERTICAL ? "ve-btn-active " : ""
+                            }`}
+                            onClick={() => setLayout && setLayout(CONFIG.LAYOUT.VERTICAL)}
                         >
                             Vertical
                         </button>
@@ -205,7 +206,7 @@ const Navbar = () => {
                             onSelected={(data) => {
                                 setSelectedRoadmaps(data as Option[])
                             }}
-                            isCheckBoxDrodowns={true}
+                            isCheckBoxDropdowns={true}
                         />
                     </div>
                     <button

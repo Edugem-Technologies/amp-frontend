@@ -59,6 +59,9 @@ $bs-border-width: 1px;
 $tag-input-color: #f5f8fa;
 $tag-input-color-secondary: #eff2f5;
 
+//theme colors
+$theme-primary: #eef0f8;
+
 //separator-color
 $separator-color: #eff2f5;
 
@@ -118,4 +121,8 @@ $br-radius: 0.475rem;
 
     //card
     --bs-card-border-color: #f4f4f4;
+    --amp-color-base-font: #212529;
+
+    //common-header-color
+    --header-primary: #c7cad1;
 }

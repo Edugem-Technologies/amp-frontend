@@ -1,15 +1,16 @@
 "use client"
-
-import Link from "next/link"
+import HorizontalView from "@/app/components/common/HorizontalView"
+import VerticalView from "@/app/components/common/VerticalView"
+import { useAppContext } from "@/app/context/AppContext"
+import { FENCES_FIXTURE } from "@/fixtures/GlobalData"
+import { CONFIG } from "@/utils/Constants"
 
 export default function Home() {
+    const { layout } = useAppContext()
     return (
-        <div className="container">
-            <h1 className="text-center mt-4">Boiler plate code for NEXT 14</h1>
-            <Link href={"/components"} className="text-center d-block text-decoration-none mt-5">
-                Click here to preview all components present in boilerplate
-            </Link>
-            <p className="text-center mt-2">More components will be added later</p>
+        <div className="container-fluid main-dashboard-container">
+            {layout === CONFIG.LAYOUT.VERTICAL && <VerticalView data={FENCES_FIXTURE} />}
+            {layout === CONFIG.LAYOUT.HORIZONTAL && <HorizontalView data={FENCES_FIXTURE} />}
         </div>
     )
 }

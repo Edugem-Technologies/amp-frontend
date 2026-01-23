@@ -41,19 +41,19 @@ const BaseStaticSelect: React.FC<BaseStaticSelectPropType> = (props) => {
                 styles={{
                     ...CONFIG.DROPDOWN_STYLE,
                 }}
+                controlShouldRenderValue={true} // show selected option in the input
                 options={options}
                 placeholder={"Select an option"}
-                isSearchable={true}
+                isSearchable={false}
                 classNames={{
                     control: () => "form-input-dropdown custom-border",
                     // multiValue: () => "multivalue-dropdown-pills",
                 }}
-                controlShouldRenderValue={false}
                 components={{
-                    Option: CheckboxOption,
+                    ...(props.isCheckBoxDropdowns ? { Option: CheckboxOption } : {}),
                     MultiValue: () => null,
                 }}
-                isClearable={true}
+                isClearable={isMulti}
                 hideSelectedOptions={false}
                 closeMenuOnSelect={!isMulti}
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any

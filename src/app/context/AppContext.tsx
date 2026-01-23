@@ -3,6 +3,7 @@ import { User } from "@/types/auth/User"
 import { AnyObject } from "@/types/common/Helper"
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react"
 import { useMediaQuery } from "../hooks/useMediaQuery"
+import { CONFIG } from "@/utils/Constants"
 
 // Define the type for your context state
 interface AppContextType {
@@ -14,6 +15,8 @@ interface AppContextType {
     setUser: Dispatch<SetStateAction<User | null>>
     filterState: AnyObject | null | undefined
     setFilterState: Dispatch<SetStateAction<AnyObject | null | undefined>>
+    setLayout?: Dispatch<SetStateAction<string>>
+    layout?: string
 }
 
 // Create the context with a default value
@@ -30,6 +33,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     const [sidebarCollapse, setSidebarCollapse] = useState(matched)
     const [user, setUser] = useState<User | null>(null)
     const [filterState, setFilterState] = useState<AnyObject | null | undefined>(null)
+    const [layout, setLayout] = useState<string>(CONFIG.LAYOUT.VERTICAL)
 
     return (
         <AppContext.Provider
@@ -42,6 +46,8 @@ export const AppProvider = ({ children }: AppProviderProps) => {
                 user,
                 filterState,
                 setFilterState,
+                layout,
+                setLayout,
             }}
         >
             {children}

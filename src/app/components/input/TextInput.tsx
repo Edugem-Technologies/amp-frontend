@@ -20,6 +20,7 @@ const TextInputField = forwardRef<HTMLInputElement, InputFieldProps>(
             preInputText,
             isRequired = false,
             isTitleCaseRequired = true,
+            inplaceIcon,
             ...props
         },
         ref,
@@ -45,7 +46,7 @@ const TextInputField = forwardRef<HTMLInputElement, InputFieldProps>(
                         </span>
                     )}
 
-                    {props.inplaceIcon && <span className="inplace-icon">{props.inplaceIcon}</span>}
+                    {inplaceIcon && <span className="inplace-icon">{inplaceIcon}</span>}
 
                     <input
                         ref={ref}

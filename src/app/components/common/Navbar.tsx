@@ -132,7 +132,6 @@ const Navbar = () => {
                         className="custom-input"
                         inplaceIcon={<SearchIcon sx={{ color: "#a1a5b7" }} />}
                         placeholder="Search..."
-                        compName="amp-header"
                         inputContainerClass="inplace-input-wrapper"
                     />
 

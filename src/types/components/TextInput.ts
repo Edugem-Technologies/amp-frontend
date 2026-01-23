@@ -50,7 +50,6 @@ export interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
     isTitleCaseRequired?: boolean
     inplaceIcon?: React.ReactNode
     placeholder?: string
-    compName?: string
 }
 
 export interface TextAreaFieldProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {

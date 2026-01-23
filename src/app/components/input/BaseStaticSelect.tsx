@@ -1,6 +1,15 @@
 import { BaseStaticSelectPropType, Option } from "@/types/components/ReactSelect"
 import { CONFIG } from "@/utils/Constants"
-import ReactSelect, { MultiValue, SingleValue } from "react-select"
+import ReactSelect, { MultiValue, OptionProps, SingleValue, components } from "react-select"
+
+const CheckboxOption = (props: OptionProps<Option, boolean>) => {
+    return (
+        <components.Option {...props}>
+            <input type="checkbox" checked={props.isSelected} onChange={() => null} />
+            <label>{props.label}</label>
+        </components.Option>
+    )
+}
 
 const BaseStaticSelect: React.FC<BaseStaticSelectPropType> = (props) => {
     const { onSelected, isMulti, options, selectedOptionValue, className } = props
@@ -37,7 +46,12 @@ const BaseStaticSelect: React.FC<BaseStaticSelectPropType> = (props) => {
                 isSearchable={true}
                 classNames={{
                     control: () => "form-input-dropdown custom-border",
-                    multiValue: () => "multivalue-dropdown-pills",
+                    // multiValue: () => "multivalue-dropdown-pills",
+                }}
+                controlShouldRenderValue={false}
+                components={{
+                    Option: CheckboxOption,
+                    MultiValue: () => null,
                 }}
                 isClearable={true}
                 hideSelectedOptions={false}

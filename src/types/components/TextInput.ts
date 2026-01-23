@@ -5,7 +5,7 @@ export interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
      * The label for the input field.
      * @type {string}
      */
-    label: string
+    label?: string
 
     /**
      * The error message to display, if any.
@@ -48,6 +48,9 @@ export interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
      * show label as Title Case
      */
     isTitleCaseRequired?: boolean
+    inplaceIcon?: React.ReactNode
+    placeholder?: string
+    compName?: string
 }
 
 export interface TextAreaFieldProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {

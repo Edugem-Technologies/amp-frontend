@@ -1,7 +1,8 @@
 import { SidebarItemsType } from "@/types/components/Aside"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+// import { usePathname } from "next/navigation"
 import { Menu, MenuItem, SubMenu } from "react-pro-sidebar"
+import * as MuiIcons from "@mui/icons-material"
 
 /**
  * Recursively renders a sidebar menu with menu items and nested submenus.
@@ -21,11 +22,25 @@ import { Menu, MenuItem, SubMenu } from "react-pro-sidebar"
 const RenderMenuItem = ({
     sidebarItems,
     sidebarCollapse,
+    handleShow,
+    isDrawerBar,
 }: {
     sidebarItems: SidebarItemsType[]
     sidebarCollapse: boolean
+    handleShow?: () => void
+    isDrawerBar?: boolean
 }) => {
-    const pathName = usePathname()
+    // const pathName = usePathname()
+
+    /**
+     * Maps icon names to MUI icon components.
+     */
+    const getIconComponent = (iconName?: string) => {
+        if (!iconName) return null
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const IconComponent = (MuiIcons as any)[iconName]
+        return IconComponent ? <IconComponent style={{ fontSize: "24px" }} /> : null
+    }
 
     /**
      * Determines if a menu item is active based on the current pathname.
@@ -33,11 +48,12 @@ const RenderMenuItem = ({
      * @param {string | undefined} url - The URL of the menu item.
      * @returns {boolean} True if the menu item's URL matches the current pathname, false otherwise.
      */
-    const isActive = (url: string | undefined) => {
-        if (url) {
-            return pathName === url
-        }
-    }
+
+    // const isActive = (url: string | undefined) => {
+    //     if (url) {
+    //         return pathName === url
+    //     }
+    // }
 
     /**
      * Generates a menu item with the appropriate styling and link.
@@ -50,12 +66,15 @@ const RenderMenuItem = ({
         return (
             <MenuItem
                 key={name + link}
-                style={{
-                    color: isActive(link) ? "var(--bs-primary)" : "#181C32",
-                }}
                 className={!icon && !sidebarCollapse ? "ps-5" : ""}
-                icon={icon && <img src={icon} alt={name} />}
-                component={link && <Link href={link} />}
+                icon={icon && getIconComponent(icon)}
+                component={
+                    isDrawerBar ? (
+                        <div onClick={handleShow}>Click</div>
+                    ) : (
+                        link && <Link href={link} />
+                    )
+                }
             >
                 <span>{name}</span>
             </MenuItem>
@@ -74,7 +93,7 @@ const RenderMenuItem = ({
                     <SubMenu
                         label={sideBarItem.label}
                         key={sideBarItem.label}
-                        icon={<img src={"/icons/sample.svg"} alt={sideBarItem.label} />}
+                        icon={<MuiIcons.ExpandMore />}
                     >
                         <RenderMenuItem
                             sidebarItems={sideBarItem.sidebarItems}

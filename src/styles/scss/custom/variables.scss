@@ -14,7 +14,7 @@ $heading-line-height: 60px;
 $heading-line-height-sm: 40px;
 
 // font-size percentage to 14px(1 rem)
-$base-font-size: 14px;
+$base-font-size: 13px;
 $font-size-14px: 1rem;
 
 // theme-palette
@@ -54,6 +54,16 @@ $opacity: 0;
 
 //card
 $bs-border-width: 1px;
+
+//html-tag-input-color
+$tag-input-color: #f5f8fa;
+$tag-input-color-secondary: #eff2f5;
+
+//separator-color
+$separator-color: #eff2f5;
+
+//common-border-radius
+$br-radius: 0.475rem;
 
 @mixin box-shadow-light($color) {
     box-shadow: 0 3px 0 mix(white, $color, 20%) !important;

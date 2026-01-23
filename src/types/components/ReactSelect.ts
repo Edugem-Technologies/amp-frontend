@@ -125,6 +125,7 @@ export interface BaseStaticSelectPropType extends Props<Option> {
     selectedOptionValue?: Option | Option[] | null
     placeholder?: string
     className?: string
+    isCheckBoxDrodowns?: boolean
 }
 
 export interface BaseWrapperSelectPropType

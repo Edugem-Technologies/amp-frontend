@@ -10,31 +10,31 @@ import {
     showSweetAlertWithRedirect,
 } from "@/utils/Helpers"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
-import { Card, ListGroup } from "react-bootstrap"
+import { useEffect, useState, useRef } from "react"
 
 const UserDropdown = () => {
     const router = useRouter()
     const { user } = useAppContext()
-    const [showDropdown, setShowDropdown] = useState(false)
-    const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null)
+    const [open, setOpen] = useState(false)
     const [profileImageURL, setProfileImageURL] = useState<string | null>(null)
+    const wrapperRef = useRef<HTMLDivElement>(null)
 
-    const setCustomTimeout = (ms: number, cb: () => void) => {
-        if (timerId) {
-            clearTimeout(timerId)
+    useEffect(() => {
+        setProfileImageURL(
+            getDecryptedSessionStorageData(CONFIG.SESSION_STORAGE_VARIABLES.PROFILE_IMAGE_URL),
+        )
+    }, [user])
+
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+                setOpen(false)
+            }
         }
-        const id = setTimeout(() => cb(), ms)
-        setTimerId(id)
-    }
-    const removeCustomTimeout = (cb?: () => void) => {
-        if (timerId) {
-            clearTimeout(timerId)
-        }
-        if (cb) {
-            cb()
-        }
-    }
+        document.addEventListener("mousedown", handleClickOutside)
+        return () => document.removeEventListener("mousedown", handleClickOutside)
+    }, [])
+
     const handleLogout = async () => {
         try {
             const result = await showSweetAlert({
@@ -43,6 +43,7 @@ const UserDropdown = () => {
                 cancelButtonText: CONFIG.SWEETALERT_LOGOUT_OPTION.cancelButtonText,
                 subtitle: false,
             })
+
             if (result.isConfirmed) {
                 const response = await FetchHelper.get(CONFIG.API_ENDPOINTS.LOGOUT)
                 if (response.status) {
@@ -59,80 +60,51 @@ const UserDropdown = () => {
             handleError(error)
         }
     }
-    useEffect(() => {
-        return () => {
-            if (timerId) {
-                clearTimeout(timerId)
-            }
-        }
-    })
-    useEffect(() => {
-        setProfileImageURL(
-            getDecryptedSessionStorageData(CONFIG.SESSION_STORAGE_VARIABLES.PROFILE_IMAGE_URL),
-        )
-    }, [user])
 
-    /**
-     * Call this function after updating the profile image in sessionStorage
-     * to notify all listeners in the current tab.
-     * Example: window.dispatchEvent(new Event("profileImageChanged"))
-     */
+    const firstLetter = user?.first_name?.charAt(0)?.toUpperCase() ?? "M"
 
     return (
-        <div
-            className="profile-container"
-            onMouseEnter={() => {
-                setShowDropdown(true)
-            }}
-            onMouseLeave={() => {
-                setCustomTimeout(250, () => setShowDropdown(false))
-            }}
-        >
-            {/* Profile Icon */}
-            <img
-                src={
-                    profileImageURL ??
-                    "https://images.unsplash.com/photo-1640960543409-dbe56ccc30e2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8dXNlcnxlbnwwfHwwfHx8MA%3D%3D"
-                }
-                onError={() => {
-                    setProfileImageURL(null)
-                }}
-                alt="Profile Icon"
-                className="profile-icon"
-            />
+        <div className="user-dropdown" ref={wrapperRef}>
+            {/* Trigger */}
+            <div className="user-trigger" onClick={() => setOpen((p) => !p)}>
+                <span className="user-name">{user?.first_name ?? "Mark"}</span>
+                <div className="user-avatar">{firstLetter}</div>
+            </div>
 
-            {/* Dropdown Card */}
-            {showDropdown && (
-                <Card
-                    className="shadow-sm dropdown-card"
-                    onMouseEnter={() => {
-                        removeCustomTimeout(() => setShowDropdown(true))
-                    }}
-                    onMouseLeave={() => setShowDropdown(false)}
-                >
-                    <ListGroup variant="flush">
-                        <ListGroup.Item>
-                            <Card.Title>
-                                {user?.first_name ?? ""} {user?.last_name ?? ""}
-                            </Card.Title>
-                            <Card.Text>{user?.primary_email}</Card.Text>
-                        </ListGroup.Item>
-                        <ListGroup.Item
-                            action
-                            className="cursor-pointer"
-                            onClick={() =>
-                                router.push(
-                                    `/users/${user?.uuid}/${CONFIG.EDIT_USER_STEP_TABS.details.path}`,
-                                )
+            {/* Dropdown */}
+            {open && (
+                <div className="user-menu">
+                    <div className="user-info">
+                        <img
+                            src={
+                                profileImageURL ??
+                                "https://images.unsplash.com/photo-1640960543409-dbe56ccc30e2?w=300"
                             }
-                        >
-                            My Profile
-                        </ListGroup.Item>
-                        <ListGroup.Item action className="cursor-pointer" onClick={handleLogout}>
-                            Logout
-                        </ListGroup.Item>
-                    </ListGroup>
-                </Card>
+                            onError={() => setProfileImageURL(null)}
+                            alt="profile"
+                        />
+                        <div>
+                            <div className="name">
+                                {user?.first_name} {user?.last_name}
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul>
+                        <li>Favourites</li>
+                        <li>Requests</li>
+                        <li>Assistant</li>
+
+                        <li className="divider" />
+
+                        <li>Settings</li>
+                        <li onClick={handleLogout}>Sign Out</li>
+
+                        <li className="divider" />
+
+                        <li className="highlight">Create Fence</li>
+                    </ul>
+                </div>
             )}
         </div>
     )

@@ -1,8 +1,11 @@
+"use client"
 import { useAppContext } from "@/app/context/AppContext"
 import { SidebarItemsType } from "@/types/components/Aside"
-import Link from "next/link"
 import { Sidebar } from "react-pro-sidebar"
 import RenderMenuItem from "./RenderMenuItem"
+import { useState } from "react"
+import Offcanvas from "react-bootstrap/Offcanvas"
+import Image from "next/image"
 
 const Aside = () => {
     const { sidebarCollapse } = useAppContext()
@@ -33,27 +36,25 @@ const Aside = () => {
      *   },
      * ];
      */
-    const sidebarItems: SidebarItemsType[] = [
-        { label: "Components", href: "/components", icon: "/icons/sample.svg" },
-        { label: "File Upload", href: "/file-upload", icon: "/icons/sample.svg" },
-        { label: "Reports", href: "/reports", icon: "/icons/sample.svg" },
-        {
-            label: "Manage",
-            icon: "/icons/sample.svg",
-            sidebarItems: [
-                { label: "Roles", href: "/roles" },
-                { label: "Users", href: "/users" },
-            ],
-        },
-        {
-            label: "Auth",
-            icon: "/icons/sample.svg",
-            sidebarItems: [
-                { label: "Login", href: "/login" },
-                { label: "Signup", href: "/signup" },
-            ],
-        },
+    const topSidebarItems: SidebarItemsType[] = [
+        { label: "Dashboard", href: "/dashboard", icon: "Dashboard" },
+        { label: "Roadmaps", href: "/roadmaps", icon: "Map" },
+        { label: "Pipeline", href: "/pipeline", icon: "Insights" },
+        { label: "Team", href: "/team", icon: "Groups" },
     ]
+
+    const bottomSidebarItems: SidebarItemsType[] = [
+        { label: "Favorites", href: "", icon: "StarBorder" },
+        { label: "Mirrored", href: "", icon: "ContentCopy" },
+        { label: "Requests", href: "", icon: "Bolt" },
+        { label: "Assistants", href: "", icon: "SmartToy" },
+    ]
+
+    const [show, setShow] = useState(false)
+
+    const handleClose = () => setShow(false)
+    const handleShow = () => setShow((prev) => !prev)
+
     return (
         <Sidebar
             collapsed={sidebarCollapse}
@@ -63,28 +64,39 @@ const Aside = () => {
             className={`sidebar ${sidebarCollapse ? "" : "show"}`}
         >
             <div
-                className="d-flex align-items-center justify-content-between positon-relative sidebar-logo"
+                className="mt-2  mb-2 d-flex align-items-center justify-content-between positon-relative sidebar-logo"
                 id="kt_app_sidebar_logo"
             >
-                <Link prefetch={false} legacyBehavior href="/">
-                    <a role="button" className="m-2">
-                        {sidebarCollapse ? (
-                            <img
-                                alt="Logo"
-                                src="/images/logos/favicon/favicon.ico"
-                                className="h-30px"
-                            />
-                        ) : (
-                            <img
-                                alt="Logo"
-                                src="/images/logos/logo.svg"
-                                className="h-40px app-sidebar-logo-default"
-                            />
-                        )}
-                    </a>
-                </Link>
+                <Image
+                    src="/images/logos/brand-logo-primary.svg"
+                    alt="Brand logo"
+                    width={130}
+                    height={50}
+                    priority
+                />
             </div>
-            <RenderMenuItem sidebarItems={sidebarItems} sidebarCollapse={sidebarCollapse} />
+
+            <div className="d-flex flex-column justify-content-between flex-grow-1 mb-10">
+                <RenderMenuItem sidebarItems={topSidebarItems} sidebarCollapse={sidebarCollapse} />
+
+                <RenderMenuItem
+                    sidebarItems={bottomSidebarItems}
+                    sidebarCollapse={sidebarCollapse}
+                    handleShow={handleShow}
+                    isDrawerBar={true}
+                />
+            </div>
+
+            {/* drawer nav */}
+            <Offcanvas show={show} onHide={handleClose}>
+                <Offcanvas.Header closeButton>
+                    <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body>
+                    Some text as placeholder. In real life you can have the elements you have
+                    chosen. Like, text, images, lists, etc.
+                </Offcanvas.Body>
+            </Offcanvas>
         </Sidebar>
     )
 }

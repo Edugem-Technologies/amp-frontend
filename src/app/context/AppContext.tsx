@@ -33,7 +33,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     const [sidebarCollapse, setSidebarCollapse] = useState(matched)
     const [user, setUser] = useState<User | null>(null)
     const [filterState, setFilterState] = useState<AnyObject | null | undefined>(null)
-    const [layout, setLayout] = useState<string>(CONFIG.LAYOUT.VERTICAL)
+    const [layout, setLayout] = useState<string>(CONFIG.LAYOUT.HORIZONTAL)
 
     return (
         <AppContext.Provider

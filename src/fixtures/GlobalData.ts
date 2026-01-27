@@ -1,39 +1,3 @@
-export type ActionButton = {
-    id: string
-    label: string
-    icon: string
-}
-
-export type Status = {
-    id: string
-    label: string
-}
-
-export type TaskCheckItem = {
-    id: string
-    label: string
-    progress: number | null
-    status: string
-}
-
-export type Fence = {
-    id: string
-    label: string
-    tasks: FenceTask[]
-    taskCheckList: TaskCheckItem[]
-}
-
-export type FenceTask = {
-    id: string
-    title: string
-    subtitle: string
-    currentStatus: string
-    statusList: Status[]
-    users: string[]
-    progressValue: number
-    actions: ActionButton[]
-}
-
 export const STATUS_LIST = [
     { id: "pending", label: "Pending" },
     { id: "inprogress", label: "In Progress" },

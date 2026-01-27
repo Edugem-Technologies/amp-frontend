@@ -1,6 +1,6 @@
 import React, { useState } from "react"
-import { Fence, TaskCheckItem } from "@/fixtures/GlobalData"
 import DragSortableCards from "../card/DragSortableCards"
+import { Fence, TaskCheckItem } from "@/types/components/DragSortableCards"
 const HorizontalView = ({ data }: { data: Fence[] }) => {
     const [fences, setFences] = useState<Fence[]>(data)
 

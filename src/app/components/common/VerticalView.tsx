@@ -1,6 +1,7 @@
-import { Fence, getStatusColor, Status } from "@/fixtures/GlobalData"
+import { getStatusColor } from "@/fixtures/GlobalData"
 import Accordion from "react-bootstrap/Accordion"
 import BaseStaticSelect from "../input/BaseStaticSelect"
+import { Fence, Status } from "@/types/components/DragSortableCards"
 
 type Props = {
     data: Fence[]
@@ -15,7 +16,7 @@ const VerticalView = ({ data }: Props) => {
 
                     <Accordion.Body>
                         <div className="task-list">
-                            {fence.tasks.map((task) => (
+                            {fence?.tasks?.map((task) => (
                                 <div
                                     className="task-row"
                                     key={task.id}

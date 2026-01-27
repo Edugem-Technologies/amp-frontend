@@ -115,7 +115,7 @@ const Navbar = () => {
 
             <div className="navbar-wrapper d-flex align-items-center justify-content-between w-100">
                 {/* left bar */}
-                <div className="nav-left-bar d-flex align-items-center gap-3 mx-4">
+                <div className="nav-left-bar d-flex align-items-center gap-2 mx-4">
                     <TextInputField
                         isRequired
                         type="text"

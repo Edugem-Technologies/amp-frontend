@@ -7,9 +7,9 @@ import {
     arrayMove,
 } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
-import { DragColumnProps, SortItem } from "@/types/components/DragSortableCards"
+import { DragColumnProps, TaskCheckItem } from "@/types/components/DragSortableCards"
 
-const SortableItem = ({ item }: { item: SortItem }) => {
+const SortableItem = ({ item }: { item: TaskCheckItem }) => {
     const { setNodeRef, attributes, listeners, transform, transition } = useSortable({
         id: item.id,
     })
@@ -25,9 +25,21 @@ const SortableItem = ({ item }: { item: SortItem }) => {
             style={style}
             {...attributes}
             {...listeners}
-            className="task-check-item item-label"
+            className="task-check-item"
         >
-            {item.label}
+            <div className="task-content">
+                <h5>{item.label}</h5>
+                <p>{item.desc}</p>
+            </div>
+
+            <div className="task-meta">
+                <div className="task-avatars">
+                    {item?.users?.map((user, index) => (
+                        <img key={index} src={user.avatar} alt={user.name} />
+                    ))}
+                </div>
+                {item?.users?.length && <span className="task-badge">{item?.users?.length}</span>}{" "}
+            </div>
         </div>
     )
 }

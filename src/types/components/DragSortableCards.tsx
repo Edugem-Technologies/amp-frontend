@@ -1,6 +1,6 @@
-export type SortItem = {
-    id: string
-    label: string
+export interface User {
+    name: string
+    avatar: string
 }
 
 type HeaderAction = {
@@ -12,7 +12,48 @@ type HeaderAction = {
 export type DragColumnProps = {
     id: string
     title: string
-    items: SortItem[]
-    onChange: (items: SortItem[]) => void
+    items: TaskCheckItem[]
+    onChange: (items: TaskCheckItem[]) => void
     actions?: HeaderAction[]
+}
+
+export type ActionButton = {
+    id: string
+    label: string
+    icon: string
+}
+
+export type Status = {
+    id: string
+    label: string
+}
+
+export type TaskCheckItem = {
+    id: string
+    label: string
+    progress?: number | null
+    status?: string
+    desc?: string
+    users?: {
+        name: string
+        avatar: string
+    }[]
+}
+
+export type Fence = {
+    id: string
+    label: string
+    tasks?: FenceTask[]
+    taskCheckList: TaskCheckItem[]
+}
+
+export type FenceTask = {
+    id: string
+    title: string
+    subtitle: string
+    currentStatus: string
+    statusList: Status[]
+    users: string[]
+    progressValue: number
+    actions: ActionButton[]
 }

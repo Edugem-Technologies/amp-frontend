@@ -156,7 +156,7 @@ const Navbar = () => {
                         />
                     </div>
 
-                    <div className="category-filter-btn">
+                    <div className="d-flex category-filter-btn">
                         <button
                             className={isCatActive ? "active" : ""}
                             onClick={() => setIsCatActive((prev) => !prev)}
@@ -165,12 +165,19 @@ const Navbar = () => {
                         </button>
                     </div>
 
-                    <div className="category-filter-btn timer-filter-btn">
+                    <div className=" category-filter-btn timer-filter-btn">
                         <button
-                            className={isTimerActive ? "active" : ""}
+                            className={`d-flex justify-content-center align-items-center ${
+                                isTimerActive ? "active" : ""
+                            }`}
                             onClick={() => setIsTimerActive((prev) => !prev)}
                         >
-                            timer
+                            <span
+                                className="material-symbols-outlined"
+                                style={{ color: "#a1a5b7", fontSize: "22px" }}
+                            >
+                                timer
+                            </span>
                         </button>
                     </div>
                 </div>

@@ -22,7 +22,7 @@ const VerticalView = ({ data }: Props) => {
                                     key={task.id}
                                     style={{ backgroundColor: getStatusColor(task.currentStatus) }}
                                 >
-                                    <div className="d-flex align-items-center justify-content-between">
+                                    <div className="d-flex align-items-center justify-content-between content">
                                         {/* LEFT */}
                                         <div className="d-flex align-items-start gap-3">
                                             <div className="progress-circle">
@@ -36,9 +36,9 @@ const VerticalView = ({ data }: Props) => {
                                                     <path
                                                         className="circle-progress"
                                                         strokeDasharray={`${
-                                                            task.progressValue === 100
+                                                            task.prgressLevel === 100
                                                                 ? 99.9
-                                                                : task.progressValue
+                                                                : task.prgressLevel
                                                         }, 100`}
                                                         d="M18 2.0845
                a 15.9155 15.9155 0 0 1 0 31.831
@@ -47,7 +47,7 @@ const VerticalView = ({ data }: Props) => {
                                                 </svg>
 
                                                 <div className="progress-value">
-                                                    {task.progressValue}
+                                                    {task.prgressLevel}
                                                 </div>
                                             </div>
 
@@ -58,7 +58,7 @@ const VerticalView = ({ data }: Props) => {
                                         </div>
 
                                         {/* RIGHT */}
-                                        <div className="d-flex align-items-center gap-3">
+                                        <div className="d-flex gap-3 selectors">
                                             <BaseStaticSelect
                                                 options={task.statusList.map((s: Status) => ({
                                                     label: s.label,
@@ -78,32 +78,37 @@ const VerticalView = ({ data }: Props) => {
                                                 isCheckBoxDropdowns={false}
                                             />
 
-                                            <div className="d-flex justify-content-end align-items-center avatar-group">
-                                                {task.users.map((user, i) => (
-                                                    <img
-                                                        key={i}
-                                                        src={user}
-                                                        className="avatar"
-                                                        alt=""
-                                                    />
-                                                ))}
-                                            </div>
+                                            <div className="d-flex user-info">
+                                                <div className="d-flex align-items-center avatar-group">
+                                                    {task.users.map((user, i) => (
+                                                        <img
+                                                            key={i}
+                                                            src={user}
+                                                            className="avatar"
+                                                            alt=""
+                                                        />
+                                                    ))}
+                                                </div>
 
-                                            <div className="d-flex align-items-center gap-2 task-actions mx-3">
-                                                {task.actions.map((action) => {
-                                                    return (
-                                                        <div
-                                                            key={action.id}
-                                                            className="icon-container"
-                                                        >
-                                                            <img
-                                                                src={action.icon}
-                                                                alt=""
-                                                                style={{ width: 20, height: 20 }}
-                                                            />
-                                                        </div>
-                                                    )
-                                                })}
+                                                <div className="d-flex align-items-center gap-2 task-actions mx-3">
+                                                    {task.actions.map((action) => {
+                                                        return (
+                                                            <div
+                                                                key={action.id}
+                                                                className="icon-container"
+                                                            >
+                                                                <img
+                                                                    src={action.icon}
+                                                                    alt=""
+                                                                    style={{
+                                                                        width: 20,
+                                                                        height: 20,
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                        )
+                                                    })}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

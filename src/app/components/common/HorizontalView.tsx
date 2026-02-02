@@ -26,7 +26,7 @@ const HorizontalView = ({ data }: { data: Fence[] }) => {
                 <DragSortableCards
                     key={fence.id}
                     id={fence.id}
-                    title={fence.label}
+                    title={fence.label as string}
                     items={fence.taskCheckList}
                     onChange={(items) => updateFenceItems(fence.id, items as TaskCheckItem[])}
                     actions={headerActions}

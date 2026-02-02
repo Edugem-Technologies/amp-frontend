@@ -2,6 +2,7 @@ import { SidebarItemsType } from "@/types/components/Aside"
 import Link from "next/link"
 // import { usePathname } from "next/navigation"
 import { Menu, MenuItem, SubMenu } from "react-pro-sidebar"
+import { SvgIconComponent } from "@mui/icons-material"
 
 /**
  * Recursively renders a sidebar menu with menu items and nested submenus.
@@ -23,20 +24,31 @@ const RenderMenuItem = ({
     sidebarCollapse,
     handleShow,
     isDrawerBar,
+    collapseSideBar,
+    isMobileView,
 }: {
     sidebarItems: SidebarItemsType[]
     sidebarCollapse: boolean
     handleShow?: () => void
     isDrawerBar?: boolean
+    collapseSideBar?: () => void
+    isMobileView?: boolean
 }) => {
     // const pathName = usePathname()
 
     /**
      * Maps icon names to MUI icon components.
      */
-    const getIconComponent = (iconName?: string) => {
-        if (!iconName) return null
-        return <img src={iconName} alt="" style={{ width: 26, height: 26 }} />
+
+    const getIconComponent = (icon?: string | SvgIconComponent) => {
+        if (!icon) return null
+
+        if (typeof icon === "string") {
+            return <img src={icon} alt="" style={{ width: 26, height: 26 }} />
+        }
+
+        const Icon = icon
+        return <Icon fontSize="large" />
     }
 
     /**
@@ -65,6 +77,9 @@ const RenderMenuItem = ({
                 key={name + link}
                 className={!icon && !sidebarCollapse ? "ps-5" : ""}
                 icon={icon && getIconComponent(icon)}
+                onClick={() => {
+                    isMobileView && collapseSideBar?.()
+                }}
                 component={
                     isDrawerBar ? (
                         <div onClick={handleShow}>Click</div>
@@ -94,7 +109,7 @@ const RenderMenuItem = ({
                         />
                     </SubMenu>
                 ) : (
-                    getMenuItems(sideBarItem.label, sideBarItem.href, sideBarItem.icon)
+                    getMenuItems(sideBarItem.label, sideBarItem.href, sideBarItem.icon as string)
                 )
             })}
         </Menu>

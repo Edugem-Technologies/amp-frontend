@@ -52,7 +52,7 @@ const ReactTable = <T extends RowId>({
 
     return (
         <table
-            className={`table dataTable align-middle table-row-dashed fs-6 gy-5 ${
+            className={`table dataTable align-middle table-row-dashed fs-6 gy-5  m-0 ${
                 className ? className : ""
             }`}
             id="games-table"
@@ -61,7 +61,7 @@ const ReactTable = <T extends RowId>({
                 {getHeaderGroups().map((headerGroup) => (
                     <tr
                         key={headerGroup.id}
-                        className="text-start  fw-bold fs-7 gs-0 react-table-header bg-dark"
+                        className="text-start  fw-bold fs-7 gs-0 react-table-header"
                     >
                         {headerGroup.headers.map((header) => (
                             <>
@@ -72,10 +72,10 @@ const ReactTable = <T extends RowId>({
                                         verticalAlign: "baseLine",
                                         width: `${header.getSize()}px`,
                                     }}
-                                    className="position-relative text-white"
+                                    className="position-relative text-white header-wrapper"
                                 >
-                                    <div className="d-flex justify-content-between mb-1">
-                                        <div className={``}>
+                                    <div className="d-flex justify-content-between mb-0">
+                                        <div className={`header-title`}>
                                             {header.column.getCanSort() ? (
                                                 <span
                                                     className={`icon-container cursor-pointer ${
@@ -355,7 +355,7 @@ const ReactTable = <T extends RowId>({
                                         <div
                                             onMouseDown={header.getResizeHandler()}
                                             onTouchStart={header.getResizeHandler()}
-                                            className={`resizer ${
+                                            className={` ${
                                                 header.column.getIsResizing() ? "isResizing" : ""
                                             }`}
                                         />
@@ -366,7 +366,7 @@ const ReactTable = <T extends RowId>({
                     </tr>
                 ))}
             </thead>
-            <tbody className="fw-semibold text-dark">
+            <tbody className="fw-semibold text-dark column-content">
                 {loading ? (
                     <tr>
                         <td className="px-3" colSpan={totalColumns}>

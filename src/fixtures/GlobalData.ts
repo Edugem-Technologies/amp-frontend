@@ -49,7 +49,7 @@ export const FENCES_FIXTURE = [
                     "/images/avatars/150-11.jpg",
                 ],
                 actions: ACTION_BUTTONS,
-                progressValue: 60,
+                prgressLevel: 60,
             },
             {
                 id: "t2",
@@ -59,7 +59,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: ["/images/avatars/150-8.jpg", "/images/avatars/150-11.jpg"],
                 actions: ACTION_BUTTONS,
-                progressValue: 100,
+                prgressLevel: 100,
             },
             {
                 id: "t3",
@@ -74,7 +74,7 @@ export const FENCES_FIXTURE = [
                     "/images/avatars/150-11.jpg",
                 ],
                 actions: ACTION_BUTTONS,
-                progressValue: 80,
+                prgressLevel: 80,
             },
             {
                 id: "t4",
@@ -84,7 +84,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: ["/images/avatars/150-1.jpg"],
                 actions: ACTION_BUTTONS,
-                progressValue: 10,
+                prgressLevel: 10,
             },
             {
                 id: "t5",
@@ -94,7 +94,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: [],
                 actions: ACTION_BUTTONS,
-                progressValue: 20,
+                prgressLevel: 20,
             },
         ],
         taskCheckList: [
@@ -121,7 +121,7 @@ export const FENCES_FIXTURE = [
                     "/images/avatars/150-11.jpg",
                 ],
                 actions: ACTION_BUTTONS,
-                progressValue: 30,
+                prgressLevel: 30,
             },
             {
                 id: "t2",
@@ -135,7 +135,7 @@ export const FENCES_FIXTURE = [
                     "/images/avatars/150-8.jpg",
                 ],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
             {
                 id: "t3",
@@ -145,7 +145,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: ["/images/avatars/150-4.jpg"],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
             {
                 id: "t4",
@@ -155,7 +155,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: ["/images/avatars/150-8.jpg"],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
             {
                 id: "t5",
@@ -165,7 +165,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: [],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
         ],
         taskCheckList: [
@@ -192,7 +192,7 @@ export const FENCES_FIXTURE = [
                     "/images/avatars/150-11.jpg",
                 ],
                 actions: ACTION_BUTTONS,
-                progressValue: 30,
+                prgressLevel: 30,
             },
             {
                 id: "t2",
@@ -206,7 +206,7 @@ export const FENCES_FIXTURE = [
                     "/images/avatars/150-8.jpg",
                 ],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
             {
                 id: "t3",
@@ -216,7 +216,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: ["/images/avatars/150-4.jpg"],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
             {
                 id: "t4",
@@ -226,7 +226,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: ["/images/avatars/150-8.jpg"],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
             {
                 id: "t5",
@@ -236,7 +236,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: [],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
         ],
         taskCheckList: [
@@ -263,7 +263,7 @@ export const FENCES_FIXTURE = [
                     "/images/avatars/150-11.jpg",
                 ],
                 actions: ACTION_BUTTONS,
-                progressValue: 30,
+                prgressLevel: 30,
             },
             {
                 id: "t2",
@@ -277,7 +277,7 @@ export const FENCES_FIXTURE = [
                     "/images/avatars/150-8.jpg",
                 ],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
             {
                 id: "t3",
@@ -287,7 +287,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: ["/images/avatars/150-4.jpg"],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
             {
                 id: "t4",
@@ -297,7 +297,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: ["/images/avatars/150-8.jpg"],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
             {
                 id: "t5",
@@ -307,7 +307,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: [],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
         ],
         taskCheckList: [
@@ -334,7 +334,7 @@ export const FENCES_FIXTURE = [
                     "/images/avatars/150-11.jpg",
                 ],
                 actions: ACTION_BUTTONS,
-                progressValue: 30,
+                prgressLevel: 30,
             },
             {
                 id: "t2",
@@ -348,7 +348,7 @@ export const FENCES_FIXTURE = [
                     "/images/avatars/150-8.jpg",
                 ],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
             {
                 id: "t3",
@@ -358,7 +358,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: ["/images/avatars/150-4.jpg"],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
             {
                 id: "t4",
@@ -368,7 +368,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: ["/images/avatars/150-8.jpg"],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
             {
                 id: "t5",
@@ -378,7 +378,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: [],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
         ],
         taskCheckList: [
@@ -405,7 +405,7 @@ export const FENCES_FIXTURE = [
                     "/images/avatars/150-11.jpg",
                 ],
                 actions: ACTION_BUTTONS,
-                progressValue: 30,
+                prgressLevel: 30,
             },
             {
                 id: "t2",
@@ -419,7 +419,7 @@ export const FENCES_FIXTURE = [
                     "/images/avatars/150-8.jpg",
                 ],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
             {
                 id: "t3",
@@ -429,7 +429,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: ["/images/avatars/150-4.jpg"],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
             {
                 id: "t4",
@@ -439,7 +439,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: ["/images/avatars/150-8.jpg"],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
             {
                 id: "t5",
@@ -449,7 +449,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: [],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
         ],
         taskCheckList: [
@@ -476,7 +476,7 @@ export const FENCES_FIXTURE = [
                     "/images/avatars/150-11.jpg",
                 ],
                 actions: ACTION_BUTTONS,
-                progressValue: 30,
+                prgressLevel: 30,
             },
             {
                 id: "t2",
@@ -490,7 +490,7 @@ export const FENCES_FIXTURE = [
                     "/images/avatars/150-8.jpg",
                 ],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
             {
                 id: "t3",
@@ -500,7 +500,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: ["/images/avatars/150-4.jpg"],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
             {
                 id: "t4",
@@ -510,7 +510,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: ["/images/avatars/150-8.jpg"],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
             {
                 id: "t5",
@@ -520,7 +520,7 @@ export const FENCES_FIXTURE = [
                 statusList: STATUS_LIST,
                 users: [],
                 actions: ACTION_BUTTONS,
-                progressValue: 50,
+                prgressLevel: 50,
             },
         ],
         taskCheckList: [

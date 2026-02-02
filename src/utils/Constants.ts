@@ -460,6 +460,14 @@ export const CONFIG = {
     LAYOUT: {
         VERTICAL: "vertical",
         HORIZONTAL: "horizontal",
+        COLUMNS: "columns",
+        TABLE: "table",
+    },
+    PAGES: {
+        DASHBOARD: "dashboard",
+        ROADMAPS: "/roadmaps",
+        TEAM: "/team",
+        PIPELINE: "pipeline",
     },
 }
 // Endpoints that do not require authentication

@@ -4,6 +4,8 @@ import { AnyObject } from "@/types/common/Helper"
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react"
 import { useMediaQuery } from "../hooks/useMediaQuery"
 import { CONFIG } from "@/utils/Constants"
+import { usePathname } from "next/navigation"
+import { Option } from "@/types/components/ReactSelect"
 
 // Define the type for your context state
 interface AppContextType {
@@ -17,6 +19,12 @@ interface AppContextType {
     setFilterState: Dispatch<SetStateAction<AnyObject | null | undefined>>
     setLayout?: Dispatch<SetStateAction<string>>
     layout?: string
+    selectedRoadmaps: Option[]
+    setSelectedRoadmaps: Dispatch<SetStateAction<Option[]>>
+    isCatActive: boolean
+    setIsCatActive: Dispatch<SetStateAction<boolean>>
+    isTimerActive: boolean
+    setIsTimerActive: Dispatch<SetStateAction<boolean>>
 }
 
 // Create the context with a default value
@@ -28,12 +36,18 @@ interface AppProviderProps {
 }
 
 export const AppProvider = ({ children }: AppProviderProps) => {
+    const pathname = usePathname()
     const [state, setState] = useState("Hello from context")
     const matched = useMediaQuery("(max-width: 768px)")
     const [sidebarCollapse, setSidebarCollapse] = useState(matched)
     const [user, setUser] = useState<User | null>(null)
     const [filterState, setFilterState] = useState<AnyObject | null | undefined>(null)
-    const [layout, setLayout] = useState<string>(CONFIG.LAYOUT.HORIZONTAL)
+    const [layout, setLayout] = useState<string>(
+        pathname === CONFIG.PAGES.ROADMAPS ? CONFIG.LAYOUT.HORIZONTAL : CONFIG.LAYOUT.COLUMNS,
+    )
+    const [isCatActive, setIsCatActive] = useState<boolean>(false)
+    const [isTimerActive, setIsTimerActive] = useState<boolean>(false)
+    const [selectedRoadmaps, setSelectedRoadmaps] = useState<Option[]>([])
 
     return (
         <AppContext.Provider
@@ -48,6 +62,12 @@ export const AppProvider = ({ children }: AppProviderProps) => {
                 setFilterState,
                 layout,
                 setLayout,
+                selectedRoadmaps,
+                setSelectedRoadmaps,
+                isCatActive,
+                setIsCatActive,
+                isTimerActive,
+                setIsTimerActive,
             }}
         >
             {children}

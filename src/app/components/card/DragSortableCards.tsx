@@ -28,8 +28,8 @@ const SortableItem = ({ item }: { item: TaskCheckItem }) => {
             className="task-check-item"
         >
             <div className="task-content">
-                <h5>{item.label}</h5>
-                <p>{item.desc}</p>
+                <h5 className="mb-0">{item.label}</h5>
+                <p className="mb-0">{item.desc}</p>
             </div>
 
             <div className="task-meta">
@@ -40,11 +40,26 @@ const SortableItem = ({ item }: { item: TaskCheckItem }) => {
                 </div>
                 {item?.users?.length && <span className="task-badge">{item?.users?.length}</span>}{" "}
             </div>
+            {item.prgressLevel && (
+                <div className="task-progress">
+                    <span
+                        className="task-progress-fill"
+                        style={{ width: `${item.prgressLevel}%` }}
+                    />
+                </div>
+            )}
         </div>
     )
 }
 
-const DragSortableCards = ({ id, title, items, onChange, actions = [] }: DragColumnProps) => {
+const DragSortableCards = ({
+    id,
+    title,
+    userImage,
+    items,
+    onChange,
+    actions = [],
+}: DragColumnProps) => {
     const [isOpen, setIsOpen] = useState(true)
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event
@@ -58,8 +73,16 @@ const DragSortableCards = ({ id, title, items, onChange, actions = [] }: DragCol
         <div className={`fence-wrapper ${isOpen ? "expanded" : "shrink"}`}>
             <div className="fence-column">
                 <div className="fence-header">
-                    <span className="title">{title}</span>
-
+                    <div className="d-flex gap-2 align-items-center">
+                        {userImage && (
+                            <div className="user-avatar-wrapper">
+                                {userImage && (
+                                    <img src={userImage} alt={title} className="user-avatar" />
+                                )}
+                            </div>
+                        )}
+                        <span className="title">{title}</span>
+                    </div>
                     <div className="actions">
                         <button onClick={() => setIsOpen((p) => !p)}>
                             <span className="material-symbols-outlined">

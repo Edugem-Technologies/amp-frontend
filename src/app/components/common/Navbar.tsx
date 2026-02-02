@@ -10,8 +10,10 @@ import BaseStaticSelect from "../input/BaseStaticSelect"
 import { Option } from "@/types/components/ReactSelect"
 import { filterData } from "@/fixtures/CheckboxFilterData"
 import { CONFIG } from "@/utils/Constants"
+import { usePathname } from "next/navigation"
+import { roadmapOptions } from "@/fixtures/NavbarMenu"
 
-const FlexMenuListCheckbox = (props: MenuListProps) => {
+export const FlexMenuListCheckbox = (props: MenuListProps) => {
     const [selectedValues, setSelectedValues] = useState<Record<string, string[]>>({})
 
     const toggleValue = (column: string, value: string) => {
@@ -60,44 +62,18 @@ const FlexMenuListCheckbox = (props: MenuListProps) => {
 const Navbar = () => {
     const position = useScroll()
     const { setSidebarCollapse, sidebarCollapse } = useAppContext()
-    const [isCatActive, setIsCatActive] = useState<boolean>(false)
-    const [isTimerActive, setIsTimerActive] = useState<boolean>(false)
-    const { layout, setLayout } = useAppContext()
 
-    const [selectedRoadmaps, setSelectedRoadmaps] = useState<Option[]>([])
-
-    const roadmapOptions = [
-        {
-            label: "Outmin",
-            value: "outmin",
-            data: { key: "outmin" },
-        },
-        {
-            label: "Xyz",
-            value: "xyz",
-            data: { key: "xyz" },
-        },
-        {
-            label: "Customs Windows",
-            value: "customs_windows",
-            data: { key: "customs_windows" },
-        },
-        {
-            label: "Splink",
-            value: "splink",
-            data: { key: "splink" },
-        },
-        {
-            label: "Workflow",
-            value: "workflow",
-            data: { key: "workflow" },
-        },
-        {
-            label: "Linkle",
-            value: "linkle",
-            data: { key: "linkle" },
-        },
-    ]
+    const {
+        isCatActive,
+        setIsCatActive,
+        isTimerActive,
+        setIsTimerActive,
+        layout,
+        setLayout,
+        selectedRoadmaps,
+        setSelectedRoadmaps,
+    } = useAppContext()
+    const pathname = usePathname()
 
     return (
         <nav className={`navbar d-flex align-items-center ${position > 120 ? "shadow-sm" : ""}`}>
@@ -115,7 +91,17 @@ const Navbar = () => {
 
             <div className="navbar-wrapper d-flex align-items-center justify-content-between w-100">
                 {/* left bar */}
-                <div className="nav-left-bar d-flex align-items-center gap-2 mx-4">
+                <button
+                    className={`btn btn-sm shadow-sm p-0 sidebar-toggle-button-sm ${
+                        sidebarCollapse ? "rotate-180" : ""
+                    }`}
+                    onClick={() => setSidebarCollapse((prev) => !prev)}
+                >
+                    <span className="svg-icon svg-icon-2">
+                        <img src="/icons/list.svg" alt="" width={20} />
+                    </span>
+                </button>
+                <div className="nav-left-bar  align-items-center gap-2 mx-4">
                     <TextInputField
                         isRequired
                         type="text"
@@ -184,48 +170,66 @@ const Navbar = () => {
 
                 {/* right bar */}
                 <div className="nav-right-bar d-flex align-items-center gap-3">
-                    <div className="ve-hr-selector-wrapper d-flex gap-3 align-items-center">
-                        <button
-                            className={`hr-btn ${
-                                layout === CONFIG.LAYOUT.HORIZONTAL ? "hr-btn-active " : ""
-                            }`}
-                            onClick={() => setLayout && setLayout(CONFIG.LAYOUT.HORIZONTAL)}
-                        >
-                            Horizontal
-                        </button>
+                    {pathname === CONFIG.PAGES.ROADMAPS && (
+                        <>
+                            <div className="ve-hr-selector-wrapper  gap-3 align-items-center">
+                                <button
+                                    className={`hr-btn ${
+                                        layout === CONFIG.LAYOUT.HORIZONTAL ? "hr-btn-active " : ""
+                                    }`}
+                                    onClick={() => setLayout && setLayout(CONFIG.LAYOUT.HORIZONTAL)}
+                                >
+                                    Horizontal
+                                </button>
 
-                        <button
-                            className={`ve-btn ${
-                                layout === CONFIG.LAYOUT.VERTICAL ? "ve-btn-active " : ""
-                            }`}
-                            onClick={() => setLayout && setLayout(CONFIG.LAYOUT.VERTICAL)}
-                        >
-                            Vertical
-                        </button>
-                    </div>
+                                <button
+                                    className={`ve-btn ${
+                                        layout === CONFIG.LAYOUT.VERTICAL ? "ve-btn-active " : ""
+                                    }`}
+                                    onClick={() => setLayout && setLayout(CONFIG.LAYOUT.VERTICAL)}
+                                >
+                                    Vertical
+                                </button>
+                            </div>
 
-                    <div className="roadmaps-selector">
-                        <BaseStaticSelect
-                            placeholder="Roadmaps"
-                            isMulti={true}
-                            options={roadmapOptions}
-                            selectedOptionValue={selectedRoadmaps}
-                            onSelected={(data) => {
-                                setSelectedRoadmaps(data as Option[])
-                            }}
-                            isCheckBoxDropdowns={true}
-                        />
-                    </div>
-                    <button
-                        className={`btn btn-sm shadow-sm p-0 sidebar-toggle-button-sm ${
-                            sidebarCollapse ? "rotate-180" : ""
-                        }`}
-                        onClick={() => setSidebarCollapse((prev) => !prev)}
-                    >
-                        <span className="svg-icon svg-icon-2">
-                            <img src="/icons/list.svg" alt="" width={20} />
-                        </span>
-                    </button>
+                            <div className="roadmaps-selector">
+                                <BaseStaticSelect
+                                    placeholder="Roadmaps"
+                                    isMulti={true}
+                                    options={roadmapOptions}
+                                    selectedOptionValue={selectedRoadmaps}
+                                    onSelected={(data) => {
+                                        setSelectedRoadmaps(data as Option[])
+                                    }}
+                                    isCheckBoxDropdowns={true}
+                                />
+                            </div>
+                        </>
+                    )}
+
+                    {pathname === CONFIG.PAGES.TEAM && (
+                        <>
+                            <div className="ve-hr-selector-wrapper  gap-3 align-items-center">
+                                <button
+                                    className={`hr-btn ${
+                                        layout === CONFIG.LAYOUT.COLUMNS ? "hr-btn-active " : ""
+                                    }`}
+                                    onClick={() => setLayout && setLayout(CONFIG.LAYOUT.COLUMNS)}
+                                >
+                                    Columns
+                                </button>
+
+                                <button
+                                    className={`ve-btn ${
+                                        layout === CONFIG.LAYOUT.TABLE ? "ve-btn-active " : ""
+                                    }`}
+                                    onClick={() => setLayout && setLayout(CONFIG.LAYOUT.TABLE)}
+                                >
+                                    Table
+                                </button>
+                            </div>
+                        </>
+                    )}
 
                     <UserDropdown />
                 </div>

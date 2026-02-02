@@ -32,7 +32,7 @@ const Page = () => {
 
     return (
         <section className="pipeline-wrapper d-flex gap-4">
-            <aside className="pipeline-stats">
+            <div className="pipeline-stats">
                 <div className="pipeline-stats-wrapper">
                     <div className="pipeline-stats__without-chart">
                         <div className="pipeline-stats__header">
@@ -67,8 +67,8 @@ const Page = () => {
                         {upcomingPlans.items.map((item) => (
                             <div key={item.id} className="task-check-item">
                                 <div className="task-content">
-                                    <h5>{item.title}</h5>
-                                    <p>{item.subtitle}</p>
+                                    <h5 className="mb-0">{item.title}</h5>
+                                    <p className="mb-0">{item.subtitle}</p>
                                 </div>
 
                                 <div className="task-meta">
@@ -90,14 +90,14 @@ const Page = () => {
                         ))}
                     </div>
                 </div>
-            </aside>
+            </div>
 
-            <div className="d-flex gap-4 horizontal-view main-dashboard-container ">
+            <div className="d-flex gap-4 horizontal-view main-dashboard-container  container-wrapper">
                 {fences.map((fence) => (
                     <DragSortableCards
                         key={fence.id}
                         id={fence.id}
-                        title={fence.label}
+                        title={fence.label as string}
                         items={fence.taskCheckList}
                         onChange={(items) => updateFenceItems(fence.id, items as TaskCheckItem[])}
                         actions={headerActions}

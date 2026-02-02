@@ -15,6 +15,7 @@ export type DragColumnProps = {
     items: TaskCheckItem[]
     onChange: (items: TaskCheckItem[]) => void
     actions?: HeaderAction[]
+    userImage?: string
 }
 
 export type ActionButton = {
@@ -30,10 +31,11 @@ export type Status = {
 
 export type TaskCheckItem = {
     id: string
-    label: string
+    label?: string
     progress?: number | null
     status?: string
     desc?: string
+    prgressLevel?: number
     users?: {
         name: string
         avatar: string
@@ -42,7 +44,9 @@ export type TaskCheckItem = {
 
 export type Fence = {
     id: string
-    label: string
+    label?: string
+    userName?: string
+    userImage?: string
     tasks?: FenceTask[]
     taskCheckList: TaskCheckItem[]
 }
@@ -54,6 +58,6 @@ export type FenceTask = {
     currentStatus: string
     statusList: Status[]
     users: string[]
-    progressValue: number
+    prgressLevel: number
     actions: ActionButton[]
 }

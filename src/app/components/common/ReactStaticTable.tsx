@@ -1,5 +1,8 @@
 import { Any } from "@/types/common/Helper"
-import { ReactTableProps, ReactTableWithPaginationPropType } from "@/types/components/ReactTable"
+import {
+    ExpandedRowWithTablePropType,
+    ReactTableWithPaginationPropType,
+} from "@/types/components/ReactTable"
 import { CONFIG } from "@/utils/Constants"
 import {
     getCoreRowModel,
@@ -15,7 +18,7 @@ import StaticTablePagination from "./StaticTablePagination"
 
 const ReactStaticTable = <T extends object>(
     props: Pick<ReactTableWithPaginationPropType, "columns" | "isTableView" | "renderGridView"> & {
-        tableProps?: ReactTableProps<T>
+        tableProps?: ExpandedRowWithTablePropType
         data: Array<T>
     },
 ) => {
@@ -55,8 +58,8 @@ const ReactStaticTable = <T extends object>(
 
     return (
         <>
-            <div className="card px-0 shadow">
-                <div className="card-body">
+            <div className="card px-0">
+                <div className="card-body p-0">
                     {dataView ? (
                         <>
                             <div className="table-responsive">

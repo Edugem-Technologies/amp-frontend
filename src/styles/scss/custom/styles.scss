@@ -630,7 +630,7 @@ aside.sidebar {
     left: 0;
     top: 0;
     z-index: 100;
-    align-self: start;
+    align-self: flex-start;
     grid-area: sidebar;
     height: 100vh;
     transition: all 0.3s ease; // Added transition for smooth animation
@@ -740,6 +740,14 @@ aside.sidebar {
             background-color: white;
         }
     }
+
+    .active,
+    .hr-btn-active,
+    .ve-btn-active {
+        background-color: #6600ff !important;
+        color: white !important;
+        transition: all 0.5s ease-in-out;
+    }
 }
 
 .dropzone {
@@ -827,7 +835,7 @@ aside.sidebar {
         display: flex;
         gap: 0.8rem;
         margin-bottom: 1.6rem;
-        justify-content: start;
+        justify-content: flex-start;
 
         .auth-method-section-btn {
             border-radius: 0.5rem;
@@ -1900,7 +1908,8 @@ aside.sidebar {
     }
 }
 
-.container-wrapper {
+.container-wrapper,
+.marketplace-grid {
     @include media-breakpoint-up("sm") {
         overflow: auto;
         padding: 30px;
@@ -2066,10 +2075,10 @@ aside.sidebar {
             }
 
             .selectors {
-                align-items: start;
+                align-items: flex-start;
                 margin-top: 8px;
                 flex-direction: column;
-                align-items: start;
+                align-items: flex-start;
             }
 
             .user-info {
@@ -2704,6 +2713,228 @@ aside.sidebar {
             &:hover {
                 text-decoration: underline;
             }
+        }
+    }
+}
+
+.kpi-card-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+    min-width: 14.2857142857vw;
+    padding: 20px 16px;
+    border-radius: 6px;
+    flex-direction: column;
+    gap: 5px;
+    max-width: fit-content;
+
+    &.icon-left .kpi-card-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    &.icon-right .kpi-card-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        justify-content: space-between;
+    }
+
+    &.icon-top .kpi-card-content-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .kpi-card-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+
+        .kpi-card-bg-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+    }
+
+    .kpi-card-content-wrapper {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+
+        .kpi-card-content {
+            display: flex;
+            align-items: center;
+
+            .kpi-icon-top,
+            .kpi-icon-left,
+            .kpi-icon-right {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 2rem;
+            }
+
+            .kpi-icon-top {
+                margin-bottom: 12px;
+            }
+
+            .kpi-icon-left {
+                margin-right: 12px;
+            }
+
+            .kpi-icon-right {
+                margin-left: 12px;
+            }
+
+            .kpi-text {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    }
+
+    // PROGRESS BAR - bottom aligned
+    .kpi-progress-bar-wrapper {
+        position: relative;
+        width: 100%;
+        height: 6px;
+        background-color: rgba(0, 0, 0, 0.1);
+        border-radius: 3px;
+        margin-top: auto;
+        overflow: hidden;
+
+        .kpi-progress-fill {
+            height: 100%;
+            background-color: #4caf50;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+    }
+}
+
+.dashboard-container {
+    padding-left: 30px;
+    padding-top: 30px;
+
+    .marketplace-grid {
+        padding: 0px;
+        padding-bottom: 10px;
+        overflow-x: auto;
+        gap: 8px;
+
+        .kpi-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 0px;
+        }
+
+        .kpi-amount {
+            color: var(--text-amount);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .kpi-description {
+            color: var(--muted-text-color-primary);
+            font-size: 13px;
+            font-weight: 600;
+        }
+    }
+
+    .meetings-grid {
+        display: flex;
+        gap: 26px;
+        width: 100%;
+        padding-right: 30px;
+
+        .kpi-card-wrapper {
+            flex: 1;
+            min-width: 15px;
+            max-width: unset;
+            padding: 29px 26px;
+        }
+
+        .kpi-text {
+            gap: 19.5px;
+
+            .kpi-title {
+                font-size: 1.25rem;
+                font-weight: 600;
+                color: var(--muted-text-color-primary);
+                margin-bottom: 0px;
+            }
+
+            .kpi-amount {
+                color: var(--text-amount);
+                font-size: 13px;
+                font-weight: 600;
+            }
+
+            .kpi-description {
+                font-size: 1.15rem;
+                font-weight: 500;
+                margin-bottom: 0px;
+            }
+        }
+    }
+
+    .sales-grid {
+        display: flex;
+        gap: 26px;
+        width: 100%;
+        padding-right: 30px;
+
+        .kpi-card-wrapper {
+            flex: 1;
+            min-width: 15px;
+            max-width: unset;
+            padding: 29px 26px;
+
+            .kpi-card-content-wrapper {
+                align-items: unset;
+                justify-content: unset;
+                text-align: unset;
+                gap: 16px;
+            }
+        }
+
+        .kpi-text {
+            .kpi-title {
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: #ffffff;
+                margin-bottom: 7px;
+            }
+
+            .kpi-description {
+                font-size: 13px;
+                font-weight: 500;
+                color: white;
+            }
+        }
+
+        .svg-icon {
+            line-height: 1;
+            color: white;
+
+            svg {
+                height: 3rem;
+                width: 3rem;
+            }
+        }
+
+        .svg-icon.svg-icon-white svg [fill]:not(.permanent):not(g) {
+            transition: fill 0.3s ease;
+            fill: #ffffff;
         }
     }
 }

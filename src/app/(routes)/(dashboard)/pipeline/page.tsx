@@ -1,6 +1,6 @@
 "use client"
 import DragSortableCards from "@/app/components/card/DragSortableCards"
-import ApexLineChart from "@/app/components/common/ApexLineChart"
+import StatsOverviewWithChart from "@/app/components/common/StatsOverviewWithChart"
 import { PIPELINE_DASHBOARD_DATA, PIPELINES_CHECKLIST } from "@/fixtures/PipelineData"
 import { Fence, TaskCheckItem } from "@/types/components/DragSortableCards"
 import React, { useState } from "react"
@@ -33,30 +33,12 @@ const Page = () => {
     return (
         <section className="pipeline-wrapper d-flex gap-4">
             <div className="pipeline-stats">
-                <div className="pipeline-stats-wrapper">
-                    <div className="pipeline-stats__without-chart">
-                        <div className="pipeline-stats__header">
-                            <h3>{header.title}</h3>
-                            <span>{header.subtitle}</span>
-                        </div>
-                        <div className="pipeline-stats__grid row mt-5  justify-content-between">
-                            {Object.values(stats).map((stat) => (
-                                <div key={stat.title} className="stat-card col-5 mb-3">
-                                    <p>{stat.title}</p>
-                                    <h4>
-                                        {chart.currency}
-                                        {stat.amount.toLocaleString()}
-                                    </h4>
-                                    <span>{stat.deals} Deals</span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div className="pipeline-stats__chart">
-                        <ApexLineChart data={chartData} height={100} color="#FFC107" />
-                    </div>
-                </div>
+                <StatsOverviewWithChart
+                    header={header}
+                    stats={stats}
+                    currency={chart.currency}
+                    chartData={chartData}
+                />
                 <div className="pipeline-upcoming">
                     <div className="pipeline-upcoming__header">
                         <p className="mb-0">{upcomingPlans.header.title}</p>

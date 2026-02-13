@@ -30,6 +30,16 @@ const nextConfig = {
     env: {
         APP_ENV: NODE_ENV,
     },
+    async redirects() {
+        return [
+            {
+                source: "/",
+                destination: "/dashboard",
+                permanent: false, // 307 redirect (safe for auth / logic)
+            },
+        ]
+    },
+
     // Adding policies:
     async headers() {
         return [

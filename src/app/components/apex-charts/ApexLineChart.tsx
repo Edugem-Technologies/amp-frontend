@@ -64,11 +64,9 @@ const ApexLineChart = ({ data, height = 160, color = "#FFC107" }: MiniLineChartP
         yaxis: {
             show: false,
         },
-
         dataLabels: {
             enabled: false,
         },
-
         tooltip: {
             enabled: true,
         },

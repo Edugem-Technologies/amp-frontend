@@ -2,7 +2,7 @@
 import useLocalStorage from "@/app/hooks/useLocalStorage"
 
 const LocalStorage = () => {
-    const [name, setName] = useLocalStorage("name", "NEXT 14 BOILERPLATE")
+    const [name, setName] = useLocalStorage("name", "AMP | ADMIN DASHBOARD")
     return (
         <div>
             <h2>useLocalStorage hook</h2>

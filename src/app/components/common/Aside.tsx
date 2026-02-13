@@ -91,7 +91,7 @@ const Aside = () => {
     const handleShow = () => setShow((prev) => !prev)
 
     const collapseSideBar = () => {
-        setSidebarCollapse(true)
+        setSidebarCollapse(false)
     }
 
     useEffect(() => {

@@ -60,7 +60,8 @@ export type PipelineDashboardData = {
         title: string
         subtitle: string
     }
-    stats: PipelineStatsSection
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    stats: any
     chart: PipelineChartData
     upcomingPlans: UpcomingPlansSection
 }

@@ -58,7 +58,7 @@ const ReactStaticTable = <T extends object>(
 
     return (
         <>
-            <div className="card px-0">
+            <div className="card px-0 py-0">
                 <div className="card-body p-0">
                     {dataView ? (
                         <>

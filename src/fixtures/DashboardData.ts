@@ -1,5 +1,4 @@
 export const dashboardData = {
-    // MARKETPLACE / MERCHANTS
     marketplace: [
         {
             name: "XYZ",
@@ -66,11 +65,14 @@ export const dashboardData = {
         },
     ],
 
-    progressCharts: {
-        weeklySales: {
+    progressCharts: [
+        {
             title: "Weekly Sales",
             subTitle: "Your weekly Sales Chart",
             delta: 100,
+            chartFillColor: "#FFE082",
+            iconBgClass: "bg-light-success",
+            textColorClass: "text-warning",
 
             data: [
                 { month: "Jan", value: 20 },
@@ -88,10 +90,13 @@ export const dashboardData = {
             ],
         },
 
-        authorsProgress: {
+        {
             title: "Authors Progress",
             subTitle: "Marketplace Authors Chart",
             delta: -260,
+            chartFillColor: "#BBBBBB",
+            iconBgClass: "bg-light-danger",
+            textColorClass: "text-info",
 
             data: [
                 { month: "Jan", value: 40 },
@@ -108,9 +113,31 @@ export const dashboardData = {
                 { month: "Dec", value: 39 },
             ],
         },
-    },
+        {
+            title: "Authors Progress",
+            subTitle: "Marketplace Authors Chart",
+            delta: -260,
+            chartFillColor: "#FFC107",
+            iconBgClass: "bg-light-info",
+            textColorClass: "text-primary",
 
-    // MEETINGS / EVENTS
+            data: [
+                { month: "Jan", value: 40 },
+                { month: "Feb", value: 45 },
+                { month: "Mar", value: 50 },
+                { month: "Apr", value: 48 },
+                { month: "May", value: 42 },
+                { month: "Jun", value: 38 },
+                { month: "Jul", value: 41 },
+                { month: "Aug", value: 44 },
+                { month: "Sep", value: 46 },
+                { month: "Oct", value: 43 },
+                { month: "Nov", value: 40 },
+                { month: "Dec", value: 39 },
+            ],
+        },
+    ],
+
     meetings: [
         {
             id: 1,
@@ -131,11 +158,13 @@ export const dashboardData = {
             description: "AirWays - A Front-end solution for airlines build with ReactJS",
         },
     ],
-    areaCharts: {
-        salesChange: {
+
+    areaCharts: [
+        {
             value_about: "Sales Change",
             value: "+256",
-
+            chartFillColor: "#FFE082",
+            iconName: "cake",
             data: [
                 { month: "Jan", value: 30 },
                 { month: "Feb", value: 25 },
@@ -146,9 +175,11 @@ export const dashboardData = {
             ],
         },
 
-        weeklyIncome: {
+        {
             value_about: "Weekly Income",
             value: "750$",
+            chartFillColor: "purple",
+            iconName: "finance",
 
             data: [
                 { month: "Jan", value: 50 },
@@ -160,9 +191,11 @@ export const dashboardData = {
             ],
         },
 
-        newUsers: {
+        {
             value_about: "New Users",
             value: "+6.6K",
+            chartFillColor: "#FFE122",
+            iconName: "wallet",
 
             data: [
                 { month: "Jan", value: 60 },
@@ -173,112 +206,1351 @@ export const dashboardData = {
                 { month: "Jun", value: 65 },
             ],
         },
-    },
+    ],
 
-    salesStats: {
-        shoppingCart: {
+    salesStats: [
+        {
+            id: 1,
             title: "Shopping Cart",
-            desc: "Lands, Houses, Ranchos, Farms",
+            description: "Lands, Houses, Ranchos, Farms",
             bgCardColor: "rgba(250, 97, 96, 1)",
+            iconName: "cake",
         },
-        apartments: {
+        {
+            id: 2,
             title: "Apartments",
-            desc: "Flats, Shared Rooms, Duplex",
+            description: "Flats, Shared Rooms, Duplex",
             bgCardColor: "rgba(23, 222, 134, 1)",
+            iconName: "cake",
         },
-        salesStats: {
+        {
+            id: 3,
             title: "Sales Stats",
-            desc: "50% incresed for FY20",
+            description: "50% incresed for FY20",
             bgCardColor: "rgba(23, 222, 134, 1)",
+            iconName: "cake",
         },
-    },
-    businessStats: {
-        sapProgress: {
+    ],
+
+    businessStats: [
+        {
+            id: 1,
             statNum: "500M",
             currency: "$",
-            desc: "SAP UI PROGRESS",
+            desc: "SAP UI Progress",
+            bgCardColor: "white",
+            iconName: "cake",
         },
-        newCustomers: {
+        {
+            id: 2,
             statNum: "+3000",
             currency: "",
-            desc: "NEW CUSTOMERS",
+            desc: "New Customers",
+            bgCardColor: "rgba(24, 28, 50, 1)",
+            iconName: "cake",
         },
-        milestoneReached: {
+        {
+            id: 3,
             statNum: "500000",
             currency: "$",
             desc: "Milestone Reached",
+            bgCardColor: "rgba(255, 199, 0, 1)",
+            iconName: "cake",
         },
-        milestoneReachedBar: {
+        {
+            id: 4,
             statNum: "500000",
             currency: "$",
             desc: "Milestone Reached",
+            bgCardColor: "rgba(114, 57, 234, 1)",
+            iconName: "cake",
         },
-    },
-    userDetails: [
-        { name: "Arthur Goldstain", designation: "System & Software Architect" },
-        { name: "Lisa Bold", designation: "Marketing & Finance Manager" },
-        { name: "Nick Stone", designation: "Customer Support Team" },
     ],
+
+    userDetails: [
+        {
+            name: "Arthur Goldstain",
+            designation: "System & Software Architect",
+            avatarSrc: "/images/avatars/004-boy-1.svg",
+        },
+        {
+            name: "Lisa Bold",
+            designation: "Marketing & Finance Manager",
+            avatarSrc: "/images/avatars/014-girl-7.svg",
+        },
+        {
+            name: "Nick Stone",
+            designation: "Customer Support Team",
+            avatarSrc: "/images/avatars/029-boy-11.svg",
+        },
+    ],
+
     kpis: [
         {
             id: "projectProgress",
             title: "Project Progress",
             value: 50,
             unit: "%",
-            subtitle: "Average",
+            quantity: "Average",
             color: "green",
             progress: 0.5,
+            bgCardColor: "#e8fff3",
+            textColor: "#50cd89",
         },
         {
             id: "companyFinance",
             title: "Company Finance",
             value: 15,
             unit: "%",
-            subtitle: "48k Goal",
+            quantity: "48k Goal",
             color: "yellow",
             progress: 0.15,
+            bgCardColor: "#fff8dd",
+            textColor: "#ffc700",
         },
         {
             id: "marketingAnalysis",
             title: "Marketing Analysis",
             value: 76,
             unit: "%",
-            subtitle: "400k Impressions",
+            quantity: "400k Impressions",
             color: "green",
             progress: 0.76,
+            bgCardColor: "#f1faff",
+            textColor: "#17de86",
         },
     ],
 
-    // =========================
-    // BAR CHARTS
-    // =========================
-    barCharts: {
-        recentStatistics: {
-            categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
-            series: [
+    recentStatistics: {
+        id: "recentStatistics",
+        header: "Recent Statistics",
+        description: "More than 400 new members",
+        type: "bar",
+        tabs: null,
+        data: [
+            { label: "Feb", netProfit: 45, revenue: 75 },
+            { label: "Mar", netProfit: 55, revenue: 85 },
+            { label: "Apr", netProfit: 58, revenue: 98 },
+            { label: "May", netProfit: 56, revenue: 95 },
+            { label: "Jun", netProfit: 60, revenue: 88 },
+            { label: "Jul", netProfit: 57, revenue: 102 },
+        ],
+    },
+
+    recentTasks: {
+        id: "recentTasks",
+        header: "Recent Tasks",
+        description: "More than 500 new tasks",
+        type: "bar",
+        data: {
+            year: [
+                { label: "2019", netProfit: 20, revenue: 500 },
+                { label: "2020", netProfit: 410, revenue: 560 },
+                { label: "2021", netProfit: 450, revenue: 600 },
+                { label: "2022", netProfit: 480, revenue: 640 },
+                { label: "2023", netProfit: 520, revenue: 700 },
+                { label: "2024", netProfit: 610, revenue: 780 },
+            ],
+            month: [
+                { label: "Feb", netProfit: 42, revenue: 75 },
+                { label: "Mar", netProfit: 54, revenue: 85 },
+                { label: "Apr", netProfit: 57, revenue: 98 },
+                { label: "May", netProfit: 55, revenue: 95 },
+                { label: "Jun", netProfit: 60, revenue: 88 },
+                { label: "Jul", netProfit: 58, revenue: 102 },
+            ],
+            week: [
+                { label: "Mon", netProfit: 8, revenue: 15 },
+                { label: "Tue", netProfit: 12, revenue: 18 },
+                { label: "Wed", netProfit: 10, revenue: 17 },
+                { label: "Thu", netProfit: 14, revenue: 20 },
+                { label: "Fri", netProfit: 16, revenue: 22 },
+                { label: "Sat", netProfit: 9, revenue: 14 },
+                { label: "Sun", netProfit: 6, revenue: 10 },
+            ],
+        },
+    },
+
+    recentTasksLineChart: {
+        title: "Recent Tasks",
+        subTitle: "More than 1000 new records",
+        chartFillColor: "#FFE082",
+        data: {
+            year: [
+                { month: "Jan", value: 20 },
+                { month: "Feb", value: 25 },
+                { month: "Mar", value: 22 },
+                { month: "Apr", value: 30 },
+                { month: "May", value: 35 },
+                { month: "Jun", value: 28 },
+                { month: "Jul", value: 32 },
+                { month: "Aug", value: 36 },
+                { month: "Sep", value: 34 },
+                { month: "Oct", value: 38 },
+                { month: "Nov", value: 40 },
+                { month: "Dec", value: 42 },
+            ],
+            month: [
+                { month: "Jan", value: 20 },
+                { month: "Feb", value: 95 },
+                { month: "Mar", value: 18 },
+                { month: "Apr", value: 12 },
+                { month: "May", value: 11 },
+                { month: "Jun", value: 4 },
+            ],
+            week: [
+                { month: "Jan", value: 10 },
+                { month: "Feb", value: 78 },
+                { month: "Mar", value: 18 },
+                { month: "Apr", value: 82 },
+                { month: "May", value: 11 },
+                { month: "Jun", value: 89 },
+            ],
+        },
+    },
+    recentTasksMultiLineChart: {
+        title: "Recent Tasks",
+        subTitle: "Net Profit vs Revenue",
+        chartFillColor: ["#FFE082", "#90CAF9"],
+        data: {
+            year: [
+                { month: "Jan", netProfit: 18, revenue: 9 },
+                { month: "Feb", netProfit: 22, revenue: 36 },
+                { month: "Mar", netProfit: 25, revenue: 40 },
+                { month: "Apr", netProfit: 30, revenue: 45 },
+                { month: "May", netProfit: 34, revenue: 52 },
+                { month: "Jun", netProfit: 40, revenue: 10 },
+            ],
+            month: [
+                { month: "Week 1", netProfit: 6, revenue: 12 },
+                { month: "Week 2", netProfit: 9, revenue: 16 },
+                { month: "Week 3", netProfit: 7, revenue: 14 },
+                { month: "Week 4", netProfit: 11, revenue: 20 },
+            ],
+            week: [
+                { month: "Mon", netProfit: 2, revenue: 5 },
+                { month: "Tue", netProfit: 4, revenue: 7 },
+                { month: "Wed", netProfit: 3, revenue: 6 },
+                { month: "Thu", netProfit: 5, revenue: 9 },
+                { month: "Fri", netProfit: 6, revenue: 11 },
+                { month: "Sat", netProfit: 4, revenue: 8 },
+                { month: "Sun", netProfit: 3, revenue: 6 },
+            ],
+        },
+    },
+    recentTasksComparison: {
+        id: "recentTasksComparison",
+        header: "Recent Tasks",
+        description: "More than 500 new Tasks",
+        type: "bar",
+        data: {
+            year: [
+                { label: "Feb", netProfit: 35, revenue: -30 },
+                { label: "Mar", netProfit: 48, revenue: -42 },
+                { label: "Apr", netProfit: 62, revenue: -55 },
+                { label: "May", netProfit: 68, revenue: -60 },
+                { label: "Jun", netProfit: 48, revenue: -44 },
+                { label: "Jul", netProfit: 30, revenue: -22 },
+            ],
+
+            month: [
+                { label: "Week 1", netProfit: 18, revenue: -12 },
+                { label: "Week 2", netProfit: 22, revenue: -18 },
+                { label: "Week 3", netProfit: 30, revenue: -26 },
+                { label: "Week 4", netProfit: 26, revenue: -20 },
+            ],
+
+            week: [
+                { label: "Mon", netProfit: 6, revenue: -4 },
+                { label: "Tue", netProfit: 8, revenue: -6 },
+                { label: "Wed", netProfit: 10, revenue: -8 },
+                { label: "Thu", netProfit: 9, revenue: -7 },
+                { label: "Fri", netProfit: 7, revenue: -5 },
+            ],
+        },
+    },
+    recentTasksSales: {
+        id: "recentTasksSales",
+        header: "Recent Tasks",
+        description: "More than 500+ new tasks",
+        type: "bar-area",
+        data: {
+            sales: [
+                { label: "Feb", netProfit: 38, revenue: 22, expences: 52 },
+                { label: "Mar", netProfit: 48, revenue: 24, expences: 72 },
+                { label: "Apr", netProfit: 62, revenue: 26, expences: 60 },
+                { label: "May", netProfit: 70, revenue: 28, expences: 85 },
+                { label: "Jun", netProfit: 50, revenue: 26, expences: 58 },
+                { label: "Jul", netProfit: 30, revenue: 20, expences: 68 },
+            ],
+
+            expenses: [
+                { label: "Feb", netProfit: 38, revenue: 22, expences: 52 },
+                { label: "Mar", netProfit: 48, revenue: 22, expences: 52 },
+                { label: "Apr", netProfit: 62, revenue: 22, expences: 52 },
+                { label: "May", netProfit: 70, revenue: 22, expences: 52 },
+                { label: "Jun", netProfit: 50, revenue: 22, expences: 52 },
+                { label: "Jul", netProfit: 30, revenue: 22, expences: 52 },
+            ],
+        },
+    },
+    detailedRecentTasksMultiLineChart: {
+        title: "Recent Tasks",
+        subTitle: "More than 500 new Tasks",
+        chartFillColor: ["#FFE082", "#90CAF9", "blue"],
+        data: {
+            year: [
+                { month: "Jan", netProfit: 18, revenue: 9, expenses: 13 },
+                { month: "Feb", netProfit: 22, revenue: 36, expenses: 133 },
+                { month: "Mar", netProfit: 25, revenue: 40, expenses: 23 },
+                { month: "Apr", netProfit: 30, revenue: 45, expenses: 53 },
+                { month: "May", netProfit: 34, revenue: 52, expenses: 63 },
+                { month: "Jun", netProfit: 40, revenue: 10, expenses: 103 },
+            ],
+            month: [
+                { month: "Week 1", netProfit: 6, revenue: 12, expenses: 13 },
+                { month: "Week 2", netProfit: 9, revenue: 16, expenses: 19 },
+                { month: "Week 3", netProfit: 7, revenue: 14, expenses: 43 },
+                { month: "Week 4", netProfit: 11, revenue: 20, expenses: 83 },
+            ],
+            week: [
+                { month: "Mon", netProfit: 2, revenue: 5, expenses: 13 },
+                { month: "Tue", netProfit: 4, revenue: 7, expenses: 23 },
+                { month: "Wed", netProfit: 3, revenue: 6, expenses: 83 },
+                { month: "Thu", netProfit: 5, revenue: 9, expenses: 83 },
+                { month: "Fri", netProfit: 6, revenue: 11, expenses: 43 },
+                { month: "Sat", netProfit: 4, revenue: 8, expenses: 93 },
+                { month: "Sun", netProfit: 3, revenue: 6, expenses: 23 },
+            ],
+        },
+    },
+    detailedRecentTasksMultiLineChartv2: {
+        title: "Recent Tasks",
+        subTitle: "More than 500 new Tasks",
+        chartFillColor: ["#FFE082", "#90CAF9", "red"],
+        data: {
+            year: [
+                { month: "Jan", netProfit: 18, revenue: 9, expenses: 103 },
+                { month: "Feb", netProfit: 22, revenue: 36, expenses: 13 },
+                { month: "Mar", netProfit: 25, revenue: 40, expenses: 3 },
+                { month: "Apr", netProfit: 30, revenue: 45, expenses: 89 },
+                { month: "May", netProfit: 34, revenue: 52, expenses: 43 },
+                { month: "Jun", netProfit: 40, revenue: 10, expenses: 33 },
+            ],
+            month: [
+                { month: "Week 1", netProfit: 6, revenue: 12, expenses: 23 },
+                { month: "Week 2", netProfit: 9, revenue: 16, expenses: 43 },
+                { month: "Week 3", netProfit: 7, revenue: 14, expenses: 63 },
+                { month: "Week 4", netProfit: 11, revenue: 20, expenses: 10 },
+            ],
+            week: [
+                { month: "Mon", netProfit: 2, revenue: 5, expenses: 12 },
+                { month: "Tue", netProfit: 4, revenue: 7, expenses: 17 },
+                { month: "Wed", netProfit: 3, revenue: 6, expenses: 33 },
+                { month: "Thu", netProfit: 5, revenue: 9, expenses: 83 },
+                { month: "Fri", netProfit: 6, revenue: 11, expenses: 23 },
+                { month: "Sat", netProfit: 4, revenue: 8, expenses: 93 },
+                { month: "Sun", netProfit: 3, revenue: 6, expenses: 13 },
+            ],
+        },
+    },
+    tasksOverviewData: {
+        header: {
+            title: "Tasks Overview",
+            description: "Pending 10 tasks",
+        },
+        tasks: [
+            { id: "1", title: "Project Briefing", role: "Project Manager", color: "#E6FFF3" },
+            { id: "2", title: "Concept Design", role: "Art Director", color: "#FFF7E0" },
+            { id: "3", title: "Functional Logics", role: "Lead Developer", color: "#E8F3FF" },
+            { id: "4", title: "Development", role: "DevOps", color: "#FFEDED" },
+            { id: "5", title: "Testing", role: "QA Managers", color: "#F3EDFF" },
+        ],
+    },
+
+    activitiesData: {
+        header: {
+            title: "Activities",
+            description: "890,344 Sales",
+        },
+        activities: [
+            { id: "1", time: "08:42", text: "Outlines keep you honest.", color: "#FFC107" },
+            { id: "2", time: "10:00", text: "AEOL meeting", color: "#4CAF50" },
+            { id: "3", time: "14:37", text: "Make deposit USD 700 to ESL", color: "#F44336" },
+            { id: "4", time: "16:50", text: "Indulging in poorly driving", color: "#4CAF50" },
+            {
+                id: "5",
+                time: "21:03",
+                text: "New order placed #XF-2356",
+                color: "#F44336",
+                highlight: "#00C853",
+            },
+        ],
+    },
+    todoData: {
+        header: { title: "Todo" },
+        todos: [
+            { id: "1", title: "Create FireStone Logo", due: "2 Days", color: "#4CAF50" },
+            { id: "2", title: "Stakeholder Meeting", due: "3 Days", color: "#4CAF50" },
+            { id: "3", title: "Scoping & Estimations", due: "5 Days", color: "#FFC107" },
+            { id: "4", title: "Project Meeting", due: "12 Days", color: "#F44336" },
+            { id: "5", title: "Customers Update", due: "1 week", color: "#4CAF50" },
+            { id: "6", title: "Customers Update", due: "1 week", color: "#4CAF50" },
+        ],
+    },
+
+    tasksOverviewProgressData: {
+        header: {
+            title: "Tasks Overview",
+            description: "Pending 10 tasks",
+        },
+        tasks: [
+            {
+                id: "1",
+                title: "Project Briefing",
+                role: "Project Manager",
+                color: "#E6FFF3",
+                completion: 80,
+                brandIcon: "/images/brand-logos/plurk.svg",
+            },
+            {
+                id: "2",
+                title: "Concept Design",
+                role: "Art Director",
+                color: "#FFF7E0",
+                completion: 80,
+                brandIcon: "/images/brand-logos/telegram.svg",
+            },
+            {
+                id: "3",
+                title: "Functional Logics",
+                role: "Lead Developer",
+                color: "#E8F3FF",
+                completion: 80,
+                brandIcon: "/images/brand-logos/vimeo.svg",
+            },
+            {
+                id: "4",
+                title: "Development",
+                role: "DevOps",
+                color: "#FFEDED",
+                completion: 80,
+                brandIcon: "/images/brand-logos/bebo.svg",
+            },
+            {
+                id: "5",
+                title: "Testing",
+                role: "QA Managers",
+                color: "#F3EDFF",
+                completion: 80,
+                brandIcon: "/images/brand-logos/kickstarter.svg",
+            },
+        ],
+    },
+
+    taskActivityTracker: {
+        header: {
+            title: "Activities",
+            description: "890344 Sales",
+        },
+        tasks: [
+            {
+                id: "1",
+                time: "08:42",
+                title: `<p class="text-muted">Outlines keep you honest. And keep structure</p>`,
+                color: "#E6FFF3",
+            },
+            {
+                id: "2",
+                time: "10:00",
+                title: `<p class="text-strong">AEOL meeting</p>`,
+                color: "#E6FFF3",
+            },
+            {
+                id: "3",
+                time: "14:37",
+                title: `<p class="text-strong">Make deposit <span class="text-minty">USD 700</span>. to ESL</p>`,
+                color: "#E6FFF3",
+            },
+            {
+                id: "4",
+                time: "16:50",
+                title: `<p class="text-muted">Indulging in poorly driving and keep structure keep great</p>`,
+                color: "#E6FFF3",
+            },
+            {
+                id: "5",
+                time: "21:03",
+                title: `<p class="text-highlighted">New order placed <span>#XF-2356</span>.</p>`,
+                color: "#E6FFF3",
+            },
+            {
+                id: "6",
+                time: "16:50",
+                title: `<p class="text-muted">Indulging in poorly driving and keep structure keep great</p>`,
+                color: "#E6FFF3",
+            },
+            {
+                id: "7",
+                time: "21:03",
+                title: `<p class="text-highlighted">New order placed <span>#XF-2356</span>.</p>`,
+                color: "#E6FFF3",
+            },
+            {
+                id: "8",
+                time: "10:30",
+                title: `<p class="text-muted">Finance KPI Mobile app launch preparion meeting</p>`,
+                color: "#E6FFF3",
+            },
+        ],
+    },
+
+    memberStats: [
+        {
+            id: "1",
+            name: "Ana Simmons",
+            skills: "HTML, JS, ReactJS",
+            company: "Intertico",
+            companyType: "Web, UI/UX Design",
+            progress: 50,
+            progressColor: "#22c55e",
+            avatar: "https://i.pravatar.cc/80?img=32",
+        },
+        {
+            id: "2",
+            name: "Jessie Clarkson",
+            skills: "C#, ASP.NET, MS SQL",
+            company: "Agoda",
+            companyType: "Houses & Hotels",
+            progress: 70,
+            progressColor: "#ef4444",
+            avatar: "https://i.pravatar.cc/80?img=47",
+        },
+        {
+            id: "3",
+            name: "Lebron Wayde",
+            skills: "PHP, Laravel, VueJS",
+            company: "RoadGee",
+            companyType: "Transportation",
+            progress: 60,
+            progressColor: "#22c55e",
+            avatar: "https://i.pravatar.cc/80?img=12",
+        },
+        {
+            id: "4",
+            name: "Natali Goodwin",
+            skills: "Python, PostgreSQL, ReactJS",
+            company: "The Hill",
+            companyType: "Insurance",
+            progress: 50,
+            progressColor: "#facc15",
+            avatar: "https://i.pravatar.cc/80?img=20",
+        },
+        {
+            id: "5",
+            name: "Kevin Leonard",
+            skills: "HTML, JS, ReactJS",
+            company: "RoadGee",
+            companyType: "Art Director",
+            progress: 90,
+            progressColor: "#7c3aed",
+            avatar: "https://i.pravatar.cc/80?img=8",
+        },
+    ],
+
+    salesSummary: [
+        {
+            id: "salesSummary1",
+            header: "Sales Summary",
+            balanceAmount: 37562.0,
+            bgColor: "rgb(23, 222, 134)",
+            stats: [
+                { title: "Sales", desc: "100 Regions", revenue: 2500000000, isProfit: true },
+                { title: "Revenue", desc: "Quarter 2/3", revenue: 1700000000, isProfit: false },
+                { title: "Growth", desc: "80% Rate", revenue: 8800000, isProfit: true },
+                { title: "Dispute", desc: "3090 Refunds", revenue: 270000000, isProfit: false },
+            ],
+        },
+        {
+            id: "salesSummary2",
+            header: "Sales Summary",
+            balanceAmount: 37562.0,
+            bgColor: "rgb(250, 97, 96)",
+
+            stats: [
+                { title: "Sales", desc: "100 Regions", revenue: 2500000000, isProfit: true },
+                { title: "Revenue", desc: "Quarter 2/3", revenue: 1700000000, isProfit: false },
+                { title: "Growth", desc: "80% Rate", revenue: 8800000, isProfit: true },
+                { title: "Dispute", desc: "3090 Refunds", revenue: 270000000, isProfit: false },
+            ],
+        },
+        {
+            id: "salesSummary3",
+            header: "Sales Summary",
+            balanceAmount: 37562.0,
+            bgColor: "rgb(23, 222, 134)",
+
+            stats: [
+                { title: "Sales", desc: "100 Regions", revenue: 2500000000, isProfit: true },
+                { title: "Revenue", desc: "Quarter 2/3", revenue: 1700000000, isProfit: false },
+                { title: "Growth", desc: "80% Rate", revenue: 8800000, isProfit: true },
+                { title: "Dispute", desc: "3090 Refunds", revenue: 270000000, isProfit: false },
+            ],
+        },
+    ],
+
+    salesStatsProgressCharts: [
+        {
+            title: "Sales Statistics",
+            lineColor: "black",
+            chartFillColor: "#6F42E5",
+
+            data: [
+                { month: "Jan", value: 18 },
+                { month: "Feb", value: 42 },
+                { month: "Mar", value: 28 },
+                { month: "Apr", value: 32 },
+                { month: "May", value: 70 }, // tooltip: $70 thousands
+                { month: "Jun", value: 35 },
+                { month: "Jul", value: 35 },
+            ],
+
+            cards: [
                 {
-                    name: "Net Profit",
-                    data: [45, 55, 60, 58, 61, 65],
+                    title: "Weekly Sales",
+                    icon: "lineChart",
+                    bgColor: "#FFF8E1",
+                    textColor: "#ffc700",
+                    svgBtnClass: "svg-icon-warning",
                 },
                 {
-                    name: "Revenue",
-                    data: [70, 85, 95, 92, 88, 98],
+                    title: "New Projects",
+                    icon: "backPack",
+                    bgColor: "#F1FAFF",
+                    textColor: "#17de86",
+                    svgBtnClass: "svg-icon-primary",
+                },
+                {
+                    title: "Item Orders",
+                    icon: "stack",
+                    bgColor: "#FFF3F3",
+                    textColor: "#fa6160",
+                    svgBtnClass: "svg-icon-danger",
+                },
+                {
+                    title: "Bug Reports",
+                    icon: "letter",
+                    bgColor: "#ECFFF5",
+                    textColor: "#50cd89",
+                    svgBtnClass: "svg-icon-success",
                 },
             ],
         },
 
-        recentTasks: {
-            categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
-            series: [
+        {
+            title: "Sales Statistics",
+            chartFillColor: "#FF5B5C",
+            lineColor: "#E53935",
+
+            data: [
+                { month: "Jan", value: 20 },
+                { month: "Feb", value: 38 },
+                { month: "Mar", value: 26 },
+                { month: "Apr", value: 30 },
+                { month: "May", value: 55 },
+                { month: "Jun", value: 34 },
+                { month: "Jul", value: 34 },
+            ],
+            cards: [
                 {
-                    name: "Completed Tasks",
-                    data: [40, 55, 58, 56, 60, 57],
+                    title: "Weekly Sales",
+                    icon: "lineChart",
+                    bgColor: "#FFF8E1",
+                    textColor: "#ffc700",
+                    svgBtnClass: "svg-icon-warning",
                 },
                 {
-                    name: "Total Tasks",
-                    data: [75, 85, 98, 95, 90, 100],
+                    title: "New Projects",
+                    icon: "backPack",
+                    bgColor: "#F1FAFF",
+                    textColor: "#17de86",
+                    svgBtnClass: "svg-icon-primary",
+                },
+                {
+                    title: "Item Orders",
+                    icon: "stack",
+                    bgColor: "#FFF3F3",
+                    textColor: "#fa6160",
+                    svgBtnClass: "svg-icon-danger",
+                },
+                {
+                    title: "Bug Reports",
+                    icon: "letter",
+                    bgColor: "#ECFFF5",
+                    textColor: "#50cd89",
+                    svgBtnClass: "svg-icon-success",
                 },
             ],
         },
-    },
+
+        {
+            title: "Sales Statistics",
+            lineColor: "#E53935",
+            chartFillColor: "#18D87A",
+            data: [
+                { month: "Jan", value: 16 },
+                { month: "Feb", value: 36 },
+                { month: "Mar", value: 22 },
+                { month: "Apr", value: 28 },
+                { month: "May", value: 60 },
+                { month: "Jun", value: 33 },
+                { month: "Jul", value: 33 },
+            ],
+
+            cards: [
+                {
+                    title: "Weekly Sales",
+                    icon: "lineChart",
+                    bgColor: "#FFF8E1",
+                    textColor: "#ffc700",
+                    svgBtnClass: "svg-icon-warning",
+                },
+                {
+                    title: "New Projects",
+                    icon: "backPack",
+                    bgColor: "#F1FAFF",
+                    textColor: "#17de86",
+                    svgBtnClass: "svg-icon-primary",
+                },
+                {
+                    title: "Item Orders",
+                    icon: "stack",
+                    bgColor: "#FFF3F3",
+                    textColor: "#fa6160",
+                    svgBtnClass: "svg-icon-danger",
+                },
+                {
+                    title: "Bug Reports",
+                    icon: "letter",
+                    bgColor: "#ECFFF5",
+                    textColor: "#50cd89",
+                    svgBtnClass: "svg-icon-success",
+                },
+            ],
+        },
+    ],
+    salesProgress: [
+        {
+            id: "sales-purple",
+            title: "Sales Progress",
+            chartFillColor: "#6F42E8",
+            chart: {
+                type: "bar",
+                barColor: "#FFFFFF",
+                mutedBarColor: "rgba(255,255,255,0.35)",
+                data: [
+                    { label: "Feb", netProfit: 45, revenue: 75 },
+                    { label: "Mar", netProfit: 55, revenue: 85 },
+                    { label: "Apr", netProfit: 58, revenue: 98 },
+                    { label: "May", netProfit: 56, revenue: 95 },
+                    { label: "Jun", netProfit: 60, revenue: 88 },
+                    { label: "Jul", netProfit: 57, revenue: 102 },
+                ],
+            },
+            summary: [
+                { label: "Average Sale", value: "$650" },
+                { label: "Commissions", value: "$29,500" },
+                { label: "Revenue", value: "$55,000" },
+                { label: "Expenses", value: "$1,130,600" },
+            ],
+        },
+
+        {
+            id: "sales-red",
+            title: "Sales Progress",
+            chartFillColor: "#FF6B6B",
+            chart: {
+                type: "bar",
+                barColor: "#FFFFFF",
+                mutedBarColor: "rgba(255,255,255,0.35)",
+                data: [
+                    { label: "Feb", netProfit: 45, revenue: 75 },
+                    { label: "Mar", netProfit: 55, revenue: 85 },
+                    { label: "Apr", netProfit: 58, revenue: 98 },
+                    { label: "May", netProfit: 56, revenue: 95 },
+                    { label: "Jun", netProfit: 60, revenue: 88 },
+                    { label: "Jul", netProfit: 57, revenue: 102 },
+                ],
+            },
+            summary: [
+                { label: "Average Sale", value: "$650" },
+                { label: "Commissions", value: "$29,500" },
+                { label: "Revenue", value: "$55,000" },
+                { label: "Expenses", value: "$1,130,600" },
+            ],
+        },
+
+        {
+            id: "sales-green",
+            title: "Sales Progress",
+            chartFillColor: "#1ED87E",
+            chart: {
+                type: "bar",
+                barColor: "#FFFFFF",
+                mutedBarColor: "rgba(255,255,255,0.35)",
+                data: [
+                    { label: "Feb", netProfit: 45, revenue: 75 },
+                    { label: "Mar", netProfit: 55, revenue: 85 },
+                    { label: "Apr", netProfit: 58, revenue: 98 },
+                    { label: "May", netProfit: 56, revenue: 95 },
+                    { label: "Jun", netProfit: 60, revenue: 88 },
+                    { label: "Jul", netProfit: 57, revenue: 102 },
+                ],
+            },
+            summary: [
+                { label: "Average Sale", value: "$650" },
+                { label: "Commissions", value: "$29,500" },
+                { label: "Revenue", value: "$55,000" },
+                { label: "Expenses", value: "$1,130,600" },
+            ],
+        },
+    ],
+
+    subscriptionsData: [
+        {
+            id: "1",
+            logo: "/images/brand-logos/plurk.svg",
+            title: "Monthly Subscription",
+            dueDate: "27 Apr 2020",
+            progress: 70,
+            progressColor: "#FF5B5B",
+            team: [
+                { id: "1", name: "Emma Watson", image: "/images/avatars/150-1.jpg" },
+                { id: "2", name: "John Carter", image: "/images/avatars/150-4.jpg" },
+                { id: "3", name: "Sophia Lee", image: "/images/avatars/150-8.jpg" },
+                { id: "4", name: "Michael Brown", image: "/images/avatars/150-9.jpg" },
+            ],
+        },
+        {
+            id: "2",
+            logo: "/images/brand-logos/vimeo.svg",
+            title: "Monthly Subscription",
+            dueDate: "27 Apr 2020",
+            progress: 85,
+            progressColor: "#28C76F",
+            team: [
+                { id: "1", name: "Emma Watson", image: "/images/avatars/150-1.jpg" },
+                { id: "2", name: "John Carter", image: "/images/avatars/150-4.jpg" },
+                { id: "3", name: "Sophia Lee", image: "/images/avatars/150-8.jpg" },
+                { id: "4", name: "Michael Brown", image: "/images/avatars/150-9.jpg" },
+            ],
+        },
+        {
+            id: "3",
+            logo: "/images/brand-logos/kickstarter.svg",
+            title: "Monthly Subscription",
+            dueDate: "27 Apr 2020",
+            progress: 80,
+            progressColor: "#28C76F",
+            team: [
+                { id: "1", name: "Emma Watson", image: "/images/avatars/150-1.jpg" },
+                { id: "2", name: "John Carter", image: "/images/avatars/150-4.jpg" },
+                { id: "3", name: "Sophia Lee", image: "/images/avatars/150-8.jpg" },
+                { id: "4", name: "Michael Brown", image: "/images/avatars/150-9.jpg" },
+            ],
+        },
+    ],
+
+    salesOverviewData: [
+        {
+            id: "sales-black",
+            header: {
+                title: "Sales Overview",
+                subtitle: "Recent sales statistics",
+            },
+            currency: "$",
+            stats: [
+                {
+                    title: "Average Sale",
+                    amount: 650,
+                    trend: "up",
+                },
+                {
+                    title: "Commission",
+                    amount: 233600,
+                },
+                {
+                    title: "Annual Taxes 2019",
+                    amount: 29004,
+                },
+                {
+                    title: "Annual Income",
+                    amount: 148000,
+                    trend: "down",
+                },
+            ],
+            chart: {
+                color: "#111111",
+                points: [
+                    { label: "Jan", value: 20 },
+                    { label: "Feb", value: 18 },
+                    { label: "Mar", value: 25 },
+                    { label: "Apr", value: 19 },
+                    { label: "May", value: 30 },
+                    { label: "Jun", value: 30 },
+                ],
+            },
+        },
+        {
+            id: "sales-red",
+            header: {
+                title: "Sales Overview",
+                subtitle: "Recent sales statistics",
+            },
+            currency: "$",
+            stats: [
+                {
+                    title: "Average Sale",
+                    amount: 650,
+                    trend: "up",
+                },
+                {
+                    title: "Commission",
+                    amount: 233600,
+                },
+                {
+                    title: "Annual Taxes 2019",
+                    amount: 29004,
+                },
+                {
+                    title: "Annual Income",
+                    amount: 148000,
+                    trend: "down",
+                },
+            ],
+            chart: {
+                color: "#EF4444",
+                points: [
+                    { label: "Jan", value: 18 },
+                    { label: "Feb", value: 16 },
+                    { label: "Mar", value: 24 },
+                    { label: "Apr", value: 17 },
+                    { label: "May", value: 28 },
+                    { label: "Jun", value: 28 },
+                ],
+            },
+        },
+        {
+            id: "sales-green",
+            header: {
+                title: "Sales Overview",
+                subtitle: "Recent sales statistics",
+            },
+            currency: "$",
+            stats: [
+                {
+                    title: "Average Sale",
+                    amount: 650,
+                    trend: "up",
+                },
+                {
+                    title: "Commission",
+                    amount: 233600,
+                },
+                {
+                    title: "Annual Taxes 2019",
+                    amount: 29004,
+                },
+                {
+                    title: "Annual Income",
+                    amount: 148000,
+                    trend: "down",
+                },
+            ],
+            chart: {
+                color: "#22C55E",
+                points: [
+                    { label: "Jan", value: 19 },
+                    { label: "Feb", value: 17 },
+                    { label: "Mar", value: 26 },
+                    { label: "Apr", value: 18 },
+                    { label: "May", value: 29 },
+                    { label: "Jun", value: 29 },
+                ],
+            },
+        },
+    ],
+
+    actionNeededData: [
+        {
+            id: "gray",
+            percentage: 74,
+            color: "#6C757D",
+            strokeWidth: 12,
+            buttonColor: "#28C76F",
+        },
+        {
+            id: "green",
+            percentage: 74,
+            color: "#28C76F",
+            strokeWidth: 12,
+        },
+        {
+            id: "red",
+            percentage: 74,
+            color: "#EA5455",
+            strokeWidth: 12,
+        },
+    ],
+    trendsData: [
+        {
+            id: "trend-black",
+            header: {
+                title: "Trends",
+                subtitle: "Latest trends",
+            },
+            currency: "$",
+            stats: [
+                {
+                    title: "Top Authors",
+                    subtitle: "Ricky Hunt, Sandra Trepp",
+                    brandIcon: "/images/brand-logos/plurk.svg",
+                    amount: 86,
+                    trend: "up",
+                },
+                {
+                    title: "Top Authors",
+                    subtitle: "Ricky Hunt, Sandra Trepp",
+                    brandIcon: "/images/brand-logos/vimeo.svg",
+                    amount: 86,
+                    trend: "up",
+                },
+                {
+                    title: "Top Authors",
+                    subtitle: "Ricky Hunt, Sandra Trepp",
+                    brandIcon: "/images/brand-logos/figma-1.svg",
+                    amount: 86,
+                    trend: "up",
+                },
+            ],
+            chart: {
+                color: "#111111",
+                points: [
+                    { label: "Jan", value: 20 },
+                    { label: "Feb", value: 18 },
+                    { label: "Mar", value: 25 },
+                    { label: "Apr", value: 19 },
+                    { label: "May", value: 30 },
+                    { label: "Jun", value: 30 },
+                ],
+            },
+        },
+        {
+            id: "trend-green",
+            header: {
+                title: "Trends",
+                subtitle: "Latest trends",
+            },
+            currency: "$",
+            stats: [
+                {
+                    title: "Top Authors",
+                    subtitle: "Ricky Hunt, Sandra Trepp",
+                    brandIcon: "/images/brand-logos/figma-1.svg",
+                    amount: 86,
+                    trend: "up",
+                },
+                {
+                    title: "Top Authors",
+                    subtitle: "Ricky Hunt, Sandra Trepp",
+                    brandIcon: "/images/brand-logos/vimeo.svg",
+                    amount: 86,
+                    trend: "up",
+                },
+                {
+                    title: "Top Authors",
+                    subtitle: "Ricky Hunt, Sandra Trepp",
+                    brandIcon: "/images/brand-logos/plurk.svg",
+                    amount: 86,
+                    trend: "up",
+                },
+            ],
+            chart: {
+                color: "#111111",
+                points: [
+                    { label: "Jan", value: 20 },
+                    { label: "Feb", value: 18 },
+                    { label: "Mar", value: 25 },
+                    { label: "Apr", value: 19 },
+                    { label: "May", value: 30 },
+                    { label: "Jun", value: 30 },
+                ],
+            },
+        },
+        {
+            id: "trend-red",
+            header: {
+                title: "Trends",
+                subtitle: "Latest trends",
+            },
+            currency: "$",
+            stats: [
+                {
+                    title: "Top Authors",
+                    subtitle: "Ricky Hunt, Sandra Trepp",
+                    brandIcon: "/images/brand-logos/plurk.svg",
+                    amount: 86,
+                    trend: "up",
+                },
+                {
+                    title: "Top Authors",
+                    subtitle: "Ricky Hunt, Sandra Trepp",
+                    brandIcon: "/images/brand-logos/figma-1.svg",
+                    amount: 86,
+                    trend: "up",
+                },
+                {
+                    title: "Top Authors",
+                    subtitle: "Ricky Hunt, Sandra Trepp",
+                    brandIcon: "/images/brand-logos/vimeo.svg",
+                    amount: 86,
+                    trend: "up",
+                },
+            ],
+            chart: {
+                color: "#111111",
+                points: [
+                    { label: "Jan", value: 20 },
+                    { label: "Feb", value: 18 },
+                    { label: "Mar", value: 25 },
+                    { label: "Apr", value: 19 },
+                    { label: "May", value: 30 },
+                    { label: "Jun", value: 30 },
+                ],
+            },
+        },
+    ],
+
+    cummulativeSalesStats: [
+        {
+            id: "cummulative-sales-1",
+            header: {
+                title: "Sales Statistics",
+                subtitle: "Recent sales statistics",
+            },
+            currency: "$",
+            stats: [
+                {
+                    title: "Author Sales",
+                    amount: 2034,
+                    icon: "paint",
+                    btnClass: "svg-icon-info",
+                    iconBgClass: "bg-light-info",
+                },
+                {
+                    title: "Commission",
+                    amount: 706,
+                    icon: "stack",
+                    btnClass: "svg-icon-danger",
+                    iconBgClass: "bg-light-danger ",
+                },
+                {
+                    title: "Average Bid",
+                    amount: 29004,
+                    icon: "cake",
+                    btnClass: "svg-icon-success",
+                    iconBgClass: "bg-light-success",
+                },
+                {
+                    title: "All Time Sales",
+                    amount: 148000,
+                    icon: "barcode",
+                    btnClass: "svg-icon-primary",
+                    iconBgClass: "bg-light-primary",
+                },
+            ],
+            chart: {
+                color: "#111111",
+                points: [
+                    { label: "Jan", value: 20 },
+                    { label: "Feb", value: 18 },
+                    { label: "Mar", value: 25 },
+                    { label: "Apr", value: 19 },
+                    { label: "May", value: 30 },
+                    { label: "Jun", value: 30 },
+                ],
+            },
+        },
+        {
+            id: "cummulative-sales-2",
+            header: {
+                title: "Sales Overview",
+                subtitle: "Recent sales statistics",
+            },
+            currency: "$",
+            stats: [
+                {
+                    title: "Author Sales",
+                    amount: 2034,
+                    icon: "paint",
+                    btnClass: "svg-icon-info",
+                    iconBgClass: "bg-light-info",
+                },
+                {
+                    title: "Commission",
+                    amount: 706,
+                    icon: "stack",
+                    btnClass: "svg-icon-danger",
+                    iconBgClass: "bg-light-danger ",
+                },
+                {
+                    title: "Average Bid",
+                    amount: 29004,
+                    icon: "cake",
+                    btnClass: "svg-icon-success",
+                    iconBgClass: "bg-light-success",
+                },
+                {
+                    title: "All Time Sales",
+                    amount: 148000,
+                    icon: "barcode",
+                    btnClass: "svg-icon-primary",
+                    iconBgClass: "bg-light-primary",
+                },
+            ],
+            chart: {
+                color: "#EF4444",
+                points: [
+                    { label: "Jan", value: 18 },
+                    { label: "Feb", value: 16 },
+                    { label: "Mar", value: 24 },
+                    { label: "Apr", value: 17 },
+                    { label: "May", value: 28 },
+                    { label: "Jun", value: 28 },
+                ],
+            },
+        },
+        {
+            id: "cummulative-sales-3",
+            header: {
+                title: "Sales Overview",
+                subtitle: "Recent sales statistics",
+            },
+            currency: "$",
+            stats: [
+                {
+                    title: "Author Sales",
+                    amount: 2034,
+                    icon: "paint",
+                    btnClass: "svg-icon-info",
+                    iconBgClass: "bg-light-info",
+                },
+                {
+                    title: "Commission",
+                    amount: 706,
+                    icon: "stack",
+                    btnClass: "svg-icon-danger",
+                    iconBgClass: "bg-light-danger ",
+                },
+                {
+                    title: "Average Bid",
+                    amount: 29004,
+                    icon: "cake",
+                    btnClass: "svg-icon-success",
+                    iconBgClass: "bg-light-success",
+                },
+                {
+                    title: "All Time Sales",
+                    amount: 148000,
+                    icon: "barcode",
+                    btnClass: "svg-icon-primary",
+                    iconBgClass: "bg-light-primary",
+                },
+            ],
+            chart: {
+                color: "#22C55E",
+                points: [
+                    { label: "Jan", value: 19 },
+                    { label: "Feb", value: 17 },
+                    { label: "Mar", value: 26 },
+                    { label: "Apr", value: 18 },
+                    { label: "May", value: 29 },
+                    { label: "Jun", value: 29 },
+                ],
+            },
+        },
+    ],
+
+    generatedReportData: [
+        {
+            title: "Generate Reports",
+            subTitle: "Finance and accounting reports",
+            delta: 24500,
+            chartFillColor: "#FFE082",
+            currency: "$",
+            textColorClass: "text-info",
+
+            data: [
+                { month: "Jan", value: 20 },
+                { month: "Feb", value: 25 },
+                { month: "Mar", value: 22 },
+                { month: "Apr", value: 30 },
+                { month: "May", value: 35 },
+                { month: "Jun", value: 28 },
+                { month: "Jul", value: 32 },
+                { month: "Aug", value: 36 },
+                { month: "Sep", value: 34 },
+                { month: "Oct", value: 38 },
+                { month: "Nov", value: 40 },
+                { month: "Dec", value: 42 },
+            ],
+        },
+
+        {
+            title: "Generate Reports",
+            subTitle: "Finance and accounting reports",
+            delta: 24500,
+            chartFillColor: "#FFE082",
+            currency: "$",
+            textColorClass: "text-warning",
+
+            data: [
+                { month: "Jan", value: 20 },
+                { month: "Feb", value: 25 },
+                { month: "Mar", value: 22 },
+                { month: "Apr", value: 30 },
+                { month: "May", value: 35 },
+                { month: "Jun", value: 28 },
+                { month: "Jul", value: 32 },
+                { month: "Aug", value: 36 },
+                { month: "Sep", value: 34 },
+                { month: "Oct", value: 38 },
+                { month: "Nov", value: 40 },
+                { month: "Dec", value: 42 },
+            ],
+        },
+        {
+            title: "Generate Reports",
+            subTitle: "Finance and accounting reports",
+            delta: 24500,
+            chartFillColor: "#FFE082",
+            currency: "$",
+            textColorClass: "text-primary",
+
+            data: [
+                { month: "Jan", value: 20 },
+                { month: "Feb", value: 25 },
+                { month: "Mar", value: 22 },
+                { month: "Apr", value: 30 },
+                { month: "May", value: 35 },
+                { month: "Jun", value: 28 },
+                { month: "Jul", value: 32 },
+                { month: "Aug", value: 36 },
+                { month: "Sep", value: 34 },
+                { month: "Oct", value: 38 },
+                { month: "Nov", value: 40 },
+                { month: "Dec", value: 42 },
+            ],
+        },
+    ],
 }

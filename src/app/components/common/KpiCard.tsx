@@ -1,3 +1,4 @@
+import Image from "next/image"
 import React, { ReactNode } from "react"
 
 export type IconPlacement = "left" | "right" | "top"
@@ -12,19 +13,19 @@ export type BackgroundImageConfig = {
 
 export type KpiCardProps = {
     title: string
-    amount: string | number
+    amount?: number | string
     description?: string
-
     icon?: ReactNode
     iconPlacement?: IconPlacement
-
-    progress?: number // 0 to 1
+    progress?: number
     showProgress?: boolean
-
     backgroundColor?: string
     backgroundImage?: BackgroundImageConfig
-
     className?: string
+    cardId?: number
+    avatarSrc?: string
+    quantity?: string
+    fontColor?: string
 }
 
 const KpiCard: React.FC<KpiCardProps> = ({
@@ -35,18 +36,21 @@ const KpiCard: React.FC<KpiCardProps> = ({
     iconPlacement = "left",
     progress,
     showProgress = false,
-    backgroundColor = "#fff",
+    backgroundColor = "#ffffff",
     backgroundImage,
     className = "",
+    cardId,
+    avatarSrc,
+    quantity,
+    fontColor,
 }) => {
     return (
         <div
-            className={`kpi-card-wrapper ${className} icon-${iconPlacement} ${
+            className={`kpi-card-wrapper kpi-card-wrapper-${cardId} ${className} icon-${iconPlacement} ${
                 showProgress ? "has-progress" : ""
             }`}
             style={{ backgroundColor }}
         >
-            {/* BACKGROUND IMAGE */}
             {backgroundImage && (
                 <div
                     className="kpi-card-bg"
@@ -68,7 +72,6 @@ const KpiCard: React.FC<KpiCardProps> = ({
                 </div>
             )}
 
-            {/* CONTENT */}
             <div className="kpi-card-content-wrapper">
                 {icon && iconPlacement === "top" && <div className="kpi-icon-top">{icon}</div>}
 
@@ -78,8 +81,13 @@ const KpiCard: React.FC<KpiCardProps> = ({
                     )}
 
                     <div className="kpi-text">
-                        <h4 className="kpi-title">{title}</h4>
-                        <h2 className="kpi-amount mb-0">{amount}</h2>
+                        <h4 className="kpi-title" style={{ color: fontColor }}>
+                            {title}
+                        </h4>
+                        <div className="d-flex gap-3 align-items-center">
+                            <h2 className="kpi-amount">{amount}</h2>
+                            {quantity && <span className="kpi-quantity">{quantity}</span>}
+                        </div>
                         {description && <p className="kpi-description mb-0">{description}</p>}
                     </div>
 
@@ -87,12 +95,19 @@ const KpiCard: React.FC<KpiCardProps> = ({
                         <div className="kpi-icon-right">{icon}</div>
                     )}
                 </div>
+                {avatarSrc && (
+                    <div className="user-avatar">
+                        <Image src={avatarSrc} height={100} width={100} alt="user-avatar" />
+                    </div>
+                )}
             </div>
 
-            {/* PROGRESS BAR - bottom */}
             {showProgress && typeof progress === "number" && (
                 <div className="kpi-progress-bar-wrapper">
-                    <div className="kpi-progress-fill" style={{ width: `${progress * 100}%` }} />
+                    <div
+                        className="kpi-progress-fill"
+                        style={{ width: `${progress * 100}%`, backgroundColor: fontColor }}
+                    />
                 </div>
             )}
         </div>

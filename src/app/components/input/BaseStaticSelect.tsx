@@ -29,6 +29,7 @@ const BaseStaticSelect: React.FC<BaseStaticSelectPropType> = (props) => {
             } else {
                 onSelected(null)
             }
+            // onSelected(option)
         }
     }
     // this is required because the {...props} in the end will override the options array
@@ -44,7 +45,6 @@ const BaseStaticSelect: React.FC<BaseStaticSelectPropType> = (props) => {
                 controlShouldRenderValue={true} // show selected option in the input
                 options={options}
                 placeholder={"Select an option"}
-                isSearchable={false}
                 classNames={{
                     control: () => "form-input-dropdown custom-border",
                     // multiValue: () => "multivalue-dropdown-pills",
@@ -53,9 +53,9 @@ const BaseStaticSelect: React.FC<BaseStaticSelectPropType> = (props) => {
                     ...(props.isCheckBoxDropdowns ? { Option: CheckboxOption } : {}),
                     MultiValue: () => null,
                 }}
-                isClearable={isMulti}
+                isClearable={true}
                 hideSelectedOptions={false}
-                closeMenuOnSelect={!isMulti}
+                closeMenuOnSelect={true}
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onChange={handleChange as any}
                 value={selectedOptionValue}

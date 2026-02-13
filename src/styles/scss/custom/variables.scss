@@ -67,6 +67,7 @@ $separator-color: #eff2f5;
 
 //common-border-radius
 $br-radius: 0.475rem;
+$card-br-radius: 6px;
 
 @mixin box-shadow-light($color) {
     box-shadow: 0 3px 0 mix(white, $color, 20%) !important;

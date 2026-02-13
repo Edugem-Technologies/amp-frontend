@@ -91,7 +91,7 @@ const Aside = () => {
     const handleShow = () => setShow((prev) => !prev)
 
     const collapseSideBar = () => {
-        setSidebarCollapse(true)
+        setSidebarCollapse(false)
     }
 
     useEffect(() => {
@@ -249,7 +249,7 @@ const Aside = () => {
                             <div className="cat-filter-btn d-flex ve-hr-selector-wrapper  gap-3 align-items-center">
                                 <button
                                     className={`hr-btn ${
-                                        layout === CONFIG.LAYOUT.COLUMNS ? "hr-btn-active " : ""
+                                        layout === CONFIG.LAYOUT.COLUMNS ? "hr-btn-active" : ""
                                     }`}
                                     onClick={() => {
                                         setLayout && setLayout(CONFIG.LAYOUT.COLUMNS)
@@ -261,7 +261,7 @@ const Aside = () => {
 
                                 <button
                                     className={`ve-btn ${
-                                        layout === CONFIG.LAYOUT.TABLE ? "ve-btn-active " : ""
+                                        layout === CONFIG.LAYOUT.TABLE ? "ve-btn-active" : ""
                                     }`}
                                     onClick={() => {
                                         setLayout && setLayout(CONFIG.LAYOUT.TABLE)

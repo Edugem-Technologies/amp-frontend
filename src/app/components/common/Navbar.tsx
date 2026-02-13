@@ -76,7 +76,7 @@ const Navbar = () => {
     const pathname = usePathname()
 
     return (
-        <nav className={`navbar d-flex align-items-center ${position > 120 ? "shadow-sm" : ""}`}>
+        <nav className={`navbar d-flex align-items-center${position > 120 ? "shadow-sm" : ""}`}>
             {/* Sidebar toggle */}
             <button
                 className={`btn btn-sm shadow-sm p-0 sidebar-toggle-button ${

@@ -7,7 +7,7 @@ import { AppProvider } from "./context/AppContext"
 import { PermissionProvider } from "./context/PermissionContext"
 
 export const metadata: Metadata = {
-    title: "Boilerplate - NEXT",
+    title: "AMP | Admin Dashboard",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -8,28 +8,28 @@ export const PIPELINE_DASHBOARD_DATA: PipelineDashboardData = {
         subtitle: "High Level Stats",
     },
 
-    stats: {
-        pipeline: {
+    stats: [
+        {
             title: "90%",
             amount: 47876,
             deals: 7,
         },
-        liveNext7Days: {
+        {
             title: "Live Next 7 Days",
             amount: 12912,
             deals: 2,
         },
-        wonLast7Days: {
+        {
             title: "Won (Last 7 Days)",
             amount: 18450,
             deals: 3,
         },
-        wonTotal: {
+        {
             title: "Won (Total)",
             amount: 158000,
             deals: 15,
         },
-    },
+    ],
 
     chart: {
         currency: "€",

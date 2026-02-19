@@ -27,6 +27,23 @@ const SortableItem = ({ item }: { item: TaskCheckItem }) => {
             {...listeners}
             className="task-check-item"
         >
+            <div className="hovered-icons">
+                <a href="" className="btn btn-icon btn-sm delete" title="Delete">
+                    <span className="material-symbols-outlined">delete</span>
+                </a>
+
+                <a href="" className="btn btn-icon btn-sm favorite" title="Favourite">
+                    <span className="material-symbols-outlined">star</span>
+                </a>
+
+                <a href="" className="btn btn-icon btn-sm request" title="Request">
+                    <span className="material-symbols-outlined">bolt</span>
+                </a>
+
+                <a href="" className="btn btn-icon btn-sm complete" title="Complete">
+                    <span className="material-symbols-outlined">check</span>
+                </a>
+            </div>
             <div className="task-content">
                 <h5 className="mb-0">{item.label}</h5>
                 <p className="mb-0">{item.desc}</p>

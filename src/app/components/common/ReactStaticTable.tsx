@@ -24,7 +24,8 @@ const ReactStaticTable = <T extends object>(
 ) => {
     const { columns, isTableView = true, renderGridView, tableProps, data } = props
     const [dataView] = useState(isTableView)
-    const [sorting, setSorting] = useState<SortingState>([{ desc: false, id: "" }])
+    // const [sorting, setSorting] = useState<SortingState>([{ desc: false, id: "" }])
+    const [sorting, setSorting] = useState<SortingState>([])
     const [filter, setFilter] = useState({
         pageIndex: 0,
         pageSize: CONFIG.PAGINATION.SIZE,
@@ -73,7 +74,10 @@ const ReactStaticTable = <T extends object>(
                             </div>
                         </>
                     ) : (
-                        !!renderGridView && data?.map((item: Any) => renderGridView(item))
+                        !!renderGridView &&
+                        data?.map((item: Any, index: number) => (
+                            <div key={item.id ?? index}>{renderGridView(item)}</div>
+                        ))
                     )}
                     <StaticTablePagination
                         pagination={filter}

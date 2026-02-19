@@ -1,4 +1,5 @@
 import "@/styles/scss/custom/styles.scss"
+import "@/styles/scss/custom/php-styles.scss"
 import "@/styles/scss/fonts.scss"
 import { Metadata } from "next"
 import ErrorBoundary from "./components/common/Errorboundary"

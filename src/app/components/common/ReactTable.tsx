@@ -6,6 +6,7 @@ import { debounce } from "lodash"
 import CustomSkeleton from "../common/CustomSkeleton"
 import NoData from "../common/NoData"
 import FlatPickrInput from "../input/FlatPickrInput"
+import React from "react"
 
 const ReactTable = <T extends RowId>({
     getHeaderGroups,
@@ -380,8 +381,28 @@ const ReactTable = <T extends RowId>({
                         </td>
                     </tr>
                 ) : (
+                    // getRowModel().rows.map((row, index) => (
+                    //     <>
+                    //         <tr key={index}>
+                    //             {row.getVisibleCells().map((cell) => (
+                    //                 <td
+                    //                     className=""
+                    //                     key={cell.id}
+                    //                     style={{
+                    //                         width: cell.column.getSize(),
+                    //                     }}
+                    //                 >
+                    //                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    //                 </td>
+                    //             ))}
+                    //         </tr>
+                    //         {expandedRowId === row.original.id &&
+                    //             renderExpandedRow &&
+                    //             renderExpandedRow(row.original.id)}
+                    //     </>
+                    // ))
                     getRowModel().rows.map((row) => (
-                        <>
+                        <React.Fragment key={row.id}>
                             <tr key={row.id}>
                                 {row.getVisibleCells().map((cell) => (
                                     <td
@@ -398,7 +419,7 @@ const ReactTable = <T extends RowId>({
                             {expandedRowId === row.original.id &&
                                 renderExpandedRow &&
                                 renderExpandedRow(row.original.id)}
-                        </>
+                        </React.Fragment>
                     ))
                 )}
             </tbody>

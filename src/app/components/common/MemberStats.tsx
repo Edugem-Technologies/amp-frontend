@@ -101,19 +101,29 @@ export const memberStatsColumns = () // onDelete: (id: string) => void,
         id: "actions",
         header: "Actions",
         size: 60,
-        cell: () => (
-            <div className="actions-cell">
-                <button>
-                    <span className="svg-icon svg-icon-3">{IconMap.toggleSwitch}</span>
-                </button>
-                <button>
-                    <span className="svg-icon svg-icon-3"> {IconMap.edit}</span>
-                </button>
-                <button>
-                    <span className="svg-icon svg-icon-3">{IconMap.trashBin}</span>
-                </button>
-            </div>
-        ),
+        cell: ({ row }) => {
+            const id = row.original.id
+
+            return (
+                <div className="actions-cell">
+                    <button>
+                        <span className="svg-icon svg-icon-3">{IconMap.toggleSwitch}</span>
+                    </button>
+
+                    <button>
+                        <span className="svg-icon svg-icon-3">{IconMap.edit}</span>
+                    </button>
+
+                    <button
+                        onClick={() => {
+                            return id
+                        }}
+                    >
+                        <span className="svg-icon svg-icon-3">{IconMap.trashBin}</span>
+                    </button>
+                </div>
+            )
+        },
     },
 ]
 const MemberStats: React.FC<Props> = ({ data, onAdd }) => {

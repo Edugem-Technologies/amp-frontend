@@ -1,0 +1,169 @@
+.card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-wrap: wrap;
+    min-height: 70px;
+    padding: 0 2.25rem;
+    background-color: transparent;
+    border-bottom: 1px solid #eff2f5;
+}
+
+.btn:not(.btn-shadow):not(.shadow):not(.shadow-sm):not(.shadow-lg) {
+    box-shadow: none !important;
+}
+
+.btn:not(.btn-outline):not(.btn-dashed):not(.border-hover):not(.border-active):not(.btn-flush):not(
+        .btn-icon
+    ) {
+    border: 0;
+    padding: calc(0.75rem + 1px) calc(1.5rem + 1px);
+}
+
+.c-settings .c-settings-nav,
+.c-settings .c-settings-tab-content {
+    padding: 32px;
+}
+
+.c-settings .c-settings-nav {
+    border-right: 1px solid #ecf0f3 !important;
+}
+
+.c-settings .c-settings-nav .nav-tabs {
+    border: 0;
+}
+
+.c-settings .c-settings-nav .nav-tabs .nav-item {
+    width: 100%;
+}
+
+.c-settings .c-settings-nav .nav-tabs .nav-item .nav-link {
+    text-align: left;
+    line-height: 1.2;
+    position: relative;
+    z-index: 0;
+    width: 100%;
+    color: #464e5f;
+}
+
+.c-settings .c-settings-nav .nav-tabs .nav-item .nav-link .menu-icon {
+    margin-right: 1.1rem;
+    display: flex;
+}
+
+.c-settings .c-settings-nav .nav-tabs .nav-item .nav-link .menu-title {
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.c-settings .c-settings-nav .nav-tabs .nav-item .nav-link .menu-desc {
+    color: #80808f;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.c-settings .c-settings-nav .nav-tabs .nav-item .nav-link:after {
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    border: 1rem solid transparent;
+    transition: all 0.15s ease-in-out;
+}
+
+.c-settings .c-settings-nav .nav-tabs .nav-item .nav-link.active {
+    background-color: #f3f6f9;
+}
+
+.c-settings .c-settings-nav .nav-tabs .nav-item .nav-link.active .menu-icon {
+    color: var(--bs-primary);
+}
+
+.c-settings .c-settings-nav .nav-tabs .nav-item .nav-link.active:after {
+    border-left-color: #f3f6f9;
+}
+
+.c-settings .c-settings-tab-content {
+    padding-top: 10px;
+}
+
+.c-settings .c-settings-tab-content .tab-content {
+    height: 100%;
+}
+
+.c-settings .c-settings-tab-content .tab-content .tab-pane {
+    height: 100%;
+}
+
+.c-settings .c-settings-tab-content .tab-content .tab-pane.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.c-settings .c-settings-tab-content .tab-content .tab-pane .card {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    box-shadow: none;
+}
+
+.c-settings .c-settings-tab-content .tab-content .tab-pane .card .card-header {
+    padding: 0;
+}
+
+.c-settings .c-settings-tab-content .tab-content .tab-pane .card .card-body {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.c-settings .c-settings-tab-content .tab-content .tab-pane .card .card-body .desc {
+    color: #80808f;
+    font-size: 12px;
+}
+
+.c-settings .c-settings-tab-content .tab-content .tab-pane .card .card-footer {
+    text-align: right;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.btn.btn-flex {
+    display: inline-flex;
+    align-items: center;
+}
+
+.fade {
+    transition: opacity 0.15s linear;
+}
+
+.fade:not(.show) {
+    opacity: 0;
+}
+
+.fade {
+    transition: opacity 0.15s linear;
+}
+
+.c-settings .tab-content {
+    position: relative;
+}
+
+.c-settings .tab-content .tab-pane {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s linear;
+    display: flex;
+    flex-direction: column;
+}
+
+.c-settings .tab-content .tab-pane.active {
+    opacity: 1;
+    visibility: visible;
+    position: relative;
+}

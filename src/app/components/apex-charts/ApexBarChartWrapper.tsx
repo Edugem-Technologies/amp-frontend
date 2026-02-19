@@ -22,25 +22,29 @@ type ChartConfig = {
     }
 }
 
+type ChartDataItem = {
+    label: string
+    netProfit: number
+    revenue: number
+}
+
+type ChartConfigData = ChartDataItem[] | Record<string, ChartDataItem[]>
+
+interface ApexBarChartConfig {
+    header: string
+    description?: string
+    data: ChartConfigData
+
+    // add these optional properties
+    barColor?: string
+    mutedBarColor?: string
+    currency?: string
+    delta?: number | string
+    textColorClass?: string
+}
+
 type Props = {
-    config: {
-        header: string
-        description?: string
-        data:
-            | {
-                  label: string
-                  netProfit: number
-                  revenue: number
-              }[]
-            | Record<
-                  string,
-                  {
-                      label: string
-                      netProfit: number
-                      revenue: number
-                  }[]
-              >
-    }
+    config: ApexBarChartConfig
     chartConfig?: ChartConfig
     optionsVariant?: "filter" | "menu"
     cardOptions?: CardDropdownOptionItf[]
@@ -79,7 +83,7 @@ export default function ApexBarChartWrapper({
         chart: {
             toolbar: { show: false },
         },
-        colors: ["#1F1F1F", "#E5E7EB"],
+        colors: [config.barColor ?? "#1F1F1F", config.mutedBarColor ?? "#E5E7EB"],
 
         plotOptions: {
             bar: {
@@ -128,9 +132,18 @@ export default function ApexBarChartWrapper({
         <div className="apex-bar-container">
             {/* HEADER */}
             <div className="d-flex card-header-wrapper">
-                <div className="header">
-                    <h3 className="card-title">{header}</h3>
-                    {description && <p className="card-muted-text">{description}</p>}
+                <div className="header d-flex justify-content-between align-items-center w-100">
+                    <div>
+                        <h3 className="card-title">{header}</h3>
+                        {description && <p className="card-muted-text">{description}</p>}
+                    </div>
+                    <div className="delta">
+                        <span className={`${config.textColorClass}`}>
+                            {" "}
+                            {config.currency}
+                            {config.delta}
+                        </span>
+                    </div>
                 </div>
 
                 <div className="selector-tab-wrapper ">

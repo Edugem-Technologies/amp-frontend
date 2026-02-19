@@ -91,6 +91,12 @@ export interface EnclosedChartWrapperIntf {
     }
     cards?: SalesChartCard[]
     summary?: SalesChartSummary[]
+    lineWidth?: number
+    currency?: string
+    amount?: number | string
+    trend?: string
+    growth?: number
+    growthLabel?: string
 }
 
 export interface SubscriptionDataIntf {

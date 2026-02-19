@@ -470,10 +470,25 @@ const DashboardPage = () => {
                     />
                 ))}
             </div>
-            <div className="stats-bar-wrapper">
-                <ApexBarChartWrapper config={dashboardData.recentStatistics} />
-                <ApexBarChartWrapper config={dashboardData.recentStatistics} />
-                <ApexBarChartWrapper config={dashboardData.recentStatistics} />
+
+            <div className="stats-bar-wrapper sales-bar-wrapper">
+                {dashboardData.salesBarData.map((item, index) => {
+                    return (
+                        <ApexBarChartWrapper
+                            key={index}
+                            config={item}
+                            chartConfig={{
+                                height: 200,
+                            }}
+                        />
+                    )
+                })}
+            </div>
+
+            <div className="sales-stats-progress-wrapper sales-bar-wrapper">
+                {dashboardData.earningTrendData.map((item, index) => (
+                    <EnclosedChartColorWrapper key={index} item={item} lineChart trendValues />
+                ))}
             </div>
         </div>
     )

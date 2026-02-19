@@ -2,7 +2,7 @@ import React from "react"
 
 const CardOptionsBtn = ({ btnClass }: { btnClass: string }) => {
     return (
-        <button type="button" className={`card-options-btn btn ${btnClass}`}>
+        <button type="button" className={`card-options-btn btn p-0 ${btnClass}`}>
             <span className="svg-icon svg-icon-2">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"

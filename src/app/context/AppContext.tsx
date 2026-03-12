@@ -2,7 +2,7 @@
 import { User } from "@/types/auth/User"
 import { AnyObject } from "@/types/common/Helper"
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react"
-import { useMediaQuery } from "../hooks/useMediaQuery"
+// import { useMediaQuery } from "../hooks/useMediaQuery"
 import { CONFIG } from "@/utils/Constants"
 import { usePathname } from "next/navigation"
 import { Option } from "@/types/components/ReactSelect"
@@ -38,8 +38,8 @@ interface AppProviderProps {
 export const AppProvider = ({ children }: AppProviderProps) => {
     const pathname = usePathname()
     const [state, setState] = useState("Hello from context")
-    const matched = useMediaQuery("(max-width: 768px)")
-    const [sidebarCollapse, setSidebarCollapse] = useState(matched)
+    // const matched = useMediaQuery("(max-width: 768px)")
+    const [sidebarCollapse, setSidebarCollapse] = useState(true)
     const [user, setUser] = useState<User | null>(null)
     const [filterState, setFilterState] = useState<AnyObject | null | undefined>(null)
     const [layout, setLayout] = useState<string>(

@@ -8,14 +8,23 @@ type HeaderAction = {
     icon: string
     onClick: (columnId: string) => void
 }
+export type SplitItems = {
+    left?: TaskCheckItem[]
+    right?: TaskCheckItem[]
+}
+
+export type ColumnItems = TaskCheckItem[] | SplitItems
 
 export type DragColumnProps = {
     id: string
     title: string
-    items: TaskCheckItem[]
-    onChange: (items: TaskCheckItem[]) => void
+    items: ColumnItems
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onChange: (items: any) => void
     actions?: HeaderAction[]
     userImage?: string
+    routineData?: TaskCheckItem[]
+    isRoutineOpen?: boolean
 }
 
 export type ActionButton = {
@@ -40,6 +49,7 @@ export type TaskCheckItem = {
         name: string
         avatar: string
     }[]
+    bgColor?: string
 }
 
 export type Fence = {

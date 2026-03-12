@@ -295,8 +295,14 @@ const Aside = () => {
                 />
             </div>
 
-            {/* drawer nav */}
-            <Offcanvas show={show} onHide={handleClose}>
+            <Offcanvas
+                show={show}
+                onHide={handleClose}
+                backdrop={false}
+                className={`custom-offcanvas ${
+                    sidebarCollapse ? "sidebar-collapsed" : "sidebar-open"
+                }`}
+            >
                 <Offcanvas.Header closeButton>
                     <Offcanvas.Title>Offcanvas</Offcanvas.Title>
                 </Offcanvas.Header>

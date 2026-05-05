@@ -1,0 +1,15 @@
+.password-eye-icon {
+    right: 10px;
+    top: 5px;
+    outline: none;
+    border: none;
+    background: transparent;
+}
+
+input,
+.form-control {
+    &:focus,
+    &:focus-visible {
+        box-shadow: none;
+    }
+}

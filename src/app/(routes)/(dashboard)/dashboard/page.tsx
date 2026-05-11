@@ -14,6 +14,9 @@ import SubscriptionCard from "@/app/components/common/SubscriptionCard"
 import StatsOverviewWithChart from "@/app/components/common/StatsOverviewWithChart"
 import ApexBarChartWrapper from "@/app/components/apex-charts/ApexBarChartWrapper"
 import ActionNeededCard from "@/app/components/common/ActionNeededCard"
+import Link from "next/link"
+import EnclosedChartColorWrapperBar from "@/app/components/common/EnclosedChartColorWrapperBar"
+import TrendsOverviewWithChart from "@/app/components/common/TrendsOverviewWithChart"
 
 const DashboardPage = () => {
     const [members, setMembers] = useState<MemberStatsItem[]>(dashboardData.memberStats)
@@ -109,386 +112,561 @@ const DashboardPage = () => {
     ]
 
     return (
-        <div className="dashboard-container d-flex flex-column">
-            <div className="marketplace-grid d-flex">
-                {dashboardData.marketplace.map((item) => (
-                    <KpiCard
-                        key={item.name}
-                        title={item.name}
-                        amount={`${item.currency ? item.currency + " " : ""}${item.revenue}`}
-                        description={item.users}
-                        backgroundColor="white"
-                    />
-                ))}
-            </div>
-            <div className="sale-progress-grid d-flex">
-                {dashboardData.progressCharts.map((item, index) => (
-                    <ApexProgressLineWrapper
-                        key={index}
-                        item={item}
-                        about={{
-                            title: item.title,
-                            subTitle: item.subTitle,
-                        }}
-                        chartData={item.data}
-                        chartType="area"
-                        chartFillColor={item.chartFillColor}
-                    />
-                ))}
-            </div>
-            <div className="meetings-grid">
-                {dashboardData.meetings.map((meeting) => (
-                    <KpiCard
-                        key={meeting.id || meeting.title}
-                        title={meeting.title || "No Title"}
-                        amount={meeting.time || ""}
-                        description={meeting.description}
-                        backgroundColor="white"
-                    />
-                ))}
-            </div>
-            <div className="sale-progress-grid sale-progress-grid-2 d-flex">
-                {dashboardData.areaCharts.map((item, index) => {
-                    const icon = IconMap[item.iconName as keyof typeof IconMap]
-                    return (
-                        <ApexProgressLineWrapper
-                            key={index}
-                            about={{
-                                title: item.value,
-                                subTitle: item.value_about,
-                            }}
-                            chartData={item.data}
-                            icon={icon}
-                            chartType="area"
-                            chartFillColor={item.chartFillColor}
-                        />
-                    )
-                })}
-            </div>
-            <div className="sales-grid">
-                {dashboardData.salesStats.map((stat, index) => (
-                    <KpiCard
-                        key={index}
-                        title={stat.title || "No Title"}
-                        description={stat.description}
-                        icon={IconMap[stat.iconName as keyof typeof IconMap]}
-                        iconPlacement="top"
-                        backgroundColor={stat.bgCardColor}
-                    />
-                ))}
-            </div>
-            <div
-                className="business-grid"
-                style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}
-            >
-                {dashboardData.businessStats.map((stat, index) => {
-                    return (
-                        <KpiCard
-                            key={index}
-                            title={stat.desc}
-                            amount={`${stat.currency}${stat.statNum}`}
-                            iconPlacement="right"
-                            icon={IconMap[stat.iconName as keyof typeof IconMap]}
-                            cardId={stat.id}
-                            backgroundColor={stat.bgCardColor}
-                        />
-                    )
-                })}
-            </div>
-            <div className="user-grid">
-                {dashboardData.userDetails.map((user, index) => (
-                    <KpiCard
-                        key={index}
-                        title={user.name}
-                        amount=""
-                        description={user.designation}
-                        avatarSrc={user.avatarSrc}
-                        backgroundColor="#ffffff"
-                    />
-                ))}
-            </div>
-            <div className="progress-analysis">
-                {dashboardData.kpis.map((kpi, index) => (
-                    <KpiCard
-                        key={index}
-                        title={kpi.title}
-                        amount={`${kpi.value}${kpi.unit}`}
-                        quantity={kpi.quantity}
-                        progress={kpi.progress}
-                        showProgress
-                        backgroundColor={kpi.bgCardColor}
-                        fontColor={kpi.textColor}
-                    />
-                ))}
-            </div>
-            <div className="stats-bar-wrapper">
-                <ApexBarChartWrapper
-                    config={dashboardData.recentStatistics}
-                    optionsVariant="filter"
-                    cardOptions={taskOverviewCardOptions}
-                />
-                <ApexBarChartWrapper config={dashboardData.recentTasks} />
-            </div>
-            <div className="recent-stats-tab-wrapper">
-                <ApexProgressLineWrapper
-                    about={{ title: "Weekly Sales", subTitle: "Sales trend" }}
-                    chartData={dashboardData.recentTasksLineChart.data}
-                    chartType="area"
-                    chartFillColor="#FFE082"
-                    height={300}
-                    chartConfigoptions={{
-                        grid: {
-                            show: true,
-                            borderColor: "#e5e7eb",
-                            strokeDashArray: 4,
-                        },
-                        xaxis: {
-                            show: true,
-                        },
-                        yaxis: {
-                            show: true,
-                        },
-                    }}
-                />
-                <ApexProgressLineWrapper
-                    about={{
-                        title: dashboardData.recentTasksMultiLineChart.title,
-                        subTitle: dashboardData.recentTasksMultiLineChart.subTitle,
-                    }}
-                    chartData={dashboardData.recentTasksMultiLineChart.data}
-                    chartType="area"
-                    chartFillColor={dashboardData.recentTasksMultiLineChart.chartFillColor}
-                    height={300}
-                    chartConfigoptions={{
-                        grid: {
-                            show: true,
-                            borderColor: "#e5e7eb",
-                            strokeDashArray: 4,
-                        },
-                        xaxis: {
-                            show: true,
-                        },
-                        yaxis: {
-                            show: true,
-                        },
-                    }}
-                />
-            </div>
-            <div className="recent-stats-tab-wrapper">
-                <ApexCandleChart
-                    config={dashboardData.recentTasksComparison}
-                    chartFillColor="#ffffff"
-                />
-                <ApexCandleChart config={dashboardData.recentTasksSales} chartFillColor="#ffffff" />
-            </div>
-            <div className="recent-stats-tab-wrapper">
-                <ApexProgressLineWrapper
-                    about={{
-                        title: dashboardData.detailedRecentTasksMultiLineChart.title,
-                        subTitle: dashboardData.detailedRecentTasksMultiLineChart.subTitle,
-                    }}
-                    chartData={dashboardData.detailedRecentTasksMultiLineChart.data}
-                    chartType="area"
-                    chartFillColor={dashboardData.detailedRecentTasksMultiLineChart.chartFillColor}
-                    height={300}
-                    chartConfigoptions={{
-                        grid: {
-                            show: true,
-                            borderColor: "#e5e7eb",
-                            strokeDashArray: 4,
-                        },
-                        xaxis: {
-                            show: true,
-                        },
-                        yaxis: {
-                            show: true,
-                        },
-                    }}
-                />
-                <ApexProgressLineWrapper
-                    about={{
-                        title: dashboardData.recentTasksMultiLineChart.title,
-                        subTitle: dashboardData.recentTasksMultiLineChart.subTitle,
-                    }}
-                    chartData={dashboardData.detailedRecentTasksMultiLineChartv2.data}
-                    chartType="area"
-                    chartFillColor={
-                        dashboardData.detailedRecentTasksMultiLineChartv2.chartFillColor
-                    }
-                    height={300}
-                    chartConfigoptions={{
-                        grid: {
-                            show: true,
-                            borderColor: "#e5e7eb",
-                            strokeDashArray: 4,
-                        },
-                        xaxis: {
-                            show: true,
-                        },
-                        yaxis: {
-                            show: true,
-                        },
-                    }}
-                />
-            </div>
-            <div className="task-activity-wrapper">
-                <TaskNTodo
-                    data={dashboardData.tasksOverviewData}
-                    showBadges={false}
-                    isIcon={true}
-                    cardOptions={taskOverviewCardOptions}
-                    optionsVariant="filter"
-                />
-                <TaskActivityTracker
-                    data={dashboardData.taskActivityTracker}
-                    cardOptions={taskOverviewCardOptions}
-                    optionsVariant="filter"
-                />
-                <TaskNTodo
-                    data={dashboardData.todoData}
-                    showBadges={true}
-                    cardOptions={paymentMenuOptions}
-                    optionsVariant="menu"
-                />
-            </div>
-            <div className="task-n-meber-stats">
-                <div className="task-overview-wrapper">
-                    <TaskNTodo
-                        data={dashboardData.tasksOverviewProgressData}
-                        isIcon={true}
-                        cardOptions={taskOverviewCardOptions}
-                        optionsVariant="filter"
-                    />
+        <div className="dashboard-container content d-flex flex-column flex-column-fluid">
+            <div className="post d-flex flex-column-fluid">
+                <div className="container-fluid pages dashboard">
+                    <div className="g-5 gx-xxl-8">
+                        <div className="stats">
+                            {dashboardData.marketplace.map((item, index) => (
+                                <div className="stat" key={index}>
+                                    <KpiCard
+                                        key={item.name}
+                                        title={item.name}
+                                        amount={`${item.currency ? item.currency + " " : ""}${
+                                            item.revenue
+                                        }`}
+                                        description={item.users}
+                                        backgroundColor="white"
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                        <div className="row g-5 g-xl-8">
+                            {dashboardData.progressCharts.map((item, index) => (
+                                <div className="col-xl-4" key={index}>
+                                    <ApexProgressLineWrapper
+                                        key={index}
+                                        item={item}
+                                        about={{
+                                            title: item.title,
+                                            subTitle: item.subTitle,
+                                        }}
+                                        chartData={item.data}
+                                        chartType="area"
+                                        chartFillColor={item.chartFillColor}
+                                        disablePadding
+                                    />
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="row g-5 g-xl-8">
+                            {dashboardData.meetings.map((meeting, index) => (
+                                <div className="col-xl-4" key={index}>
+                                    {/* <KpiCard
+                                        key={meeting.id || meeting.title}
+                                        title={meeting.title || "No Title"}
+                                        amount={meeting.time || ""}
+                                        description={meeting.description}
+                                        backgroundColor="white"
+                                    /> */}
+                                    <div className="card bgi-no-repeat card-xl-stretch mb-xl-8">
+                                        <div className="card-body">
+                                            <Link
+                                                href=""
+                                                className="card-title fw-bolder text-muted text-hover-primary fs-4"
+                                            >
+                                                {meeting.title}
+                                            </Link>
+                                            <div className="fw-bolder text-primary my-6">
+                                                {meeting.time}
+                                            </div>
+                                            <p className="text-dark-75 fw-bold fs-5 m-0">
+                                                {meeting.description}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        <div className="row g-5 g-xl-8">
+                            {dashboardData.areaCharts.map((item, index) => {
+                                const icon = IconMap[item.iconName as keyof typeof IconMap]
+                                return (
+                                    <div key={index} className="col-xl-4">
+                                        <ApexProgressLineWrapper
+                                            about={{
+                                                title: item.value,
+                                                subTitle: item.value_about,
+                                            }}
+                                            chartData={item.data}
+                                            icon={icon}
+                                            chartType="area"
+                                            chartFillColor={item.chartFillColor}
+                                            height={130}
+                                        />
+                                    </div>
+                                )
+                            })}
+                        </div>
+
+                        <div className="row g-5 g-xl-8">
+                            {dashboardData.salesStats.map((stat, index) => (
+                                <div className="col-xl-4" key={index}>
+                                    <Link
+                                        href="#"
+                                        className="card bg-danger hoverable card-xl-stretch mb-xl-8"
+                                    >
+                                        <div className="card-body">
+                                            <span className="svg-icon svg-icon-white svg-icon-3x ms-n1">
+                                                {IconMap[stat.iconName as keyof typeof IconMap]}
+                                            </span>
+                                            <div className="text-white fw-bolder fs-2 mb-2 mt-5">
+                                                {stat.title}
+                                            </div>
+                                            <div className="fw-bold text-white">
+                                                {stat.description}
+                                            </div>
+                                        </div>
+                                    </Link>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="row g-5 g-xl-8">
+                            {dashboardData.businessStats.map((stat, index) => {
+                                return (
+                                    <div className="col-xl-3" key={index}>
+                                        <Link
+                                            href="#"
+                                            className="card bg-body hoverable card-xl-stretch mb-xl-8"
+                                        >
+                                            <div className="card-body">
+                                                <span className="svg-icon svg-icon-primary svg-icon-3x ms-n1">
+                                                    {IconMap[stat.iconName as keyof typeof IconMap]}
+                                                </span>
+                                                <div className="text-gray-900 fw-bolder fs-2 mb-2 mt-5">
+                                                    {stat.desc}
+                                                </div>
+                                                <div className="fw-bold text-gray-400">
+                                                    {`${stat.currency}${stat.statNum}`}
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                        <div className="row g-5 g-xl-8">
+                            {dashboardData.userDetails.map((user, index) => (
+                                <div className="col-xl-4" key={index}>
+                                    <div className="card card-xl-stretch mb-xl-8">
+                                        <div className="card-body d-flex align-items-center pt-3 pb-0">
+                                            <div className="d-flex flex-column flex-grow-1 py-2 py-lg-13 me-2">
+                                                <Link
+                                                    href="#"
+                                                    className="fw-bolder text-dark fs-4 mb-2 text-hover-primary"
+                                                >
+                                                    {user.name}
+                                                </Link>
+
+                                                <span className="fw-bold text-muted fs-5">
+                                                    {user.designation}
+                                                </span>
+                                            </div>
+
+                                            <img
+                                                src={user.avatarSrc}
+                                                alt={user.name}
+                                                className="align-self-end h-100px"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        <div className="row g-5 g-xl-8">
+                            {dashboardData.kpis.map((kpi, index) => (
+                                <div className="col-xl-4" key={index}>
+                                    <div
+                                        className="card card-xl-stretch mb-xl-8"
+                                        style={{ backgroundColor: kpi.bgCardColor }}
+                                    >
+                                        <div className="card-body my-3">
+                                            <Link
+                                                href="#"
+                                                className="card-title fw-bolder fs-5 mb-3 d-block"
+                                                style={{ color: kpi.textColor }}
+                                            >
+                                                {kpi.title}
+                                            </Link>
+
+                                            <div className="py-1">
+                                                <span
+                                                    className="fw-bolder fs-1"
+                                                    style={{ color: kpi.textColor }}
+                                                >
+                                                    {kpi.value}
+                                                    {kpi.unit}
+                                                </span>
+
+                                                <span
+                                                    className="ms-2 fw-bold"
+                                                    style={{ color: kpi.textColor }}
+                                                >
+                                                    {kpi.quantity}
+                                                </span>
+                                            </div>
+
+                                            <div
+                                                className="progress h-7px mt-7"
+                                                style={{
+                                                    backgroundColor: `${kpi.textColor}40`,
+                                                }}
+                                            >
+                                                <div
+                                                    className="progress-bar"
+                                                    role="progressbar"
+                                                    style={{
+                                                        width: `${kpi.progress}%`,
+                                                        backgroundColor: kpi.textColor,
+                                                    }}
+                                                ></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* <div className="stats-bar-wrapper"> */}
+                        <div className="row g-5 g-xl-8 ">
+                            <div className="col-xl-6">
+                                <ApexBarChartWrapper
+                                    config={dashboardData.recentStatistics}
+                                    optionsVariant="filter"
+                                    cardOptions={taskOverviewCardOptions}
+                                />
+                            </div>
+                            <div className="col-xl-6">
+                                <ApexBarChartWrapper config={dashboardData.recentTasks} />
+                            </div>
+                        </div>
+                        {/* </div> */}
+                        <div className="row g-5 g-xl-8">
+                            <div className="col-xl-6">
+                                <ApexProgressLineWrapper
+                                    about={{ title: "Weekly Sales", subTitle: "Sales trend" }}
+                                    chartData={dashboardData.recentTasksLineChart.data}
+                                    chartType="area"
+                                    chartFillColor="#FFE082"
+                                    height={300}
+                                    chartConfigoptions={{
+                                        grid: {
+                                            show: true,
+                                            borderColor: "#e5e7eb",
+                                            strokeDashArray: 4,
+                                        },
+                                        xaxis: {
+                                            show: true,
+                                        },
+                                        yaxis: {
+                                            show: true,
+                                        },
+                                    }}
+                                />
+                            </div>
+                            <div className="col-xl-6">
+                                <ApexProgressLineWrapper
+                                    about={{
+                                        title: dashboardData.recentTasksMultiLineChart.title,
+                                        subTitle: dashboardData.recentTasksMultiLineChart.subTitle,
+                                    }}
+                                    chartData={dashboardData.recentTasksMultiLineChart.data}
+                                    chartType="area"
+                                    chartFillColor={
+                                        dashboardData.recentTasksMultiLineChart.chartFillColor
+                                    }
+                                    height={300}
+                                    chartConfigoptions={{
+                                        grid: {
+                                            show: true,
+                                            borderColor: "#e5e7eb",
+                                            strokeDashArray: 4,
+                                        },
+                                        xaxis: {
+                                            show: true,
+                                        },
+                                        yaxis: {
+                                            show: true,
+                                        },
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className="row g-5 g-xl-8">
+                            <div className="col-xl-6">
+                                <ApexCandleChart
+                                    config={dashboardData.recentTasksComparison}
+                                    chartFillColor="#ffffff"
+                                />
+                            </div>
+                            <div className="col-xl-6">
+                                <ApexCandleChart
+                                    config={dashboardData.recentTasksSales}
+                                    chartFillColor="#ffffff"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="row g-5 g-xl-8">
+                            <div className="col-xl-6">
+                                <ApexProgressLineWrapper
+                                    about={{
+                                        title: dashboardData.detailedRecentTasksMultiLineChart
+                                            .title,
+                                        subTitle:
+                                            dashboardData.detailedRecentTasksMultiLineChart
+                                                .subTitle,
+                                    }}
+                                    chartData={dashboardData.detailedRecentTasksMultiLineChart.data}
+                                    chartType="area"
+                                    chartFillColor={
+                                        dashboardData.detailedRecentTasksMultiLineChart
+                                            .chartFillColor
+                                    }
+                                    height={300}
+                                    chartConfigoptions={{
+                                        grid: {
+                                            show: true,
+                                            borderColor: "#e5e7eb",
+                                            strokeDashArray: 4,
+                                        },
+                                        xaxis: {
+                                            show: true,
+                                        },
+                                        yaxis: {
+                                            show: true,
+                                        },
+                                    }}
+                                />
+                            </div>
+                            <div className="col-xl-6">
+                                <ApexProgressLineWrapper
+                                    about={{
+                                        title: dashboardData.recentTasksMultiLineChart.title,
+                                        subTitle: dashboardData.recentTasksMultiLineChart.subTitle,
+                                    }}
+                                    chartData={
+                                        dashboardData.detailedRecentTasksMultiLineChartv2.data
+                                    }
+                                    chartType="area"
+                                    chartFillColor={
+                                        dashboardData.detailedRecentTasksMultiLineChartv2
+                                            .chartFillColor
+                                    }
+                                    height={300}
+                                    chartConfigoptions={{
+                                        grid: {
+                                            show: true,
+                                            borderColor: "#e5e7eb",
+                                            strokeDashArray: 4,
+                                        },
+                                        xaxis: {
+                                            show: true,
+                                        },
+                                        yaxis: {
+                                            show: true,
+                                        },
+                                    }}
+                                />
+                            </div>
+                        </div>
+                        <div className="row g-5 g-xl-8">
+                            <div className="col-xl-4">
+                                <TaskNTodo
+                                    data={dashboardData.tasksOverviewData}
+                                    showBadges={false}
+                                    isIcon={true}
+                                    cardOptions={taskOverviewCardOptions}
+                                    optionsVariant="filter"
+                                    version="v1"
+                                />
+                            </div>
+                            <div className="col-xl-4">
+                                <TaskActivityTracker
+                                    data={dashboardData.taskActivityTracker}
+                                    cardOptions={taskOverviewCardOptions}
+                                    optionsVariant="filter"
+                                />
+                            </div>
+                            <div className="col-xl-4">
+                                <TaskNTodo
+                                    data={dashboardData.todoData}
+                                    showBadges={true}
+                                    cardOptions={paymentMenuOptions}
+                                    optionsVariant="menu"
+                                    version="v2"
+                                />
+                            </div>
+                        </div>
+                        <div className="row g-5 g-xl-8">
+                            <div className="col-xl-4">
+                                <TaskNTodo
+                                    data={dashboardData.tasksOverviewProgressData}
+                                    isIcon={true}
+                                    cardOptions={taskOverviewCardOptions}
+                                    optionsVariant="filter"
+                                    version="v3"
+                                />
+                            </div>
+                            <div className="col-xl-8">
+                                <MemberStats
+                                    data={members}
+                                    onAdd={handleAddMember}
+                                    onDelete={handleDeleteMember}
+                                />
+                            </div>
+                        </div>
+                        <div className="row g-5 g-xl-8">
+                            {dashboardData.salesSummary.map((card, index) => (
+                                <div className="col-xl-4" key={index}>
+                                    <ColorGridCard
+                                        key={index}
+                                        data={card}
+                                        bottomStatsLayout="middle"
+                                        cardOptions={taskOverviewCardOptions}
+                                        optionsVariant="filter"
+                                    />
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* </div> */}
+                        <div className="sales-stats-progress-wrapper row g-5 g-xl-8">
+                            {dashboardData.salesStatsProgressCharts.map((item, index) => (
+                                <div className="col-xl-4" key={index}>
+                                    <EnclosedChartColorWrapper
+                                        item={item}
+                                        lineChart
+                                        cardOptions={taskOverviewCardOptions}
+                                        optionsVariant="filter"
+                                        disablePadding
+                                    />
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="sales-stats-progress-wrapper sales-stats-bar-wrapper row g-5 g-xl-8">
+                            {dashboardData.salesProgress.map((item, index) => (
+                                <div className="col-xl-4" key={index}>
+                                    <EnclosedChartColorWrapperBar item={item} />
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="row g-5 g-xl-8" style={{ marginTop: "10px" }}>
+                            {dashboardData.subscriptionsData.map((item, index) => (
+                                <div className="col-xl-4" key={index}>
+                                    <SubscriptionCard item={item} />
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="row g-5 g-xl-8">
+                            {dashboardData.salesOverviewData.map((card, index) => (
+                                <div className="col-xl-4" key={index}>
+                                    <StatsOverviewWithChart
+                                        key={index}
+                                        header={card.header}
+                                        stats={card.stats}
+                                        currency={card.currency}
+                                        chartData={card.chart.points}
+                                        chartColor={card.chart.color}
+                                        chartHeight={150}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="row g-5 g-xl-8">
+                            {dashboardData.actionNeededData.map((item, index) => (
+                                <div className="col-xl-4" key={index}>
+                                    <ActionNeededCard
+                                        percentage={item.percentage}
+                                        color={item.color}
+                                        strokeWidth={item.strokeWidth}
+                                        buttonColor={item.buttonColor}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                        <div className="row g-5 g-xl-8">
+                            {dashboardData.trendsData.map((item, index) => (
+                                <div key={index} className="col-xl-4">
+                                    <TrendsOverviewWithChart
+                                        header={item.header}
+                                        stats={item.stats}
+                                        currency={item.currency}
+                                        chartData={item.chart.points}
+                                        chartColor={item.chart.color}
+                                        showReverse
+                                        chartHeight={100}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+
+                        {/*
+                        <div className="row">
+                            {dashboardData.cummulativeSalesStats.map((card, index) => (
+                                <div key={index} className="col-4">
+                                    <StatsOverviewWithChart
+                                        key={card.id}
+                                        header={card.header}
+                                        stats={card.stats}
+                                        currency={card.currency}
+                                        chartData={card.chart.points}
+                                        chartColor={card.chart.color}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                        <div className="row">
+                            {dashboardData.generatedReportData.map((item, index) => (
+                                <div className="col-4" key={index}>
+                                    <ApexProgressLineWrapper
+                                        key={index}
+                                        item={item}
+                                        about={{
+                                            title: item.title,
+                                            subTitle: item.subTitle,
+                                        }}
+                                        chartData={item.data}
+                                        chartType="area"
+                                        chartFillColor={item.chartFillColor}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="stats-bar-wrapper sales-bar-wrapper">
+                            {dashboardData.salesBarData.map((item, index) => {
+                                return (
+                                    <ApexBarChartWrapper
+                                        key={index}
+                                        config={item}
+                                        chartConfig={{
+                                            height: 200,
+                                        }}
+                                    />
+                                )
+                            })}
+                        </div>
+
+                        <div className="sales-stats-progress-wrapper sales-bar-wrapper">
+                            {dashboardData.earningTrendData.map((item, index) => (
+                                <EnclosedChartColorWrapper
+                                    key={index}
+                                    item={item}
+                                    lineChart
+                                    trendValues
+                                />
+                            ))}
+                        </div>
+                        */}
+                    </div>
                 </div>
-                <div className="member-stats-wrapper">
-                    <MemberStats
-                        data={members}
-                        onAdd={handleAddMember}
-                        onDelete={handleDeleteMember}
-                    />
-                </div>
-            </div>
-            <div className="sales-summary-container">
-                {dashboardData.salesSummary.map((card, index) => (
-                    <ColorGridCard
-                        key={index}
-                        data={card}
-                        bottomStatsLayout="middle"
-                        cardOptions={taskOverviewCardOptions}
-                        optionsVariant="filter"
-                    />
-                ))}
-            </div>
-            <div className="sales-stats-progress-wrapper">
-                {dashboardData.salesStatsProgressCharts.map((item, index) => (
-                    <EnclosedChartColorWrapper
-                        key={index}
-                        item={item}
-                        lineChart
-                        cardOptions={taskOverviewCardOptions}
-                        optionsVariant="filter"
-                    />
-                ))}
-            </div>
-
-            <div className="sales-stats-progress-wrapper sales-stats-bar-wrapper">
-                {dashboardData.salesProgress.map((item, index) => (
-                    <EnclosedChartColorWrapper key={index} item={item} />
-                ))}
-            </div>
-
-            <div className="subscriptions-list">
-                {dashboardData.subscriptionsData.map((item) => (
-                    <SubscriptionCard key={item.id} item={item} />
-                ))}
-            </div>
-
-            <div className="common-card-container sales-overview-wrapper">
-                {dashboardData.salesOverviewData.map((card) => (
-                    <StatsOverviewWithChart
-                        key={card.id}
-                        header={card.header}
-                        stats={card.stats}
-                        currency={card.currency}
-                        chartData={card.chart.points}
-                        chartColor={card.chart.color}
-                        chartHeight={120}
-                    />
-                ))}
-            </div>
-
-            <div className="common-card-container action-needed-wrapper">
-                {dashboardData.actionNeededData.map((item) => (
-                    <ActionNeededCard
-                        key={item.id}
-                        percentage={item.percentage}
-                        color={item.color}
-                        strokeWidth={item.strokeWidth}
-                        buttonColor={item.buttonColor}
-                    />
-                ))}
-            </div>
-            <div className="common-card-container sale-trends-wrapper">
-                {dashboardData.trendsData.map((item) => (
-                    <StatsOverviewWithChart
-                        key={item.id}
-                        header={item.header}
-                        stats={item.stats}
-                        currency={item.currency}
-                        chartData={item.chart.points}
-                        chartColor={item.chart.color}
-                        showReverse
-                        chartHeight={200}
-                    />
-                ))}
-            </div>
-
-            <div className="common-card-container sales-overview-wrapper cumm-sales-overview-wrapper">
-                {dashboardData.cummulativeSalesStats.map((card) => (
-                    <StatsOverviewWithChart
-                        key={card.id}
-                        header={card.header}
-                        stats={card.stats}
-                        currency={card.currency}
-                        chartData={card.chart.points}
-                        chartColor={card.chart.color}
-                    />
-                ))}
-            </div>
-            <div className="sale-progress-grid d-flex">
-                {dashboardData.generatedReportData.map((item, index) => (
-                    <ApexProgressLineWrapper
-                        key={index}
-                        item={item}
-                        about={{
-                            title: item.title,
-                            subTitle: item.subTitle,
-                        }}
-                        chartData={item.data}
-                        chartType="area"
-                        chartFillColor={item.chartFillColor}
-                    />
-                ))}
-            </div>
-
-            <div className="stats-bar-wrapper sales-bar-wrapper">
-                {dashboardData.salesBarData.map((item, index) => {
-                    return (
-                        <ApexBarChartWrapper
-                            key={index}
-                            config={item}
-                            chartConfig={{
-                                height: 200,
-                            }}
-                        />
-                    )
-                })}
-            </div>
-
-            <div className="sales-stats-progress-wrapper sales-bar-wrapper">
-                {dashboardData.earningTrendData.map((item, index) => (
-                    <EnclosedChartColorWrapper key={index} item={item} lineChart trendValues />
-                ))}
             </div>
         </div>
     )

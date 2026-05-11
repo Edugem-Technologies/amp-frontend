@@ -26,6 +26,7 @@ const RenderMenuItem = ({
     isDrawerBar,
     collapseSideBar,
     isMobileView,
+    isActive,
 }: {
     sidebarItems: SidebarItemsType[]
     sidebarCollapse: boolean
@@ -33,6 +34,7 @@ const RenderMenuItem = ({
     isDrawerBar?: boolean
     collapseSideBar?: () => void
     isMobileView?: boolean
+    isActive?: (url: string | undefined) => boolean
 }) => {
     // const pathName = usePathname()
 
@@ -40,15 +42,27 @@ const RenderMenuItem = ({
      * Maps icon names to MUI icon components.
      */
 
-    const getIconComponent = (icon?: string | SvgIconComponent) => {
+    const getIconComponent = (icon?: string | SvgIconComponent, active?: boolean) => {
         if (!icon) return null
 
         if (typeof icon === "string") {
-            return <img src={icon} alt="" style={{ width: 26, height: 26 }} />
+            return (
+                <span className={`aside-menu-icon ${active ? "active-sidebar-menu" : ""}`}>
+                    <span
+                        className="material-symbols-outlined"
+                        style={{
+                            fontSize: "24px",
+                            color: "#000",
+                        }}
+                    >
+                        {icon}
+                    </span>
+                </span>
+            )
         }
 
         const Icon = icon
-        return <Icon fontSize="large" />
+        return <Icon fontSize="medium" />
     }
 
     /**
@@ -72,11 +86,13 @@ const RenderMenuItem = ({
      * @returns {JSX.Element} A styled menu item component.
      */
     const getMenuItems = (name: string, link: string | undefined, icon?: string) => {
+        const active = isActive?.(link)
+
         return (
             <MenuItem
                 key={name + link}
                 className={!icon && !sidebarCollapse ? "ps-5" : ""}
-                icon={icon && getIconComponent(icon)}
+                icon={icon && getIconComponent(icon, active)}
                 onClick={() => {
                     isMobileView && collapseSideBar?.()
                 }}
@@ -102,6 +118,7 @@ const RenderMenuItem = ({
                     /**
                      * Renders a submenu recursively if nested items are present.
                      */
+
                     <SubMenu label={sideBarItem.label} key={sideBarItem.label}>
                         <RenderMenuItem
                             sidebarItems={sideBarItem.sidebarItems}

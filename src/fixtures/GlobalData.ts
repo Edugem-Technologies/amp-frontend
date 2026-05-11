@@ -12,22 +12,22 @@ export const ACTION_BUTTONS = [
     {
         id: "delete",
         label: "Delete",
-        icon: "/images/logos/action-buttons/delete.svg",
+        icon: "delete",
     },
     {
         id: "favourite",
         label: "Favourite",
-        icon: "/images/logos/action-buttons/star.svg",
+        icon: "star",
     },
     {
         id: "request",
         label: "Request",
-        icon: "/images/logos/action-buttons/bolt.svg",
+        icon: "bolt",
     },
     {
         id: "complete",
         label: "Complete",
-        icon: "/images/logos/action-buttons/check.svg",
+        icon: "check",
     },
 ]
 
@@ -169,10 +169,10 @@ export const FENCES_FIXTURE = [
             },
         ],
         taskCheckList: [
-            { id: "c1", label: "Inflight Prototype", progress: 20, status: "inprogress" },
-            { id: "c2", label: "XYZ Website", progress: null, status: "rejected" },
-            { id: "c3", label: "Outmin PWC Check", progress: 40, status: "inprogress" },
-            { id: "c4", label: "Outmin Responsibilities", progress: 60, status: "inprogress" },
+            { id: "c5", label: "Inflight Prototype", progress: 20, status: "inprogress" },
+            { id: "c6", label: "XYZ Website", progress: null, status: "rejected" },
+            { id: "c7", label: "Outmin PWC Check", progress: 40, status: "inprogress" },
+            { id: "c8", label: "Outmin Responsibilities", progress: 60, status: "inprogress" },
         ],
     },
     {
@@ -240,10 +240,10 @@ export const FENCES_FIXTURE = [
             },
         ],
         taskCheckList: [
-            { id: "c1", label: "Inflight Prototype", progress: 20, status: "inprogress" },
-            { id: "c2", label: "XYZ Website", progress: null, status: "rejected" },
-            { id: "c3", label: "Outmin PWC Check", progress: 40, status: "inprogress" },
-            { id: "c4", label: "Outmin Responsibilities", progress: 60, status: "inprogress" },
+            { id: "c9", label: "Inflight Prototype", progress: 20, status: "inprogress" },
+            { id: "c10", label: "XYZ Website", progress: null, status: "rejected" },
+            { id: "c11", label: "Outmin PWC Check", progress: 40, status: "inprogress" },
+            { id: "c12", label: "Outmin Responsibilities", progress: 60, status: "inprogress" },
         ],
     },
     {
@@ -311,10 +311,10 @@ export const FENCES_FIXTURE = [
             },
         ],
         taskCheckList: [
-            { id: "c1", label: "Inflight Prototype", progress: 20, status: "inprogress" },
-            { id: "c2", label: "XYZ Website", progress: null, status: "rejected" },
-            { id: "c3", label: "Outmin PWC Check", progress: 40, status: "inprogress" },
-            { id: "c4", label: "Outmin Responsibilities", progress: 60, status: "inprogress" },
+            { id: "c13", label: "Inflight Prototype", progress: 20, status: "inprogress" },
+            { id: "c14", label: "XYZ Website", progress: null, status: "rejected" },
+            { id: "c15", label: "Outmin PWC Check", progress: 40, status: "inprogress" },
+            { id: "c16", label: "Outmin Responsibilities", progress: 60, status: "inprogress" },
         ],
     },
     {
@@ -382,10 +382,10 @@ export const FENCES_FIXTURE = [
             },
         ],
         taskCheckList: [
-            { id: "c1", label: "Inflight Prototype", progress: 20, status: "inprogress" },
-            { id: "c2", label: "XYZ Website", progress: null, status: "rejected" },
-            { id: "c3", label: "Outmin PWC Check", progress: 40, status: "inprogress" },
-            { id: "c4", label: "Outmin Responsibilities", progress: 60, status: "inprogress" },
+            { id: "c17", label: "Inflight Prototype", progress: 20, status: "inprogress" },
+            { id: "c18", label: "XYZ Website", progress: null, status: "rejected" },
+            { id: "c19", label: "Outmin PWC Check", progress: 40, status: "inprogress" },
+            { id: "c20", label: "Outmin Responsibilities", progress: 60, status: "inprogress" },
         ],
     },
     {
@@ -453,10 +453,10 @@ export const FENCES_FIXTURE = [
             },
         ],
         taskCheckList: [
-            { id: "c1", label: "Inflight Prototype", progress: 20, status: "inprogress" },
-            { id: "c2", label: "XYZ Website", progress: null, status: "rejected" },
-            { id: "c3", label: "Outmin PWC Check", progress: 40, status: "inprogress" },
-            { id: "c4", label: "Outmin Responsibilities", progress: 60, status: "inprogress" },
+            { id: "c21", label: "Inflight Prototype", progress: 20, status: "inprogress" },
+            { id: "c22", label: "XYZ Website", progress: null, status: "rejected" },
+            { id: "c23", label: "Outmin PWC Check", progress: 40, status: "inprogress" },
+            { id: "c24", label: "Outmin Responsibilities", progress: 60, status: "inprogress" },
         ],
     },
     {
@@ -524,10 +524,10 @@ export const FENCES_FIXTURE = [
             },
         ],
         taskCheckList: [
-            { id: "c1", label: "Inflight Prototype", progress: 20, status: "inprogress" },
-            { id: "c2", label: "XYZ Website", progress: null, status: "rejected" },
-            { id: "c3", label: "Outmin PWC Check", progress: 40, status: "inprogress" },
-            { id: "c4", label: "Outmin Responsibilities", progress: 60, status: "inprogress" },
+            { id: "c25", label: "Inflight Prototype", progress: 20, status: "inprogress" },
+            { id: "c27", label: "XYZ Website", progress: null, status: "rejected" },
+            { id: "c27", label: "Outmin PWC Check", progress: 40, status: "inprogress" },
+            { id: "c28", label: "Outmin Responsibilities", progress: 60, status: "inprogress" },
         ],
     },
 ]

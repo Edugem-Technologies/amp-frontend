@@ -31,7 +31,10 @@ ContentSecurityPolicy +=
 // Allow styles from the same origin and inline styles, which are required by Next.js.
 ContentSecurityPolicy += "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com data:; "
 ContentSecurityPolicy +=
-    "style-src-elem 'self' 'unsafe-inline' https://cdn.ckeditor.com https://fonts.googleapis.com data:; "
+    "style-src-elem 'self' 'unsafe-inline' https://cdn.ckeditor.com https://fonts.googleapis.com https://cdnjs.cloudflare.com https://maxst.icons8.com data:; "
+
+ContentSecurityPolicy +=
+    "font-src 'self' https://cdnjs.cloudflare.com https://maxst.icons8.com https://fonts.gstatic.com data:; "
 
 /**
  * Array of HTTP headers to be set.

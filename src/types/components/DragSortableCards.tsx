@@ -20,7 +20,7 @@ export type DragColumnProps = {
     title: string
     items: ColumnItems
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onChange: (items: any) => void
+    onChange?: (items: any) => void
     actions?: HeaderAction[]
     userImage?: string
     routineData?: TaskCheckItem[]

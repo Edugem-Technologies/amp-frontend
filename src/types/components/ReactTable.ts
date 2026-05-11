@@ -38,6 +38,7 @@ export interface ReactTableProps<T> extends ExpandedRowWithTablePropType {
     setFilter?: React.Dispatch<React.SetStateAction<AnyObject>>
     filter?: AnyObject
     isBackendDrivenColumns: boolean
+    headerClass?: string
 }
 
 /**

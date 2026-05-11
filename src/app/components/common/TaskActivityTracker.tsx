@@ -28,15 +28,15 @@ interface Props {
 
 const TaskActivityTracker: React.FC<Props> = ({ data, optionsVariant, cardOptions }) => {
     return (
-        <div className="task-activity-tracker-card">
+        <div className="card card-xl-stretch mb-xl-8">
             {/* HEADER */}
-            <div className="task-activity-tracker-card__header">
-                <div>
-                    <h3 className="card-title">{data.header.title}</h3>
+            <div className="card-header align-items-center border-0 mt-4">
+                <h3 className="card-title align-items-start flex-column">
+                    <span className="fw-bolder mb-2 text-dark">{data.header.title}</span>
                     {data.header.description && (
-                        <p className="card-muted-text">{data.header.description}</p>
+                        <span className="text-muted fw-bold fs-7">{data.header.description}</span>
                     )}
-                </div>
+                </h3>
 
                 {optionsVariant === "filter" && (
                     <CardOptionsDropdown width={300} btnClass="btn-color-primary">
@@ -51,25 +51,35 @@ const TaskActivityTracker: React.FC<Props> = ({ data, optionsVariant, cardOption
             </div>
 
             {/* LIST */}
-            <div className="task-activity-tracker-card__list">
-                {data.tasks?.map((task, index) => (
-                    <div key={task.id} className="activity-row">
-                        {/* TIME */}
-                        <div className="activity-time">{task.time}</div>
+            <div className="card-body pt-5">
+                <div className="timeline-label">
+                    {data.tasks?.map((task) => (
+                        <div className="timeline-item" key={task.id}>
+                            {/* Time */}
+                            <div className="timeline-label fw-bolder text-gray-800 fs-6">
+                                {task.time}
+                            </div>
 
-                        {/* TIMELINE */}
-                        <div className="activity-timeline">
-                            <span className="activity-dot" style={{ borderColor: task.color }} />
-                            {index !== data.tasks!.length - 1 && <span className="activity-line" />}
+                            {/* Badge */}
+                            <div
+                                className="timeline-badge"
+                                style={{
+                                    backgroundColor: task.color,
+                                    width: "12px",
+                                    height: "12px",
+                                    borderRadius: "50%",
+                                    marginTop: "10px",
+                                }}
+                            ></div>
+
+                            {/* Content */}
+                            <div
+                                className="fw-normal timeline-content text-muted ps-3"
+                                dangerouslySetInnerHTML={{ __html: task.title }}
+                            ></div>
                         </div>
-
-                        {/* CONTENT */}
-                        <div
-                            className="activity-content"
-                            dangerouslySetInnerHTML={{ __html: task.title }}
-                        />
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
         </div>
     )

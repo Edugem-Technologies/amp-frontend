@@ -6,7 +6,6 @@ import RenderMenuItem from "./RenderMenuItem"
 import { useEffect, useState } from "react"
 import Offcanvas from "react-bootstrap/Offcanvas"
 import Image from "next/image"
-import InsightsIcon from "@mui/icons-material/Insights"
 import { usePathname } from "next/navigation"
 import { CONFIG } from "@/utils/Constants"
 import BaseStaticSelect from "../input/BaseStaticSelect"
@@ -60,29 +59,53 @@ const Aside = () => {
         {
             label: "Dashboard",
             href: "/dashboard",
-            icon: "/icons/sidenav-icons/dashboard.svg",
+            icon: "space_dashboard",
             collapsable: true,
         },
         {
             label: "Roadmaps",
             href: "/roadmaps",
-            icon: "/icons/sidenav-icons/timeline.svg",
+            icon: "view_timeline",
             collapsable: true,
         },
-        { label: "Pipeline", href: "/pipeline", icon: InsightsIcon, collapsable: true },
+        { label: "Pipeline", href: "/pipeline", icon: "insights", collapsable: true },
         {
             label: "Team",
             href: "/team",
-            icon: "/icons/sidenav-icons/user-group.svg",
+            icon: "people",
             collapsable: true,
         },
+        // {
+        //     label: "Notes",
+        //     href: "/notes",
+        //     icon: "notes",
+        //     collapsable: true,
+        // },
+        // {
+        //     label: "Talendar",
+        //     href: "/talendar",
+        //     icon: "calendar_today",
+        //     collapsable: true,
+        // },
+        // {
+        //     label: "Live Feed",
+        //     href: "/live-feed",
+        //     icon: "game",
+        //     collapsable: true,
+        // },
+        // {
+        //     label: "Amp 2",
+        //     href: "/amp-2",
+        //     icon: "amp",
+        //     collapsable: true,
+        // },
     ]
 
     const bottomSidebarItems: SidebarItemsType[] = [
-        { label: "Favorites", href: "", icon: "/icons/sidenav-icons/star-dark.svg" },
-        { label: "Mirrored", href: "", icon: "/icons/sidenav-icons/copy.svg" },
-        { label: "Requests", href: "", icon: "/icons/sidenav-icons/bolt-dark.svg" },
-        { label: "Assistants", href: "", icon: "/icons/sidenav-icons/sensor_occupied.svg" },
+        { label: "Favorites", href: "", icon: "star" },
+        { label: "Mirrored", href: "", icon: "tab_inactive" },
+        { label: "Requests", href: "", icon: "bolt" },
+        { label: "Assistants", href: "", icon: "sensor_occupied" },
     ]
 
     const [show, setShow] = useState(false)
@@ -94,6 +117,11 @@ const Aside = () => {
         setSidebarCollapse(false)
     }
 
+    const isActive = (url: string | undefined) => {
+        if (!url) return false
+
+        return pathname === url
+    }
     useEffect(() => {
         const mediaQuery = window.matchMedia("(max-width: 991px)")
 
@@ -117,15 +145,12 @@ const Aside = () => {
             transitionDuration={500}
             className={`sidebar ${sidebarCollapse ? "" : "show"}`}
         >
-            <div
-                className="mt-2  mb-2 d-flex align-items-center justify-content-between positon-relative sidebar-logo"
-                id="kt_app_sidebar_logo"
-            >
+            <div className="d-flex align-items-center justify-content-between positon-relative sidebar-logo">
                 <Image
-                    src="/images/logos/brand-logo-primary.svg"
+                    src="/images/logos/amp-logo.svg"
                     alt="Brand logo"
-                    width={130}
-                    height={50}
+                    width={135}
+                    height={55}
                     priority
                 />
             </div>
@@ -277,14 +302,15 @@ const Aside = () => {
             </div>
 
             <div
-                className="d-flex flex-column justify-content-between flex-grow-1 mb-10 mt-2"
-                style={{ marginTop: "-8px" }}
+                className="d-flex flex-column justify-content-between flex-grow-1"
+                style={{ marginTop: "6px" }}
             >
                 <RenderMenuItem
                     sidebarItems={topSidebarItems}
                     sidebarCollapse={sidebarCollapse}
                     collapseSideBar={collapseSideBar}
                     isMobileView={isMobileView}
+                    isActive={isActive}
                 />
 
                 <RenderMenuItem
@@ -292,6 +318,7 @@ const Aside = () => {
                     sidebarCollapse={sidebarCollapse}
                     handleShow={handleShow}
                     isDrawerBar={true}
+                    isActive={isActive}
                 />
             </div>
 

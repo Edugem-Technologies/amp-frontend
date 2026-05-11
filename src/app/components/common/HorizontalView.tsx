@@ -1,19 +1,109 @@
-import React, { useState } from "react"
+"use client"
+
+import React, { useMemo, useState } from "react"
 import DragSortableCards from "../card/DragSortableCards"
 import { Fence, TaskCheckItem } from "@/types/components/DragSortableCards"
+
+import { DndContext, closestCenter, DragEndEvent, DragOverlay, DragStartEvent } from "@dnd-kit/core"
+
+import { arrayMove } from "@dnd-kit/sortable"
+
 const HorizontalView = ({ data }: { data: Fence[] }) => {
     const [fences, setFences] = useState<Fence[]>(data)
 
-    const updateFenceItems = (fenceId: string, items: TaskCheckItem[]) => {
-        setFences((prev) =>
-            prev.map((f) => (f.id === fenceId ? { ...f, taskCheckList: items } : f)),
-        )
+    const [activeItem, setActiveItem] = useState<TaskCheckItem | null>(null)
+
+    // itemId -> fenceId
+    const itemFenceMap = useMemo(() => {
+        const map: Record<string, string> = {}
+
+        fences.forEach((fence) => {
+            fence.taskCheckList.forEach((item) => {
+                map[item.id] = fence.id
+            })
+        })
+
+        return map
+    }, [fences])
+
+    const handleDragStart = (event: DragStartEvent) => {
+        const { active } = event
+
+        const sourceFenceId = itemFenceMap[active.id as string]
+
+        const sourceFence = fences.find((f) => f.id === sourceFenceId)
+
+        const item = sourceFence?.taskCheckList.find((i) => i.id === active.id)
+
+        setActiveItem(item ?? null)
+    }
+
+    const handleDragEnd = (event: DragEndEvent) => {
+        const { active, over } = event
+
+        setActiveItem(null)
+
+        if (!over || active.id === over.id) return
+
+        const sourceFenceId = itemFenceMap[active.id as string]
+
+        // over.id can be item id OR fence id
+        const targetFenceId = itemFenceMap[over.id as string] ?? (over.id as string)
+
+        if (!sourceFenceId || !targetFenceId) return
+
+        setFences((prev) => {
+            const next = prev.map((f) => ({
+                ...f,
+                taskCheckList: [...f.taskCheckList],
+            }))
+
+            const sourceFence = next.find((f) => f.id === sourceFenceId)!
+
+            const targetFence = next.find((f) => f.id === targetFenceId)!
+
+            // SAME COLUMN
+            if (sourceFenceId === targetFenceId) {
+                const oldIndex = sourceFence.taskCheckList.findIndex((i) => i.id === active.id)
+
+                const newIndex = sourceFence.taskCheckList.findIndex((i) => i.id === over.id)
+
+                if (oldIndex === -1 || newIndex === -1) return prev
+
+                sourceFence.taskCheckList = arrayMove(sourceFence.taskCheckList, oldIndex, newIndex)
+            } else {
+                // MOVE BETWEEN COLUMNS
+                const itemIndex = sourceFence.taskCheckList.findIndex((i) => i.id === active.id)
+
+                if (itemIndex === -1) return prev
+
+                const [movedItem] = sourceFence.taskCheckList.splice(itemIndex, 1)
+
+                const overIndex = targetFence.taskCheckList.findIndex((i) => i.id === over.id)
+
+                // empty column
+                if (overIndex === -1) {
+                    targetFence.taskCheckList.push(movedItem)
+                } else {
+                    targetFence.taskCheckList.splice(overIndex, 0, movedItem)
+                }
+            }
+
+            return next
+        })
     }
 
     const headerActions = [
         {
+            id: "expand",
+            icon: "collapse_content",
+
+            onClick: (fenceId: string) => console.log("Expand clicked:", fenceId),
+        },
+        {
             id: "add",
             icon: "add",
+
             onClick: (fenceId: string) => {
                 console.log("fenceIdfenceIdfenceId", fenceId)
             },
@@ -21,18 +111,44 @@ const HorizontalView = ({ data }: { data: Fence[] }) => {
     ]
 
     return (
-        <div className="d-flex gap-4 horizontal-view align-items-center">
+        <DndContext
+            collisionDetection={closestCenter}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+        >
             {fences.map((fence) => (
                 <DragSortableCards
                     key={fence.id}
                     id={fence.id}
                     title={fence.label as string}
                     items={fence.taskCheckList}
-                    onChange={(items) => updateFenceItems(fence.id, items as TaskCheckItem[])}
                     actions={headerActions}
+                    onChange={() => {}}
                 />
             ))}
-        </div>
+
+            <DragOverlay>
+                {activeItem ? (
+                    <div
+                        className="kanban-item"
+                        style={{
+                            opacity: 0.85,
+                            cursor: "grabbing",
+                        }}
+                    >
+                        <div className="item-card actions hover-icons v3">
+                            <div className="description">
+                                <div className="title">
+                                    <div className="ellipsis-1">{activeItem.label}</div>
+
+                                    <div className="desc ellipsis-1">{activeItem.desc}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ) : null}
+            </DragOverlay>
+        </DndContext>
     )
 }
 

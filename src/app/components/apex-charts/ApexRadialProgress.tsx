@@ -26,7 +26,7 @@ const ApexRadialProgress = ({ value, color, strokeWidth = 12, size = 190 }: Prop
             plotOptions: {
                 radialBar: {
                     hollow: {
-                        size: "70%",
+                        size: "65%",
                     },
                     track: {
                         background: "#E9ECEF",
@@ -37,7 +37,6 @@ const ApexRadialProgress = ({ value, color, strokeWidth = 12, size = 190 }: Prop
                         value: {
                             fontSize: "28px",
                             fontWeight: 600,
-                            offsetY: 5,
                             formatter: (val: number) => `${Math.round(val)}%`,
                         },
                     },

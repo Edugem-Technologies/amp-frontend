@@ -10,6 +10,7 @@ const Layout: React.FC<{ children: ReactNode }> = ({ children }) => {
     useEffect(() => {
         removeRecaptcha()
     }, [])
+
     return (
         <div className="main-grid">
             <Navbar />

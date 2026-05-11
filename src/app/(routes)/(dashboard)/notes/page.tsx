@@ -9,7 +9,7 @@ import { Fence, TaskCheckItem } from "@/types/components/DragSortableCards"
 
 import React, { useState } from "react"
 
-type MenuType = "sections" | "projects" | "open-sections" | null
+export type MenuType = "sections" | "projects" | "open-sections" | null
 
 const Page = () => {
     const [fences, setFences] = useState<Fence[]>(NOTES_DATA)
@@ -39,35 +39,52 @@ const Page = () => {
 
     const headerActions = [
         {
-            id: "add",
-            icon: "add",
-
-            onClick: (fenceId: string) => console.log("Add clicked:", fenceId),
-        },
-
-        {
             id: "settings",
             icon: "settings",
 
             onClick: (fenceId: string) => console.log("Settings clicked:", fenceId),
         },
+
+        {
+            id: "expand",
+            icon: "collapse_content",
+            onClick: (fenceId: string) => console.log("Expand clicked:", fenceId),
+        },
+        {
+            id: "add",
+            icon: "add",
+            onClick: (fenceId: string) => console.log("Add clicked:", fenceId),
+        },
     ]
 
     return (
-        <section className="team-section-wrapper container-wrapper container-fluid h-100">
+        <div className="container-fluid pages notes p-0">
+            <div className="g-5 gx-xxl-8 h-100 notes-p">
+                <div className="text-left">
+                    <div className="board-container kanban-v2">
+                        <div className="board">
+                            <div className="tab-people">
+                                <div className="kanban-container">
+                                    {fences.map((fence, index) => (
+                                        <DragSortableCards
+                                            key={index}
+                                            id={fence.id}
+                                            userImage={fence.userImage}
+                                            title={fence.userName as string}
+                                            items={fence.taskCheckList}
+                                            onChange={(items) =>
+                                                updateFenceItems(fence.id, items as TaskCheckItem[])
+                                            }
+                                            actions={headerActions}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div className="d-flex gap-4 horizontal-view">
-                {fences.map((fence) => (
-                    <DragSortableCards
-                        key={fence.id}
-                        id={fence.id}
-                        userImage={fence.userImage}
-                        title={fence.userName as string}
-                        items={fence.taskCheckList}
-                        onChange={(items) => updateFenceItems(fence.id, items as TaskCheckItem[])}
-                        actions={headerActions}
-                    />
-                ))}
-
                 {/* Sections Menu */}
                 <SlideOverInnerMenu
                     title="Sections"
@@ -99,7 +116,7 @@ const Page = () => {
                     onToggle={() => toggleMenu("open-sections")}
                 />
             </div>
-        </section>
+        </div>
     )
 }
 

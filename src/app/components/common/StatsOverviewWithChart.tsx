@@ -2,8 +2,6 @@
 
 import React from "react"
 import ApexLineChart from "@/app/components/apex-charts/ApexLineChart"
-import { IconMap } from "../icons/IconMap"
-import Image from "next/image"
 
 type StatItem = {
     title: string
@@ -18,11 +16,11 @@ type StatItem = {
 }
 
 type Props = {
-    header: {
+    header?: {
         title: string
         subtitle: string
     }
-    stats: StatItem[]
+    stats?: StatItem[]
     currency?: string
     chartData: {
         label: string
@@ -33,118 +31,82 @@ type Props = {
     showReverse?: boolean
 }
 
+const periods = [
+    [
+        {
+            label: "90%",
+            amount: "$47,876",
+            payments: "7 Deals",
+        },
+        {
+            label: "Live Next 7 Days",
+            amount: "$12,912",
+            payments: "2 Deals",
+        },
+    ],
+    [
+        {
+            label: "Won (Last 7 Days)",
+            amount: "$18,450",
+            payments: "3 Deals",
+        },
+        {
+            label: "Won (Total)",
+            amount: "$158,000",
+            payments: "15 Deals",
+        },
+    ],
+]
+
 const StatsOverviewWithChart = ({
-    header,
-    stats,
-    currency = "",
     chartData,
     chartColor = "#FFC107",
     chartHeight = 100,
-    showReverse,
 }: Props) => {
     return (
-        <div className="pipeline-stats-wrapper  common-cards">
-            <div className="pipeline-stats__without-chart">
-                <div className="pipeline-stats__header card-header-wrapper">
-                    <div>
-                        <h3 className="card-title">{header.title}</h3>
-                        <span className="card-muted-text">{header.subtitle}</span>
-                    </div>
-                </div>
+        <div className="card card-xl-stretch mb-xl-8">
+            <div className="card-header border-0 py-5">
+                <h3 className="card-title align-items-start flex-column">
+                    <span className="card-label fw-bolder fs-3 mb-1">Sales Overview</span>
+                    <span className="text-muted fw-bold fs-7">Recent sales statistics</span>
+                </h3>
+                <div className="card-toolbar"></div>
+            </div>
 
-                {showReverse && (
+            <div className="card-body p-0 d-flex flex-column">
+                <div className="card-p pt-5 bg-body flex-grow-1">
+                    {periods.map((row, rowIndex) => {
+                        const isLastRow = rowIndex === periods.length - 1
+
+                        return (
+                            <div key={rowIndex} className={`row g-0 ${!isLastRow ? "" : "mt-8"}`}>
+                                {row.map((col, colIndex) => (
+                                    <div
+                                        key={colIndex}
+                                        className={`col ${colIndex === 0 ? "mr-8" : ""}`}
+                                    >
+                                        <div className="fs-7 text-muted fw-bold">{col.label}</div>
+
+                                        <div className="fs-4 fw-bolder">{col.amount}</div>
+
+                                        {/* <div className="fs-5">
+                                            {col.payments}
+                                        </div> */}
+                                    </div>
+                                ))}
+                            </div>
+                        )
+                    })}
+                </div>
+                <div
+                    className="mixed-widget-3-chart card-rounded-bottom"
+                    data-kt-chart-color="widget-color"
+                >
                     <div className="pipeline-stats__chart">
                         <ApexLineChart data={chartData} height={chartHeight} color={chartColor} />
                     </div>
-                )}
-                {!showReverse && (
-                    <div className="pipeline-stats__grid row justify-content-between">
-                        {stats.map((stat, index) => (
-                            <div key={index} className="stat-card col-5 mb-3 d-flex">
-                                <div className="d-flex gap-3 align-items-center">
-                                    {stat.icon && (
-                                        <div className={`icon-container ${stat.iconBgClass}`}>
-                                            <span
-                                                className={`svg-icon svg-icon-2x ${
-                                                    stat.btnClass || ""
-                                                }`}
-                                            >
-                                                {IconMap[stat.icon as keyof typeof IconMap]}
-                                            </span>
-                                        </div>
-                                    )}
-
-                                    <div>
-                                        <p>{stat.title}</p>
-                                        <div className="d-flex align-items-center gap-1">
-                                            <h4>
-                                                {currency}
-                                                {stat.amount.toLocaleString()}
-                                            </h4>
-
-                                            {stat.trend && (
-                                                <span
-                                                    className={`arrow ${
-                                                        stat.trend === "up" ? "up" : "down"
-                                                    }`}
-                                                >
-                                                    {stat.trend === "up"
-                                                        ? IconMap.arrowUp
-                                                        : IconMap.arrowDown}
-                                                </span>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {typeof stat.deals === "number" && <span>{stat.deals} Deals</span>}
-                            </div>
-                        ))}
-                    </div>
-                )}
-                {showReverse && (
-                    <div className="bottom-stats-grid">
-                        {stats.map((stat) => (
-                            <div key={stat.title} className="bottom-stat-item">
-                                <div className="bottom-stat-left">
-                                    {stat.brandIcon && (
-                                        <div className="task-card__icon">
-                                            <Image
-                                                src={stat.brandIcon}
-                                                alt="brand-icon"
-                                                height={24}
-                                                width={24}
-                                            />
-                                        </div>
-                                    )}
-
-                                    <div className="bottom-stat-text">
-                                        <h3>{stat.title}</h3>
-                                        {stat.subtitle && <p className="mt-1">{stat.subtitle}</p>}
-                                    </div>
-                                </div>
-
-                                <div
-                                    className={`bottom-stat-trend ${
-                                        stat.trend === "up" ? "up" : "down"
-                                    }`}
-                                >
-                                    <p className="mb-0">
-                                        {stat.trend === "up" ? "+" : "-"}
-                                        {stat.amount}
-                                    </p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                )}
-            </div>
-
-            {!showReverse && (
-                <div className="pipeline-stats__chart">
-                    <ApexLineChart data={chartData} height={chartHeight} color={chartColor} />
                 </div>
-            )}
+            </div>
         </div>
     )
 }

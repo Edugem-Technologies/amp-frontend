@@ -107,20 +107,21 @@ export default function ApexCandleChart({ config }: Props) {
     }
 
     return (
-        <div className="apex-candle-container">
+        <div className="card card-xl-stretch mb-xl-8">
             {/* HEADER */}
-            <div className="d-flex card-header-wrapper">
-                <div>
-                    <h3 className="card-title">{header}</h3>
-                    {description && <p className="card-muted-text">{description}</p>}
-                </div>
-
-                <div className="selector-tab-wrapper">
-                    {tabs.map((tab) => (
+            <div className="card-header border-0 pt-5">
+                <h3 className="card-title align-items-start flex-column">
+                    <span className="card-label fw-bolder fs-3 mb-1">{header}</span>
+                    <span className="text-muted fw-bold fs-7">{description}</span>
+                </h3>
+                <div className="selector-tab-wrapper card-toolbar">
+                    {tabs.map((tab, index) => (
                         <button
-                            key={tab}
+                            key={index}
                             onClick={() => setActiveTab(tab)}
-                            className={`${activeTab === tab ? "active-btn" : ""}`}
+                            className={`btn btn-sm btn-color-muted btn-active btn-active-primary px-4 me-1 ${
+                                activeTab === tab ? "active-btn" : ""
+                            }`}
                         >
                             {tab.charAt(0).toUpperCase() + tab.slice(1)}
                         </button>
@@ -129,7 +130,9 @@ export default function ApexCandleChart({ config }: Props) {
             </div>
 
             {/* CHART */}
-            <Chart height={330} options={options} series={series} />
+            <div className="apex-bar-chart-wrapper">
+                <Chart height={330} options={options} series={series} />
+            </div>
         </div>
     )
 }

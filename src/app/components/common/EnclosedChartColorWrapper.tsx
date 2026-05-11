@@ -12,6 +12,7 @@ type Props = {
     cardOptions?: CardDropdownOptionItf[]
     optionsVariant?: "filter" | "menu"
     trendValues?: boolean
+    disablePadding?: boolean
 }
 
 const EnclosedChartColorWrapper = ({
@@ -20,6 +21,7 @@ const EnclosedChartColorWrapper = ({
     cardOptions,
     optionsVariant,
     trendValues,
+    disablePadding,
 }: Props) => {
     return (
         <div className="wrapper-card">
@@ -42,6 +44,7 @@ const EnclosedChartColorWrapper = ({
                 </div>
                 {lineChart ? (
                     <ApexProgressLineWrapper
+                        disablePadding={disablePadding}
                         chartData={item.data ?? []}
                         lineColor={item.lineColor}
                         lineWidth={item.lineWidth ?? 3}
@@ -65,7 +68,7 @@ const EnclosedChartColorWrapper = ({
                         }}
                         showOnlyLine
                         cardBg={item.chartFillColor}
-                        height={trendValues ? 95 : 150}
+                        height={trendValues ? 95 : 180}
                     />
                 ) : (
                     <ApexBarChartWrapper

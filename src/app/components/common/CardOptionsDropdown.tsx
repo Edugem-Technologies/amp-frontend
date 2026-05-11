@@ -11,7 +11,7 @@ interface Props {
 
 const CardOptionsDropdown: React.FC<Props> = ({ children, width = 300, btnClass }) => {
     return (
-        <Dropdown align="end" autoClose="outside">
+        <Dropdown align="end" autoClose="outside" className="card-toolbar">
             <Dropdown.Toggle as="div">
                 <CardOptionsBtn btnClass={btnClass as string} />
             </Dropdown.Toggle>

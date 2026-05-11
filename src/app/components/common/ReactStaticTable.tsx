@@ -20,9 +20,19 @@ const ReactStaticTable = <T extends object>(
     props: Pick<ReactTableWithPaginationPropType, "columns" | "isTableView" | "renderGridView"> & {
         tableProps?: ExpandedRowWithTablePropType
         data: Array<T>
+        tableWClassName?: string
+        headerClass?: string
     },
 ) => {
-    const { columns, isTableView = true, renderGridView, tableProps, data } = props
+    const {
+        columns,
+        isTableView = true,
+        renderGridView,
+        tableProps,
+        data,
+        headerClass,
+        tableWClassName,
+    } = props
     const [dataView] = useState(isTableView)
     // const [sorting, setSorting] = useState<SortingState>([{ desc: false, id: "" }])
     const [sorting, setSorting] = useState<SortingState>([])
@@ -59,33 +69,31 @@ const ReactStaticTable = <T extends object>(
 
     return (
         <>
-            <div className="card px-0 py-0">
-                <div className="card-body p-0">
-                    {dataView ? (
-                        <>
-                            <div className="table-responsive">
-                                <ReactTable
-                                    isBackendDrivenColumns={false}
-                                    {...tableProps}
-                                    getHeaderGroups={getHeaderGroups}
-                                    getRowModel={getRowModel}
-                                    getFooterGroups={getFooterGroups}
-                                />
-                            </div>
-                        </>
-                    ) : (
-                        !!renderGridView &&
-                        data?.map((item: Any, index: number) => (
-                            <div key={item.id ?? index}>{renderGridView(item)}</div>
-                        ))
-                    )}
-                    <StaticTablePagination
-                        pagination={filter}
-                        setPagination={setFilter}
-                        totalCount={data.length}
-                    />
-                </div>
-            </div>
+            {dataView ? (
+                <>
+                    <div className="table-responsive">
+                        <ReactTable
+                            isBackendDrivenColumns={false}
+                            {...tableProps}
+                            getHeaderGroups={getHeaderGroups}
+                            getRowModel={getRowModel}
+                            getFooterGroups={getFooterGroups}
+                            headerClass={headerClass}
+                            className={tableWClassName}
+                        />
+                    </div>
+                </>
+            ) : (
+                !!renderGridView &&
+                data?.map((item: Any, index: number) => (
+                    <div key={item.id ?? index}>{renderGridView(item)}</div>
+                ))
+            )}
+            <StaticTablePagination
+                pagination={filter}
+                setPagination={setFilter}
+                totalCount={data.length}
+            />
             <CustomTooltip id="v-status-tooltip" />
         </>
     )

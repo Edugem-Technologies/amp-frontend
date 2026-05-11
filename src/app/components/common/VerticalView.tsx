@@ -2,63 +2,62 @@ import { getStatusColor } from "@/fixtures/GlobalData"
 import Accordion from "react-bootstrap/Accordion"
 import BaseStaticSelect from "../input/BaseStaticSelect"
 import { Fence, Status } from "@/types/components/DragSortableCards"
+import { useState } from "react"
 
 type Props = {
     data: Fence[]
 }
 
 const VerticalView = ({ data }: Props) => {
+    const [activeKey, setActiveKey] = useState<string | null>(null)
     return (
-        <Accordion className="vertical-view" defaultActiveKey="0">
+        <Accordion
+            className="accordion v2"
+            activeKey={activeKey}
+            onSelect={(key) => {
+                setActiveKey((prev) => (prev === key ? null : (key as string)))
+            }}
+        >
             {data.map((fence, index) => (
                 <Accordion.Item eventKey={String(index)} key={fence.id}>
-                    <Accordion.Header>{fence.label}</Accordion.Header>
+                    {/* <Accordion.Header>{fence.label}</Accordion.Header> */}
+                    <Accordion.Header>
+                        <span className="btn btn-icon btn-sm">
+                            <span className="material-symbols-rounded">
+                                {activeKey === String(index) ? "expand_less" : "expand_more"}
+                            </span>
+                        </span>
+                        {fence.label}
+                    </Accordion.Header>
 
                     <Accordion.Body>
-                        <div className="task-list">
-                            {fence?.tasks?.map((task) => (
+                        <div className="roadmaps list sortable ui-sortable">
+                            {fence?.tasks?.map((task, index) => (
                                 <div
-                                    className="task-row"
-                                    key={task.id}
+                                    className="item ui-sortable-handle"
+                                    key={index}
                                     style={{ backgroundColor: getStatusColor(task.currentStatus) }}
                                 >
-                                    <div className="d-flex align-items-center justify-content-between content">
-                                        {/* LEFT */}
-                                        <div className="d-flex align-items-start gap-3">
-                                            <div className="progress-circle">
-                                                <svg viewBox="0 0 36 36">
-                                                    <path
-                                                        className="circle-bg"
-                                                        d="M18 2.0845
-               a 15.9155 15.9155 0 0 1 0 31.831
-               a 15.9155 15.9155 0 0 1 0 -31.831"
-                                                    />
-                                                    <path
-                                                        className="circle-progress"
-                                                        strokeDasharray={`${
-                                                            task.prgressLevel === 100
-                                                                ? 99.9
-                                                                : task.prgressLevel
-                                                        }, 100`}
-                                                        d="M18 2.0845
-               a 15.9155 15.9155 0 0 1 0 31.831
-               a 15.9155 15.9155 0 0 1 0 -31.831"
-                                                    />
-                                                </svg>
+                                    <div className="link"></div>
+                                    <div className="col-auto icon me-1 c-progress">
+                                        <svg viewBox="0 0 36 36" className="circular-progress">
+                                            <path
+                                                className="circle"
+                                                strokeDasharray={`${task.prgressLevel}, 100`}
+                                                d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                            />
 
-                                                <div className="progress-value">
-                                                    {task.prgressLevel}
-                                                </div>
-                                            </div>
-
-                                            <div className="task-content">
-                                                <div className="task-title">{task.title}</div>
-                                                <div className="task-subtitle">{task.subtitle}</div>
-                                            </div>
-                                        </div>
-
-                                        {/* RIGHT */}
-                                        <div className="d-flex gap-3 selectors">
+                                            <text x="18" y="22" className="percentage">
+                                                {task.prgressLevel}
+                                            </text>
+                                        </svg>
+                                    </div>
+                                    <div className="col flex-grow-1">
+                                        <div className="fw-bolder t-title">{task.title}</div>
+                                        <div className="fw-bold t-timings">{task.subtitle}</div>
+                                    </div>
+                                    <div className="col-auto c-last">
+                                        <div className="t-fences">
                                             <BaseStaticSelect
                                                 options={task.statusList.map((s: Status) => ({
                                                     label: s.label,
@@ -76,40 +75,42 @@ const VerticalView = ({ data }: Props) => {
                                                 onSelected={() => {}}
                                                 className="status-dropdown"
                                                 isCheckBoxDropdowns={false}
+                                                isClearable={false}
                                             />
-
-                                            <div className="d-flex user-info">
-                                                <div className="d-flex align-items-center avatar-group">
-                                                    {task.users.map((user, i) => (
+                                        </div>
+                                        <div className="p-symbols">
+                                            <div className="symbol-group symbol-hover d-inline-flex flex-nowrap pe-1">
+                                                {task.users.map((user, i) => (
+                                                    <div
+                                                        className="symbol symbol-circle symbol-40px"
+                                                        key={i}
+                                                    >
                                                         <img
                                                             key={i}
                                                             src={user}
                                                             className="avatar"
                                                             alt=""
                                                         />
-                                                    ))}
-                                                </div>
-
-                                                <div className="d-flex align-items-center gap-2 task-actions mx-3">
-                                                    {task.actions.map((action) => {
-                                                        return (
-                                                            <div
-                                                                key={action.id}
-                                                                className="icon-container"
-                                                            >
-                                                                <img
-                                                                    src={action.icon}
-                                                                    alt=""
-                                                                    style={{
-                                                                        width: 20,
-                                                                        height: 20,
-                                                                    }}
-                                                                />
-                                                            </div>
-                                                        )
-                                                    })}
-                                                </div>
+                                                    </div>
+                                                ))}
                                             </div>
+                                        </div>
+                                        <div className="actions">
+                                            {task.actions.map((action, index) => {
+                                                return (
+                                                    <a
+                                                        className="btn btn-icon btn-sm delete"
+                                                        key={index}
+                                                    >
+                                                        <span
+                                                            className="material-symbols-rounded"
+                                                            style={{ fontWeight: "500" }}
+                                                        >
+                                                            {action.icon}
+                                                        </span>
+                                                    </a>
+                                                )
+                                            })}
                                         </div>
                                     </div>
                                 </div>

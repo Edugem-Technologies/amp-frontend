@@ -46,7 +46,7 @@ const KpiCard: React.FC<KpiCardProps> = ({
 }) => {
     return (
         <div
-            className={`kpi-card-wrapper kpi-card-wrapper-${cardId} ${className} icon-${iconPlacement} ${
+            className={`kpi-card-wrapper-${cardId} ${className} icon-${iconPlacement} ${
                 showProgress ? "has-progress" : ""
             }`}
             style={{ backgroundColor }}
@@ -75,21 +75,20 @@ const KpiCard: React.FC<KpiCardProps> = ({
             <div className="kpi-card-content-wrapper">
                 {icon && iconPlacement === "top" && <div className="kpi-icon-top">{icon}</div>}
 
-                <div className={`kpi-card-content icon-placement-${iconPlacement}`}>
+                <div
+                    className={`kpi-card-content d-flex flex-column icon-placement-${iconPlacement}`}
+                    style={{ gap: "5px" }}
+                >
                     {icon && iconPlacement === "left" && (
                         <div className="kpi-icon-left">{icon}</div>
                     )}
 
-                    <div className="kpi-text">
-                        <h4 className="kpi-title" style={{ color: fontColor }}>
-                            {title}
-                        </h4>
-                        <div className="d-flex gap-3 align-items-center">
-                            <h2 className="kpi-amount">{amount}</h2>
-                            {quantity && <span className="kpi-quantity">{quantity}</span>}
-                        </div>
-                        {description && <p className="kpi-description mb-0">{description}</p>}
+                    <div className="title">{title}</div>
+                    <div className="amount">
+                        {amount}
+                        {quantity && <span className="kpi-quantity">{quantity}</span>}
                     </div>
+                    {description && <div className="total">{description}</div>}
 
                     {icon && iconPlacement === "right" && (
                         <div className="kpi-icon-right">{icon}</div>

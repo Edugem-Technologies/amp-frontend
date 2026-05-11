@@ -118,8 +118,8 @@ function ColumnComponent({ column }: { column: Column }) {
                     style={{ minHeight: 50 }}
                     className="d-flex flex-column gap-2"
                 >
-                    {column.tasks.map((task) => (
-                        <TaskCard key={task.id} task={task} />
+                    {column.tasks.map((task, index) => (
+                        <TaskCard key={index} task={task} />
                     ))}
                 </div>
             </SortableContext>
@@ -200,68 +200,83 @@ export default function DragAccordionBoard({ data }: Props) {
     }
 
     return (
-        <>
-            <div className="header-wrapper d-flex gap-2">
-                {sections[0].columns.map((item, index) => (
-                    <div key={index} className="header-container d-flex justify-content-between">
-                        <p>{item.title}</p>
-                        <button
-                            className="btn btn-icon btn-sm btn-bg-light add-new-task-btn"
-                            data-bs-toggle="tooltip"
-                            title="Add New Task"
-                        >
-                            <span className="material-symbols-outlined">add</span>
-                        </button>
-                    </div>
-                ))}
-            </div>
-            <DndContext
-                collisionDetection={closestCenter}
-                onDragStart={handleDragStart}
-                onDragEnd={handleDragEnd}
-            >
-                <Accordion defaultActiveKey="0" alwaysOpen>
-                    {sections.map((section, index) => (
-                        <Accordion.Item eventKey={String(index)} key={section.id}>
-                            <Accordion.Header>{section.title}</Accordion.Header>
-                            <Accordion.Body>
-                                <div className="d-flex gap-2">
-                                    {section.columns.map((column) => (
-                                        <ColumnComponent key={column.id} column={column} />
-                                    ))}
+        <div className="table-v1">
+            <table className="table table-row-gray-300 main align-middle mb-0">
+                <thead>
+                    <tr className="partition type-2">
+                        {sections[0].columns.map((item, index) => (
+                            <th key={index}>
+                                <div>
+                                    {item.title}
+                                    <button
+                                        className="btn btn-icon btn-sm btn-bg-light add-new-task"
+                                        data-bs-toggle="tooltip"
+                                        title="Add New Task"
+                                    >
+                                        <span className="material-symbols-outlined">add</span>
+                                    </button>
                                 </div>
-                            </Accordion.Body>
-                        </Accordion.Item>
-                    ))}
-                </Accordion>
+                            </th>
+                        ))}
+                    </tr>
+                </thead>
+            </table>
+            <div className="scrollable-table">
+                <table className="table table-row-gray-300 main align-middle mb-0">
+                    <DndContext
+                        collisionDetection={closestCenter}
+                        onDragStart={handleDragStart}
+                        onDragEnd={handleDragEnd}
+                    >
+                        <Accordion defaultActiveKey="0" alwaysOpen>
+                            {sections.map((section, index) => (
+                                <Accordion.Item eventKey={String(index)} key={section.id}>
+                                    <Accordion.Header>{section.title}</Accordion.Header>
+                                    <Accordion.Body>
+                                        <div className="d-flex gap-2">
+                                            {section.columns.map((column) => (
+                                                <ColumnComponent key={column.id} column={column} />
+                                            ))}
+                                        </div>
+                                    </Accordion.Body>
+                                </Accordion.Item>
+                            ))}
+                        </Accordion>
 
-                {activeTask && (
-                    <div className="task-list-container">
-                        <DragOverlay>
-                            <div className="task-check-item">
-                                <div className="task-content">
-                                    <h5 className="mb-0">{activeTask.title}</h5>
-                                    <p className="mb-0">{activeTask.subtitle}</p>
-                                </div>
+                        {activeTask && (
+                            <div className="task-list-container">
+                                <DragOverlay>
+                                    <div className="task-check-item">
+                                        <div className="task-content">
+                                            <h5 className="mb-0">{activeTask.title}</h5>
+                                            <p className="mb-0">{activeTask.subtitle}</p>
+                                        </div>
 
-                                <div className="task-meta">
-                                    <div className="task-avatars">
-                                        {activeTask?.users?.map((user, index) => (
-                                            <img key={index} src={user.avatarUrl} alt={user.name} />
-                                        ))}
+                                        <div className="task-meta">
+                                            <div className="task-avatars">
+                                                {activeTask?.users?.map((user, index) => (
+                                                    <img
+                                                        key={index}
+                                                        src={user.avatarUrl}
+                                                        alt={user.name}
+                                                    />
+                                                ))}
+                                            </div>
+
+                                            {activeTask?.users?.length &&
+                                                activeTask?.users?.length > 0 && (
+                                                    <span className="task-badge">
+                                                        {activeTask?.users?.length}
+                                                    </span>
+                                                )}
+                                        </div>
                                     </div>
-
-                                    {activeTask?.users?.length && activeTask?.users?.length > 0 && (
-                                        <span className="task-badge">
-                                            {activeTask?.users?.length}
-                                        </span>
-                                    )}
-                                </div>
+                                </DragOverlay>
                             </div>
-                        </DragOverlay>
-                    </div>
-                )}
-            </DndContext>
-        </>
+                        )}
+                    </DndContext>
+                </table>
+            </div>
+        </div>
     )
 }

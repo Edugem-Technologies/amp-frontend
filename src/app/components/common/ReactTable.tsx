@@ -19,6 +19,7 @@ const ReactTable = <T extends RowId>({
     setFilter,
     filter,
     isBackendDrivenColumns,
+    headerClass,
 }: ReactTableProps<T>) => {
     const totalColumns = getHeaderGroups()?.reduce(
         (acc, headerGroup) => acc + headerGroup.headers.length,
@@ -53,7 +54,7 @@ const ReactTable = <T extends RowId>({
 
     return (
         <table
-            className={`table dataTable align-middle table-row-dashed fs-6 gy-5  m-0 ${
+            className={`table table-row-dashed table-row-gray-300 main align-middle gs-0  ${
                 className ? className : ""
             }`}
             id="games-table"
@@ -62,7 +63,11 @@ const ReactTable = <T extends RowId>({
                 {getHeaderGroups().map((headerGroup) => (
                     <tr
                         key={headerGroup.id}
-                        className="text-start  fw-bold fs-7 gs-0 react-table-header"
+                        className={`${
+                            headerClass
+                                ? headerClass
+                                : "text-start  fw-bold fs-7 gs-0 react-table-header fw-bolder text-muted"
+                        }`}
                     >
                         {headerGroup.headers.map((header) => (
                             <>
@@ -73,9 +78,17 @@ const ReactTable = <T extends RowId>({
                                         verticalAlign: "baseLine",
                                         width: `${header.getSize()}px`,
                                     }}
-                                    className="position-relative text-white header-wrapper"
+                                    // @ts-expect-error ignore this for now
+                                    className={`position-relative text-white header-wrapper ${header.column.columnDef.meta?.headerClassName}`}
                                 >
-                                    <div className="d-flex justify-content-between mb-0">
+                                    <div
+                                        className={`d-flex  mb-0 ${
+                                            // @ts-expect-error ignore this for now
+                                            !header.column.columnDef.meta?.headerClassName
+                                                ? "justify-content-between"
+                                                : "justify-content-end"
+                                        }`}
+                                    >
                                         <div className={`header-title`}>
                                             {header.column.getCanSort() ? (
                                                 <span
@@ -367,7 +380,7 @@ const ReactTable = <T extends RowId>({
                     </tr>
                 ))}
             </thead>
-            <tbody className="fw-semibold text-dark column-content">
+            <tbody>
                 {loading ? (
                     <tr>
                         <td className="px-3" colSpan={totalColumns}>
@@ -403,14 +416,14 @@ const ReactTable = <T extends RowId>({
                     // ))
                     getRowModel().rows.map((row) => (
                         <React.Fragment key={row.id}>
-                            <tr key={row.id}>
+                            <tr key={row.id} className="show">
                                 {row.getVisibleCells().map((cell) => (
                                     <td
-                                        className=""
                                         key={cell.id}
-                                        style={{
-                                            width: cell.column.getSize(),
-                                        }}
+                                        className={
+                                            (cell.column.columnDef.meta as { tdClassName?: string })
+                                                ?.tdClassName || ""
+                                        }
                                     >
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </td>

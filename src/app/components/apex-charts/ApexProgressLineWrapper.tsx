@@ -34,6 +34,7 @@ type Props = {
     showOnlyLine?: boolean
     cardBg?: string
     item?: ProgressChartItf
+    disablePadding?: boolean
 }
 
 const ApexProgressLineWrapper: React.FC<Props> = ({
@@ -50,6 +51,7 @@ const ApexProgressLineWrapper: React.FC<Props> = ({
     lineWidth,
     lineShadow,
     item, // New prop
+    disablePadding,
 }) => {
     const isTabbed = typeof chartData === "object" && !Array.isArray(chartData)
     const [activeTab, setActiveTab] = useState(isTabbed ? Object.keys(chartData)[0] : null)
@@ -132,50 +134,65 @@ const ApexProgressLineWrapper: React.FC<Props> = ({
     }
 
     return (
-        <div className="apex-progress-card">
-            {!showOnlyLine && (
-                <div className="card-header-wrapper">
-                    <div className="stats-container d-flex gap-2 align-center">
-                        {icon && <span className="icon-container">{icon}</span>}
-                        {about && (
-                            <div>
-                                <h3 className="card-title">{about.title}</h3>
-                                <p className="card-muted-text">{about.subTitle}</p>
+        <div className="card card-xl-stretch mb-xl-8">
+            <div className="card-body d-flex flex-column p-0">
+                {!showOnlyLine && (
+                    <div className="card-header border-0 pt-5">
+                        <div className="d-flex flex-column me-2">
+                            {icon && <span className="icon-container">{icon}</span>}
+                            {about && (
+                                <>
+                                    <h3 className="card-title align-items-start flex-column">
+                                        <span className="card-label fw-bolder fs-3 mb-1">
+                                            {about.title}
+                                        </span>
+                                        <span className="text-muted fw-bold fs-7">
+                                            {about.subTitle}
+                                        </span>
+                                    </h3>
+                                </>
+                            )}
+                        </div>
+
+                        {isTabbed && (
+                            <div className="selector-tab-wrapper">
+                                <div className="tab-wrapper">
+                                    {Object.keys(chartData).map((key, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => setActiveTab(key)}
+                                            className={`${activeTab === key ? "active-btn" : ""}`}
+                                        >
+                                            {key.charAt(0).toUpperCase() + key.slice(1)}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                        {item?.delta && typeof item?.delta === "number" && (
+                            <div className="symbol symbol-50px">
+                                <div
+                                    className={`delta ${item.iconBgClass} ${
+                                        item.delta >= 0 ? "delta-up" : "delta-down"
+                                    }`}
+                                >
+                                    <span className="symbol-label fs-5 fw-bolder bg-light-success text-success">
+                                        {item.currency}
+                                        <span className="symbol-label fs-5 fw-bolder bg-light-success text-success">
+                                            {item.delta}
+                                        </span>
+                                    </span>
+                                </div>
                             </div>
                         )}
                     </div>
-
-                    {isTabbed && (
-                        <div className="selector-tab-wrapper">
-                            <div className="tab-wrapper">
-                                {Object.keys(chartData).map((key) => (
-                                    <button
-                                        key={key}
-                                        onClick={() => setActiveTab(key)}
-                                        className={`${activeTab === key ? "active-btn" : ""}`}
-                                    >
-                                        {key.charAt(0).toUpperCase() + key.slice(1)}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-                    {item?.delta && typeof item?.delta === "number" && (
-                        <div
-                            className={`delta ${item.iconBgClass} ${
-                                item.delta >= 0 ? "delta-up" : "delta-down"
-                            }`}
-                        >
-                            <span className={`${item.textColorClass}`}>
-                                {item.currency}
-                                {item.delta}
-                            </span>
-                        </div>
-                    )}
+                )}
+                <div
+                    className={`chart-wrapper ${disablePadding ? "" : "apex-bar-chart-wrapper"}`}
+                    style={{ backgroundColor: cardBg ? cardBg : "" }}
+                >
+                    <Chart options={options} series={series} type={chartType} height={height} />
                 </div>
-            )}
-            <div className="chart-wrapper" style={{ backgroundColor: cardBg ? cardBg : "" }}>
-                <Chart options={options} series={series} type={chartType} height={height} />
             </div>
         </div>
     )

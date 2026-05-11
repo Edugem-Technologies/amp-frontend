@@ -13,9 +13,33 @@ export default function Page() {
     }, [])
 
     return (
-        <div className="container-fluid main-dashboard-container container-wrapper">
-            {layout === CONFIG.LAYOUT.VERTICAL && <VerticalView data={FENCES_FIXTURE} />}
-            {layout === CONFIG.LAYOUT.HORIZONTAL && <HorizontalView data={FENCES_FIXTURE} />}
+        <div className="content d-flex flex-column flex-column-fluid pb-0">
+            <div className="post d-flex flex-column-fluid">
+                <div className="container-fluid pages m-roadmaps p-0">
+                    <div className="g-5 gx-xxl-8">
+                        <div className="tab-content text-start">
+                            {layout === CONFIG.LAYOUT.VERTICAL && (
+                                <div className="horizontal-roadmap">
+                                    <VerticalView data={FENCES_FIXTURE} />
+                                </div>
+                            )}
+                            <div className="text-left">
+                                <div className="board-container kanban-v2">
+                                    <div className="board">
+                                        <div className="tab-people jkanban_roadmaps">
+                                            <div className="kanban-container">
+                                                {layout === CONFIG.LAYOUT.HORIZONTAL && (
+                                                    <HorizontalView data={FENCES_FIXTURE} />
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

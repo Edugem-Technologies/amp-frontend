@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import Select, { components, MenuListProps } from "react-select"
+import { components, MenuListProps } from "react-select"
 import useScroll from "@/app/hooks/useScroll"
 import UserDropdown from "./UserDropdown"
 import { useAppContext } from "@/app/context/AppContext"
@@ -12,6 +12,7 @@ import { filterData } from "@/fixtures/CheckboxFilterData"
 import { CONFIG } from "@/utils/Constants"
 import { usePathname } from "next/navigation"
 import { roadmapOptions } from "@/fixtures/NavbarMenu"
+import FiltersMenu from "./FiltersMenu"
 
 export const FlexMenuListCheckbox = (props: MenuListProps) => {
     const [selectedValues, setSelectedValues] = useState<Record<string, string[]>>({})
@@ -75,10 +76,24 @@ const Navbar = () => {
     } = useAppContext()
     const pathname = usePathname()
 
+    const roadmap_projects = ["Outmin", "XYZ", "Customs Window", "Splink", "Workflow", "Linkle"]
+
+    const c_team = ["Jenna", "Mark", "Tom", "Greg", "Keith", "Dayo", "Florencia"]
+
+    const c_tag = ["Design", "Develop", "Finance"]
+
+    const c_statuses = ["Pending", "Completed", "Not Started", "Problem", "In Progress", "On Hold"]
+
+    const c_priority = ["Low", "Medium", "High"]
+
     return (
-        <nav className={`navbar d-flex align-items-center${position > 120 ? "shadow-sm" : ""}`}>
+        <nav
+            className={`container-fluid navbar d-flex align-items-center header align-items-stretch h-pipeline ${
+                position > 120 ? "shadow-sm" : ""
+            }`}
+        >
             {/* Sidebar toggle */}
-            <button
+            {/* <button
                 className={`btn btn-sm shadow-sm p-0 sidebar-toggle-button ${
                     sidebarCollapse ? "rotate-180" : ""
                 }`}
@@ -87,7 +102,7 @@ const Navbar = () => {
                 <span className="svg-icon svg-icon-2">
                     <img src="/icons/arrow.svg" alt="" />
                 </span>
-            </button>
+            </button> */}
 
             <div className="navbar-wrapper d-flex align-items-center justify-content-between w-100">
                 {/* left bar */}
@@ -101,7 +116,7 @@ const Navbar = () => {
                         <img src="/icons/list.svg" alt="" width={20} />
                     </span>
                 </button>
-                <div className="nav-left-bar  align-items-center gap-2 mx-4">
+                <div className="nav-left-bar  align-items-center" style={{ gap: "6px" }}>
                     <TextInputField
                         isRequired
                         type="text"
@@ -119,7 +134,7 @@ const Navbar = () => {
                         inputContainerClass="inplace-input-wrapper"
                     />
 
-                    <div className="filter-dropdown">
+                    {/* <div className="filter-dropdown">
                         <Select
                             options={[{ value: "filters", label: "Filters" }]}
                             components={{
@@ -140,7 +155,14 @@ const Navbar = () => {
                                 }),
                             }}
                         />
-                    </div>
+                    </div> */}
+                    <FiltersMenu
+                        roadmap_projects={roadmap_projects}
+                        c_team={c_team}
+                        c_tag={c_tag}
+                        c_statuses={c_statuses}
+                        c_priority={c_priority}
+                    />
 
                     <div className="d-flex category-filter-btn">
                         <button
@@ -159,20 +181,20 @@ const Navbar = () => {
                             onClick={() => setIsTimerActive((prev) => !prev)}
                         >
                             <span
-                                className="material-symbols-outlined"
-                                style={{ color: "#a1a5b7", fontSize: "22px" }}
+                                className="material-symbols-sharp"
+                                style={{ color: "#7e8299", fontSize: "20px" }}
                             >
-                                timer
+                                schedule
                             </span>
                         </button>
                     </div>
                 </div>
 
                 {/* right bar */}
-                <div className="nav-right-bar d-flex align-items-center gap-3">
+                <div className="nav-right-bar d-flex align-items-center s">
                     {pathname === CONFIG.PAGES.ROADMAPS && (
                         <>
-                            <div className="ve-hr-selector-wrapper  gap-3 align-items-center">
+                            <div className="ve-hr-selector-wrapper gap-2 align-items-center mx-2">
                                 <button
                                     className={`hr-btn ${
                                         layout === CONFIG.LAYOUT.HORIZONTAL ? "hr-btn-active " : ""

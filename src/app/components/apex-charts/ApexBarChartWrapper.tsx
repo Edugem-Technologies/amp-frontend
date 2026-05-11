@@ -41,6 +41,7 @@ interface ApexBarChartConfig {
     currency?: string
     delta?: number | string
     textColorClass?: string
+    backgroundColor?: string
 }
 
 type Props = {
@@ -56,7 +57,7 @@ export default function ApexBarChartWrapper({
     optionsVariant,
     cardOptions,
 }: Props) {
-    const { header, description, data } = config
+    const { header, description, data, backgroundColor } = config
 
     const isTabbedData = !Array.isArray(data)
 
@@ -129,31 +130,42 @@ export default function ApexBarChartWrapper({
     }
 
     return (
-        <div className="apex-bar-container">
+        <div
+            className="card card-xl-stretch mb-xl-8"
+            style={{ backgroundColor: backgroundColor ?? "" }}
+        >
             {/* HEADER */}
-            <div className="d-flex card-header-wrapper">
-                <div className="header d-flex justify-content-between align-items-center w-100">
-                    <div>
-                        <h3 className="card-title">{header}</h3>
-                        {description && <p className="card-muted-text">{description}</p>}
-                    </div>
-                    <div className="delta">
-                        <span className={`${config.textColorClass}`}>
-                            {" "}
-                            {config.currency}
-                            {config.delta}
+            <div className="card-header border-0 pt-5">
+                <>
+                    <h3 className="card-title align-items-start flex-column">
+                        <span
+                            className={`card-label fw-bolder fs-3 mb-1 ${
+                                config.textColorClass ? config.textColorClass : ""
+                            } `}
+                        >
+                            {header}
                         </span>
-                    </div>
+                        {description && (
+                            <span className="text-muted fw-bold fs-7">{description}</span>
+                        )}
+                    </h3>
+                </>
+                <div className="delta">
+                    <span className={`${config.textColorClass}`}>
+                        {" "}
+                        {config.currency}
+                        {config.delta}
+                    </span>
                 </div>
 
-                <div className="selector-tab-wrapper ">
-                    {isTabbedData && (
+                {isTabbedData && (
+                    <div className="selector-tab-wrapper  card-toolbar">
                         <div className="flex gap-2">
-                            {Object.keys(data).map((tab) => (
+                            {Object.keys(data).map((tab, index) => (
                                 <button
-                                    key={tab}
+                                    key={index}
                                     onClick={() => setActiveTab(tab)}
-                                    className={`px-3 py-1 rounded-md text-sm ${
+                                    className={`btn btn-sm btn-color-muted btn-active btn-active-primary px-4 me-1 ${
                                         activeTab === tab ? "active-btn" : ""
                                     }`}
                                 >
@@ -161,8 +173,8 @@ export default function ApexBarChartWrapper({
                                 </button>
                             ))}
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
 
                 {optionsVariant === "filter" && (
                     <CardOptionsDropdown width={300} btnClass="btn-color-primary">
@@ -176,7 +188,7 @@ export default function ApexBarChartWrapper({
                 )}
             </div>
 
-            <div className="bar-chart">
+            <div className="bar-chart apex-bar-chart-wrapper">
                 <Chart
                     type="bar"
                     height={chartConfig?.height ?? 330}

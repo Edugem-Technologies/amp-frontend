@@ -66,7 +66,7 @@ const UserDropdown = () => {
     return (
         <div className="user-dropdown" ref={wrapperRef}>
             {/* Trigger */}
-            <div className="user-trigger" onClick={() => setOpen((p) => !p)}>
+            <div className="user-trigger mx-1" onClick={() => setOpen((p) => !p)}>
                 <span className="user-name">{user?.first_name ?? "Mark"}</span>
                 <div className="user-avatar">{firstLetter}</div>
             </div>

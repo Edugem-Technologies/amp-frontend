@@ -44,7 +44,7 @@ export const PIPELINE_DASHBOARD_DATA: PipelineDashboardData = {
 
     upcomingPlans: {
         header: {
-            title: "Going Live(Next 7 Days)",
+            title: "Going Live (Next 7 Days)",
         },
         items: [
             {
@@ -135,7 +135,7 @@ export const PIPELINES_CHECKLIST = [
         label: "Verbally Agreed (90%)",
         taskCheckList: [
             {
-                id: "c1",
+                id: "c5",
                 label: "LyttleINC Reporting",
                 desc: "This is the latest text update",
                 users: [
@@ -144,19 +144,19 @@ export const PIPELINES_CHECKLIST = [
                 ],
             },
             {
-                id: "c2",
+                id: "c6",
                 label: "Custom Window Solutions...",
                 desc: "This is the latest text update",
                 users: [{ name: "User3", avatar: "/images/avatars/150-26.jpg" }],
             },
             {
-                id: "c3",
+                id: "c7",
                 label: "XYZ Website",
                 desc: "This is the latest text update",
                 users: [{ name: "User4", avatar: "/images/avatars/150-3.jpg" }],
             },
             {
-                id: "c4",
+                id: "c8",
                 label: "LyttleINC Reporting",
                 desc: "This is the latest text update",
                 users: [
@@ -172,7 +172,7 @@ export const PIPELINES_CHECKLIST = [
         label: "Interested (50%)",
         taskCheckList: [
             {
-                id: "c1",
+                id: "c9",
                 label: "Custom Window Solutions...",
                 desc: "This is the latest text update",
                 users: [
@@ -181,13 +181,13 @@ export const PIPELINES_CHECKLIST = [
                 ],
             },
             {
-                id: "c2",
+                id: "c10",
                 label: "Custom Window Solutions...",
                 desc: "This is the latest text update",
                 users: [{ name: "User3", avatar: "/images/avatars/150-9.jpg" }],
             },
             {
-                id: "c3",
+                id: "c11",
                 label: "Outmin Proposal Deck",
                 desc: "This is the latest text update",
                 users: [{ name: "User4", avatar: "/images/avatars/150-11.jpg" }],
@@ -200,7 +200,7 @@ export const PIPELINES_CHECKLIST = [
         label: "Awaiting Demo",
         taskCheckList: [
             {
-                id: "c1",
+                id: "c12",
                 label: "Outmin Proposal Deck",
                 desc: "This is the latest text update",
                 users: [{ name: "User1", avatar: "/images/avatars/150-26.jpg" }],
@@ -213,25 +213,25 @@ export const PIPELINES_CHECKLIST = [
         label: "Qualified",
         taskCheckList: [
             {
-                id: "c1",
+                id: "c13",
                 label: "Splink 5 Free Partners",
                 desc: "This is the latest text update",
                 users: [{ name: "User1", avatar: "/images/avatars/150-1.jpg" }],
             },
             {
-                id: "c2",
+                id: "c14",
                 label: "Outmin Stage 03s Reviews",
                 desc: "This is the latest text update",
                 users: [{ name: "User2", avatar: "/images/avatars/150-3.jpg" }],
             },
             {
-                id: "c3",
+                id: "c15",
                 label: "Custom Window Solutions...",
                 desc: "This is the latest text update",
                 users: [{ name: "User3", avatar: "/images/avatars/150-4.jpg" }],
             },
             {
-                id: "c4",
+                id: "c16",
                 label: "Outmin Stage 03s Reviews",
                 desc: "This is the latest text update",
                 users: [{ name: "User4", avatar: "/images/avatars/150-5.jpg" }],

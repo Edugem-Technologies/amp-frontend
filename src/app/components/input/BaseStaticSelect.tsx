@@ -55,7 +55,7 @@ const BaseStaticSelect: React.FC<BaseStaticSelectPropType> = (props) => {
                 }}
                 isClearable={true}
                 hideSelectedOptions={false}
-                closeMenuOnSelect={true}
+                // closeMenuOnSelect={true}
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 onChange={handleChange as any}
                 value={selectedOptionValue}

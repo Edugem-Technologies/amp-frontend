@@ -84,7 +84,7 @@ const SlideOverInnerMenu: React.FC<Props> = ({
 
             {/* Optional Button */}
             {btnLabel && (
-                <button className="optional-btn" onClick={onButtonClick}>
+                <button className="optional-btn mb-4" onClick={onButtonClick}>
                     {btnLabel}
                 </button>
             )}

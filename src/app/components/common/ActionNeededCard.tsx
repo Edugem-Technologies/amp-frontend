@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import ApexRadialProgress from "../apex-charts/ApexRadialProgress"
 
 type Props = {
@@ -11,29 +12,41 @@ type Props = {
 
 const ActionNeededCard = ({ percentage, color, strokeWidth = 12, buttonColor }: Props) => {
     return (
-        <div className="action-card common-cards">
-            <div className="card-header-wrapper">
-                <div>
-                    <h3 className="card-title">Action Needed</h3>
-                    <p className="card-muted-text">Complete your profile setup</p>
+        <div className="card card-xl-stretch mb-xl-8">
+            <div className="card-header border-0 py-5">
+                <h3 className="card-title align-items-start flex-column">
+                    <span className="card-label fw-bolder fs-3 mb-1">Action Needed</span>
+                    <span className="text-muted fw-bold fs-7">Complete your profile setup</span>
+                </h3>
+                <div className="card-toolbar"></div>
+            </div>
+            <div className="card-body d-flex flex-column">
+                <div className="flex-grow-1">
+                    <div className="mixed-widget-4-chart">
+                        <ApexRadialProgress
+                            value={percentage}
+                            color={color}
+                            strokeWidth={strokeWidth}
+                        />
+                    </div>
+                </div>
+
+                <div className="pt-5">
+                    <p className="text-center fs-6 pb-5">
+                        <span className="badge badge-light-danger fs-8">Notes:</span>
+                        Current sprint requires stakeholders
+                        <br></br>
+                        to approve newly amended policies
+                    </p>
+                    <Link
+                        href="#"
+                        className="btn btn-primary  w-100 py-3"
+                        style={{ backgroundColor: buttonColor || color }}
+                    >
+                        Take Action
+                    </Link>
                 </div>
             </div>
-
-            <div className="action-card__chart">
-                <ApexRadialProgress value={percentage} color={color} strokeWidth={strokeWidth} />
-            </div>
-
-            <div className="action-card__notes">
-                <span className="badge">Notes:</span>
-                <p>Current sprint requires stakeholders to approve newly amended policies</p>
-            </div>
-
-            <button
-                className="action-card__button"
-                style={{ backgroundColor: buttonColor || color }}
-            >
-                Take Action
-            </button>
         </div>
     )
 }

@@ -38,7 +38,7 @@ const TaskOverviewFilterForm: React.FC<Props> = ({ options, onApply }) => {
             </div>
 
             <div className="filter-options">
-                {options.map((field) => {
+                {options.map((field, index) => {
                     switch (field.type) {
                         case "select": {
                             const selectedPrimitiveValue = values[field.id] as
@@ -52,7 +52,7 @@ const TaskOverviewFilterForm: React.FC<Props> = ({ options, onApply }) => {
                                 ) || null
 
                             return (
-                                <div key={field.id} className="from-group-wrapper">
+                                <div key={index} className="from-group-wrapper">
                                     <label className="form-label">{field.label}:</label>
 
                                     <BaseStaticSelect
@@ -78,13 +78,13 @@ const TaskOverviewFilterForm: React.FC<Props> = ({ options, onApply }) => {
                                     <label className="form-label">{field.label}:</label>
 
                                     <div className="checbox-wrapper mt-2">
-                                        {field.options?.map((opt) => {
+                                        {field.options?.map((opt, index) => {
                                             const checkedValues =
                                                 (values[field.id] as string[]) || []
 
                                             return (
                                                 <label
-                                                    key={opt.value}
+                                                    key={index}
                                                     className="d-flex align-items-center gap-2"
                                                 >
                                                     <input

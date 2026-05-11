@@ -2626,9 +2626,6 @@ textarea.form-control-lg {
   opacity: 0.5;
 }
 
-.form-check-label {
-  color: var(--bs-gray-500);
-}
 
 .form-switch {
   padding-left: 3.75rem;
@@ -43344,8 +43341,8 @@ code:not([class*=language-]) {
   transform: rotateZ(270deg);
 }
 
-@media (min-width: 992px) {
-  main,
+/* @media (min-width: 992px) { */
+  /* main,
 span,
 ol,
 ul,
@@ -43395,7 +43392,7 @@ pre::-webkit-scrollbar-corner,
 div::-webkit-scrollbar-corner {
     background-color: transparent;
   }
-  main:hover,
+  main:hover,pre:hover
 span:hover,
 ol:hover,
 ul:hover,
@@ -43419,7 +43416,7 @@ pre:hover::-webkit-scrollbar-corner,
 div:hover::-webkit-scrollbar-corner {
     background-color: transparent;
   }
-}
+} */
 .scroll {
   overflow: scroll;
   position: relative;

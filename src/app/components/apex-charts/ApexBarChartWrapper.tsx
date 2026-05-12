@@ -52,6 +52,7 @@ type Props = {
     cardOptions?: CardDropdownOptionItf[]
     isRecentStatType?: boolean
     optionBtnType?: string
+    isMarginBottom?: boolean
 }
 
 export default function ApexBarChartWrapper({
@@ -61,6 +62,7 @@ export default function ApexBarChartWrapper({
     cardOptions,
     isRecentStatType,
     optionBtnType,
+    isMarginBottom,
 }: Props) {
     const { header, description, data, backgroundColor } = config
 
@@ -136,7 +138,7 @@ export default function ApexBarChartWrapper({
 
     return (
         <div
-            className="card card-xl-stretch mb-xl-8"
+            className={`card card-xl-stretch ${!isMarginBottom ? "" : "mb-xl-8"}`}
             style={{ backgroundColor: backgroundColor ?? "" }}
         >
             {/* HEADER */}

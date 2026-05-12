@@ -28,6 +28,7 @@ const EnclosedChartWrapperBar = ({ item, cardOptions }: Props) => {
                     }}
                     cardOptions={cardOptions}
                     optionsVariant="menu"
+                    isMarginBottom={false}
                 />
             </div>
 

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { IconName } from "@/app/components/icons/IconMap"
 
 export interface ChartData {
@@ -61,10 +63,10 @@ export interface TaskNTodoDataItf {
     todos?: TaskItemItf[]
 }
 
-export interface SalesChartDataPoint {
-    month: string
-    [key: string]: string | number
-}
+// export interface SalesChartDataPoint {
+//     month: string
+//     [key: string]: string | number
+// }
 
 export interface SalesChartCard {
     title: string
@@ -84,7 +86,7 @@ export interface EnclosedChartWrapperIntf {
     title: string
     lineColor?: string
     chartFillColor: string
-    data?: SalesChartDataPoint[]
+    data?: any
     chart?: {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data: any

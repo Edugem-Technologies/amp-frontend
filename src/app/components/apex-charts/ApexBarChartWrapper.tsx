@@ -5,6 +5,7 @@ import { useState, useMemo } from "react"
 import CardOptionsDropdown from "../common/CardOptionsDropdown"
 import TaskOverviewFilterForm from "../common/TaskOverviewFilterForm"
 import { CardDropdownOptionItf } from "@/types/common/DashboardCardsTypes"
+import PaymentMenuDropdown from "../common/PaymentMenuDropdown"
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false })
 
@@ -49,6 +50,8 @@ type Props = {
     chartConfig?: ChartConfig
     optionsVariant?: "filter" | "menu"
     cardOptions?: CardDropdownOptionItf[]
+    isRecentStatType?: boolean
+    optionBtnType?: string
 }
 
 export default function ApexBarChartWrapper({
@@ -56,6 +59,8 @@ export default function ApexBarChartWrapper({
     chartConfig,
     optionsVariant,
     cardOptions,
+    isRecentStatType,
+    optionBtnType,
 }: Props) {
     const { header, description, data, backgroundColor } = config
 
@@ -135,67 +140,113 @@ export default function ApexBarChartWrapper({
             style={{ backgroundColor: backgroundColor ?? "" }}
         >
             {/* HEADER */}
-            <div className="card-header border-0 pt-5">
+            {isRecentStatType && (
                 <>
-                    <h3 className="card-title align-items-start flex-column">
-                        <span
-                            className={`card-label fw-bolder fs-3 mb-1 ${
-                                config.textColorClass ? config.textColorClass : ""
-                            } `}
-                        >
-                            {header}
-                        </span>
-                        {description && (
-                            <span className="text-muted fw-bold fs-7">{description}</span>
-                        )}
-                    </h3>
-                </>
-                <div className="delta">
-                    <span className={`${config.textColorClass}`}>
-                        {" "}
-                        {config.currency}
-                        {config.delta}
-                    </span>
-                </div>
-
-                {isTabbedData && (
-                    <div className="selector-tab-wrapper  card-toolbar">
-                        <div className="flex gap-2">
-                            {Object.keys(data).map((tab, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => setActiveTab(tab)}
-                                    className={`btn btn-sm btn-color-muted btn-active btn-active-primary px-4 me-1 ${
-                                        activeTab === tab ? "active-btn" : ""
-                                    }`}
+                    <div className="card-header border-0 pt-5">
+                        <>
+                            <h3 className="card-title align-items-start flex-column">
+                                <span
+                                    className={`card-label fw-bolder fs-3 mb-1 ${
+                                        config.textColorClass ? config.textColorClass : ""
+                                    } `}
                                 >
-                                    {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                                </button>
-                            ))}
+                                    {header}
+                                </span>
+                                {description && (
+                                    <span className="text-muted fw-bold fs-7">{description}</span>
+                                )}
+                            </h3>
+                        </>
+                        <div className="delta">
+                            <span className={`${config.textColorClass}`}>
+                                {config.currency}
+                                {config.delta}
+                            </span>
                         </div>
+
+                        {isTabbedData && (
+                            <div className="selector-tab-wrapper  card-toolbar">
+                                <div className="flex gap-2">
+                                    {Object.keys(data).map((tab, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => setActiveTab(tab)}
+                                            className={`btn btn-sm btn-color-muted btn-active btn-active-primary px-4 me-1 ${
+                                                activeTab === tab ? "active-btn" : ""
+                                            }`}
+                                        >
+                                            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {optionsVariant === "filter" && (
+                            <CardOptionsDropdown width={300} btnType={optionBtnType as string}>
+                                <TaskOverviewFilterForm
+                                    options={cardOptions ?? []}
+                                    onApply={(values) => {
+                                        console.log("FILTER APPLY", values)
+                                    }}
+                                />
+                            </CardOptionsDropdown>
+                        )}
                     </div>
-                )}
-
-                {optionsVariant === "filter" && (
-                    <CardOptionsDropdown width={300} btnClass="btn-color-primary">
-                        <TaskOverviewFilterForm
-                            options={cardOptions ?? []}
-                            onApply={(values) => {
-                                console.log("FILTER APPLY", values)
-                            }}
+                    <div className="bar-chart apex-bar-chart-wrapper">
+                        <Chart
+                            type="bar"
+                            height={chartConfig?.height ?? 330}
+                            series={series}
+                            options={options}
                         />
-                    </CardOptionsDropdown>
-                )}
-            </div>
+                    </div>
+                </>
+            )}
 
-            <div className="bar-chart apex-bar-chart-wrapper">
-                <Chart
-                    type="bar"
-                    height={chartConfig?.height ?? 330}
-                    series={series}
-                    options={options}
-                />
-            </div>
+            {!isRecentStatType && (
+                <div className="card-body p-0 d-flex justify-content-between flex-column overflow-hidden">
+                    <div className="d-flex flex-stack flex-wrap flex-grow-1 px-9 pt-9 pb-3">
+                        <>
+                            <div className="me-2">
+                                <span
+                                    className={`fw-bolder text-gray-800 d-block fs-3 ${`${config.textColorClass}`}`}
+                                >
+                                    {header}
+                                </span>
+                                <span className="text-gray-400 fw-bold">{description}</span>
+                            </div>
+                            <div className="fw-bolder fs-3 text-primary">
+                                {config.currency}
+                                {config.delta}
+                            </div>
+                        </>
+                        {optionsVariant === "filter" && (
+                            <CardOptionsDropdown width={300}>
+                                <TaskOverviewFilterForm
+                                    options={cardOptions ?? []}
+                                    onApply={(values) => {
+                                        console.log("FILTER APPLY", values)
+                                    }}
+                                />
+                            </CardOptionsDropdown>
+                        )}
+
+                        {optionsVariant === "menu" && (
+                            <PaymentMenuDropdown options={cardOptions ?? []} btnType="" />
+                        )}
+                    </div>
+
+                    <div className="bar-chart">
+                        <Chart
+                            type="bar"
+                            height={chartConfig?.height ?? 330}
+                            series={series}
+                            options={options}
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

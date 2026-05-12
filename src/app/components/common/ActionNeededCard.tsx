@@ -10,7 +10,7 @@ type Props = {
     buttonColor?: string
 }
 
-const ActionNeededCard = ({ percentage, color, strokeWidth = 12, buttonColor }: Props) => {
+const ActionNeededCard = ({ percentage, color, strokeWidth = 12 }: Props) => {
     return (
         <div className="card card-xl-stretch mb-xl-8">
             <div className="card-header border-0 py-5">
@@ -28,6 +28,7 @@ const ActionNeededCard = ({ percentage, color, strokeWidth = 12, buttonColor }: 
                             color={color}
                             strokeWidth={strokeWidth}
                         />
+                        <div className="resize-triggers"></div>
                     </div>
                 </div>
 
@@ -38,11 +39,7 @@ const ActionNeededCard = ({ percentage, color, strokeWidth = 12, buttonColor }: 
                         <br></br>
                         to approve newly amended policies
                     </p>
-                    <Link
-                        href="#"
-                        className="btn btn-primary  w-100 py-3"
-                        style={{ backgroundColor: buttonColor || color }}
-                    >
+                    <Link href="#" className="btn btn-primary  w-100 py-3">
                         Take Action
                     </Link>
                 </div>

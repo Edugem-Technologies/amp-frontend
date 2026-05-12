@@ -15,8 +15,9 @@ import StatsOverviewWithChart from "@/app/components/common/StatsOverviewWithCha
 import ApexBarChartWrapper from "@/app/components/apex-charts/ApexBarChartWrapper"
 import ActionNeededCard from "@/app/components/common/ActionNeededCard"
 import Link from "next/link"
-import EnclosedChartColorWrapperBar from "@/app/components/common/EnclosedChartColorWrapperBar"
 import TrendsOverviewWithChart from "@/app/components/common/TrendsOverviewWithChart"
+import EnclosedChartWrapperBar from "@/app/components/common/EnclosedChartWrapperBar"
+import EnclosedChartColorWrapperLine from "@/app/components/common/EnclosedChartColorWrapperLine"
 
 const DashboardPage = () => {
     const [members, setMembers] = useState<MemberStatsItem[]>(dashboardData.memberStats)
@@ -131,6 +132,7 @@ const DashboardPage = () => {
                                 </div>
                             ))}
                         </div>
+
                         <div className="row g-5 g-xl-8">
                             {dashboardData.progressCharts.map((item, index) => (
                                 <div className="col-xl-4" key={index}>
@@ -161,7 +163,15 @@ const DashboardPage = () => {
                                         description={meeting.description}
                                         backgroundColor="white"
                                     /> */}
-                                    <div className="card bgi-no-repeat card-xl-stretch mb-xl-8">
+                                    <div
+                                        className="card bgi-no-repeat card-xl-stretch mb-xl-8"
+                                        style={{
+                                            backgroundPosition: "right top",
+                                            backgroundSize: "30% auto",
+                                            backgroundImage:
+                                                "url('/media/svg/shapes/abstract-4.svg')",
+                                        }}
+                                    >
                                         <div className="card-body">
                                             <Link
                                                 href=""
@@ -334,20 +344,23 @@ const DashboardPage = () => {
                             ))}
                         </div>
 
-                        {/* <div className="stats-bar-wrapper"> */}
                         <div className="row g-5 g-xl-8 ">
                             <div className="col-xl-6">
                                 <ApexBarChartWrapper
                                     config={dashboardData.recentStatistics}
                                     optionsVariant="filter"
                                     cardOptions={taskOverviewCardOptions}
+                                    isRecentStatType
+                                    optionBtnType="primary"
                                 />
                             </div>
                             <div className="col-xl-6">
-                                <ApexBarChartWrapper config={dashboardData.recentTasks} />
+                                <ApexBarChartWrapper
+                                    config={dashboardData.recentTasks}
+                                    isRecentStatType
+                                />
                             </div>
                         </div>
-                        {/* </div> */}
                         <div className="row g-5 g-xl-8">
                             <div className="col-xl-6">
                                 <ApexProgressLineWrapper
@@ -486,6 +499,7 @@ const DashboardPage = () => {
                                     cardOptions={taskOverviewCardOptions}
                                     optionsVariant="filter"
                                     version="v1"
+                                    optionBtnType="primary"
                                 />
                             </div>
                             <div className="col-xl-4">
@@ -493,6 +507,7 @@ const DashboardPage = () => {
                                     data={dashboardData.taskActivityTracker}
                                     cardOptions={taskOverviewCardOptions}
                                     optionsVariant="filter"
+                                    optionBtnType="primary"
                                 />
                             </div>
                             <div className="col-xl-4">
@@ -502,6 +517,7 @@ const DashboardPage = () => {
                                     cardOptions={paymentMenuOptions}
                                     optionsVariant="menu"
                                     version="v2"
+                                    optionBtnType="primary"
                                 />
                             </div>
                         </div>
@@ -513,6 +529,7 @@ const DashboardPage = () => {
                                     cardOptions={taskOverviewCardOptions}
                                     optionsVariant="filter"
                                     version="v3"
+                                    optionBtnType="primary"
                                 />
                             </div>
                             <div className="col-xl-8">
@@ -544,18 +561,21 @@ const DashboardPage = () => {
                                     <EnclosedChartColorWrapper
                                         item={item}
                                         lineChart
-                                        cardOptions={taskOverviewCardOptions}
-                                        optionsVariant="filter"
+                                        cardOptions={paymentMenuOptions}
+                                        optionsVariant="menu"
                                         disablePadding
                                     />
                                 </div>
                             ))}
                         </div>
-
                         <div className="sales-stats-progress-wrapper sales-stats-bar-wrapper row g-5 g-xl-8">
                             {dashboardData.salesProgress.map((item, index) => (
                                 <div className="col-xl-4" key={index}>
-                                    <EnclosedChartColorWrapperBar item={item} />
+                                    <EnclosedChartWrapperBar
+                                        item={item}
+                                        cardOptions={paymentMenuOptions}
+                                        optionsVariant="menu"
+                                    />
                                 </div>
                             ))}
                         </div>
@@ -647,31 +667,44 @@ const DashboardPage = () => {
                                 </div>
                             ))}
                         </div>
-                        {/* 
-                        <div className="stats-bar-wrapper sales-bar-wrapper">
+
+                        <div className="row g-5 g-xl-8">
                             {dashboardData.salesBarData.map((item, index) => {
                                 return (
-                                    <ApexBarChartWrapper
-                                        key={index}
-                                        config={item}
-                                        chartConfig={{
-                                            height: 200,
-                                        }}
-                                    />
+                                    <div key={index} className="col-xl-4">
+                                        <ApexBarChartWrapper
+                                            config={item}
+                                            chartConfig={{
+                                                height: 200,
+                                            }}
+                                        />
+                                    </div>
                                 )
                             })}
                         </div>
 
-                        <div className="sales-stats-progress-wrapper sales-bar-wrapper">
+                        <div className="row g-5 g-xl-8">
                             {dashboardData.earningTrendData.map((item, index) => (
-                                <EnclosedChartColorWrapper
-                                    key={index}
-                                    item={item}
-                                    lineChart
-                                    trendValues
-                                />
+                                <div key={index} className="col-xl-4">
+                                    <EnclosedChartColorWrapperLine
+                                        item={item}
+                                        lineChart
+                                        trendValues
+                                    />
+                                </div>
                             ))}
-                        </div> */}
+                        </div>
+                        <div className="row g-5 g-xl-8">
+                            {dashboardData.contributorData.map((item, index) => (
+                                <div key={index} className="col-xl-4">
+                                    <EnclosedChartColorWrapperLine
+                                        item={item}
+                                        barChart
+                                        trendValues
+                                    />
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

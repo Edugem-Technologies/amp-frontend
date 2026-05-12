@@ -14,6 +14,7 @@ interface Props {
     cardOptions?: CardDropdownOptionItf[]
     optionsVariant?: "filter" | "menu"
     version?: string
+    optionBtnType?: string
 }
 
 export const tasksOverviewIconMap = {
@@ -27,7 +28,14 @@ export const tasksOverviewIconMap = {
 type TaskIconId = keyof typeof tasksOverviewIconMap
 type IconKey = keyof typeof IconMap
 
-const TaskNTodo: React.FC<Props> = ({ data, isIcon, cardOptions, optionsVariant, version }) => {
+const TaskNTodo: React.FC<Props> = ({
+    data,
+    isIcon,
+    cardOptions,
+    optionsVariant,
+    version,
+    optionBtnType,
+}) => {
     const list = data.tasks || data.todos || []
 
     return (
@@ -39,7 +47,7 @@ const TaskNTodo: React.FC<Props> = ({ data, isIcon, cardOptions, optionsVariant,
                 </h3>
 
                 {optionsVariant === "filter" && (
-                    <CardOptionsDropdown width={300} btnClass="btn-color-primary">
+                    <CardOptionsDropdown width={300} btnType={optionBtnType}>
                         <TaskOverviewFilterForm
                             options={cardOptions ?? []}
                             onApply={(values) => {
@@ -50,7 +58,10 @@ const TaskNTodo: React.FC<Props> = ({ data, isIcon, cardOptions, optionsVariant,
                 )}
 
                 {optionsVariant === "menu" && (
-                    <PaymentMenuDropdown options={cardOptions ?? []} btnClass="btn-color-primary" />
+                    <PaymentMenuDropdown
+                        options={cardOptions ?? []}
+                        btnType={optionBtnType as string}
+                    />
                 )}
             </div>
 

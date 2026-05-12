@@ -24,9 +24,15 @@ interface Props {
     data: TaskNTodoData
     cardOptions: CardDropdownOptionItf[]
     optionsVariant: "menu" | "filter"
+    optionBtnType?: string
 }
 
-const TaskActivityTracker: React.FC<Props> = ({ data, optionsVariant, cardOptions }) => {
+const TaskActivityTracker: React.FC<Props> = ({
+    data,
+    optionsVariant,
+    cardOptions,
+    optionBtnType,
+}) => {
     return (
         <div className="card card-xl-stretch mb-xl-8">
             {/* HEADER */}
@@ -39,7 +45,7 @@ const TaskActivityTracker: React.FC<Props> = ({ data, optionsVariant, cardOption
                 </h3>
 
                 {optionsVariant === "filter" && (
-                    <CardOptionsDropdown width={300} btnClass="btn-color-primary">
+                    <CardOptionsDropdown width={300} btnType={optionBtnType as string}>
                         <TaskOverviewFilterForm
                             options={cardOptions}
                             onApply={(values) => {

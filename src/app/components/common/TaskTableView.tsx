@@ -224,6 +224,7 @@ export const taskColumns = (
                 <div className="d-flex justify-content-start align-items-center flex-shrink-0">
                     <div className="form-check form-check-sm form-check-custom form-check-solid me-1">
                         <input
+                            className="form-check-input"
                             type="checkbox"
                             onClick={(e) => {
                                 e.stopPropagation()

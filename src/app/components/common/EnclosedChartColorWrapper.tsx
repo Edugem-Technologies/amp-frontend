@@ -5,6 +5,7 @@ import CardOptionsDropdown from "./CardOptionsDropdown"
 import TaskOverviewFilterForm from "./TaskOverviewFilterForm"
 import ApexBarChartWrapper from "../apex-charts/ApexBarChartWrapper"
 import { CardDropdownOptionItf, EnclosedChartWrapperIntf } from "@/types/common/DashboardCardsTypes"
+import PaymentMenuDropdown from "./PaymentMenuDropdown"
 
 type Props = {
     item: EnclosedChartWrapperIntf
@@ -29,10 +30,7 @@ const EnclosedChartColorWrapper = ({
                 <div className="card-headers">
                     <h3 className="card-title">{item.title}</h3>
                     {optionsVariant === "filter" && (
-                        <CardOptionsDropdown
-                            width={300}
-                            btnClass="btn btn-sm btn-icon btn-color-white btn-active-white"
-                        >
+                        <CardOptionsDropdown width={300} btnClass="btn-color-primary">
                             <TaskOverviewFilterForm
                                 options={cardOptions ?? []}
                                 onApply={(values) => {
@@ -40,6 +38,10 @@ const EnclosedChartColorWrapper = ({
                                 }}
                             />
                         </CardOptionsDropdown>
+                    )}
+
+                    {optionsVariant === "menu" && (
+                        <PaymentMenuDropdown options={cardOptions ?? []} />
                     )}
                 </div>
                 {lineChart ? (

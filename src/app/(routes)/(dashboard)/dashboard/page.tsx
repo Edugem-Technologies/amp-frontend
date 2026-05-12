@@ -586,7 +586,7 @@ const DashboardPage = () => {
                         </div>
 
                         {/* </div> */}
-                        <div className="sales-stats-progress-wrapper row g-5 g-xl-8">
+                        <div className="sales-stats-progress-wrapper row g-5 mb-xl-8 ">
                             {dashboardData.salesStatsProgressCharts.map((item, index) => (
                                 <div
                                     className={`col-xl-4 ${
@@ -606,7 +606,7 @@ const DashboardPage = () => {
                                 </div>
                             ))}
                         </div>
-                        <div className="sales-stats-progress-wrapper sales-stats-bar-wrapper row g-5 g-xl-8">
+                        <div className="sales-stats-progress-wrapper sales-stats-bar-wrapper row g-5 ">
                             {dashboardData.salesProgress.map((item, index) => (
                                 <div className="col-xl-4" key={index}>
                                     <EnclosedChartWrapperBar

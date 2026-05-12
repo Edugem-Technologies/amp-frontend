@@ -136,10 +136,11 @@ const DashboardPage = () => {
                                 <div className="col-xl-4" key={index}>
                                     <ApexProgressLineWrapper
                                         key={index}
-                                        item={item}
+                                        iconBgClass={item.iconBgClass}
                                         about={{
                                             title: item.title,
                                             subTitle: item.subTitle,
+                                            delta: item.delta,
                                         }}
                                         chartData={item.data}
                                         chartType="area"
@@ -189,11 +190,15 @@ const DashboardPage = () => {
                                                 title: item.value,
                                                 subTitle: item.value_about,
                                             }}
+                                            iconBgClass={item.iconBgClass}
+                                            iconClass={item.iconClass}
                                             chartData={item.data}
                                             icon={icon}
                                             chartType="area"
                                             chartFillColor={item.chartFillColor}
-                                            height={130}
+                                            height={150}
+                                            disablePadding
+                                            infoReverse
                                         />
                                     </div>
                                 )
@@ -607,10 +612,9 @@ const DashboardPage = () => {
                             ))}
                         </div>
 
-                        {/*
-                        <div className="row">
+                        <div className="row g-5 g-xl-8">
                             {dashboardData.cummulativeSalesStats.map((card, index) => (
-                                <div key={index} className="col-4">
+                                <div key={index} className="col-xl-4">
                                     <StatsOverviewWithChart
                                         key={card.id}
                                         header={card.header}
@@ -618,28 +622,32 @@ const DashboardPage = () => {
                                         currency={card.currency}
                                         chartData={card.chart.points}
                                         chartColor={card.chart.color}
+                                        withIcon={true}
+                                        chartHeight={150}
                                     />
                                 </div>
                             ))}
                         </div>
-                        <div className="row">
+                        <div className="row g-5 g-xl-8">
                             {dashboardData.generatedReportData.map((item, index) => (
-                                <div className="col-4" key={index}>
+                                <div className="col-xl-4" key={index}>
                                     <ApexProgressLineWrapper
                                         key={index}
                                         item={item}
                                         about={{
                                             title: item.title,
                                             subTitle: item.subTitle,
+                                            delta: item.delta,
                                         }}
                                         chartData={item.data}
                                         chartType="area"
                                         chartFillColor={item.chartFillColor}
+                                        disablePadding
                                     />
                                 </div>
                             ))}
                         </div>
-
+                        {/* 
                         <div className="stats-bar-wrapper sales-bar-wrapper">
                             {dashboardData.salesBarData.map((item, index) => {
                                 return (
@@ -663,8 +671,7 @@ const DashboardPage = () => {
                                     trendValues
                                 />
                             ))}
-                        </div>
-                        */}
+                        </div> */}
                     </div>
                 </div>
             </div>

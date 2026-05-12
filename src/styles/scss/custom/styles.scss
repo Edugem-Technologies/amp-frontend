@@ -10,6 +10,9 @@
 @import "./flatpickr.scss";
 @import "../../fonts/plus-jakarta-sans/stylesheet.css";
 @import "./style.bundle.css";
+// import "@/styles/css/app.css"
+@import "../../css/app.css";
+@import "../../css/style.bundle.css";
 
 /* CSS Cascade Layers
  * Establishes a strict cascading order from lowest to highest priority:
@@ -4009,15 +4012,6 @@ table {
 }
 
 .dashboard-container {
-    padding-left: 30px;
-    padding-top: 30px;
-    gap: 22px;
-
-    @media (max-width: 1200px) {
-        padding-left: 15px;
-        padding-top: 15px;
-    }
-
     .marketplace-grid {
         padding: 0px;
         overflow-x: auto;
@@ -5834,10 +5828,6 @@ body {
             }
         }
     }
-}
-
-.content-section-wrapper {
-    padding: 30px;
 }
 
 .card {

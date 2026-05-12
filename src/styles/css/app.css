@@ -4224,9 +4224,6 @@ body.show-aside-left-slider-assistant .aside-left-slider.assistant {
      padding: 0 15px !important;
  }
 
- .slide-over-inner-menu {
-  top: 54px;
- }
 
  .roadmaps.list .item .p-symbols {
   min-width: unset;
@@ -4250,5 +4247,10 @@ body.show-aside-left-slider-assistant .aside-left-slider.assistant {
 
   flex-direction: column;
 }
+
+ .slide-over-inner-menu {
+  top: 54px !important;
+ }
+
 
 }

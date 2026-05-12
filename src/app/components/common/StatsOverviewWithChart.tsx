@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import React from "react"
 import ApexLineChart from "@/app/components/apex-charts/ApexLineChart"
+import { IconMap } from "../icons/IconMap"
 
 type StatItem = {
     title: string
@@ -10,9 +12,9 @@ type StatItem = {
     amount: number
     deals?: number
     trend?: string
-    icon?: string
     btnClass?: string
     iconBgClass?: string
+    icon?: any
 }
 
 type Props = {
@@ -29,40 +31,18 @@ type Props = {
     chartColor?: string
     chartHeight?: number
     showReverse?: boolean
+    withIcon?: boolean
 }
-
-const periods = [
-    [
-        {
-            label: "90%",
-            amount: "$47,876",
-            payments: "7 Deals",
-        },
-        {
-            label: "Live Next 7 Days",
-            amount: "$12,912",
-            payments: "2 Deals",
-        },
-    ],
-    [
-        {
-            label: "Won (Last 7 Days)",
-            amount: "$18,450",
-            payments: "3 Deals",
-        },
-        {
-            label: "Won (Total)",
-            amount: "$158,000",
-            payments: "15 Deals",
-        },
-    ],
-]
 
 const StatsOverviewWithChart = ({
     chartData,
     chartColor = "#FFC107",
     chartHeight = 100,
+    stats,
+    withIcon,
 }: Props) => {
+    console.log("stats", stats)
+
     return (
         <div className="card card-xl-stretch mb-xl-8">
             <div className="card-header border-0 py-5">
@@ -75,28 +55,86 @@ const StatsOverviewWithChart = ({
 
             <div className="card-body p-0 d-flex flex-column">
                 <div className="card-p pt-5 bg-body flex-grow-1">
-                    {periods.map((row, rowIndex) => {
-                        const isLastRow = rowIndex === periods.length - 1
+                    {Array.from({ length: Math.ceil((stats?.length || 0) / 2) }).map(
+                        (_, rowIndex) => {
+                            const row = stats?.slice(rowIndex * 2, rowIndex * 2 + 2) || []
+                            const isLastRow = rowIndex === Math.ceil((stats?.length || 0) / 2) - 1
 
-                        return (
-                            <div key={rowIndex} className={`row g-0 ${!isLastRow ? "" : "mt-8"}`}>
-                                {row.map((col, colIndex) => (
-                                    <div
-                                        key={colIndex}
-                                        className={`col ${colIndex === 0 ? "mr-8" : ""}`}
-                                    >
-                                        <div className="fs-7 text-muted fw-bold">{col.label}</div>
+                            return (
+                                <div
+                                    key={rowIndex}
+                                    className={`row g-0 ${!isLastRow ? "" : "mt-8"}`}
+                                >
+                                    {row?.map((col, colIndex) => (
+                                        <div
+                                            key={colIndex}
+                                            className={`col ${colIndex === 0 ? "mr-8" : ""}`}
+                                        >
+                                            {!withIcon ? (
+                                                <>
+                                                    <div className="fs-7 text-muted fw-bold">
+                                                        {col.title}
+                                                    </div>
 
-                                        <div className="fs-4 fw-bolder">{col.amount}</div>
+                                                    <div className="fs-4 fw-bolder d-flex align-items-center">
+                                                        ${col.amount}
+                                                        {col.trend && (
+                                                            <span
+                                                                className={`ms-2 fs-7 fw-bold ${
+                                                                    col.trend === "up"
+                                                                        ? "text-success"
+                                                                        : "text-danger"
+                                                                }`}
+                                                            >
+                                                                {col.trend === "up" ? "↑" : "↓"}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <div className="d-flex align-items-center me-2">
+                                                    <div className="symbol symbol-50px me-3">
+                                                        <div
+                                                            className={`symbol-label ${col.btnClass}`}
+                                                        >
+                                                            <span
+                                                                className={`svg-icon svg-icon-1 ${col?.iconBgClass}`}
+                                                            >
+                                                                {col.icon &&
+                                                                    IconMap[
+                                                                        col.icon as keyof typeof IconMap
+                                                                    ]}{" "}
+                                                            </span>
+                                                        </div>
+                                                    </div>
 
-                                        {/* <div className="fs-5">
-                                            {col.payments}
-                                        </div> */}
-                                    </div>
-                                ))}
-                            </div>
-                        )
-                    })}
+                                                    <div>
+                                                        <div className="fs-4 fw-bolder d-flex align-items-center">
+                                                            ${col.amount}
+                                                            {col.trend && (
+                                                                <span
+                                                                    className={`ms-2 fs-7 fw-bold ${
+                                                                        col.trend === "up"
+                                                                            ? "text-success"
+                                                                            : "text-danger"
+                                                                    }`}
+                                                                >
+                                                                    {col.trend === "up" ? "↑" : "↓"}
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                        <div className="fs-7 text-muted fw-bold">
+                                                            {col.title}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            )
+                        },
+                    )}
                 </div>
                 <div
                     className="mixed-widget-3-chart card-rounded-bottom"

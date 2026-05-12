@@ -2,6 +2,7 @@
 import React, { useState, useMemo } from "react"
 import dynamic from "next/dynamic"
 import { ProgressChartItf } from "@/types/common/DashboardCardsTypes"
+import Link from "next/link"
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false })
 
 export interface ChartPoint {
@@ -12,7 +13,7 @@ export interface ChartPoint {
 type ChartDataType = ChartPoint[] | Record<string, ChartPoint[]>
 
 type Props = {
-    about?: { title: string; subTitle?: string }
+    about?: { title: string; subTitle?: string; delta?: string | number }
     chartData: ChartDataType
     icon?: React.ReactNode
     height?: number
@@ -35,6 +36,9 @@ type Props = {
     cardBg?: string
     item?: ProgressChartItf
     disablePadding?: boolean
+    iconBgClass?: string
+    infoReverse?: boolean
+    iconClass?: string
 }
 
 const ApexProgressLineWrapper: React.FC<Props> = ({
@@ -50,8 +54,10 @@ const ApexProgressLineWrapper: React.FC<Props> = ({
     lineColor,
     lineWidth,
     lineShadow,
-    item, // New prop
     disablePadding,
+    iconBgClass,
+    infoReverse,
+    iconClass,
 }) => {
     const isTabbed = typeof chartData === "object" && !Array.isArray(chartData)
     const [activeTab, setActiveTab] = useState(isTabbed ? Object.keys(chartData)[0] : null)
@@ -135,64 +141,96 @@ const ApexProgressLineWrapper: React.FC<Props> = ({
 
     return (
         <div className="card card-xl-stretch mb-xl-8">
-            <div className="card-body d-flex flex-column p-0">
-                {!showOnlyLine && (
-                    <div className="card-header border-0 pt-5">
-                        <div className="d-flex flex-column me-2">
-                            {icon && <span className="icon-container">{icon}</span>}
-                            {about && (
+            {!isTabbed && !showOnlyLine && (
+                <div className="card-body d-flex flex-column p-0">
+                    <div className="d-flex flex-stack flex-grow-1 card-p">
+                        <>
+                            {!infoReverse ? (
                                 <>
-                                    <h3 className="card-title align-items-start flex-column">
-                                        <span className="card-label fw-bolder fs-3 mb-1">
-                                            {about.title}
-                                        </span>
-                                        <span className="text-muted fw-bold fs-7">
-                                            {about.subTitle}
-                                        </span>
-                                    </h3>
-                                </>
-                            )}
-                        </div>
-
-                        {isTabbed && (
-                            <div className="selector-tab-wrapper">
-                                <div className="tab-wrapper">
-                                    {Object.keys(chartData).map((key, index) => (
-                                        <button
-                                            key={index}
-                                            onClick={() => setActiveTab(key)}
-                                            className={`${activeTab === key ? "active-btn" : ""}`}
+                                    <div className="d-flex flex-column me-2">
+                                        <Link
+                                            href="#"
+                                            className="text-dark text-hover-primary fw-bolder fs-3"
                                         >
-                                            {key.charAt(0).toUpperCase() + key.slice(1)}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                        {item?.delta && typeof item?.delta === "number" && (
-                            <div className="symbol symbol-50px">
-                                <div
-                                    className={`delta ${item.iconBgClass} ${
-                                        item.delta >= 0 ? "delta-up" : "delta-down"
-                                    }`}
-                                >
-                                    <span className="symbol-label fs-5 fw-bolder bg-light-success text-success">
-                                        {item.currency}
-                                        <span className="symbol-label fs-5 fw-bolder bg-light-success text-success">
-                                            {item.delta}
+                                            {about?.title}
+                                        </Link>
+
+                                        <span className="text-muted fw-bold mt-1">
+                                            {about?.subTitle}
+                                        </span>
+                                    </div>
+
+                                    {iconBgClass ? (
+                                        <span className="symbol symbol-50px">
+                                            <span
+                                                className={`symbol-label fs-5 fw-bolder ${iconBgClass}`}
+                                            >
+                                                {about?.delta}
+                                            </span>
+                                        </span>
+                                    ) : (
+                                        <div className="fw-bolder fs-3 text-primary">
+                                            ${about?.delta}
+                                        </div>
+                                    )}
+                                </>
+                            ) : (
+                                <>
+                                    <span className="symbol symbol-50px me-2x">
+                                        <span className={`symbol-label ${iconBgClass}`}>
+                                            <span className={`svg-icon svg-icon-2x ${iconClass}`}>
+                                                {icon}
+                                            </span>
                                         </span>
                                     </span>
-                                </div>
-                            </div>
-                        )}
+
+                                    <div className="d-flex flex-column ms-2">
+                                        <Link
+                                            href="#"
+                                            className="text-dark text-hover-primary fw-bolder fs-3 text-end"
+                                        >
+                                            {about?.title}
+                                        </Link>
+
+                                        <span className="text-muted fw-bold mt-1">
+                                            {about?.subTitle}
+                                        </span>
+                                    </div>
+                                </>
+                            )}
+                        </>
                     </div>
-                )}
-                <div
-                    className={`chart-wrapper ${disablePadding ? "" : "apex-bar-chart-wrapper"}`}
-                    style={{ backgroundColor: cardBg ? cardBg : "" }}
-                >
-                    <Chart options={options} series={series} type={chartType} height={height} />
                 </div>
+            )}
+
+            {isTabbed && !showOnlyLine && (
+                <div className="card-header border-0 pt-5">
+                    <h3 className="card-title align-items-start flex-column">
+                        <span className="card-label fw-bolder fs-3 mb-1"> {about?.title}</span>
+                        <span className="text-muted fw-bold fs-7">{about?.subTitle}</span>
+                    </h3>
+                    <div className="card-toolbar">
+                        <div className="selector-tab-wrapper">
+                            <div className="tab-wrapper"></div>
+                            {Object.keys(chartData).map((key, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => setActiveTab(key)}
+                                    className={`${activeTab === key ? "active-btn" : ""}`}
+                                >
+                                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            <div
+                className={`chart-wrapper ${disablePadding ? "" : "apex-bar-chart-wrapper"}`}
+                style={{ backgroundColor: cardBg ? cardBg : "" }}
+            >
+                <Chart options={options} series={series} type={chartType} height={height} />
             </div>
         </div>
     )

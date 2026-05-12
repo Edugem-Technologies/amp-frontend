@@ -5,7 +5,12 @@ import ReactSelect, { MultiValue, OptionProps, SingleValue, components } from "r
 const CheckboxOption = (props: OptionProps<Option, boolean>) => {
     return (
         <components.Option {...props}>
-            <input type="checkbox" checked={props.isSelected} onChange={() => null} />
+            <input
+                type="checkbox"
+                className="form-check-input"
+                checked={props.isSelected}
+                onChange={() => null}
+            />
             <label>{props.label}</label>
         </components.Option>
     )

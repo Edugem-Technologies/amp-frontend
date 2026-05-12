@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Dropdown } from "react-bootstrap"
 import CardOptionsBtn from "./CardOptionsBtn"
 
@@ -7,50 +7,40 @@ interface Props {
     align?: "start" | "end"
     width?: number | string
     btnClass?: string
+    btnType?: string
 }
 
-const CardOptionsDropdown: React.FC<Props> = ({ children, width = 300, btnClass }) => {
+const CardOptionsDropdown: React.FC<Props> = ({ children, width = 300, btnType }) => {
+    const [show, setShow] = useState(false)
+    const [animate, setAnimate] = useState(false)
+
+    const handleToggle = (isOpen: boolean) => {
+        setShow(isOpen)
+
+        if (isOpen) {
+            setTimeout(() => {
+                setAnimate(true)
+            }, 10)
+        } else {
+            setAnimate(false)
+        }
+    }
     return (
-        <Dropdown align="end" autoClose="outside" className="card-toolbar">
+        <Dropdown
+            align="end"
+            autoClose="outside"
+            className="card-toolbar"
+            show={show}
+            onToggle={handleToggle}
+        >
             <Dropdown.Toggle as="div">
-                <CardOptionsBtn btnClass={btnClass as string} />
+                <CardOptionsBtn isActive={show} btnType={btnType as string} />
             </Dropdown.Toggle>
 
-            {/* <Dropdown.Menu className="filter-dropdown">
-                <div className="p-3">
-                    <h6 className="mb-3">Filter Options</h6>
-
-                    <div className="mb-3">
-                        <label className="form-label">Status</label>
-                        <select className="form-select">
-                            <option value="">Select option</option>
-                            <option>Approved</option>
-                            <option>Pending</option>
-                            <option>In Process</option>
-                            <option>Rejected</option>
-                        </select>
-                    </div>
-
-                    <div className="mb-3">
-                        <label className="form-label">Member Type</label>
-                        <div className="d-flex flex-column gap-1">
-                            <label>
-                                <input type="checkbox" /> Author
-                            </label>
-                            <label>
-                                <input type="checkbox" /> Customer
-                            </label>
-                        </div>
-                    </div>
-
-                    <div className="d-flex justify-content-end gap-2">
-                        <button className="btn btn-light btn-sm">Reset</button>
-                        <button className="btn btn-success btn-sm">Apply</button>
-                    </div>
-                </div>
-            </Dropdown.Menu> */}
-
-            <Dropdown.Menu className="card-options-dropdown" style={{ width }}>
+            <Dropdown.Menu
+                className={`card-options-dropdown ${animate ? "show-dropdown" : ""}`}
+                style={{ width }}
+            >
                 {children}
             </Dropdown.Menu>
         </Dropdown>

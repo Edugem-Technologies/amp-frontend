@@ -1,12 +1,14 @@
 import React from "react"
 import ApexBarChartWrapper from "../apex-charts/ApexBarChartWrapper"
-import { EnclosedChartWrapperIntf } from "@/types/common/DashboardCardsTypes"
+import { CardDropdownOptionItf, EnclosedChartWrapperIntf } from "@/types/common/DashboardCardsTypes"
 
 type Props = {
     item: EnclosedChartWrapperIntf
+    cardOptions?: CardDropdownOptionItf[]
+    optionsVariant?: "filter" | "menu"
 }
 
-const EnclosedChartColorWrapperBar = ({ item }: Props) => {
+const EnclosedChartWrapperBar = ({ item, cardOptions }: Props) => {
     return (
         <div className="wrapper-card">
             <div className="wrapper-card__top" style={{ backgroundColor: item.chartFillColor }}>
@@ -24,6 +26,8 @@ const EnclosedChartColorWrapperBar = ({ item }: Props) => {
                         yaxis: false,
                         height: 218,
                     }}
+                    cardOptions={cardOptions}
+                    optionsVariant="menu"
                 />
             </div>
 
@@ -50,4 +54,4 @@ const EnclosedChartColorWrapperBar = ({ item }: Props) => {
     )
 }
 
-export default EnclosedChartColorWrapperBar
+export default EnclosedChartWrapperBar

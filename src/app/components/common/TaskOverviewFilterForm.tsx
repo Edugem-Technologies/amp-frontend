@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import BaseStaticSelect from "../input/BaseStaticSelect"
-import Switch from "@mui/material/Switch"
 import { CardDropdownOptionItf } from "@/types/common/DashboardCardsTypes"
 
 type FilterValue = string | number | boolean | string[] | null
@@ -67,6 +66,7 @@ const TaskOverviewFilterForm: React.FC<Props> = ({ options, onApply }) => {
                                             )
                                         }}
                                         isMulti={false}
+                                        isSearchable={true}
                                     />
                                 </div>
                             )
@@ -88,6 +88,7 @@ const TaskOverviewFilterForm: React.FC<Props> = ({ options, onApply }) => {
                                                     className="d-flex align-items-center gap-2"
                                                 >
                                                     <input
+                                                        className="form-check-input"
                                                         type="checkbox"
                                                         checked={checkedValues.includes(opt.value)}
                                                         onChange={(e) => {
@@ -114,14 +115,16 @@ const TaskOverviewFilterForm: React.FC<Props> = ({ options, onApply }) => {
 
                         case "toggle":
                             return (
-                                <div key={field.id}>
-                                    <span className="form-label">{field.label}:</span>
-
-                                    <Switch
-                                        checked={Boolean(values[field.id])}
+                                <div className="form-check form-switch form-switch-sm form-check-custom form-check-solid">
+                                    <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        value=""
+                                        name="notifications"
                                         onChange={(e) => updateValue(field.id, e.target.checked)}
-                                        color="success"
-                                    />
+                                        checked={Boolean(values[field.id])}
+                                    ></input>
+                                    <label className="form-check-label">Enabled</label>
                                 </div>
                             )
 

@@ -4252,5 +4252,17 @@ body.show-aside-left-slider-assistant .aside-left-slider.assistant {
   top: 54px !important;
  }
 
+ .stats {
+  padding: 0px;
+flex-wrap: wrap;
+justify-content: space-between;
+margin-left: unset;
+margin-right: unset;
+gap: 8px;
+ }
+ .stats .stat {
+  min-width: 48%;
+ }
+
 
 }

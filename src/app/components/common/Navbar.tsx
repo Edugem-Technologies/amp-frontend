@@ -42,6 +42,7 @@ export const FlexMenuListCheckbox = (props: MenuListProps) => {
                             {filterData[column].map((item) => (
                                 <label key={item} className="filter-item">
                                     <input
+                                        className="form-check-input"
                                         type="checkbox"
                                         checked={selectedValues[column]?.includes(item) || false}
                                         onChange={() => toggleValue(column, item)}

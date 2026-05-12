@@ -11,7 +11,12 @@ const CheckboxOption = (props: OptionProps<OptionType, true>) => {
     return (
         <components.Option {...props}>
             <div className="checkbox-option">
-                <input type="checkbox" checked={props.isSelected} readOnly />
+                <input
+                    type="checkbox"
+                    checked={props.isSelected}
+                    readOnly
+                    className="form-check-input"
+                />
                 <span>{props.label}</span>
             </div>
         </components.Option>

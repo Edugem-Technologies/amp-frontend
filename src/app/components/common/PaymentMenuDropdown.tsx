@@ -2,29 +2,29 @@
 
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu"
 import React, { useState } from "react"
-import Switch from "@mui/material/Switch"
 import CardOptionsBtn from "./CardOptionsBtn"
 import ChevronRightIcon from "@mui/icons-material/ChevronRight"
 import { CardDropdownOptionItf } from "@/types/common/DashboardCardsTypes"
 
 interface Props {
     options: CardDropdownOptionItf[]
-    btnClass?: string
+    btnType?: string
 }
 
-const PaymentMenuDropdown: React.FC<Props> = ({ options, btnClass }) => {
-    const [toggleState, setToggleState] = useState<Record<string, boolean>>({})
+const PaymentMenuDropdown: React.FC<Props> = ({ options, btnType }) => {
+    // const [toggleState, setToggleState] = useState<Record<string, boolean>>({})
+    const [open, setOpen] = useState(false)
 
-    const handleToggle = (id: string, value: boolean) => {
-        setToggleState((prev) => ({ ...prev, [id]: value }))
-    }
+    // const handleToggle = (id: string, value: boolean) => {
+    //     setToggleState((prev) => ({ ...prev, [id]: value }))
+    // }
 
     const renderItems = (items: CardDropdownOptionItf[]) =>
-        items.map((item) => {
+        items.map((item, index) => {
             // NESTED MENU
             if (item.children?.length) {
                 return (
-                    <DropdownMenu.Sub key={item.id}>
+                    <DropdownMenu.Sub key={index}>
                         <DropdownMenu.SubTrigger className="menu-item submenu-trigger">
                             <span>{item.label}</span>
                             <ChevronRightIcon className="submenu-arrow" fontSize="large" />
@@ -40,22 +40,20 @@ const PaymentMenuDropdown: React.FC<Props> = ({ options, btnClass }) => {
             }
 
             if (item.type === "toggle") {
-                const checked = toggleState[item.id] ?? item.value ?? false
+                // const checked = toggleState[item.id] ?? item.value ?? false
 
                 return (
-                    <DropdownMenu.Item
-                        key={item.id}
-                        className="toggle-item"
-                        onSelect={(e) => e.preventDefault()}
-                    >
-                        <span>{item.label}</span>
-
-                        <Switch
-                            checked={checked}
-                            onChange={(e) => handleToggle(item.id, e.target.checked)}
-                            color="success"
-                        />
-                    </DropdownMenu.Item>
+                    <div className="menu-item" key={index}>
+                        <label className="form-check form-switch form-check-custom form-check-solid">
+                            <input
+                                className="form-check-input w-30px h-20px"
+                                type="checkbox"
+                                value="1"
+                                name="notifications"
+                            />
+                            <span className="form-check-label text-muted fs-6">Recuring</span>
+                        </label>
+                    </div>
                 )
             }
 
@@ -71,10 +69,10 @@ const PaymentMenuDropdown: React.FC<Props> = ({ options, btnClass }) => {
         })
 
     return (
-        <DropdownMenu.Root>
+        <DropdownMenu.Root open={open} onOpenChange={setOpen}>
             <DropdownMenu.Trigger asChild>
                 <div className="menu-trigger">
-                    <CardOptionsBtn btnClass={btnClass as string} />
+                    <CardOptionsBtn btnType={btnType as string} isActive={open} />
                 </div>
             </DropdownMenu.Trigger>
 

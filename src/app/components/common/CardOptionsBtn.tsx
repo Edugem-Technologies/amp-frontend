@@ -1,10 +1,23 @@
+// btn-active-white
+// btn-active-color-primary
 import React from "react"
 
-const CardOptionsBtn = ({ btnClass }: { btnClass: string }) => {
+interface Props {
+    isActive?: boolean
+    btnType: string
+}
+
+const CardOptionsBtn = ({ isActive, btnType }: Props) => {
+    console.log("btnType", btnType)
+    const btnClassname = btnType === "primary" ? "btn-color-primary" : "btn-color-white"
+    const activeBtnClassname =
+        btnType === "primary" ? "btn-active-light-primary" : "btn-active-white"
     return (
         <button
             type="button"
-            className={`btn btn-sm btn-icon btn-color-primary btn-active-light-primary ${btnClass}`}
+            className={`btn btn-sm btn-icon border-0 me-n3 show menu-dropdown ${btnClassname} ${
+                isActive ? activeBtnClassname : ""
+            }`}
         >
             <span className="svg-icon svg-icon-2">
                 <svg

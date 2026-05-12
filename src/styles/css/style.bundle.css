@@ -2749,8 +2749,8 @@ textarea.form-control-lg {
 }
 
 .form-check-input {
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 1.5rem;
+  height: 1.5rem;
   margin-top: -0.125rem;
   vertical-align: top;
   background-color: #ffffff;
@@ -2764,6 +2764,8 @@ textarea.form-control-lg {
     background-position 0.15s ease-in-out, border-color 0.15s ease-in-out,
     box-shadow 0.15s ease-in-out;
 }
+
+
 @media (prefers-reduced-motion: reduce) {
   .form-check-input {
     transition: none;
@@ -39534,6 +39536,7 @@ a:hover {
 .card-rounded-bottom {
   border-bottom-left-radius: 0.475rem;
   border-bottom-right-radius: 0.475rem;
+  overflow: hidden;
 }
 
 @media (max-width: 767.98px) {

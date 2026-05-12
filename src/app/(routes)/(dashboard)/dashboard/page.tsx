@@ -148,6 +148,11 @@ const DashboardPage = () => {
                                         chartType="area"
                                         chartFillColor={item.chartFillColor}
                                         disablePadding
+                                        cardClassName={
+                                            index === dashboardData.progressCharts.length - 1
+                                                ? "mb-5"
+                                                : ""
+                                        }
                                     />
                                 </div>
                             ))}
@@ -209,6 +214,11 @@ const DashboardPage = () => {
                                             height={150}
                                             disablePadding
                                             infoReverse
+                                            cardClassName={
+                                                index === dashboardData.areaCharts.length - 1
+                                                    ? "mb-5"
+                                                    : ""
+                                            }
                                         />
                                     </div>
                                 )
@@ -220,7 +230,11 @@ const DashboardPage = () => {
                                 <div className="col-xl-4" key={index}>
                                     <Link
                                         href="#"
-                                        className="card bg-danger hoverable card-xl-stretch mb-xl-8"
+                                        className={`card bg-danger hoverable card-xl-stretch mb-xl-8 ${
+                                            index === dashboardData.salesStats.length - 1
+                                                ? "mb-5"
+                                                : ""
+                                        }`}
                                     >
                                         <div className="card-body">
                                             <span className="svg-icon svg-icon-white svg-icon-3x ms-n1">
@@ -265,7 +279,13 @@ const DashboardPage = () => {
                         <div className="row g-5 g-xl-8">
                             {dashboardData.userDetails.map((user, index) => (
                                 <div className="col-xl-4" key={index}>
-                                    <div className="card card-xl-stretch mb-xl-8">
+                                    <div
+                                        className={`card card-xl-stretch mb-xl-8 ${
+                                            index === dashboardData.salesStats.length - 1
+                                                ? "mb-5"
+                                                : ""
+                                        }`}
+                                    >
                                         <div className="card-body d-flex align-items-center pt-3 pb-0">
                                             <div className="d-flex flex-column flex-grow-1 py-2 py-lg-13 me-2">
                                                 <Link
@@ -294,7 +314,11 @@ const DashboardPage = () => {
                             {dashboardData.kpis.map((kpi, index) => (
                                 <div className="col-xl-4" key={index}>
                                     <div
-                                        className="card card-xl-stretch mb-xl-8"
+                                        className={`card card-xl-stretch mb-xl-8 ${
+                                            index === dashboardData.salesStats.length - 1
+                                                ? "mb-5"
+                                                : ""
+                                        }`}
                                         style={{ backgroundColor: kpi.bgCardColor }}
                                     >
                                         <div className="card-body my-3">
@@ -354,7 +378,7 @@ const DashboardPage = () => {
                                     optionBtnType="primary"
                                 />
                             </div>
-                            <div className="col-xl-6">
+                            <div className="col-xl-6 m-mb-5">
                                 <ApexBarChartWrapper
                                     config={dashboardData.recentTasks}
                                     isRecentStatType
@@ -384,7 +408,7 @@ const DashboardPage = () => {
                                     }}
                                 />
                             </div>
-                            <div className="col-xl-6">
+                            <div className="col-xl-6 m-mb-5">
                                 <ApexProgressLineWrapper
                                     about={{
                                         title: dashboardData.recentTasksMultiLineChart.title,
@@ -419,7 +443,7 @@ const DashboardPage = () => {
                                     chartFillColor="#ffffff"
                                 />
                             </div>
-                            <div className="col-xl-6">
+                            <div className="col-xl-6 m-mb-5">
                                 <ApexCandleChart
                                     config={dashboardData.recentTasksSales}
                                     chartFillColor="#ffffff"
@@ -459,7 +483,7 @@ const DashboardPage = () => {
                                     }}
                                 />
                             </div>
-                            <div className="col-xl-6">
+                            <div className="col-xl-6 m-mb-5">
                                 <ApexProgressLineWrapper
                                     about={{
                                         title: dashboardData.recentTasksMultiLineChart.title,
@@ -510,7 +534,7 @@ const DashboardPage = () => {
                                     optionBtnType="primary"
                                 />
                             </div>
-                            <div className="col-xl-4">
+                            <div className="col-xl-4 m-mb-5">
                                 <TaskNTodo
                                     data={dashboardData.todoData}
                                     showBadges={true}
@@ -542,7 +566,14 @@ const DashboardPage = () => {
                         </div>
                         <div className="row g-5 g-xl-8">
                             {dashboardData.salesSummary.map((card, index) => (
-                                <div className="col-xl-4" key={index}>
+                                <div
+                                    className={`col-xl-4 ${
+                                        index === dashboardData.salesSummary.length - 1
+                                            ? "m-mb-5"
+                                            : ""
+                                    }`}
+                                    key={index}
+                                >
                                     <ColorGridCard
                                         key={index}
                                         data={card}
@@ -557,7 +588,14 @@ const DashboardPage = () => {
                         {/* </div> */}
                         <div className="sales-stats-progress-wrapper row g-5 g-xl-8">
                             {dashboardData.salesStatsProgressCharts.map((item, index) => (
-                                <div className="col-xl-4" key={index}>
+                                <div
+                                    className={`col-xl-4 ${
+                                        index === dashboardData.salesStatsProgressCharts.length - 1
+                                            ? "m-mb-5"
+                                            : ""
+                                    }`}
+                                    key={index}
+                                >
                                     <EnclosedChartColorWrapper
                                         item={item}
                                         lineChart
@@ -590,7 +628,14 @@ const DashboardPage = () => {
 
                         <div className="row g-5 g-xl-8">
                             {dashboardData.salesOverviewData.map((card, index) => (
-                                <div className="col-xl-4" key={index}>
+                                <div
+                                    className={`col-xl-4 ${
+                                        index === dashboardData.salesOverviewData.length - 1
+                                            ? "m-mb-5"
+                                            : ""
+                                    }`}
+                                    key={index}
+                                >
                                     <StatsOverviewWithChart
                                         key={index}
                                         header={card.header}
@@ -606,7 +651,14 @@ const DashboardPage = () => {
 
                         <div className="row g-5 g-xl-8">
                             {dashboardData.actionNeededData.map((item, index) => (
-                                <div className="col-xl-4" key={index}>
+                                <div
+                                    className={`col-xl-4 ${
+                                        index === dashboardData.actionNeededData.length - 1
+                                            ? "m-mb-5"
+                                            : ""
+                                    }`}
+                                    key={index}
+                                >
                                     <ActionNeededCard
                                         percentage={item.percentage}
                                         color={item.color}
@@ -618,7 +670,14 @@ const DashboardPage = () => {
                         </div>
                         <div className="row g-5 g-xl-8">
                             {dashboardData.trendsData.map((item, index) => (
-                                <div key={index} className="col-xl-4">
+                                <div
+                                    key={index}
+                                    className={`col-xl-4 ${
+                                        index === dashboardData.trendsData.length - 1
+                                            ? "m-mb-5"
+                                            : ""
+                                    }`}
+                                >
                                     <TrendsOverviewWithChart
                                         header={item.header}
                                         stats={item.stats}
@@ -634,7 +693,14 @@ const DashboardPage = () => {
 
                         <div className="row g-5 g-xl-8">
                             {dashboardData.cummulativeSalesStats.map((card, index) => (
-                                <div key={index} className="col-xl-4">
+                                <div
+                                    key={index}
+                                    className={`col-xl-4 ${
+                                        index === dashboardData.cummulativeSalesStats.length - 1
+                                            ? "m-mb-5"
+                                            : ""
+                                    }`}
+                                >
                                     <StatsOverviewWithChart
                                         key={card.id}
                                         header={card.header}
@@ -650,7 +716,14 @@ const DashboardPage = () => {
                         </div>
                         <div className="row g-5 g-xl-8">
                             {dashboardData.generatedReportData.map((item, index) => (
-                                <div className="col-xl-4" key={index}>
+                                <div
+                                    className={`col-xl-4 ${
+                                        index === dashboardData.generatedReportData.length - 1
+                                            ? "m-mb-5"
+                                            : ""
+                                    }`}
+                                    key={index}
+                                >
                                     <ApexProgressLineWrapper
                                         key={index}
                                         item={item}
@@ -671,7 +744,14 @@ const DashboardPage = () => {
                         <div className="row g-5 g-xl-8">
                             {dashboardData.salesBarData.map((item, index) => {
                                 return (
-                                    <div key={index} className="col-xl-4">
+                                    <div
+                                        key={index}
+                                        className={`col-xl-4 ${
+                                            index === dashboardData.salesBarData.length - 1
+                                                ? "m-mb-5"
+                                                : ""
+                                        }`}
+                                    >
                                         <ApexBarChartWrapper
                                             config={item}
                                             chartConfig={{
@@ -685,7 +765,14 @@ const DashboardPage = () => {
 
                         <div className="row g-5 g-xl-8">
                             {dashboardData.earningTrendData.map((item, index) => (
-                                <div key={index} className="col-xl-4">
+                                <div
+                                    key={index}
+                                    className={`col-xl-4 ${
+                                        index === dashboardData.earningTrendData.length - 1
+                                            ? "m-mb-5"
+                                            : ""
+                                    }`}
+                                >
                                     <EnclosedChartColorWrapperLine
                                         item={item}
                                         lineChart
@@ -696,7 +783,14 @@ const DashboardPage = () => {
                         </div>
                         <div className="row g-5 g-xl-8">
                             {dashboardData.contributorData.map((item, index) => (
-                                <div key={index} className="col-xl-4">
+                                <div
+                                    key={index}
+                                    className={`col-xl-4 ${
+                                        index === dashboardData.contributorData.length - 1
+                                            ? "m-mb-5"
+                                            : ""
+                                    }`}
+                                >
                                     <EnclosedChartColorWrapperLine
                                         item={item}
                                         barChart

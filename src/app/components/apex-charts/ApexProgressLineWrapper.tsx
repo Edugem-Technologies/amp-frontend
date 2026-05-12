@@ -39,6 +39,7 @@ type Props = {
     iconBgClass?: string
     infoReverse?: boolean
     iconClass?: string
+    cardClassName?: string
 }
 
 const ApexProgressLineWrapper: React.FC<Props> = ({
@@ -58,6 +59,7 @@ const ApexProgressLineWrapper: React.FC<Props> = ({
     iconBgClass,
     infoReverse,
     iconClass,
+    cardClassName,
 }) => {
     const isTabbed = typeof chartData === "object" && !Array.isArray(chartData)
     const [activeTab, setActiveTab] = useState(isTabbed ? Object.keys(chartData)[0] : null)
@@ -140,7 +142,7 @@ const ApexProgressLineWrapper: React.FC<Props> = ({
     }
 
     return (
-        <div className="card card-xl-stretch mb-xl-8">
+        <div className={`card card-xl-stretch mb-xl-8 ${cardClassName}`}>
             {!isTabbed && !showOnlyLine && (
                 <div className="card-body d-flex flex-column p-0">
                     <div className="d-flex flex-stack flex-grow-1 card-p">

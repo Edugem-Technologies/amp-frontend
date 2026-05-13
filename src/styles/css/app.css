@@ -834,7 +834,7 @@ body.show-favorites .task .duration {
 }
 
 .gu-transit {
-  opacity: 0.2 !important;
+  opacity: 0.85 !important;
   -webkit-transform: rotate(0) !important;
   transform: rotate(0) !important;
 }

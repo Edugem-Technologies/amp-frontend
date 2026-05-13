@@ -1,6 +1,6 @@
 "use client"
 
-import DragSortableCards from "@/app/components/card/DragSortableCards"
+import DragSortableCards, { TaskCard } from "@/app/components/card/DragSortableCards"
 import TaskTableView from "@/app/components/common/TaskTableView"
 import { useAppContext } from "@/app/context/AppContext"
 import { TASK_SECTIONS, TEAM_TASKS } from "@/fixtures/TeamData"
@@ -147,16 +147,9 @@ const Page = () => {
                                                         ))}
                                                 </div>
 
-                                                {/* Optional Drag Preview */}
                                                 <DragOverlay>
                                                     {activeItem ? (
-                                                        <div className="kanban-item opacity-90">
-                                                            <div className="item-card">
-                                                                <div className="title">
-                                                                    {activeItem.label}
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                        <TaskCard item={activeItem} isDragging />
                                                     ) : null}
                                                 </DragOverlay>
                                             </DndContext>

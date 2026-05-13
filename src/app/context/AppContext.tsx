@@ -27,7 +27,7 @@ interface AppContextType {
     isTimerActive: boolean
     setIsTimerActive: Dispatch<SetStateAction<boolean>>
     handleBottomMenuClick: (menu: Exclude<BottomMenuType, null>) => void
-    activeBottomMenu: string
+    activeBottomMenu: string | null
     isBottomDrawerOpen: boolean
 }
 

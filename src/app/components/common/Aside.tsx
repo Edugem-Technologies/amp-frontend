@@ -323,7 +323,7 @@ const Aside = () => {
             </div>
 
             <Offcanvas
-                show={show}
+                show={show || activeBottomMenu}
                 onHide={handleClose}
                 backdrop={false}
                 className={`custom-offcanvas ${

@@ -18,7 +18,7 @@ const UserDropdown = () => {
     const [open, setOpen] = useState(false)
     const [profileImageURL, setProfileImageURL] = useState<string | null>(null)
     const wrapperRef = useRef<HTMLDivElement>(null)
-
+    const { handleBottomMenuClick } = useAppContext()
     useEffect(() => {
         setProfileImageURL(
             getDecryptedSessionStorageData(CONFIG.SESSION_STORAGE_VARIABLES.PROFILE_IMAGE_URL),
@@ -91,13 +91,34 @@ const UserDropdown = () => {
                     </div>
 
                     <ul>
-                        <li>Favourites</li>
-                        <li>Requests</li>
-                        <li>Assistant</li>
+                        <li
+                            onClick={() => {
+                                handleBottomMenuClick("Favorites")
+                                setOpen(false)
+                            }}
+                        >
+                            Favourites
+                        </li>
+                        <li
+                            onClick={() => {
+                                handleBottomMenuClick("Requests")
+                                setOpen(false)
+                            }}
+                        >
+                            Requests
+                        </li>
+                        <li
+                            onClick={() => {
+                                handleBottomMenuClick("Assistants")
+                                setOpen(false)
+                            }}
+                        >
+                            Assistant
+                        </li>
 
                         <li className="divider" />
 
-                        <li>Settings</li>
+                        <li onClick={() => router.push("/settings")}>Settings</li>
                         <li onClick={handleLogout}>Sign Out</li>
 
                         <li className="divider" />

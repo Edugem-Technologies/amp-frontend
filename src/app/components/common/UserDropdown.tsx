@@ -18,7 +18,7 @@ const UserDropdown = () => {
     const [open, setOpen] = useState(false)
     const [profileImageURL, setProfileImageURL] = useState<string | null>(null)
     const wrapperRef = useRef<HTMLDivElement>(null)
-    const { handleBottomMenuClick } = useAppContext()
+    const { setShow } = useAppContext()
     useEffect(() => {
         setProfileImageURL(
             getDecryptedSessionStorageData(CONFIG.SESSION_STORAGE_VARIABLES.PROFILE_IMAGE_URL),
@@ -93,7 +93,7 @@ const UserDropdown = () => {
                     <ul>
                         <li
                             onClick={() => {
-                                handleBottomMenuClick("Favorites")
+                                setShow((prev) => !prev)
                                 setOpen(false)
                             }}
                         >
@@ -101,7 +101,7 @@ const UserDropdown = () => {
                         </li>
                         <li
                             onClick={() => {
-                                handleBottomMenuClick("Requests")
+                                setShow((prev) => !prev)
                                 setOpen(false)
                             }}
                         >
@@ -109,7 +109,7 @@ const UserDropdown = () => {
                         </li>
                         <li
                             onClick={() => {
-                                handleBottomMenuClick("Assistants")
+                                setShow((prev) => !prev)
                                 setOpen(false)
                             }}
                         >

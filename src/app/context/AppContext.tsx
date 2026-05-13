@@ -6,7 +6,6 @@ import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useStat
 import { CONFIG } from "@/utils/Constants"
 import { usePathname } from "next/navigation"
 import { Option } from "@/types/components/ReactSelect"
-import { BottomMenuType, handleBottomMenuToggle } from "@/utils/Helpers"
 
 // Define the type for your context state
 interface AppContextType {
@@ -26,9 +25,12 @@ interface AppContextType {
     setIsCatActive: Dispatch<SetStateAction<boolean>>
     isTimerActive: boolean
     setIsTimerActive: Dispatch<SetStateAction<boolean>>
-    handleBottomMenuClick: (menu: Exclude<BottomMenuType, null>) => void
-    activeBottomMenu: string | null
-    isBottomDrawerOpen: boolean
+    // handleBottomMenuClick: (menu: Exclude<BottomMenuType, null>) => void
+    // activeBottomMenu: string | null
+    // isBottomDrawerOpen: boolean
+    // setActiveBottomMenu: Dispatch<SetStateAction<BottomMenuType>>
+    show: boolean
+    setShow: Dispatch<SetStateAction<boolean>>
 }
 
 // Create the context with a default value
@@ -52,13 +54,15 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     const [isCatActive, setIsCatActive] = useState<boolean>(false)
     const [isTimerActive, setIsTimerActive] = useState<boolean>(false)
     const [selectedRoadmaps, setSelectedRoadmaps] = useState<Option[]>([])
-    const [activeBottomMenu, setActiveBottomMenu] = useState<BottomMenuType>(null)
-    const [isBottomDrawerOpen, setIsBottomDrawerOpen] = useState<boolean>(false)
-    const handleBottomMenuClick = (menu: Exclude<BottomMenuType, null>) => {
-        const result = handleBottomMenuToggle(activeBottomMenu, menu)
-        setActiveBottomMenu(result.activeMenu)
-        setIsBottomDrawerOpen(result.isOpen)
-    }
+    // const [activeBottomMenu, setActiveBottomMenu] = useState<BottomMenuType>(null)
+    // const [isBottomDrawerOpen, setIsBottomDrawerOpen] = useState<boolean>(false)
+    // const handleBottomMenuClick = (menu: Exclude<BottomMenuType, null>) => {
+    //     const result = handleBottomMenuToggle(activeBottomMenu, menu)
+    //     setActiveBottomMenu(result.activeMenu)
+    //     setIsBottomDrawerOpen(result.isOpen)
+    // }
+
+    const [show, setShow] = useState(false)
 
     return (
         <AppContext.Provider
@@ -79,9 +83,12 @@ export const AppProvider = ({ children }: AppProviderProps) => {
                 setIsCatActive,
                 isTimerActive,
                 setIsTimerActive,
-                handleBottomMenuClick,
-                activeBottomMenu,
-                isBottomDrawerOpen,
+                // handleBottomMenuClick,
+                // activeBottomMenu,
+                // isBottomDrawerOpen,
+                // setActiveBottomMenu,
+                show,
+                setShow,
             }}
         >
             {children}

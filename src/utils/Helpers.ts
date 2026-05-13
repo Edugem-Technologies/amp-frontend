@@ -25,6 +25,9 @@ import { handleError } from "./HandleError"
  *  Returns [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
  * getArray(10);
  */
+
+export type BottomMenuType = "Favorites" | "Requests" | "Assistants" | "Mirrored" | null
+
 export const getArray = (length: number) => {
     return Array.from({ length }, (_, i) => i + 1)
 }
@@ -1058,4 +1061,21 @@ export function sliceWithEllipsis(name: string | undefined | null, sliceLimit: n
     const slicedName = name?.slice(0, sliceLimit) || ""
     const ellipsis = name?.length && name.length > sliceLimit ? "  ..." : ""
     return slicedName ? slicedName + ellipsis : ""
+}
+
+export const handleBottomMenuToggle = (
+    current: BottomMenuType,
+    clicked: Exclude<BottomMenuType, null>,
+) => {
+    if (current === clicked) {
+        return {
+            activeMenu: null,
+            isOpen: false,
+        }
+    }
+
+    return {
+        activeMenu: clicked,
+        isOpen: true,
+    }
 }

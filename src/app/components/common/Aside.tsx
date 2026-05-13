@@ -17,7 +17,7 @@ import Select from "react-select"
 
 const Aside = () => {
     const [isMobileView, setIsMobileView] = useState<boolean>(false)
-    const { sidebarCollapse, setSidebarCollapse, activeBottomMenu } = useAppContext()
+    const { sidebarCollapse, setSidebarCollapse, show, setShow } = useAppContext()
     const pathname = usePathname()
     const {
         isCatActive,
@@ -108,7 +108,7 @@ const Aside = () => {
         { label: "Assistants", href: "", icon: "sensor_occupied" },
     ]
 
-    const [show, setShow] = useState(false)
+    // const [show, setShow] = useState(false)
 
     const handleClose = () => setShow(false)
     const handleShow = () => setShow((prev) => !prev)
@@ -323,7 +323,7 @@ const Aside = () => {
             </div>
 
             <Offcanvas
-                show={show || activeBottomMenu}
+                show={show}
                 onHide={handleClose}
                 backdrop={false}
                 className={`custom-offcanvas ${

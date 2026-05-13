@@ -5,6 +5,8 @@ import { settingsTabs } from "@/fixtures/SettingsData"
 import GeneralSettings from "@/app/components/settings/GeneralSettings"
 import Team from "@/app/components/settings/Team"
 import Projects from "@/app/components/settings/Projects"
+import Roadmaps from "@/app/components/settings/Roadmaps"
+import Pipeline from "@/app/components/settings/Pipeline"
 
 const Page = () => {
     const [activeTab, setActiveTab] = useState(settingsTabs[0]?.id)
@@ -62,6 +64,10 @@ const Page = () => {
                                         {activeTab === "team" && <Team />}
 
                                         {activeTab === "projects" && <Projects />}
+
+                                        {activeTab === "roadmaps" && <Roadmaps />}
+
+                                        {activeTab === "pipeline" && <Pipeline />}
                                     </div>
                                 </div>
                             </div>

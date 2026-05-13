@@ -97,13 +97,22 @@ export default function Pipeline() {
     )
 
     return (
-        <div className="card">
-            <div className="card-header">
-                <h3>Pipeline</h3>
-                <span>{data.length} items</span>
+        <div className="card card-xl-stretch mb-5 mb-xl-8">
+            <div className="card-header border-0 pt-5">
+                <h3 className="card-title align-items-start flex-column">
+                    <span className="card-label fw-bolder fs-3 mb-1">Pipeline</span>
+                    <span className="text-muted mt-1 fw-bold fs-7">{data.length} pipelines</span>
+                </h3>
+
+                <div className="card-toolbar">
+                    <button className="btn btn-sm btn-dark">
+                        <span className="svg-icon svg-icon-3">{IconMap.addWhite}</span>
+                        New Pipeline
+                    </button>
+                </div>
             </div>
 
-            <div className="card-body">
+            <div className="card-body py-3">
                 <DraggableTable
                     data={data}
                     setData={setData}

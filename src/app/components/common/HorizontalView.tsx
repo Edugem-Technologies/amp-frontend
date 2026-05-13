@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useMemo, useState } from "react"
-import DragSortableCards from "../card/DragSortableCards"
+import DragSortableCards, { TaskCard } from "../card/DragSortableCards"
 import { Fence, TaskCheckItem } from "@/types/components/DragSortableCards"
 
 import { DndContext, closestCenter, DragEndEvent, DragOverlay, DragStartEvent } from "@dnd-kit/core"
@@ -128,25 +128,7 @@ const HorizontalView = ({ data }: { data: Fence[] }) => {
             ))}
 
             <DragOverlay>
-                {activeItem ? (
-                    <div
-                        className="kanban-item"
-                        style={{
-                            opacity: 0.85,
-                            cursor: "grabbing",
-                        }}
-                    >
-                        <div className="item-card actions hover-icons v3">
-                            <div className="description">
-                                <div className="title">
-                                    <div className="ellipsis-1">{activeItem.label}</div>
-
-                                    <div className="desc ellipsis-1">{activeItem.desc}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ) : null}
+                {activeItem ? <TaskCard item={activeItem} isDragging /> : null}
             </DragOverlay>
         </DndContext>
     )

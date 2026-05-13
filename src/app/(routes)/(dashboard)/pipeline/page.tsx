@@ -1,5 +1,5 @@
 "use client"
-import DragSortableCards from "@/app/components/card/DragSortableCards"
+import DragSortableCards, { TaskCard } from "@/app/components/card/DragSortableCards"
 import StatsOverviewWithChart from "@/app/components/common/StatsOverviewWithChart"
 import { PIPELINE_DASHBOARD_DATA, PIPELINES_CHECKLIST } from "@/fixtures/PipelineData"
 import { Fence, TaskCheckItem } from "@/types/components/DragSortableCards"
@@ -199,23 +199,7 @@ const Page = () => {
                                     {/* Drag overlay renders the ghost item while dragging */}
                                     <DragOverlay>
                                         {activeItem ? (
-                                            <div
-                                                className="kanban-item"
-                                                style={{ opacity: 0.85, cursor: "grabbing" }}
-                                            >
-                                                <div className="item-card actions hover-icons v3">
-                                                    <div className="description">
-                                                        <div className="title">
-                                                            <div className="ellipsis-1">
-                                                                {activeItem.label}
-                                                            </div>
-                                                            <div className="desc ellipsis-1">
-                                                                {activeItem.desc}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <TaskCard item={activeItem} isDragging />
                                         ) : null}
                                     </DragOverlay>
                                 </DndContext>

@@ -502,4 +502,31 @@ export const headerActions: HeaderActionsTypes[] = [
         type: "material",
     },
 ]
+
+export const headerActionsv2: HeaderActionsTypes[] = [
+    {
+        id: "settings",
+        icon: "la-cog",
+        type: "line-awesome",
+        className: "la la-cog px-2",
+    },
+    {
+        id: "expand",
+        icon: "collapse_content",
+        type: "material",
+        className: "collapse",
+    },
+    {
+        id: "add",
+        icon: "la-plus",
+        type: "line-awesome",
+        className: "add",
+    },
+    {
+        id: "replay",
+        icon: "replay",
+        type: "material",
+        className: "replay",
+    },
+]
 export const CHAR_DEFAULT_MAX_LENGTH = CONFIG.VALIDATIONS.CHARACTER_LENGTH.CHARS_60

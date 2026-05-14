@@ -5,7 +5,7 @@ import TaskTableView from "@/app/components/common/TaskTableView"
 import { useAppContext } from "@/app/context/AppContext"
 import { TASK_SECTIONS, TEAM_TASKS } from "@/fixtures/TeamData"
 import { Fence, TaskCheckItem } from "@/types/components/DragSortableCards"
-import { CONFIG } from "@/utils/Constants"
+import { CONFIG, headerActions } from "@/utils/Constants"
 import React, { useEffect, useState, useMemo } from "react"
 
 import { DndContext, closestCenter, DragEndEvent, DragStartEvent, DragOverlay } from "@dnd-kit/core"
@@ -90,23 +90,6 @@ const Page = () => {
             return next
         })
     }
-    const headerActions = [
-        {
-            id: "settings",
-            icon: "settings",
-            onClick: (fenceId: string) => console.log("Settings clicked for fence:", fenceId),
-        },
-        {
-            id: "add",
-            icon: "add",
-            onClick: (fenceId: string) => console.log("Add clicked for fence:", fenceId),
-        },
-        {
-            id: "expand",
-            icon: "collapse_content",
-            onClick: (fenceId: string) => console.log("Expand clicked:", fenceId),
-        },
-    ]
 
     useEffect(() => {
         setLayout && setLayout(CONFIG.LAYOUT.COLUMNS)
@@ -142,7 +125,10 @@ const Page = () => {
                                                                         items as TaskCheckItem[],
                                                                     )
                                                                 }
-                                                                actions={headerActions}
+                                                                actions={headerActions.filter(
+                                                                    (action) =>
+                                                                        action.id !== "replay",
+                                                                )}
                                                             />
                                                         ))}
                                                 </div>

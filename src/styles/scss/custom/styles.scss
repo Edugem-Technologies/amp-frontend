@@ -11,8 +11,8 @@
 @import "../../fonts/plus-jakarta-sans/stylesheet.css";
 @import "./style.bundle.css";
 // import "@/styles/css/app.css"
-@import "../../css/app.css";
 @import "../../css/style.bundle.css";
+@import "../../css/app.css";
 
 /* CSS Cascade Layers
  * Establishes a strict cascading order from lowest to highest priority:
@@ -956,26 +956,26 @@ aside.sidebar {
     // For each color, generate custom styles for the corresponding button class
     // (e.g., .btn-primary, .btn-secondary), and apply a consistent box-shadow
     // effect for normal, hover, and active states using predefined mixins.
-    @each $name, $color in $theme-colors {
-        // Target button class dynamically using the color name (e.g., .btn-primary, .btn-success, etc.)
-        .btn-#{$name},
-        .cancel-button-class {
-            // Apply default box-shadow using custom mixin
-            @include box-shadow-light($color);
+    // @each $name, $color in $theme-colors {
+    //     // Target button class dynamically using the color name (e.g., .btn-primary, .btn-success, etc.)
+    //     .btn-#{$name},
+    //     .cancel-button-class {
+    //         // Apply default box-shadow using custom mixin
+    //         @include box-shadow-light($color);
 
-            &:not(&:disabled) {
-                // On hover, apply a slightly stronger box-shadow
-                &:hover {
-                    @include box-shadow-light-hover($color);
-                }
+    //         &:not(&:disabled) {
+    //             // On hover, apply a slightly stronger box-shadow
+    //             &:hover {
+    //                 @include box-shadow-light-hover($color);
+    //             }
 
-                // On active/click, apply a deeper box-shadow for feedback effect
-                &:active {
-                    @include box-shadow-light-active($color);
-                }
-            }
-        }
-    }
+    //             // On active/click, apply a deeper box-shadow for feedback effect
+    //             &:active {
+    //                 @include box-shadow-light-active($color);
+    //             }
+    //         }
+    //     }
+    // }
 
     // SweetAlert(Swal) custom classes
     .swal2-confirm,
@@ -5024,4 +5024,46 @@ body {
     to {
         opacity: 1;
     }
+}
+
+.is-moving {
+    opacity: 0.9;
+}
+// .empty-column {
+//     min-height: 120px;
+//     width: 100%;
+//     border: 2px dashed #d0d5dd;
+//     border-radius: 10px;
+
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+
+//     color: #98a2b3;
+// }
+
+// .column-over {
+//     background: rgba(0, 0, 0, 0.04);
+// }
+
+.routine-wrapper {
+    overflow: hidden;
+    transform-origin: top;
+    transition:
+        max-height 0.35s ease,
+        transform 0.35s ease,
+        margin 0.35s ease;
+}
+
+.routine-wrapper.open {
+    // max-height: 500px;
+    // transform: translateY(0) scaleY(1);
+    margin-bottom: 12px;
+}
+
+.routine-wrapper.close {
+    max-height: 0;
+    transform: translateY(-10px) scaleY(0.95);
+    margin-bottom: 0;
+    pointer-events: none;
 }

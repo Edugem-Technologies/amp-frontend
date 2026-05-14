@@ -1,13 +1,10 @@
+import { HeaderActionsTypes } from "./HeaderActions"
+
 export interface User {
     name: string
     avatar: string
 }
 
-type HeaderAction = {
-    id: string
-    icon: string
-    onClick: (columnId: string) => void
-}
 export type SplitItems = {
     left?: TaskCheckItem[]
     right?: TaskCheckItem[]
@@ -21,7 +18,7 @@ export type DragColumnProps = {
     items: ColumnItems
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onChange?: (items: any) => void
-    actions?: HeaderAction[]
+    actions?: HeaderActionsTypes[]
     userImage?: string
     routineData?: TaskCheckItem[]
     isRoutineOpen?: boolean

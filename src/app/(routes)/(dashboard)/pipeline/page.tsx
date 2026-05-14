@@ -6,6 +6,7 @@ import { Fence, TaskCheckItem } from "@/types/components/DragSortableCards"
 import React, { useState, useMemo } from "react"
 import { DndContext, closestCenter, DragEndEvent, DragOverlay, DragStartEvent } from "@dnd-kit/core"
 import { arrayMove } from "@dnd-kit/sortable"
+import { headerActions } from "@/utils/Constants"
 
 const Page = () => {
     const [fences, setFences] = useState<Fence[]>(PIPELINES_CHECKLIST)
@@ -79,28 +80,6 @@ const Page = () => {
             return next
         })
     }
-
-    const headerActions = [
-        {
-            id: "settings",
-            icon: "settings",
-
-            onClick: (fenceId: string) => console.log("Settings clicked:", fenceId),
-        },
-        {
-            id: "expand",
-            icon: "collapse_content",
-
-            onClick: (fenceId: string) => console.log("Expand clicked:", fenceId),
-        },
-
-        {
-            id: "add",
-            icon: "add",
-
-            onClick: (fenceId: string) => console.log("Add clicked:", fenceId),
-        },
-    ]
 
     return (
         <div className="container-fluid pages notes notes-wrapper pipeline p-0 h-100">
@@ -190,7 +169,9 @@ const Page = () => {
                                                 id={fence.id}
                                                 title={fence.label as string}
                                                 items={fence.taskCheckList}
-                                                actions={headerActions}
+                                                actions={headerActions.filter(
+                                                    (action) => action.id !== "replay",
+                                                )}
                                                 onChange={() => {}}
                                             />
                                         ))}

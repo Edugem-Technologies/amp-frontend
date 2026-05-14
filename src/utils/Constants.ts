@@ -1,3 +1,4 @@
+import { HeaderActionsTypes } from "@/types/components/HeaderActions"
 import { CSSObjectWithLabel } from "react-select"
 import { SweetAlertIcon, SweetAlertOptions } from "sweetalert2"
 
@@ -477,5 +478,28 @@ export const OPEN_ENDPOINTS: string[] = [
     CONFIG.API_ENDPOINTS.RESET_PASSWORD.href,
     CONFIG.API_ENDPOINTS.GOOGLE_LOGIN.href,
     CONFIG.API_ENDPOINTS.SIGNUP.href,
+]
+
+export const headerActions: HeaderActionsTypes[] = [
+    {
+        id: "settings",
+        icon: "la la-cog px-2",
+        type: "line-awesome",
+    },
+    {
+        id: "expand",
+        icon: "collapse_content",
+        type: "material",
+    },
+    {
+        id: "add",
+        icon: "la la-plus px-2",
+        type: "line-awesome",
+    },
+    {
+        id: "replay",
+        icon: "replay",
+        type: "material",
+    },
 ]
 export const CHAR_DEFAULT_MAX_LENGTH = CONFIG.VALIDATIONS.CHARACTER_LENGTH.CHARS_60

@@ -6,6 +6,7 @@ import { CSS } from "@dnd-kit/utilities"
 import { DragColumnProps, TaskCheckItem } from "@/types/components/DragSortableCards"
 import Link from "next/link"
 import HoveredIcons from "../common/HoveredIcons"
+import { Button, Form, Modal } from "react-bootstrap"
 
 type TaskCardProps = {
     item: TaskCheckItem
@@ -100,6 +101,20 @@ const DroppableList = ({ fenceId, items }: { fenceId: string; items: TaskCheckIt
 
 const DragSortableCards = ({ id, title, userImage, items, actions = [] }: DragColumnProps) => {
     const [isOpen, setIsOpen] = useState(true)
+    const [showSettingsModal, setShowSettingsModal] = useState(false)
+    const [personName, setPersonName] = useState("")
+    const handleCloseModal = () => setShowSettingsModal(false)
+    const handleOpenModal = () => setShowSettingsModal(true)
+
+    const handleSave = () => {
+        console.log("Saved:", personName)
+        handleCloseModal()
+    }
+
+    const handleDelete = () => {
+        console.log("Deleted")
+        handleCloseModal()
+    }
 
     const list = Array.isArray(items) ? (items as TaskCheckItem[]) : []
 
@@ -128,21 +143,27 @@ const DragSortableCards = ({ id, title, userImage, items, actions = [] }: DragCo
                                     }`}
                                     key={index}
                                     onClick={() => {
+                                        if (action.id === "settings") {
+                                            handleOpenModal()
+                                            return
+                                        }
                                         if (action.id === "expand") {
                                             setIsOpen((prev) => !prev)
-                                        } else {
-                                            action.onClick?.(id)
                                         }
                                     }}
                                 >
                                     <a className="dropdown-toggle label label-rounded label-success fs-16 font-weight-bold hover-w-7">
-                                        <span className="material-symbols-outlined">
-                                            {action.id === "expand"
-                                                ? isOpen
-                                                    ? "collapse_content"
-                                                    : "expand_content"
-                                                : action.icon}
-                                        </span>
+                                        {action.type === "line-awesome" ? (
+                                            <i className={action.icon}></i>
+                                        ) : (
+                                            <span className="material-symbols-outlined">
+                                                {action.id === "expand"
+                                                    ? isOpen
+                                                        ? "collapse_content"
+                                                        : "expand_content"
+                                                    : action.icon}
+                                            </span>
+                                        )}
                                     </a>
                                 </div>
                             ))}
@@ -151,6 +172,47 @@ const DragSortableCards = ({ id, title, userImage, items, actions = [] }: DragCo
             </header>
 
             {isOpen && <DroppableList fenceId={id} items={list} />}
+            <Modal
+                show={showSettingsModal}
+                onHide={handleCloseModal}
+                centered
+                className="board-people-settings"
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        <h2>Settings</h2>
+                    </Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body className="mx-5 mx-xl-15 my-7">
+                    <Form>
+                        <Form.Group className="d-flex flex-column mb-7">
+                            <Form.Label className="d-flex align-items-center fs-6 fw-bold mb-2">
+                                Name of the person
+                            </Form.Label>
+
+                            <Form.Control
+                                type="text"
+                                placeholder="Title"
+                                value={personName}
+                                onChange={(e) => setPersonName(e.target.value)}
+                            />
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+
+                <Modal.Footer>
+                    <div className="buttons-grid gg-7 d-flex gap-2">
+                        <Button variant="danger" onClick={handleDelete}>
+                            Delete
+                        </Button>
+
+                        <Button variant="primary" onClick={handleSave}>
+                            Save
+                        </Button>
+                    </div>
+                </Modal.Footer>
+            </Modal>
         </div>
     )
 }

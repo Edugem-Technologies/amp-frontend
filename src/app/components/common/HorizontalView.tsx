@@ -7,8 +7,15 @@ import { Fence, TaskCheckItem } from "@/types/components/DragSortableCards"
 import { DndContext, closestCenter, DragEndEvent, DragOverlay, DragStartEvent } from "@dnd-kit/core"
 
 import { arrayMove } from "@dnd-kit/sortable"
+import { HeaderActionsTypes } from "@/types/components/HeaderActions"
 
-const HorizontalView = ({ data }: { data: Fence[] }) => {
+const HorizontalView = ({
+    data,
+    headerActions,
+}: {
+    data: Fence[]
+    headerActions?: HeaderActionsTypes[]
+}) => {
     const [fences, setFences] = useState<Fence[]>(data)
 
     const [activeItem, setActiveItem] = useState<TaskCheckItem | null>(null)
@@ -92,23 +99,6 @@ const HorizontalView = ({ data }: { data: Fence[] }) => {
             return next
         })
     }
-
-    const headerActions = [
-        {
-            id: "expand",
-            icon: "collapse_content",
-
-            onClick: (fenceId: string) => console.log("Expand clicked:", fenceId),
-        },
-        {
-            id: "add",
-            icon: "add",
-
-            onClick: (fenceId: string) => {
-                console.log("fenceIdfenceIdfenceId", fenceId)
-            },
-        },
-    ]
 
     return (
         <DndContext

@@ -4,7 +4,7 @@ import HorizontalView from "@/app/components/common/HorizontalView"
 import SlideOverInnerMenu from "@/app/components/common/SlideOverInnerMenu"
 import { useAppContext } from "@/app/context/AppContext"
 import { NOTES_DATA, SLIDE_MENU_DATA } from "@/fixtures/NotesData"
-import { CONFIG } from "@/utils/Constants"
+import { CONFIG, headerActions } from "@/utils/Constants"
 import { useEffect, useState } from "react"
 
 export type MenuType = "sections" | "projects" | "open-sections" | null
@@ -42,7 +42,12 @@ export default function Page() {
                                         <div className="tab-people jkanban_roadmaps">
                                             <div className="kanban-container">
                                                 {layout === CONFIG.LAYOUT.HORIZONTAL && (
-                                                    <HorizontalView data={NOTES_DATA} />
+                                                    <HorizontalView
+                                                        data={NOTES_DATA}
+                                                        headerActions={headerActions.filter(
+                                                            (action) => action.id !== "replay",
+                                                        )}
+                                                    />
                                                 )}
                                             </div>
                                         </div>

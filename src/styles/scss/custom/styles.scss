@@ -5058,7 +5058,6 @@ body {
 .routine-wrapper.open {
     // max-height: 500px;
     // transform: translateY(0) scaleY(1);
-    margin-bottom: 12px;
 }
 
 .routine-wrapper.close {
@@ -5066,4 +5065,30 @@ body {
     transform: translateY(-10px) scaleY(0.95);
     margin-bottom: 0;
     pointer-events: none;
+}
+.routine-wrapper {
+    overflow: hidden;
+    transition:
+        max-height 0.35s ease,
+        opacity 0.3s ease,
+        margin-top 0.35s ease;
+
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+}
+
+.routine-wrapper.open {
+    opacity: 1;
+    min-height: fit-content;
+}
+
+.routine-wrapper.close {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
+}
+
+.list.collapsed .material-symbols-outlined:has-text("expand_content") {
+    display: block !important;
 }

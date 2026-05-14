@@ -4,140 +4,183 @@
 import React, { useMemo, useState } from "react"
 
 import {
-    closestCorners,
-    pointerWithin,
     DndContext,
-    DragEndEvent,
-    DragOverEvent,
-    DragOverlay,
-    DragStartEvent,
     PointerSensor,
+    closestCenter,
+    DragOverlay,
     useDroppable,
     useSensor,
     useSensors,
-    CollisionDetection,
+    DragStartEvent,
+    DragOverEvent,
+    DragEndEvent,
 } from "@dnd-kit/core"
 
-import { SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable"
+import {
+    SortableContext,
+    useSortable,
+    verticalListSortingStrategy,
+    arrayMove,
+} from "@dnd-kit/sortable"
 
 import { CSS } from "@dnd-kit/utilities"
-import { INITIAL_BOARDS } from "@/fixtures/TalendarData"
+import { headerActionsv2 } from "@/utils/Constants"
 import HoveredIcons from "./HoveredIcons"
-import { headerActions } from "@/utils/Constants"
 
-type Task = {
+type RoutineItem = {
     id: string
     label: string
-    count: number
+    duration?: number
+    count?: number
+}
+
+type TaskItem = {
+    id: string
+    label: string
+    count?: number
     bgColor?: string
-    status?: string
-    isStriked?: boolean
+    duration?: number
 }
 
 type ColumnType = {
     id: string
     title: string
-    colPosition?: string
-    items: Task[]
+    colPosition: string
+    items: TaskItem[]
 }
 
 type BoardType = {
     id: string
     dateLabel: string
     title: string
+    routineData: RoutineItem[]
     columns: ColumnType[]
-    routineData: any
 }
 
-// ─── helpers ──────────────────────────────────────────────────────────────────
+export const INITIAL_BOARDS: BoardType[] = [
+    {
+        id: "board-1",
+        dateLabel: "Sat 27 Jul",
+        title: "Splink: Sales Strategy",
 
-/** Returns a deep clone of boards using structuredClone */
-const clone = <T,>(v: T): T => structuredClone(v)
+        routineData: [
+            { id: "rt-1", label: "Wake Up", duration: 30 },
+            { id: "rt-2", label: "Gym", duration: 45 },
+            { id: "rt-3", label: "Breakfast", duration: 30 },
+        ],
 
-/**
- * Locate a task by id across ALL boards, ALL columns + routines.
- * Returns { boardIdx, containerId, itemIndex }
- * containerId = column.id  OR  `routine-${board.id}`
- */
-function findItem(
-    boards: BoardType[],
-    taskId: string,
-): { boardIdx: number; containerId: string; itemIndex: number } | null {
-    for (let bi = 0; bi < boards.length; bi++) {
-        const board = boards[bi]
-        // check routine
-        const ri = board.routineData.findIndex((r: any) => r.id === taskId)
-        if (ri !== -1) {
-            return { boardIdx: bi, containerId: `routine-${board.id}`, itemIndex: ri }
-        }
-        // check columns
-        for (const col of board.columns) {
-            const ci = col.items.findIndex((item) => item.id === taskId)
-            if (ci !== -1) {
-                return { boardIdx: bi, containerId: col.id, itemIndex: ci }
-            }
-        }
-    }
-    return null
-}
+        columns: [
+            {
+                id: "col-1",
+                title: "Deep Work",
+                colPosition: "left",
 
-function getContainer(
-    boards: BoardType[],
-    containerId: string,
-): { items: any[]; isRoutine: boolean } | null {
-    // routine container
-    if (containerId.startsWith("routine-")) {
-        const boardId = containerId.slice("routine-".length)
-        const board = boards.find((b) => b.id === boardId)
-        if (!board) return null
-        return { items: board.routineData, isRoutine: true }
-    }
-    // column container
-    for (const board of boards) {
-        const col = board.columns.find((c) => c.id === containerId)
-        if (col) return { items: col.items, isRoutine: false }
-    }
-    return null
-}
+                items: [
+                    {
+                        id: "1",
+                        label: "Sales Dashboard Review",
+                        count: 120,
+                    },
+                    {
+                        id: "2",
+                        label: "Investor Pitch Slides",
+                        count: 180,
+                    },
+                    {
+                        id: "3",
+                        label: "Growth Metrics Analysis",
+                        count: 240,
+                    },
+                ],
+            },
 
-/**
- * Convert a raw routineData entry → Task shape (for drag overlay / column rendering).
- */
-function routineToTask(r: any): Task {
-    return { id: r.id, label: r.label, count: r.duration }
-}
+            {
+                id: "col-2",
+                title: "Quick Tasks",
+                colPosition: "right",
 
-/**
- * Convert a Task → routineData entry shape.
- */
-// function taskToRoutine(t: Task): any {
-//     return { id: t.id, label: t.label, duration: t.count }
-// }
+                items: [
+                    {
+                        id: "7",
+                        label: "Slack Replies",
+                        count: 15,
+                    },
+                    {
+                        id: "8",
+                        label: "Website Copy Update",
+                        count: 30,
+                    },
+                ],
+            },
+        ],
+    },
 
-// ─── sub-components ───────────────────────────────────────────────────────────
+    {
+        id: "board-2",
+        dateLabel: "Sun 28 Jul",
+        title: "XYZ: Global Payments",
 
-const TaskCard = ({ item, dragging = false }: { item: Task; dragging?: boolean }) => {
-    return (
-        <div className={dragging ? "dragging" : ""}>
-            <span className="duration">{item.count}</span>
-            <span className="name">
-                <span>{item.label}</span>
-            </span>
-            <HoveredIcons />
-        </div>
-    )
-}
+        routineData: [
+            { id: "rt-9", label: "Meditation", duration: 20 },
+            { id: "rt-10", label: "Coffee", duration: 20 },
+        ],
 
-const SortableTask = ({ item }: { item: Task }) => {
+        columns: [
+            {
+                id: "col-3",
+                title: "Priority Tasks",
+                colPosition: "left",
+
+                items: [
+                    {
+                        id: "13",
+                        label: "Recurring Payments Review",
+                        count: 120,
+                    },
+                    {
+                        id: "14",
+                        label: "Stripe Integration Audit",
+                        count: 90,
+                    },
+                ],
+            },
+
+            {
+                id: "col-4",
+                title: "Secondary Tasks",
+                colPosition: "right",
+
+                items: [
+                    {
+                        id: "18",
+                        label: "Internal Team Sync",
+                        count: 30,
+                    },
+                ],
+            },
+        ],
+    },
+]
+
+const clone = <T,>(data: T): T => structuredClone(data)
+
+// ─────────────────────────────────────────────
+// SORTABLE TASK
+// ─────────────────────────────────────────────
+
+function SortableTask({ task }: { task: TaskItem | RoutineItem }) {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-        id: item.id,
+        id: task.id,
     })
 
-    const style = {
+    const style: React.CSSProperties = {
         transform: CSS.Transform.toString(transform),
         transition,
         opacity: isDragging ? 0.4 : 1,
+        cursor: "grab",
     }
+
+    // const isRoutine = "duration" in task
 
     return (
         <div
@@ -145,359 +188,396 @@ const SortableTask = ({ item }: { item: Task }) => {
             style={style}
             {...attributes}
             {...listeners}
-            data-duration={item.count}
             className="task hover-icons hi-v2 c1 ui-sortable-handle"
+            data-duration={task.duration || task.count}
         >
-            <TaskCard item={item} />
+            <div>
+                <span className="duration">
+                    {/* {task.label} */}
+                    {task.count || task.duration}
+                </span>
+                <span className="name">
+                    <span>{task.label}</span>
+                </span>
+                <div className="icons">
+                    <HoveredIcons />
+                </div>
+            </div>
         </div>
     )
 }
 
-const DroppableColumn = ({
-    column,
-    children,
-    className = "",
-}: {
-    column: ColumnType
-    children: React.ReactNode
-    className?: string
-}) => {
-    const { setNodeRef, isOver } = useDroppable({ id: column.id })
+// ─────────────────────────────────────────────
+// DROPPABLE CONTAINER
+// ─────────────────────────────────────────────
 
-    const isEmpty = column.items.length === 0
+function DroppableContainer({ id, items }: { id: string; title: string; items: any[] }) {
+    const { setNodeRef, isOver } = useDroppable({
+        id,
+    })
 
     return (
-        <div
-            ref={setNodeRef}
-            className={`${className} ${isOver ? "column-over" : ""}`}
-            style={isEmpty ? { minHeight: "80px" } : undefined}
-        >
-            {children}
-            {isEmpty && (
-                <div
-                    className="empty-column"
-                    style={{
-                        minHeight: "60px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    Drop Here
-                </div>
-            )}
+        <div ref={setNodeRef} className={`drop-zone ${isOver ? "over" : ""}`}>
+            <SortableContext
+                items={items.map((item) => item.id)}
+                strategy={verticalListSortingStrategy}
+            >
+                {items.map((task) => (
+                    <SortableTask key={task.id} task={task} />
+                ))}
+            </SortableContext>
+
+            {/* // {items.length === 0 && (
+            //     <div className="empty-drop">
+            //         Drop Here
+            //     </div>
+            // )} */}
         </div>
     )
 }
 
-// ─── collision detection ──────────────────────────────────────────────────────
-// pointerWithin first (exact hit on any droppable the pointer is inside),
-// then closestCorners as fallback. This ensures the routine container is
-// detected as soon as the pointer enters it, regardless of drag direction.
-const customCollision: CollisionDetection = (args) => {
-    const pointerHits = pointerWithin(args)
-    if (pointerHits.length > 0) return pointerHits
-    return closestCorners(args)
-}
+// ─────────────────────────────────────────────
+// MAIN
+// ─────────────────────────────────────────────
 
-// ─── main component ───────────────────────────────────────────────────────────
+export default function App() {
+    const [boards, setBoards] = useState(INITIAL_BOARDS)
 
-const TalendarDraggable = () => {
-    const [boards, setBoards] = useState<BoardType[]>(INITIAL_BOARDS)
-    const [activeTask, setActiveTask] = useState<Task | null>(null)
+    const [activeId, setActiveId] = useState<string | null>(null)
+
     const [openedRoutineBoards, setOpenedRoutineBoards] = useState<string[]>([])
     const [collapsedBoards, setCollapsedBoards] = useState<string[]>([])
 
-    const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 3 } }))
+    const toggleRoutine = (boardId: string) => {
+        setOpenedRoutineBoards((prev) => {
+            if (prev.includes(boardId)) {
+                return prev.filter((id) => id !== boardId)
+            }
 
-    // Flat list of all tasks (routine + columns) for overlay lookup
-    const allTasks = useMemo<Task[]>(() => {
+            return [...prev, boardId]
+        })
+    }
+
+    // COLLAPSE TOGGLE
+    const toggleCollapse = (boardId: string) => {
+        setCollapsedBoards((prev) => {
+            if (prev.includes(boardId)) {
+                return prev.filter((id) => id !== boardId)
+            }
+
+            return [...prev, boardId]
+        })
+    }
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            activationConstraint: {
+                distance: 5,
+            },
+        }),
+    )
+
+    // ─────────────────────────────────────────────
+
+    const allItems = useMemo(() => {
         return boards.flatMap((board) => [
-            ...board.routineData.map(routineToTask),
+            ...board.routineData,
             ...board.columns.flatMap((col) => col.items),
         ])
     }, [boards])
 
-    // ── drag start ────────────────────────────────────────────────────────────
-    const handleDragStart = (event: DragStartEvent) => {
-        const task = allTasks.find((t) => t.id === String(event.active.id))
-        if (task) setActiveTask(task)
+    const activeItem = allItems.find((item) => item.id === activeId)
+
+    // ─────────────────────────────────────────────
+
+    const findContainer = (id: string): string | null => {
+        for (const board of boards) {
+            if (`routine-${board.id}` === id) {
+                return `routine-${board.id}`
+            }
+
+            if (board.routineData.some((item) => item.id === id)) {
+                return `routine-${board.id}`
+            }
+
+            for (const column of board.columns) {
+                if (column.id === id) {
+                    return column.id
+                }
+
+                if (column.items.some((item) => item.id === id)) {
+                    return column.id
+                }
+            }
+        }
+
+        return null
     }
 
-    // ── drag over (live reorder while hovering) ───────────────────────────────
+    // ─────────────────────────────────────────────
+
+    const getItems = (data: BoardType[], containerId: string) => {
+        for (const board of data) {
+            if (`routine-${board.id}` === containerId) {
+                return board.routineData
+            }
+
+            for (const column of board.columns) {
+                if (column.id === containerId) {
+                    return column.items
+                }
+            }
+        }
+
+        return []
+    }
+
+    // ─────────────────────────────────────────────
+
+    const handleDragStart = (event: DragStartEvent) => {
+        setActiveId(String(event.active.id))
+    }
+
+    // ─────────────────────────────────────────────
+
     const handleDragOver = (event: DragOverEvent) => {
         const { active, over } = event
+
         if (!over) return
 
         const activeId = String(active.id)
         const overId = String(over.id)
-        if (activeId === overId) return
+
+        const activeContainer = findContainer(activeId)
+
+        const overContainer = findContainer(overId)
+
+        if (!activeContainer || !overContainer) {
+            return
+        }
+
+        // SAME CONTAINER
+        if (activeContainer === overContainer) {
+            return
+        }
 
         setBoards((prev) => {
             const next = clone(prev)
 
-            const srcInfo = findItem(next, activeId)
-            if (!srcInfo) return prev
+            const activeItems = getItems(next, activeContainer)
 
-            // Determine target container id:
-            // Either overId is a container id (column or routine-*) OR it's a task id
-            let targetContainerId: string | null = null
+            const overItems = getItems(next, overContainer)
 
-            // Check if overId is a container
-            if (overId.startsWith("routine-")) {
-                targetContainerId = overId
-            } else {
-                // Is it a column id?
-                let isCol = false
-                for (const b of next) {
-                    if (b.columns.some((c) => c.id === overId)) {
-                        isCol = true
-                        targetContainerId = overId
-                        break
-                    }
-                }
-                if (!isCol) {
-                    // It's a task id — find which container it belongs to
-                    const overInfo = findItem(next, overId)
-                    if (overInfo) targetContainerId = overInfo.containerId
-                }
-            }
+            const activeIndex = activeItems.findIndex((item) => item.id === activeId)
 
-            if (!targetContainerId) return prev
-            if (srcInfo.containerId === targetContainerId) return prev // same container, handled in dragEnd
+            const overIndex = overItems.findIndex((item) => item.id === overId)
 
-            // Pull item out of source
-            const srcContainer = getContainer(next, srcInfo.containerId)
-            if (!srcContainer) return prev
-            const [movedRaw] = srcContainer.items.splice(srcInfo.itemIndex, 1)
+            const [movedItem] = activeItems.splice(activeIndex, 1)
 
-            // Adapt shape if crossing routine ↔ column boundary
-            const srcIsRoutine = srcInfo.containerId.startsWith("routine-")
-            const tgtIsRoutine = targetContainerId.startsWith("routine-")
+            // DROP EXACT POSITION
+            const insertIndex = overIndex >= 0 ? overIndex : overItems.length
 
-            let movedItem: any = movedRaw
-            if (srcIsRoutine && !tgtIsRoutine) {
-                // routine entry → Task
-                movedItem = { id: movedRaw.id, label: movedRaw.label, count: movedRaw.duration }
-            } else if (!srcIsRoutine && tgtIsRoutine) {
-                // Task → routine entry
-                movedItem = { id: movedRaw.id, label: movedRaw.label, duration: movedRaw.count }
-            }
-
-            // Insert into target container
-            const tgtContainer = getContainer(next, targetContainerId)
-            if (!tgtContainer) return prev
-
-            // Try to place before the over item if over is a task in the target container
-            const overTaskIdx = tgtContainer.items.findIndex((i: any) => i.id === overId)
-            if (overTaskIdx !== -1) {
-                tgtContainer.items.splice(overTaskIdx, 0, movedItem)
-            } else {
-                tgtContainer.items.push(movedItem)
-            }
+            overItems.splice(insertIndex, 0, movedItem)
 
             return next
         })
     }
 
-    // ── drag end (finalise position within same container) ────────────────────
+    // ─────────────────────────────────────────────
+
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event
-        setActiveTask(null)
+
+        setActiveId(null)
+
         if (!over) return
 
         const activeId = String(active.id)
         const overId = String(over.id)
-        if (activeId === overId) return
 
-        setBoards((prev) => {
-            const next = clone(prev)
+        const activeContainer = findContainer(activeId)
 
-            const srcInfo = findItem(next, activeId)
-            if (!srcInfo) return prev
+        const overContainer = findContainer(overId)
 
-            // Confirm they're in the same container (cross-container already handled in dragOver)
-            const overInfo = findItem(next, overId)
-            if (!overInfo) return prev
-            if (srcInfo.containerId !== overInfo.containerId) return prev
+        if (!activeContainer || !overContainer) {
+            return
+        }
 
-            // Reorder within same container
-            const container = getContainer(next, srcInfo.containerId)
-            if (!container) return prev
+        // SAME CONTAINER SORT
+        if (activeContainer === overContainer) {
+            setBoards((prev) => {
+                const next = clone(prev)
 
-            const fromIdx = container.items.findIndex((i: any) => i.id === activeId)
-            const toIdx = container.items.findIndex((i: any) => i.id === overId)
-            if (fromIdx === -1 || toIdx === -1) return prev
+                const items = getItems(next, activeContainer)
 
-            const [moved] = container.items.splice(fromIdx, 1)
-            container.items.splice(toIdx, 0, moved)
+                const oldIndex = items.findIndex((item) => item.id === activeId)
 
-            return next
-        })
+                const newIndex = items.findIndex((item) => item.id === overId)
+
+                if (oldIndex !== -1 && newIndex !== -1) {
+                    const reordered = arrayMove(items, oldIndex, newIndex)
+
+                    for (const board of next) {
+                        if (`routine-${board.id}` === activeContainer) {
+                            board.routineData = reordered as RoutineItem[]
+                        }
+
+                        for (const column of board.columns) {
+                            if (column.id === activeContainer) {
+                                column.items = reordered as TaskItem[]
+                            }
+                        }
+                    }
+                }
+
+                return next
+            })
+        }
     }
 
-    // ── UI helpers ────────────────────────────────────────────────────────────
-    const toggleRoutine = (boardId: string) => {
-        setOpenedRoutineBoards((prev) =>
-            prev.includes(boardId) ? prev.filter((id) => id !== boardId) : [...prev, boardId],
-        )
-    }
-
-    const toggleCollapse = (boardId: string) => {
-        setCollapsedBoards((prev) =>
-            prev.includes(boardId) ? prev.filter((id) => id !== boardId) : [...prev, boardId],
-        )
-    }
-
-    const actionOrder = ["replay", "expand", "add"]
+    const order = ["replay", "expand", "add"]
 
     return (
-        <>
-            <DndContext
-                sensors={sensors}
-                collisionDetection={customCollision}
-                onDragStart={handleDragStart}
-                onDragOver={handleDragOver}
-                onDragEnd={handleDragEnd}
-            >
-                {boards.map((board) => {
-                    const isRoutineOpen = openedRoutineBoards.includes(board.id)
-                    const isCollapsed = collapsedBoards.includes(board.id)
+        <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragStart={handleDragStart}
+            onDragOver={handleDragOver}
+            onDragEnd={handleDragEnd}
+        >
+            {boards.map((board) => {
+                const isRoutineOpen = openedRoutineBoards.includes(board.id)
 
-                    // Build a ColumnType-shaped wrapper for the routine droppable
-                    const routineColumn: ColumnType = {
-                        id: `routine-${board.id}`,
-                        title: "Routine",
-                        items: board.routineData.map(routineToTask),
-                    }
+                const isCollapsed = collapsedBoards.includes(board.id)
 
-                    return (
-                        <div
-                            key={board.id}
-                            className={`list ${isRoutineOpen ? "show-routine-list" : ""} ${
-                                isCollapsed ? "collapsed" : ""
-                            }`}
-                        >
-                            <div className="t-bar">
-                                <div className="date">
-                                    {board.dateLabel}
-                                    <small className="name">{board.title}</small>
-                                </div>
+                return (
+                    <div
+                        key={board.id}
+                        className={`
+        list
+        ${isRoutineOpen ? "show-routine-list" : ""}
+        ${isCollapsed ? "collapsed" : ""}
+    `}
+                    >
+                        <div className="t-bar">
+                            <div className="date">
+                                {board.dateLabel}
+                                <small className="name">{board.title}</small>
+                            </div>
+                            <div className="actions">
+                                {order.map((id) => {
+                                    const action = headerActionsv2.find((a) => a.id === id)
 
-                                <div className="actions">
-                                    {headerActions
-                                        .filter((action) => actionOrder.includes(action.id))
-                                        .sort(
-                                            (a, b) =>
-                                                actionOrder.indexOf(a.id) -
-                                                actionOrder.indexOf(b.id),
-                                        )
-                                        .map((action) => {
-                                            if (isCollapsed && action.id !== "expand") return null
+                                    if (!action || action.id === "settings") {
+                                        return null
+                                    }
 
-                                            return (
-                                                <button
-                                                    key={action.id}
-                                                    className={`btn btn-icon btn-sm ${
-                                                        action.id === "expand"
-                                                            ? isCollapsed
-                                                                ? "expand"
-                                                                : "collapse"
-                                                            : ""
-                                                    }`}
-                                                    onClick={() => {
-                                                        if (action.id === "replay")
-                                                            toggleRoutine(board.id)
-                                                        if (action.id === "expand")
-                                                            toggleCollapse(board.id)
-                                                    }}
-                                                >
-                                                    {action.type === "line-awesome" ? (
-                                                        <i className={action.icon}></i>
-                                                    ) : (
-                                                        <span className="material-symbols-outlined">
-                                                            {action.id === "expand"
-                                                                ? isCollapsed
-                                                                    ? "expand_content"
-                                                                    : "collapse_content"
-                                                                : action.icon}
-                                                        </span>
-                                                    )}
-                                                </button>
-                                            )
-                                        })}
+                                    // collapse state me sirf expand button dikhao
+                                    if (isCollapsed && action.id !== "expand") {
+                                        return null
+                                    }
+
+                                    return (
+                                        <button
+                                            key={action.id}
+                                            type="button"
+                                            className={`btn btn-icon btn-sm ${action.className} ${
+                                                action.id === "expand" && isCollapsed
+                                                    ? "expand"
+                                                    : ""
+                                            }`}
+                                            onClick={() => {
+                                                if (action.id === "replay") {
+                                                    toggleRoutine(board.id)
+                                                }
+
+                                                if (action.id === "expand") {
+                                                    toggleCollapse(board.id)
+                                                }
+                                            }}
+                                        >
+                                            {action.type === "material" ? (
+                                                <span className="material-symbols-outlined">
+                                                    {action.id === "expand"
+                                                        ? isCollapsed
+                                                            ? "expand_content"
+                                                            : "collapse_content"
+                                                        : action.icon}
+                                                </span>
+                                            ) : (
+                                                <span className="material-icons">add</span>
+                                            )}
+                                        </button>
+                                    )
+                                })}
+                            </div>
+                        </div>
+
+                        <div className="t-bod">
+                            {/* ROUTINE */}
+
+                            <div className={`routine-wrapper ${isRoutineOpen ? "open" : "close"}`}>
+                                <div className={`r-tasks sortable ui-sortable`}>
+                                    <DroppableContainer
+                                        id={`routine-${board.id}`}
+                                        title="Routine"
+                                        items={board.routineData}
+                                    />
                                 </div>
                             </div>
 
-                            <div
-                                className="t-bod"
-                                style={{ display: isCollapsed ? "none" : "block" }}
-                            >
-                                {/* ROUTINE LIST */}
-                                <div
-                                    className={`routine-wrapper ${
-                                        isRoutineOpen ? "open" : "close"
-                                    }`}
-                                >
-                                    <DroppableColumn
-                                        column={routineColumn}
-                                        className="r-tasks sortable ui-sortable"
+                            {/* COLUMNS */}
+
+                            <div className="dl-row">
+                                {board.columns.map((column, index) => (
+                                    <div
+                                        key={column.id}
+                                        className={`column-wrapper ${
+                                            index === 0
+                                                ? "d-cal sortable ui-sortable "
+                                                : "l-tasks sortable ui-sortable "
+                                        }`}
                                     >
-                                        <SortableContext
-                                            items={board.routineData.map((r: any) => r.id)}
-                                            strategy={verticalListSortingStrategy}
-                                        >
-                                            {board.routineData.map((routine: any) => (
-                                                <SortableTask
-                                                    key={routine.id}
-                                                    item={routineToTask(routine)}
-                                                />
-                                            ))}
-                                        </SortableContext>
-                                    </DroppableColumn>
-                                </div>
+                                        <DroppableContainer
+                                            id={column.id}
+                                            title={column.title}
+                                            items={column.items}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                )
+            })}
 
-                                <div className="dl-row">
-                                    {board.columns.map((column) => (
-                                        <DroppableColumn
-                                            key={column.id}
-                                            column={column}
-                                            className={
-                                                column.colPosition === "left"
-                                                    ? "d-cal sortable ui-sortable"
-                                                    : "l-tasks sortable ui-sortable"
-                                            }
-                                        >
-                                            <SortableContext
-                                                items={column.items.map((item) => item.id)}
-                                                strategy={verticalListSortingStrategy}
-                                            >
-                                                {column.items.map((item) => (
-                                                    <SortableTask key={item.id} item={item} />
-                                                ))}
-                                            </SortableContext>
-                                        </DroppableColumn>
-                                    ))}
+            <DragOverlay>
+                {activeItem ? (
+                    <div className="drag-overlay">
+                        <div
+                            className="task hover-icons hi-v2 c1 ui-sortable-handle"
+                            data-duration={
+                                "duration" in activeItem ? activeItem.duration : activeItem.count
+                            }
+                        >
+                            <div>
+                                <span className="duration">
+                                    {"duration" in activeItem
+                                        ? activeItem.duration
+                                        : activeItem.count}
+                                </span>
+
+                                <span className="name">
+                                    <span>{activeItem.label}</span>
+                                </span>
+
+                                <div className="icons">
+                                    <HoveredIcons />
                                 </div>
                             </div>
                         </div>
-                    )
-                })}
-
-                <DragOverlay>
-                    {activeTask ? (
-                        <div
-                            data-duration={activeTask.count}
-                            className="task hover-icons hi-v2 c1 ui-sortable-handle"
-                            style={{ width: "100%", cursor: "grabbing", boxSizing: "border-box" }}
-                        >
-                            <TaskCard item={activeTask} dragging />
-                        </div>
-                    ) : null}
-                </DragOverlay>
-            </DndContext>
-        </>
+                    </div>
+                ) : null}
+            </DragOverlay>
+        </DndContext>
     )
 }
-
-export default TalendarDraggable

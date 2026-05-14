@@ -125,7 +125,10 @@ const Page = () => {
                                                                         items as TaskCheckItem[],
                                                                     )
                                                                 }
-                                                                actions={headerActions}
+                                                                actions={headerActions.filter(
+                                                                    (action) =>
+                                                                        action.id !== "replay",
+                                                                )}
                                                             />
                                                         ))}
                                                 </div>

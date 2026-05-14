@@ -32,7 +32,9 @@ export default function Page() {
                                                     <HorizontalView
                                                         data={FENCES_FIXTURE}
                                                         headerActions={headerActions.filter(
-                                                            (action) => action.id !== "settings",
+                                                            (action) =>
+                                                                action.id !== "settings" &&
+                                                                action.id !== "replay",
                                                         )}
                                                     />
                                                 )}

@@ -169,7 +169,9 @@ const Page = () => {
                                                 id={fence.id}
                                                 title={fence.label as string}
                                                 items={fence.taskCheckList}
-                                                actions={headerActions}
+                                                actions={headerActions.filter(
+                                                    (action) => action.id !== "replay",
+                                                )}
                                                 onChange={() => {}}
                                             />
                                         ))}

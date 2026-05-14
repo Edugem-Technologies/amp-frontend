@@ -2,7 +2,7 @@
 import HorizontalView from "@/app/components/common/HorizontalView"
 import { useAppContext } from "@/app/context/AppContext"
 import { MASTER_TASKS } from "@/fixtures/MasterData"
-import { CONFIG } from "@/utils/Constants"
+import { CONFIG, headerActions } from "@/utils/Constants"
 import { useEffect } from "react"
 
 export default function Page() {
@@ -23,7 +23,12 @@ export default function Page() {
                                         <div className="tab-people jkanban_roadmaps">
                                             <div className="kanban-container">
                                                 {layout === CONFIG.LAYOUT.HORIZONTAL && (
-                                                    <HorizontalView data={MASTER_TASKS} />
+                                                    <HorizontalView
+                                                        data={MASTER_TASKS}
+                                                        headerActions={headerActions.filter(
+                                                            (action) => action.id !== "replay",
+                                                        )}
+                                                    />
                                                 )}
                                             </div>
                                         </div>

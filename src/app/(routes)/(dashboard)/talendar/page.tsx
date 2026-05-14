@@ -21,7 +21,7 @@ const Page = () => {
                 <div className="container-fluid p-0 pages talendar">
                     <div className="g-5 gx-xxl-8">
                         <div className="tldr">
-                            <div className="c-left">
+                            <div className="c-left" style={{ minHeight: "calc(100vh -  66px)" }}>
                                 <TalendarDraggable />
                             </div>
                         </div>

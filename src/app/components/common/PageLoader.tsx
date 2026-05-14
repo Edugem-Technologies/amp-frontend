@@ -12,17 +12,12 @@ export default function PageLoader() {
 
     useEffect(() => {
         setLoading(true)
-
-        document.body.classList.add(...BODY_CLASSES.split(" "))
-
         const timer = setTimeout(() => {
             setLoading(false)
-            document.body.classList.remove(...BODY_CLASSES.split(" "))
         }, 1000)
 
         return () => {
             clearTimeout(timer)
-            document.body.classList.remove(...BODY_CLASSES.split(" "))
         }
     }, [pathname])
 

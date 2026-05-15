@@ -18,7 +18,7 @@ const UserDropdown = () => {
     const [open, setOpen] = useState(false)
     const [profileImageURL, setProfileImageURL] = useState<string | null>(null)
     const wrapperRef = useRef<HTMLDivElement>(null)
-    const { setShow } = useAppContext()
+    const { toggleSlider } = useAppContext()
     useEffect(() => {
         setProfileImageURL(
             getDecryptedSessionStorageData(CONFIG.SESSION_STORAGE_VARIABLES.PROFILE_IMAGE_URL),
@@ -62,7 +62,10 @@ const UserDropdown = () => {
     }
 
     const firstLetter = user?.first_name?.charAt(0)?.toUpperCase() ?? "M"
-
+    const openGlobalSlider = (type: "favourites" | "requests" | "assistant" | "mirrored") => {
+        toggleSlider(type)
+        setOpen(false)
+    }
     return (
         <div className="user-dropdown" ref={wrapperRef}>
             {/* Trigger */}
@@ -93,24 +96,21 @@ const UserDropdown = () => {
                     <ul>
                         <li
                             onClick={() => {
-                                setShow((prev) => !prev)
-                                setOpen(false)
+                                openGlobalSlider("favourites")
                             }}
                         >
                             Favourites
                         </li>
                         <li
                             onClick={() => {
-                                setShow((prev) => !prev)
-                                setOpen(false)
+                                openGlobalSlider("requests")
                             }}
                         >
                             Requests
                         </li>
                         <li
                             onClick={() => {
-                                setShow((prev) => !prev)
-                                setOpen(false)
+                                openGlobalSlider("assistant")
                             }}
                         >
                             Assistant

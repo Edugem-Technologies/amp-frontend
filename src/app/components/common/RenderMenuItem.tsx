@@ -27,6 +27,7 @@ const RenderMenuItem = ({
     collapseSideBar,
     isMobileView,
     isActive,
+    toggleBodyClass,
 }: {
     sidebarItems: SidebarItemsType[]
     sidebarCollapse: boolean
@@ -35,6 +36,7 @@ const RenderMenuItem = ({
     collapseSideBar?: () => void
     isMobileView?: boolean
     isActive?: (url: string | undefined) => boolean
+    toggleBodyClass?: (className: string) => void
 }) => {
     // const pathName = usePathname()
 
@@ -88,6 +90,12 @@ const RenderMenuItem = ({
     const getMenuItems = (name: string, link: string | undefined, icon?: string) => {
         const active = isActive?.(link)
 
+        const handleSliderClick = (name: string) => {
+            if (name === "Mirrored") toggleBodyClass?.("mirrored")
+            if (name === "Favorites") toggleBodyClass?.("favourites")
+            if (name === "Requests") toggleBodyClass?.("requests")
+            if (name === "Assistants") toggleBodyClass?.("assistant")
+        }
         return (
             <MenuItem
                 key={name + link}
@@ -98,7 +106,14 @@ const RenderMenuItem = ({
                 }}
                 component={
                     isDrawerBar ? (
-                        <div onClick={handleShow}>Click</div>
+                        <div
+                            onClick={() => {
+                                handleShow?.()
+                                handleSliderClick(name)
+                            }}
+                        >
+                            Click
+                        </div>
                     ) : (
                         link && <Link href={link} />
                     )

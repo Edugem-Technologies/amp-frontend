@@ -5,10 +5,18 @@ import { PIPELINE_DASHBOARD_DATA, PIPELINES_CHECKLIST } from "@/fixtures/Pipelin
 import { Fence, TaskCheckItem } from "@/types/components/DragSortableCards"
 import React, { useState, useMemo } from "react"
 import { DndContext, closestCenter, DragEndEvent, DragOverlay, DragStartEvent } from "@dnd-kit/core"
+import { useSensor, useSensors, PointerSensor } from "@dnd-kit/core"
 import { arrayMove } from "@dnd-kit/sortable"
 import { headerActions } from "@/utils/Constants"
 
 const Page = () => {
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            activationConstraint: {
+                distance: 8, // 👈 THIS is what fixes click vs drag
+            },
+        }),
+    )
     const [fences, setFences] = useState<Fence[]>(PIPELINES_CHECKLIST)
     const [activeItem, setActiveItem] = useState<TaskCheckItem | null>(null)
 
@@ -161,6 +169,7 @@ const Page = () => {
                                     collisionDetection={closestCenter}
                                     onDragStart={handleDragStart}
                                     onDragEnd={handleDragEnd}
+                                    sensors={sensors}
                                 >
                                     <div className="horizontal-view main-dashboard-container container-wrapper kanban-container">
                                         {fences.map((fence, index) => (

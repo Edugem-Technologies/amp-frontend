@@ -8,6 +8,7 @@ import { DndContext, closestCenter, DragEndEvent, DragOverlay, DragStartEvent } 
 
 import { arrayMove } from "@dnd-kit/sortable"
 import { HeaderActionsTypes } from "@/types/components/HeaderActions"
+import { useSensor, useSensors, PointerSensor } from "@dnd-kit/core"
 
 const HorizontalView = ({
     data,
@@ -19,7 +20,13 @@ const HorizontalView = ({
     const [fences, setFences] = useState<Fence[]>(data)
 
     const [activeItem, setActiveItem] = useState<TaskCheckItem | null>(null)
-
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            activationConstraint: {
+                distance: 8,
+            },
+        }),
+    )
     // itemId -> fenceId
     const itemFenceMap = useMemo(() => {
         const map: Record<string, string> = {}
@@ -105,6 +112,7 @@ const HorizontalView = ({
             collisionDetection={closestCenter}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
+            sensors={sensors}
         >
             {fences.map((fence) => (
                 <DragSortableCards

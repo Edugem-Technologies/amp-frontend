@@ -7,6 +7,8 @@ import { DragColumnProps, TaskCheckItem } from "@/types/components/DragSortableC
 import Link from "next/link"
 import HoveredIcons from "../common/HoveredIcons"
 import { Button, Form, Modal } from "react-bootstrap"
+import TaskModal from "../task-modal/TaskModal"
+import { taskData } from "../task-modal/TaskModalData"
 
 type TaskCardProps = {
     item: TaskCheckItem
@@ -14,7 +16,7 @@ type TaskCardProps = {
 }
 
 export const TaskCard = ({ item, isDragging = false }: TaskCardProps) => {
-    console.log("isDraggingisDraggingisDragging", isDragging)
+    const [show, setShow] = useState(false)
 
     return (
         <div
@@ -27,7 +29,13 @@ export const TaskCard = ({ item, isDragging = false }: TaskCardProps) => {
                 transition: "transform 0.2s ease",
             }}
         >
-            <div className="item-card actions hover-icons v3">
+            <div
+                className="item-card actions hover-icons v3"
+                onClick={(e) => {
+                    if (e.defaultPrevented) return
+                    setShow(true)
+                }}
+            >
                 <div className="description">
                     <div
                         className="bar"
@@ -59,6 +67,7 @@ export const TaskCard = ({ item, isDragging = false }: TaskCardProps) => {
                 </div>
                 <HoveredIcons />
             </div>
+            <TaskModal show={show} handleClose={() => setShow(false)} taskData={taskData} />
         </div>
     )
 }

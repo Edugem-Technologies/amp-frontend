@@ -54893,7 +54893,7 @@ code:not([class*="language-"]) {
 [direction="rtl"] .active > .rotate-n270 {
   transform: rotateZ(270deg);
 }
-/* 
+
 @media (min-width: 992px) {
   span,
   ol,
@@ -54932,7 +54932,7 @@ code:not([class*="language-"]) {
   div:hover::-webkit-scrollbar-thumb {
     background-color: #e9edf1;
   }
-} */
+}
 .scroll {
   overflow: scroll;
   position: relative;

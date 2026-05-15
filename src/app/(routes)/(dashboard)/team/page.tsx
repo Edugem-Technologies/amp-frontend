@@ -8,7 +8,16 @@ import { Fence, TaskCheckItem } from "@/types/components/DragSortableCards"
 import { CONFIG, headerActions } from "@/utils/Constants"
 import React, { useEffect, useState, useMemo } from "react"
 
-import { DndContext, closestCenter, DragEndEvent, DragStartEvent, DragOverlay } from "@dnd-kit/core"
+import {
+    DndContext,
+    closestCenter,
+    DragEndEvent,
+    DragStartEvent,
+    DragOverlay,
+    useSensor,
+    useSensors,
+    PointerSensor,
+} from "@dnd-kit/core"
 
 import { arrayMove } from "@dnd-kit/sortable"
 
@@ -17,7 +26,13 @@ const Page = () => {
     const [activeItem, setActiveItem] = useState<TaskCheckItem | null>(null)
 
     const { layout, setLayout } = useAppContext()
-
+    const sensors = useSensors(
+        useSensor(PointerSensor, {
+            activationConstraint: {
+                distance: 8,
+            },
+        }),
+    )
     const updateFenceItems = (fenceId: string, items: TaskCheckItem[]) => {
         setFences((prev) =>
             prev.map((f) => (f.id === fenceId ? { ...f, taskCheckList: items } : f)),
@@ -109,6 +124,7 @@ const Page = () => {
                                                 collisionDetection={closestCenter}
                                                 onDragStart={handleDragStart}
                                                 onDragEnd={handleDragEnd}
+                                                sensors={sensors}
                                             >
                                                 <div className="kanban-container">
                                                     {layout === CONFIG.LAYOUT.COLUMNS &&

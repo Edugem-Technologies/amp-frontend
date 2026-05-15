@@ -310,7 +310,7 @@ input[type=checkbox]:checked + label.strikethrough {
 }
 .btn.btn-primary {
   border-color: var(--primary-color);
-  background-color: var(--primary-color) !important;
+  background-color: var(--primary-color);
 }
 .btn.btn-primary:hover:not(.btn-active), .btn.btn-primary:active:not(.btn-active), .btn.btn-primary:focus:not(.btn-active) {
   border-color: #333333;

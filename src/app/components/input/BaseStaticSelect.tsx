@@ -7,11 +7,26 @@ const CheckboxOption = (props: OptionProps<Option, boolean>) => {
         <components.Option {...props}>
             <input
                 type="checkbox"
-                className="form-check-input"
+                className="form-check-input me-3"
                 checked={props.isSelected}
                 onChange={() => null}
             />
             <label>{props.label}</label>
+        </components.Option>
+    )
+}
+
+const RadioOption = (props: OptionProps<Option, boolean>) => {
+    return (
+        <components.Option {...props}>
+            <input
+                type="radio"
+                className="form-check-input"
+                checked={props.isSelected}
+                onChange={() => null}
+                name="react-select-radio"
+            />
+            <label className="ms-2">{props.label}</label>
         </components.Option>
     )
 }
@@ -47,15 +62,19 @@ const BaseStaticSelect: React.FC<BaseStaticSelectPropType> = (props) => {
                 styles={{
                     ...CONFIG.DROPDOWN_STYLE,
                 }}
+                classNames={{
+                    control: () => "form-input-dropdown custom-border",
+                    menu: () => "animated-select-menu",
+                    menuList: () => "animated-select-menu-list",
+                }}
                 controlShouldRenderValue={true} // show selected option in the input
                 options={options}
                 placeholder={"Select an option"}
-                classNames={{
-                    control: () => "form-input-dropdown custom-border",
-                    // multiValue: () => "multivalue-dropdown-pills",
-                }}
                 components={{
                     ...(props.isCheckBoxDropdowns ? { Option: CheckboxOption } : {}),
+                    ...(props.isRadioDropdown
+                        ? { Option: RadioOption }
+                        : {}),
                     MultiValue: () => null,
                 }}
                 isClearable={true}

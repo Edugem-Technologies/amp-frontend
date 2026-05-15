@@ -1,7 +1,7 @@
 // TaskModal.tsx
 "use client"
 
-import { Modal, Row, Col, Accordion, Form, Button } from "react-bootstrap"
+import { Modal, Col, Accordion, Form, Button } from "react-bootstrap"
 import TaskHistory from "./TaskHistory"
 import TaskNotes, { NoteItem } from "./TaskNotes"
 import TaskLinks, { LinkItem } from "./TaskLinks"
@@ -128,248 +128,257 @@ const TaskModal = ({ show, handleClose, taskData }: TaskModalProps) => {
     }
     return (
         <Modal show={show} onHide={handleClose} centered size="xl" className="task-card v2">
-            <Modal.Body className="p-0">
-                <div className="modal-body">
-                    <Row className="h-100 g-0">
-                        {/* LEFT SIDE */}
-                        <Col md={5} className="border-end c1">
-                            <div>
-                                <div className="text-gray-800 fw-bolder">
-                                    <div className="text-purple mb-1">Description</div>
-                                    <div className="d-flex flex-column fv-row">
-                                        <textarea
-                                            rows={4}
-                                            style={{ height: "fit-content" }}
-                                            className="form-control mt-2"
-                                            placeholder=""
-                                        >
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                            Cumque vero blanditiis earum natus veritatis deleniti
-                                            voluptate nihil doloremque totam saepe?
-                                        </textarea>
-                                    </div>
+            <Modal.Header closeButton className="py-4">
+                <h2 className="task-name">Task Title</h2>
+            </Modal.Header>
+            <Modal.Body>
+                <div className="row h-100">
+                    {/* LEFT SIDE */}
+                    <div className="col-5 border-end c1">
+                        <div>
+                            <div className="text-gray-800 fw-bolder">
+                                <div className="text-purple mb-1">Description</div>
+                                <div className="d-flex flex-column fv-row">
+                                    <textarea
+                                        rows={4}
+                                        style={{ height: "fit-content" }}
+                                        className="form-control mt-2"
+                                        placeholder=""
+                                    >
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                        Cumque vero blanditiis earum natus veritatis deleniti
+                                        voluptate nihil doloremque totam saepe?
+                                    </textarea>
                                 </div>
+                            </div>
 
-                                {/* Updates */}
-                                <Accordion className="v1 my-6" defaultActiveKey="">
-                                    <Accordion.Item eventKey="0">
-                                        <Accordion.Header>
-                                            <span className="position-relative">
-                                                Updates
-                                                <span className="count">
-                                                    <span>{taskData.updates.length}</span>
-                                                </span>
+                            {/* Updates */}
+                            <Accordion className="v1 my-6" defaultActiveKey="">
+                                <Accordion.Item eventKey="0">
+                                    <Accordion.Header>
+                                        <span className="position-relative">
+                                            Updates
+                                            <span className="count">
+                                                <span>{taskData.updates.length}</span>
                                             </span>
-                                        </Accordion.Header>
+                                        </span>
+                                    </Accordion.Header>
 
-                                        <Accordion.Body>
-                                            <div>
-                                                {taskData.updates.map((update) => (
-                                                    <div className="d-flex mb-5" key={update.id}>
-                                                        <div className="symbol symbol-45px me-5">
-                                                            {update.avatar ? (
-                                                                <img src={update.avatar} alt="" />
-                                                            ) : (
-                                                                <div className="symbol-label fs-4 fw-bold bg-electric text-inverse-primary">
-                                                                    {update.initials}
-                                                                </div>
-                                                            )}
-                                                        </div>
-
-                                                        <div className="d-flex flex-column flex-row-fluid">
-                                                            <div className="d-flex align-items-center flex-wrap mb-1">
-                                                                <a
-                                                                    href="#"
-                                                                    className="text-gray-800 text-hover-primary fw-bolder me-2"
-                                                                >
-                                                                    {update.name}
-                                                                </a>
-
-                                                                <span className="text-gray-400 fw-bold fs-7">
-                                                                    {update.time}
-                                                                </span>
+                                    <Accordion.Body>
+                                        <div>
+                                            {taskData.updates.map((update) => (
+                                                <div className="d-flex mb-5" key={update.id}>
+                                                    <div className="symbol symbol-45px me-5">
+                                                        {update.avatar ? (
+                                                            <img src={update.avatar} alt="" />
+                                                        ) : (
+                                                            <div className="symbol-label fs-4 fw-bold bg-electric text-inverse-primary">
+                                                                {update.initials}
                                                             </div>
+                                                        )}
+                                                    </div>
 
-                                                            <span className="text-gray-800 fw-normal pt-1">
-                                                                {update.message}
+                                                    <div className="d-flex flex-column flex-row-fluid">
+                                                        <div className="d-flex align-items-center flex-wrap mb-1">
+                                                            <a
+                                                                href="#"
+                                                                className="text-gray-800 text-hover-primary fw-bolder me-2"
+                                                            >
+                                                                {update.name}
+                                                            </a>
+
+                                                            <span className="text-gray-400 fw-bold fs-7">
+                                                                {update.time}
                                                             </span>
                                                         </div>
-                                                    </div>
-                                                ))}
 
-                                                <div className="card-footer p-0 pt-4">
-                                                    <Form.Control
-                                                        as="textarea"
-                                                        className="form-control form-control-solid mb-2"
-                                                        placeholder="Add Update.."
-                                                        rows={4}
-                                                    />
-
-                                                    <div className="d-flex flex-stack">
-                                                        <div className="d-flex align-items-center me-2">
-                                                            &nbsp;
-                                                        </div>
-
-                                                        <Button
-                                                            className="btn btn-sm btn-purple"
-                                                            type="button"
-                                                        >
-                                                            Add Update
-                                                        </Button>
+                                                        <span className="text-gray-800 fw-normal pt-1">
+                                                            {update.message}
+                                                        </span>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </Accordion.Body>
-                                    </Accordion.Item>
-                                </Accordion>
+                                            ))}
 
-                                {/* Checklist */}
-                                <Accordion className="v1 my-6">
-                                    <Accordion.Item eventKey="0">
-                                        <Accordion.Header>Check List</Accordion.Header>
+                                            <div className="card-footer p-0 pt-4">
+                                                <Form.Control
+                                                    as="textarea"
+                                                    className="form-control form-control-solid mb-2"
+                                                    placeholder="Add Update.."
+                                                    rows={4}
+                                                />
 
-                                        <Accordion.Body>
-                                            <div>
-                                                {taskData.checklist.map((item) => (
-                                                    <label
-                                                        className="form-check form-check-sm form-check-custom form-check-solid mb-3 align-items-start"
-                                                        key={item.id}
-                                                    >
-                                                        <input
-                                                            className="form-check-input"
-                                                            type="checkbox"
-                                                            defaultChecked={item.checked}
-                                                        />
+                                                <div className="d-flex flex-stack">
+                                                    <div className="d-flex align-items-center me-2">
+                                                        &nbsp;
+                                                    </div>
 
-                                                        <span className="form-check-label">
-                                                            {item.text}
-                                                        </span>
-                                                    </label>
-                                                ))}
-
-                                                <div className="text-end">
                                                     <Button
+                                                        className="btn btn-sm btn-purple"
                                                         type="button"
-                                                        className="btn btn-sm btn-mw btn-outline btn-outline-dark"
                                                     >
-                                                        <span>Add Checklist</span>
+                                                        Add Update
                                                     </Button>
                                                 </div>
                                             </div>
-                                        </Accordion.Body>
-                                    </Accordion.Item>
-                                </Accordion>
+                                        </div>
+                                    </Accordion.Body>
+                                </Accordion.Item>
+                            </Accordion>
 
-                                <TaskHistory history={taskData.history} />
+                            {/* Checklist */}
+                            <Accordion className="v1 my-6">
+                                <Accordion.Item eventKey="0">
+                                    <Accordion.Header>Check List</Accordion.Header>
 
-                                {/* Notes */}
-                                <TaskNotes notes={taskData.notes} />
-                                {/* Links */}
-                                <TaskLinks links={taskData.links} />
+                                    <Accordion.Body>
+                                        <div>
+                                            {taskData.checklist.map((item) => (
+                                                <label
+                                                    className="form-check form-check-sm form-check-custom form-check-solid mb-3 align-items-start"
+                                                    key={item.id}
+                                                >
+                                                    <input
+                                                        className="form-check-input"
+                                                        type="checkbox"
+                                                        defaultChecked={item.checked}
+                                                    />
 
-                                {/* Attachments */}
-                                <TaskAttachments attachments={taskData.attachments} />
+                                                    <span className="form-check-label">
+                                                        {item.text}
+                                                    </span>
+                                                </label>
+                                            ))}
 
-                                <TaskVoiceNotes voiceNotes={taskData.voiceNotes} />
-                            </div>
-                        </Col>
+                                            <div className="text-end">
+                                                <Button
+                                                    type="button"
+                                                    className="btn btn-sm btn-mw btn-outline btn-outline-dark"
+                                                >
+                                                    <span>Add Checklist</span>
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </Accordion.Body>
+                                </Accordion.Item>
+                            </Accordion>
 
-                        {/* CENTER */}
-                        <Col md={4} className="c2 p-4">
-                            <AreaSelect />
-                            {/* <div className="fw-bold mb-3">Priority</div> */}
+                            <TaskHistory history={taskData.history} />
 
-                            {/* <Form.Select className="mb-4">
+                            {/* Notes */}
+                            <TaskNotes notes={taskData.notes} />
+                            {/* Links */}
+                            <TaskLinks links={taskData.links} />
+
+                            {/* Attachments */}
+                            <TaskAttachments attachments={taskData.attachments} />
+
+                            <TaskVoiceNotes voiceNotes={taskData.voiceNotes} />
+                        </div>
+                    </div>
+
+                    {/* CENTER */}
+                    <Col md={4} className="col-4 c2">
+                        <AreaSelect />
+                        {/* <div className="fw-bold mb-3">Priority</div> */}
+
+                        {/* <Form.Select className="mb-4">
                                 <option>High</option>
                                 <option>Medium</option>
                                 <option>Low</option>
                             </Form.Select> */}
 
-                            <div className="separator my-3"></div>
+                        <div className="separator my-3"></div>
 
-                            <PrioritySelect
-                                options={taskData.priorityOptions}
-                                value={priority}
-                                onChange={setPriority}
-                                placeholder="Priority"
-                                className="w-100"
-                            />
-                            <div className="separator my-3"></div>
+                        <PrioritySelect
+                            options={taskData.priorityOptions}
+                            value={priority}
+                            onChange={setPriority}
+                            placeholder="Priority"
+                            className="w-100"
+                        />
+                        <div className="separator my-3"></div>
 
-                            <ProgressSelect options={taskData.progressOptions} />
+                        <ProgressSelect options={taskData.progressOptions} />
 
-                            <div className="separator my-3"></div>
+                        <div className="separator my-3"></div>
 
-                            <TeamAccordion team={taskData.team} />
+                        <TeamAccordion team={taskData.team} />
 
-                            <div className="separator my-3"></div>
-                            <Tags
-                                tags={taskData.tags}
-                                selectedTags={selectedTags}
-                                onToggle={handleToggleTag}
-                            />
+                        <div className="separator my-3"></div>
+                        <Tags
+                            tags={taskData.tags}
+                            selectedTags={selectedTags}
+                            onToggle={handleToggleTag}
+                        />
 
-                            <TimeRequired
-                                durations={taskData.timeRequired}
-                                selected={selectedDuration}
-                                onSelect={handleSelectDuration}
-                            />
-                        </Col>
+                        <TimeRequired
+                            durations={taskData.timeRequired}
+                            selected={selectedDuration}
+                            onSelect={handleSelectDuration}
+                        />
+                    </Col>
 
-                        {/* RIGHT SIDE */}
-                        <Col md={3} className="border-start c3 p-4">
+                    {/* RIGHT SIDE */}
+                    <Col md={2} className="col-2 border-start c3">
+                        <div>
                             <div>
-                                <div>
-                                    {actionButtons.map((label, index) => (
-                                        <Button
-                                            key={index}
-                                            type="button"
-                                            className="btn btn-outline-dark w-100 mb-3"
-                                        >
-                                            {label}
-                                        </Button>
-                                    ))}
-                                </div>
-
-                                <Switchers
-                                    items={taskData.switchers}
-                                    state={switchState}
-                                    onToggle={handleToggleSwitch}
-                                />
-                                <div className="separator my-3"></div>
-                                <MirroredSections items={taskData.mirroredSections} />
-                                <div>
-                                    <div className="mt-2">
-                                        <div className="fw-bold mb-1">Due Date</div>
-
-                                        <div>
-                                            <Form.Control
-                                                type="date"
-                                                className="form-control form-control-solid p-1 ps-2"
-                                                defaultValue={taskData.dueDate}
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="mt-3">
-                                        <div className="fw-bold mb-1">Created Date</div>
-
-                                        <div>
-                                            <Form.Control
-                                                type="date"
-                                                className="form-control form-control-solid p-1 ps-2"
-                                                defaultValue={taskData.createdDate}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="separator my-3"></div>
+                                {actionButtons.map((label, index) => (
+                                    <Button
+                                        key={index}
+                                        type="button"
+                                        className="btn btn-outline-dark w-100 mb-3"
+                                    >
+                                        {label}
+                                    </Button>
+                                ))}
                             </div>
-                        </Col>
-                    </Row>
+
+                            <Switchers
+                                items={taskData.switchers}
+                                state={switchState}
+                                onToggle={handleToggleSwitch}
+                            />
+                            <div className="separator my-3"></div>
+                            <MirroredSections items={taskData.mirroredSections} />
+                            <div>
+                                <div className="mt-2">
+                                    <div className="fw-bold mb-1">Due Date</div>
+
+                                    <div>
+                                        <Form.Control
+                                            type="date"
+                                            className="form-control form-control-solid p-1 ps-2"
+                                            defaultValue={taskData.dueDate}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="mt-3">
+                                    <div className="fw-bold mb-1">Created Date</div>
+
+                                    <div>
+                                        <Form.Control
+                                            type="date"
+                                            className="form-control form-control-solid p-1 ps-2"
+                                            defaultValue={taskData.createdDate}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="separator my-3"></div>
+                        </div>
+                    </Col>
                 </div>
             </Modal.Body>
+            <Modal.Footer className="py-4">
+                <button className="btn btn-purple btn-mw">
+                    <span className="indicator-label">Save</span>
+                    <span className="indicator-progress">
+                        <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
+                    </span>
+                </button>
+            </Modal.Footer>
         </Modal>
     )
 }

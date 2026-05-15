@@ -7,7 +7,6 @@ import { CONFIG } from "@/utils/Constants"
 import { usePathname } from "next/navigation"
 import { Option } from "@/types/components/ReactSelect"
 
-// Define the type for your context state
 interface AppContextType {
     state: string
     setState: (value: string) => void
@@ -25,18 +24,20 @@ interface AppContextType {
     setIsCatActive: Dispatch<SetStateAction<boolean>>
     isTimerActive: boolean
     setIsTimerActive: Dispatch<SetStateAction<boolean>>
-    // handleBottomMenuClick: (menu: Exclude<BottomMenuType, null>) => void
-    // activeBottomMenu: string | null
-    // isBottomDrawerOpen: boolean
-    // setActiveBottomMenu: Dispatch<SetStateAction<BottomMenuType>>
     show: boolean
     setShow: Dispatch<SetStateAction<boolean>>
+    activeSlider: "favourites" | "requests" | "assistant" | "mirrored" | null
+    setActiveSlider: Dispatch<
+        SetStateAction<"favourites" | "requests" | "assistant" | "mirrored" | null>
+    >
+    toggleSlider: (
+        type: Exclude<"favourites" | "requests" | "assistant" | "mirrored" | null, null>,
+    ) => void
+    closeSlider: () => void
 }
 
-// Create the context with a default value
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
-// Create a provider component
 interface AppProviderProps {
     children: ReactNode
 }
@@ -54,13 +55,19 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     const [isCatActive, setIsCatActive] = useState<boolean>(false)
     const [isTimerActive, setIsTimerActive] = useState<boolean>(false)
     const [selectedRoadmaps, setSelectedRoadmaps] = useState<Option[]>([])
-    // const [activeBottomMenu, setActiveBottomMenu] = useState<BottomMenuType>(null)
-    // const [isBottomDrawerOpen, setIsBottomDrawerOpen] = useState<boolean>(false)
-    // const handleBottomMenuClick = (menu: Exclude<BottomMenuType, null>) => {
-    //     const result = handleBottomMenuToggle(activeBottomMenu, menu)
-    //     setActiveBottomMenu(result.activeMenu)
-    //     setIsBottomDrawerOpen(result.isOpen)
-    // }
+    const [activeSlider, setActiveSlider] = useState<
+        "favourites" | "requests" | "assistant" | "mirrored" | null
+    >(null)
+    const toggleSlider = (type: "favourites" | "requests" | "assistant" | "mirrored") => {
+        setActiveSlider((prev) => {
+            if (prev === type) return null
+            return type
+        })
+    }
+
+    const closeSlider = () => {
+        setActiveSlider(null)
+    }
 
     const [show, setShow] = useState(false)
 
@@ -87,8 +94,12 @@ export const AppProvider = ({ children }: AppProviderProps) => {
                 // activeBottomMenu,
                 // isBottomDrawerOpen,
                 // setActiveBottomMenu,
+                activeSlider,
+                setActiveSlider,
                 show,
                 setShow,
+                toggleSlider,
+                closeSlider,
             }}
         >
             {children}

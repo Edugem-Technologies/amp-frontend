@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import { useAppContext } from "@/app/context/AppContext"
 import { SidebarItemsType } from "@/types/components/Aside"
@@ -15,9 +16,121 @@ import TextInputField from "../input/TextInput"
 import { FlexMenuListCheckbox } from "./Navbar"
 import Select from "react-select"
 
+/* ----------------------------- ASSISTANT PANEL ----------------------------- */
+const AssistantPanel = ({ activeData }: any) => {
+    const [viewType, setViewType] = useState<"all" | "private">("all")
+
+    const tasks =
+        viewType === "all" ? activeData?.allTasksList || [] : activeData?.privateTasksList || []
+
+    return (
+        <div className="assistant-panel d-flex flex-column gap-4">
+            <div className="title t-bar justify-content-end">
+                <div className="c-tabs size-sm v-tasks-unsorted">
+                    <ul className="nav nav-pills">
+                        <li className="nav-item">
+                            <button
+                                onClick={() => setViewType("all")}
+                                className={`nav-link text-capitalize  ${
+                                    viewType === "all" ? "active" : ""
+                                }  `}
+                            >
+                                All
+                            </button>
+                        </li>
+                        <li className="nav-item">
+                            <button
+                                onClick={() => setViewType("private")}
+                                className={`nav-link text-capitalize  ${
+                                    viewType === "private" ? "active" : ""
+                                }`}
+                            >
+                                Private
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div className="scrollable-area">
+                <div key={viewType} className={`tasks fade-wrapper`}>
+                    {tasks.map((item: any, index: number) => (
+                        <div className="task" key={index}>
+                            <span className="name ellipsis-1">
+                                <span>{item.organization}</span>
+                            </span>
+                            <div className="t-details text-muted">{item.roadmap}</div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    )
+}
+
+/* ----------------------------- REQUESTS PANEL ----------------------------- */
+const RequestsPanel = ({ activeList }: any) => {
+    return (
+        <div className="scrollable-area">
+            <div className="tasks">
+                {activeList.map((item: any, index: number) => (
+                    <div className="task" key={index}>
+                        <span className="name ellipsis-1">
+                            <span>{item.organization}</span>
+                        </span>
+                        <div className="t-details text-muted">{item.roadmap}</div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+/* ---------------------------- FAVOURITES PANEL ---------------------------- */
+const FavouritesPanel = ({ activeList }: any) => {
+    return (
+        <div className="scrollable-area">
+            <div className="fav-group">
+                <div className="tasks">
+                    {activeList.map((item: any, index: number) => (
+                        <div className="task" key={index}>
+                            <span className="name ellipsis-2">{item.organization}</span>
+                            <div className="t-details text-muted">{item.roadmap}</div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    )
+}
+
+/* ----------------------------- MIRRORED PANEL ----------------------------- */
+const MirroredPanel = ({ activeList }: any) => {
+    return (
+        <div className="scrollable-area">
+            <div className="fav-group">
+                <div className="tasks">
+                    {activeList.map((item: any, index: number) => (
+                        <div className="task" key={index}>
+                            <span className="name ellipsis-2">{item.organization}</span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    )
+}
+
 const Aside = () => {
     const [isMobileView, setIsMobileView] = useState<boolean>(false)
-    const { sidebarCollapse, setSidebarCollapse, show, setShow } = useAppContext()
+    const {
+        sidebarCollapse,
+        setSidebarCollapse,
+        setShow,
+        activeSlider,
+        toggleSlider,
+        closeSlider,
+    } = useAppContext()
     const pathname = usePathname()
     const {
         isCatActive,
@@ -75,30 +188,6 @@ const Aside = () => {
             icon: "people",
             collapsable: true,
         },
-        // {
-        //     label: "Notes",
-        //     href: "/notes",
-        //     icon: "notes",
-        //     collapsable: true,
-        // },
-        // {
-        //     label: "Talendar",
-        //     href: "/talendar",
-        //     icon: "calendar_today",
-        //     collapsable: true,
-        // },
-        // {
-        //     label: "Live Feed",
-        //     href: "/live-feed",
-        //     icon: "game",
-        //     collapsable: true,
-        // },
-        // {
-        //     label: "Amp 2",
-        //     href: "/amp-2",
-        //     icon: "amp",
-        //     collapsable: true,
-        // },
     ]
 
     const bottomSidebarItems: SidebarItemsType[] = [
@@ -110,7 +199,6 @@ const Aside = () => {
 
     // const [show, setShow] = useState(false)
 
-    const handleClose = () => setShow(false)
     const handleShow = () => setShow((prev) => !prev)
 
     const collapseSideBar = () => {
@@ -122,6 +210,101 @@ const Aside = () => {
 
         return pathname === url
     }
+
+    const setBodySliderClass = (type: any) => {
+        const className = `show-aside-left-slider-${type}`
+
+        const isSame = activeSlider === type
+
+        document.body.classList.remove(
+            "show-aside-left-slider-mirrored",
+            "show-aside-left-slider-favourites",
+            "show-aside-left-slider-requests",
+            "show-aside-left-slider-assistant",
+        )
+
+        if (isSame) {
+            closeSlider()
+            return
+        }
+
+        closeSlider()
+
+        setTimeout(() => {
+            toggleSlider(type)
+            document.body.classList.add(className)
+        }, 250)
+    }
+
+    console.log("activeSlider", activeSlider)
+    const bottomSideNavCanvas = {
+        favourites: {
+            label: "Fovourites",
+            className: "favourites",
+            taskList: [
+                { organization: "XYZ GP Contract", roadmap: "XYZ Business Roadmap" },
+                { organization: "XYZ GP Contract", roadmap: "XYZ Business Roadmap" },
+                { organization: "XYZ GP Contract", roadmap: "XYZ Business Roadmap" },
+            ],
+        },
+
+        mirrored: {
+            label: "Mirrored",
+            className: "mirrored",
+            taskList: [
+                { organization: "XYZ GP Contract", roadmap: "XYZ Business Roadmap" },
+                { organization: "XYZ GP Contract", roadmap: "XYZ Business Roadmap" },
+                { organization: "XYZ GP Contract", roadmap: "XYZ Business Roadmap" },
+            ],
+        },
+
+        requests: {
+            label: "Requests",
+            className: "my-requests",
+            taskList: [
+                { organization: "XYZ GP Contract", roadmap: "XYZ Business Roadmap" },
+                { organization: "XYZ GP Contract", roadmap: "XYZ Business Roadmap" },
+                { organization: "XYZ GP Contract", roadmap: "XYZ Business Roadmap" },
+            ],
+        },
+        assistant: {
+            label: "Assistant",
+            className: "assistant",
+            allTasksList: [
+                { organization: "XYZ GP Contract", roadmap: "XYZ Business Roadmap" },
+                { organization: "XYZ GP Contract", roadmap: "XYZ Business Roadmap" },
+                { organization: "XYZ GP Contract", roadmap: "XYZ Business Roadmap" },
+            ],
+            privateTasksList: [
+                {
+                    organization: "GP Integration: Review and bottom out",
+                    roadmap: "Email | Splink",
+                },
+                {
+                    organization: "GP Integration: Review and bottom out",
+                    roadmap: "Email | Splink",
+                },
+                {
+                    organization: "GP Integration: Review and bottom out",
+                    roadmap: "Email | Splink",
+                },
+            ],
+        },
+    }
+
+    const activeData = activeSlider
+        ? bottomSideNavCanvas[activeSlider as keyof typeof bottomSideNavCanvas]
+        : null
+
+    const activeList =
+        activeSlider === "assistant"
+            ? []
+            : activeData && "taskList" in activeData
+              ? activeData.taskList
+              : []
+
+    const sliderClass = activeData?.className || ""
+
     useEffect(() => {
         const mediaQuery = window.matchMedia("(max-width: 991px)")
 
@@ -319,23 +502,36 @@ const Aside = () => {
                     handleShow={handleShow}
                     isDrawerBar={true}
                     isActive={isActive}
+                    toggleBodyClass={setBodySliderClass}
                 />
             </div>
 
             <Offcanvas
-                show={show}
-                onHide={handleClose}
+                key={activeSlider ?? ""}
+                show={activeSlider !== null}
+                onHide={() => closeSlider()}
                 backdrop={false}
-                className={`custom-offcanvas ${
+                placement="start"
+                className={`custom-offcanvas aside-left-slider ${sliderClass} ${
                     sidebarCollapse ? "sidebar-collapsed" : "sidebar-open"
                 }`}
+                style={{ gap: "0px" }}
             >
-                <Offcanvas.Header closeButton>
-                    <Offcanvas.Title>Offcanvas</Offcanvas.Title>
+                <Offcanvas.Header closeButton style={{ paddingLeft: "20px" }}>
+                    <div className="title">{activeData?.label}</div>
                 </Offcanvas.Header>
-                <Offcanvas.Body>
-                    Some text as placeholder. In real life you can have the elements you have
-                    chosen. Like, text, images, lists, etc.
+                <div className="scrollable-area"></div>
+
+                <Offcanvas.Body style={{ paddingTop: "0px", paddingLeft: "20px" }}>
+                    {activeSlider === "assistant" ? (
+                        <AssistantPanel activeData={activeData} />
+                    ) : activeSlider === "requests" ? (
+                        <RequestsPanel activeList={activeList} />
+                    ) : activeSlider === "favourites" ? (
+                        <FavouritesPanel activeList={activeList} />
+                    ) : activeSlider === "mirrored" ? (
+                        <MirroredPanel activeList={activeList} />
+                    ) : null}
                 </Offcanvas.Body>
             </Offcanvas>
         </Sidebar>

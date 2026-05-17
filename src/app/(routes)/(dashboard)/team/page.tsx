@@ -116,61 +116,80 @@ const Page = () => {
                 <div className="container-fluid p-0">
                     <div className="g-5 gx-xxl-8">
                         <div className="tab-content text-start">
-                            <div className="text-left">
-                                <div className="board-container kanban-v2">
-                                    <div className="board">
-                                        <div className="tab-people">
-                                            <DndContext
-                                                collisionDetection={closestCenter}
-                                                onDragStart={handleDragStart}
-                                                onDragEnd={handleDragEnd}
-                                                sensors={sensors}
-                                            >
-                                                <div className="kanban-container">
-                                                    {layout === CONFIG.LAYOUT.COLUMNS &&
-                                                        fences.map((fence, index) => (
-                                                            <DragSortableCards
-                                                                key={index}
-                                                                id={fence.id}
-                                                                userImage={fence.userImage}
-                                                                title={fence.userName as string}
-                                                                items={fence.taskCheckList}
-                                                                onChange={(items) =>
-                                                                    updateFenceItems(
-                                                                        fence.id,
-                                                                        items as TaskCheckItem[],
-                                                                    )
-                                                                }
-                                                                actions={headerActions.filter(
-                                                                    (action) =>
-                                                                        action.id !== "replay",
-                                                                )}
-                                                            />
-                                                        ))}
-                                                </div>
+                            <div className="position-relative">
+                                {/* COLUMN VIEW */}
+                                <div
+                                    className={`layout-fade-wrapper ${
+                                        layout === CONFIG.LAYOUT.COLUMNS
+                                            ? "layout-visible"
+                                            : "layout-hidden"
+                                    }`}
+                                >
+                                    <div className="text-left">
+                                        <div className="board-container kanban-v2">
+                                            <div className="board">
+                                                <div className="tab-people">
+                                                    <DndContext
+                                                        collisionDetection={closestCenter}
+                                                        onDragStart={handleDragStart}
+                                                        onDragEnd={handleDragEnd}
+                                                        sensors={sensors}
+                                                    >
+                                                        <div className="kanban-container">
+                                                            {fences.map((fence, index) => (
+                                                                <DragSortableCards
+                                                                    key={index}
+                                                                    id={fence.id}
+                                                                    userImage={fence.userImage}
+                                                                    title={fence.userName as string}
+                                                                    items={fence.taskCheckList}
+                                                                    onChange={(items) =>
+                                                                        updateFenceItems(
+                                                                            fence.id,
+                                                                            items as TaskCheckItem[],
+                                                                        )
+                                                                    }
+                                                                    actions={headerActions.filter(
+                                                                        (action) =>
+                                                                            action.id !== "replay",
+                                                                    )}
+                                                                />
+                                                            ))}
+                                                        </div>
 
-                                                <DragOverlay>
-                                                    {activeItem ? (
-                                                        <TaskCard item={activeItem} isDragging />
-                                                    ) : null}
-                                                </DragOverlay>
-                                            </DndContext>
+                                                        <DragOverlay>
+                                                            {activeItem ? (
+                                                                <TaskCard
+                                                                    item={activeItem}
+                                                                    isDragging
+                                                                />
+                                                            ) : null}
+                                                        </DragOverlay>
+                                                    </DndContext>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            {/* TABLE VIEW */}
-                            <div className="px-30px px-25">
-                                <div className="card card-xl-stretch mb-5 mb-xl-8 table-v1">
-                                    {layout === CONFIG.LAYOUT.TABLE && (
-                                        <div className="team-task-table card-body py-3">
-                                            <TaskTableView
-                                                sections={TASK_SECTIONS}
-                                                tableWClassName="gy-1"
-                                            />
+                                {/* TABLE VIEW */}
+                                <div
+                                    className={`layout-fade-wrapper ${
+                                        layout === CONFIG.LAYOUT.TABLE
+                                            ? "layout-visible"
+                                            : "layout-hidden"
+                                    }`}
+                                >
+                                    <div className="px-30px px-25">
+                                        <div className="card card-xl-stretch mb-5 mb-xl-8 table-v1">
+                                            <div className="team-task-table card-body py-3">
+                                                <TaskTableView
+                                                    sections={TASK_SECTIONS}
+                                                    tableWClassName="gy-1"
+                                                />
+                                            </div>
                                         </div>
-                                    )}
+                                    </div>
                                 </div>
                             </div>
                         </div>

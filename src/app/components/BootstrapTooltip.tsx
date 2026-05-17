@@ -1,21 +1,36 @@
 "use client"
 
 import { useEffect } from "react"
+import { usePathname } from "next/navigation"
+import type { Tooltip as BootstrapTooltipType } from "bootstrap"
 
 export default function BootstrapTooltip() {
+    const pathname = usePathname()
+
     useEffect(() => {
-        const loadTooltip = async () => {
-            const { Tooltip } = await import("bootstrap")
+        let tooltipInstances: BootstrapTooltipType[] = []
+
+        const initTooltips = async () => {
+            const bootstrap = await import("bootstrap")
+            const Tooltip = bootstrap.Tooltip
 
             const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 
-            tooltipTriggerList.forEach((tooltipTriggerEl) => {
-                new Tooltip(tooltipTriggerEl)
+            tooltipInstances = Array.from(tooltipTriggerList).map((el) => {
+                return new Tooltip(el, {
+                    trigger: "hover",
+                })
             })
         }
 
-        loadTooltip()
-    }, [])
+        initTooltips()
+
+        return () => {
+            tooltipInstances.forEach((tooltip) => {
+                tooltip.dispose()
+            })
+        }
+    }, [pathname])
 
     return null
 }

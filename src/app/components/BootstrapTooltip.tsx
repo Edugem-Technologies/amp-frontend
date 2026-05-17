@@ -1,15 +1,20 @@
 "use client"
 
 import { useEffect } from "react"
-import { Tooltip } from "bootstrap"
 
 export default function BootstrapTooltip() {
     useEffect(() => {
-        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const loadTooltip = async () => {
+            const { Tooltip } = await import("bootstrap")
 
-        tooltipTriggerList.forEach((tooltipTriggerEl) => {
-            new Tooltip(tooltipTriggerEl)
-        })
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+
+            tooltipTriggerList.forEach((tooltipTriggerEl) => {
+                new Tooltip(tooltipTriggerEl)
+            })
+        }
+
+        loadTooltip()
     }, [])
 
     return null

@@ -104,6 +104,9 @@ const RenderMenuItem = ({
                 onClick={() => {
                     isMobileView && collapseSideBar?.()
                 }}
+                data-bs-toggle="tooltip"
+                data-bs-placement="right"
+                title={name}
                 component={
                     isDrawerBar ? (
                         <div

@@ -127,8 +127,14 @@ const TaskModal = ({ show, handleClose, taskData }: TaskModalProps) => {
         }))
     }
     return (
-        <Modal show={show} onHide={handleClose} centered size="xl" className="task-card v2">
-            <Modal.Header closeButton className="py-4">
+        <Modal
+            show={show}
+            onHide={handleClose}
+            centered
+            size="xl"
+            className="task-card v2 task-modal"
+        >
+            <Modal.Header closeButton className="py-4 my-2">
                 <h2 className="task-name">Task Title</h2>
             </Modal.Header>
             <Modal.Body>

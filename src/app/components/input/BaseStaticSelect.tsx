@@ -66,6 +66,7 @@ const BaseStaticSelect: React.FC<BaseStaticSelectPropType> = (props) => {
                     control: () => "form-input-dropdown custom-border",
                     menu: () => "animated-select-menu",
                     menuList: () => "animated-select-menu-list",
+                    placeholder: () => "custom-select-placeholder",
                 }}
                 controlShouldRenderValue={true} // show selected option in the input
                 options={options}
